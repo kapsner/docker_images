@@ -1,0 +1,19 @@
+version: '3'
+services:
+  rstudio:
+    container_name: rdatascience
+    # restart: unless-stopped
+    ports:
+    - "8787:8787"
+    volumes:
+    - ./volume:/home/user/volume
+    build:
+      context: .
+      dockerfile: Dockerfile
+    networks:
+      - rdatascience
+    tty: true
+    #command: bash -c "rstudio-server start && tail -f /dev/null"
+
+networks:
+    rdatascience:
