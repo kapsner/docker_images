@@ -17,7 +17,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libsasl2-dev \
     libxml2-dev \
     libgmp3-dev \
-    libpq-dev\
+    libpq-dev \
     libffi-dev \
     libmpfr-dev \
     libgsl-dev \
