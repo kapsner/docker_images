@@ -667,4 +667,8 @@ RUN export packages_format="$(echo $(echo ${allpackages} | sed -e 's/ /\"\, \"/g
     R -q -e "vec <- setdiff(c($packages_format), unname(installed.packages()[,\"Package\"])); print(vec); if (length(vec) != 0){; for (i in vec){; cat(\"Installing required package: \", i, \"\n\n\"); install.packages(i, repos = \"https://ftp.fau.de/cran/\"); };}" && \
     R -q -e "update.packages(ask=F, repos = \"https://ftp.fau.de/cran/\")"
 
+# give all users access to /tmp folder
+RUN chmod -R 777 /tmp
+
+# entrypoint
 ENTRYPOINT rstudio-server start && /bin/bash

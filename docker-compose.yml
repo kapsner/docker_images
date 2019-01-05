@@ -8,6 +8,7 @@ services:
     - "8787:8787"
     volumes:
     - ./volume:/home/user/volume
+    - ./tmp:/tmp
     build:
       context: .
     networks:
