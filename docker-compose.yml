@@ -2,6 +2,7 @@ version: '3'
 services:
   rstudio:
     container_name: rdatascience
+    image: r_datascience:latest
     # restart: unless-stopped
     ports:
     - "8787:8787"
@@ -9,7 +10,6 @@ services:
     - ./volume:/home/user/volume
     build:
       context: .
-      dockerfile: Dockerfile
     networks:
       - rdatascience
     tty: true
