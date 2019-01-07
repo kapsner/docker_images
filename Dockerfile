@@ -22,6 +22,22 @@ RUN R -q -e 'tinytex::install_tinytex()'
 # switch back for other users
 USER root
 
+# install required LaTeX-Packages
+RUN ./home/user/.TinyTeX/bin/x86_64-linux/tlmgr install \
+    multirow \
+    xcolor \
+    colortbl \
+    wrapfig \
+    float \
+    tabu \
+    varwidth \
+    threeparttable \
+    threeparttablex \
+    environ \
+    trimspaces \
+    ulem \
+    makecell
+
 # Update where R expects to find various Java files
 RUN R CMD javareconf
 
