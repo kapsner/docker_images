@@ -15,29 +15,6 @@ FROM r_base_image:latest
 # RUN R -q -e 'install.packages(c("tools"), repos = "https://ftp.fau.de/cran/", quiet=T)'                 # default installation
 # RUN R -q -e 'install.packages(c("utils"), repos = "https://ftp.fau.de/cran/", quiet=T)'                 # default installation
 
-# for tinytex, change user to make it available for current RStudio-Sever-User
-RUN R -q -e 'install.packages("tinytex", repos = "https://ftp.fau.de/cran/", quiet=T)' 
-USER user 
-RUN R -q -e 'tinytex::install_tinytex()' 
-# switch back for other users
-USER root
-
-# install required LaTeX-Packages
-RUN ./home/user/.TinyTeX/bin/x86_64-linux/tlmgr install \
-    multirow \
-    xcolor \
-    colortbl \
-    wrapfig \
-    float \
-    tabu \
-    varwidth \
-    threeparttable \
-    threeparttablex \
-    environ \
-    trimspaces \
-    ulem \
-    makecell
-
 # Update where R expects to find various Java files
 RUN R CMD javareconf
 
@@ -664,6 +641,30 @@ RUN for package in $z; do \
 RUN git clone --recursive https://github.com/Microsoft/LightGBM && \
     cd LightGBM && \
     Rscript build_r.R
+
+
+# for tinytex, change user to make it available for current RStudio-Sever-User
+RUN R -q -e 'install.packages("tinytex", repos = "https://ftp.fau.de/cran/", quiet=T)' 
+USER user 
+RUN R -q -e 'tinytex::install_tinytex()' 
+# switch back for other users
+USER root
+
+# install required LaTeX-Packages
+RUN ./home/user/.TinyTeX/bin/x86_64-linux/tlmgr install \
+    multirow \
+    xcolor \
+    colortbl \
+    wrapfig \
+    float \
+    tabu \
+    varwidth \
+    threeparttable \
+    threeparttablex \
+    environ \
+    trimspaces \
+    ulem \
+    makecell
 
 
 # add custom RStudio theme ("Dracula")
