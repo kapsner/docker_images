@@ -22,3 +22,8 @@
 	$ docker-compose up -d --build  
 
 - on your host-machine, you can open a webbrowser and go to page "localhost:8787" to see RStudio server. Login with the user-password-combination specified in the docker-base_image Dockerfile and start working.    
+
+*More Infos:*
+- about RStudio Server: https://www.rstudio.com/products/rstudio/download-server/  
+- about Shiny: https://www.rstudio.com/products/shiny/  
+- RStudio and Shiny are trademarks of RStudio, Inc.  
