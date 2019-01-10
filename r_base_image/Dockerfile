@@ -25,7 +25,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     texinfo \
     unixodbc-dev
 
-RUN apt-get clean
+RUN apt-get clean && apt-get autoclean
 
 # get RStudio-Server (Preview Version)
 RUN wget https://s3.amazonaws.com/rstudio-ide-build/server/trusty/amd64/rstudio-server-1.2.1206-amd64.deb
