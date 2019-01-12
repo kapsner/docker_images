@@ -6,6 +6,7 @@ services:
     # restart: unless-stopped
     ports:
     - "8787:8787"
+    - "1234:1234"
     volumes:
     - ./volume:/home/user/volume
     build:

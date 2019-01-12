@@ -672,6 +672,11 @@ ADD ./volume/user-settings /home/user/.rstudio/monitored/user-settings/
 RUN chown -R user:user /home/user/.rstudio && \
     chmod 644 /home/user/.rstudio/monitored/user-settings/user-settings
 
+# make deployed shiny app accessible via port 1234
+RUN echo "options(shiny.port = 1234)" >> /etc/R/Rprofile.site && \
+    echo "options(shiny.host = '0.0.0.0')" >> /etc/R/Rprofile.site && \
+    echo "options(shiny.launch.browser = FALSE)" >> /etc/R/Rprofile.site 
+
 # safety-check at the end: 
 # 1) look if everything is installed correctely (if not, you might add system-dependencies in the base_image)
 # 2) update all packages to the newest version
