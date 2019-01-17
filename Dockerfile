@@ -690,4 +690,4 @@ RUN export packages_format="$(echo $(echo ${allpackages} | sed -e 's/ /\"\, \"/g
     R -q -e "update.packages(ask=F, repos = \"https://ftp.fau.de/cran/\")"
 
 # entrypoint
-ENTRYPOINT rstudio-server start && /bin/bash
+ENTRYPOINT rstudio-server start && tail -f /dev/null
