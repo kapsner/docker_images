@@ -664,7 +664,9 @@ RUN ./home/user/.TinyTeX/bin/x86_64-linux/tlmgr install \
     environ \
     trimspaces \
     ulem \
-    makecell
+    makecell \
+    babel \
+    babel-german
 
 
 # add custom RStudio theme ("Dracula")
