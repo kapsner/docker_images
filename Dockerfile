@@ -176,7 +176,8 @@ RUN for package in $f; do \
     R -q -e "p <- \"$package\"; if (isFALSE(p %in% installed.packages()[,\"Package\"])){; cat(paste(\"Installing package:\", p, \"\n\n\")); install.packages(p, repos = \"https://ftp.fau.de/cran/\", quiet=T);} else {;cat(paste(\"Package\", p, \"is already installed\n\n\"));}"; \
     done
 
-ARG g="gamlr \ 
+ARG g="GA \
+    gamlr \ 
     gbm \ 
     gclus \ 
     gdata \ 
