@@ -490,6 +490,7 @@ ARG r="R.methodsS3 \
     RPostgreSQL \ 
     rprojroot \ 
     rsconnect \ 
+    rsdmx \
     RSpectra \ 
     RSQLite \ 
     rstan \ 
@@ -605,6 +606,7 @@ RUN for package in $v; do \
     done
 
 ARG w="webshot \ 
+    wesanderson \
     whisker \ 
     withr \ 
     wordcloud \ 
