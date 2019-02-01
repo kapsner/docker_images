@@ -579,6 +579,7 @@ ARG t="tau \
     topicmodels \ 
     triebeard \ 
     trimcluster \ 
+    tseries \
     TSP \ 
     TTR \ 
     twitteR"
