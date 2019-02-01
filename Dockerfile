@@ -164,6 +164,7 @@ ARG f="FactoMineR \
     flexmix \ 
     forcats \ 
     foreach \ 
+    forecast \
     foreign \ 
     forge \ 
     formatR \ 
