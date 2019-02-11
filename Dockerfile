@@ -488,6 +488,7 @@ ARG r="R.methodsS3 \
     ROSE \ 
     roxygen2 \ 
     rpart \ 
+    RPostgres \
     RPostgreSQL \ 
     rprojroot \ 
     rsconnect \ 
