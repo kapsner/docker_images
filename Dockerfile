@@ -31,7 +31,7 @@ ARG a="abind \
     arulesViz \ 
     assertthat"
 RUN for package in $a; do \
-    R -q -e "p <- \"$package\"; if (isFALSE(p %in% installed.packages()[,\"Package\"])){; cat(paste(\"Installing package:\", p, \"\n\n\")); install.packages(p, repos = ${R_REPO}, quiet=T);} else {;cat(paste(\"Package\", p, \"is already installed\n\n\"));}"; \
+    R -q -e "p <- \"$package\"; if (isFALSE(p %in% installed.packages()[,\"Package\"])){; cat(paste(\"Installing package:\", p, \"\n\n\")); install.packages(p, repos = \"${R_REPO}\", quiet=T);} else {;cat(paste(\"Package\", p, \"is already installed\n\n\"));}"; \
     done
 
 ARG b="backports \ 
@@ -60,7 +60,7 @@ ARG b="backports \
     BSDA \ 
     bst"
 RUN for package in $b; do \
-    R -q -e "p <- \"$package\"; if (isFALSE(p %in% installed.packages()[,\"Package\"])){; cat(paste(\"Installing package:\", p, \"\n\n\")); install.packages(p, repos = ${R_REPO}, quiet=T);} else {;cat(paste(\"Package\", p, \"is already installed\n\n\"));}"; \
+    R -q -e "p <- \"$package\"; if (isFALSE(p %in% installed.packages()[,\"Package\"])){; cat(paste(\"Installing package:\", p, \"\n\n\")); install.packages(p, repos = \"${R_REPO}\", quiet=T);} else {;cat(paste(\"Package\", p, \"is already installed\n\n\"));}"; \
     done
 
 ARG c="C50 \ 
@@ -100,7 +100,7 @@ ARG c="C50 \
     curl \ 
     CVST"
 RUN for package in $c; do \
-    R -q -e "p <- \"$package\"; if (isFALSE(p %in% installed.packages()[,\"Package\"])){; cat(paste(\"Installing package:\", p, \"\n\n\")); install.packages(p, repos = ${R_REPO}, quiet=T);} else {;cat(paste(\"Package\", p, \"is already installed\n\n\"));}"; \
+    R -q -e "p <- \"$package\"; if (isFALSE(p %in% installed.packages()[,\"Package\"])){; cat(paste(\"Installing package:\", p, \"\n\n\")); install.packages(p, repos = \"${R_REPO}\", quiet=T);} else {;cat(paste(\"Package\", p, \"is already installed\n\n\"));}"; \
     done
 
 ARG d="data.table \ 
@@ -136,7 +136,7 @@ ARG d="data.table \
     dunn.test \ 
     dygraphs"
 RUN for package in $d; do \
-    R -q -e "p <- \"$package\"; if (isFALSE(p %in% installed.packages()[,\"Package\"])){; cat(paste(\"Installing package:\", p, \"\n\n\")); install.packages(p, repos = ${R_REPO}, quiet=T);} else {;cat(paste(\"Package\", p, \"is already installed\n\n\"));}"; \
+    R -q -e "p <- \"$package\"; if (isFALSE(p %in% installed.packages()[,\"Package\"])){; cat(paste(\"Installing package:\", p, \"\n\n\")); install.packages(p, repos = \"${R_REPO}\", quiet=T);} else {;cat(paste(\"Package\", p, \"is already installed\n\n\"));}"; \
     done
 
 ARG e="e1071 \ 
@@ -152,7 +152,7 @@ ARG e="e1071 \
     exactRankTests \ 
     expm"
 RUN for package in $e; do \
-    R -q -e "p <- \"$package\"; if (isFALSE(p %in% installed.packages()[,\"Package\"])){; cat(paste(\"Installing package:\", p, \"\n\n\")); install.packages(p, repos = ${R_REPO}, quiet=T);} else {;cat(paste(\"Package\", p, \"is already installed\n\n\"));}"; \
+    R -q -e "p <- \"$package\"; if (isFALSE(p %in% installed.packages()[,\"Package\"])){; cat(paste(\"Installing package:\", p, \"\n\n\")); install.packages(p, repos = \"${R_REPO}\", quiet=T);} else {;cat(paste(\"Package\", p, \"is already installed\n\n\"));}"; \
     done
 
 ARG f="FactoMineR \ 
@@ -176,7 +176,7 @@ ARG f="FactoMineR \
     futile.logger \ 
     futile.options"
 RUN for package in $f; do \
-    R -q -e "p <- \"$package\"; if (isFALSE(p %in% installed.packages()[,\"Package\"])){; cat(paste(\"Installing package:\", p, \"\n\n\")); install.packages(p, repos = ${R_REPO}, quiet=T);} else {;cat(paste(\"Package\", p, \"is already installed\n\n\"));}"; \
+    R -q -e "p <- \"$package\"; if (isFALSE(p %in% installed.packages()[,\"Package\"])){; cat(paste(\"Installing package:\", p, \"\n\n\")); install.packages(p, repos = \"${R_REPO}\", quiet=T);} else {;cat(paste(\"Package\", p, \"is already installed\n\n\"));}"; \
     done
 
 ARG g="GA \
@@ -213,7 +213,7 @@ ARG g="GA \
     gtable \ 
     gtools"
 RUN for package in $g; do \
-    R -q -e "p <- \"$package\"; if (isFALSE(p %in% installed.packages()[,\"Package\"])){; cat(paste(\"Installing package:\", p, \"\n\n\")); install.packages(p, repos = ${R_REPO}, quiet=T);} else {;cat(paste(\"Package\", p, \"is already installed\n\n\"));}"; \
+    R -q -e "p <- \"$package\"; if (isFALSE(p %in% installed.packages()[,\"Package\"])){; cat(paste(\"Installing package:\", p, \"\n\n\")); install.packages(p, repos = \"${R_REPO}\", quiet=T);} else {;cat(paste(\"Package\", p, \"is already installed\n\n\"));}"; \
     done
 
 ARG h="h2o \ 
@@ -233,7 +233,7 @@ ARG h="h2o \
     httr \ 
     hunspell"
 RUN for package in $h; do \
-    R -q -e "p <- \"$package\"; if (isFALSE(p %in% installed.packages()[,\"Package\"])){; cat(paste(\"Installing package:\", p, \"\n\n\")); install.packages(p, repos = ${R_REPO}, quiet=T);} else {;cat(paste(\"Package\", p, \"is already installed\n\n\"));}"; \
+    R -q -e "p <- \"$package\"; if (isFALSE(p %in% installed.packages()[,\"Package\"])){; cat(paste(\"Installing package:\", p, \"\n\n\")); install.packages(p, repos = \"${R_REPO}\", quiet=T);} else {;cat(paste(\"Package\", p, \"is already installed\n\n\"));}"; \
     done
 
 ARG i="igraph \ 
@@ -249,13 +249,13 @@ ARG i="igraph \
     irr \ 
     iterators"
 RUN for package in $i; do \
-    R -q -e "p <- \"$package\"; if (isFALSE(p %in% installed.packages()[,\"Package\"])){; cat(paste(\"Installing package:\", p, \"\n\n\")); install.packages(p, repos = ${R_REPO}, quiet=T);} else {;cat(paste(\"Package\", p, \"is already installed\n\n\"));}"; \
+    R -q -e "p <- \"$package\"; if (isFALSE(p %in% installed.packages()[,\"Package\"])){; cat(paste(\"Installing package:\", p, \"\n\n\")); install.packages(p, repos = \"${R_REPO}\", quiet=T);} else {;cat(paste(\"Package\", p, \"is already installed\n\n\"));}"; \
     done
 
 ARG j="jpeg \ 
     jsonlite"
 RUN for package in $j; do \
-    R -q -e "p <- \"$package\"; if (isFALSE(p %in% installed.packages()[,\"Package\"])){; cat(paste(\"Installing package:\", p, \"\n\n\")); install.packages(p, repos = ${R_REPO}, quiet=T);} else {;cat(paste(\"Package\", p, \"is already installed\n\n\"));}"; \
+    R -q -e "p <- \"$package\"; if (isFALSE(p %in% installed.packages()[,\"Package\"])){; cat(paste(\"Installing package:\", p, \"\n\n\")); install.packages(p, repos = \"${R_REPO}\", quiet=T);} else {;cat(paste(\"Package\", p, \"is already installed\n\n\"));}"; \
     done
 
 ARG k="kableExtra \ 
@@ -266,7 +266,7 @@ ARG k="kableExtra \
     KMsurv \ 
     knitr"
 RUN for package in $k; do \
-    R -q -e "p <- \"$package\"; if (isFALSE(p %in% installed.packages()[,\"Package\"])){; cat(paste(\"Installing package:\", p, \"\n\n\")); install.packages(p, repos = ${R_REPO}, quiet=T);} else {;cat(paste(\"Package\", p, \"is already installed\n\n\"));}"; \
+    R -q -e "p <- \"$package\"; if (isFALSE(p %in% installed.packages()[,\"Package\"])){; cat(paste(\"Installing package:\", p, \"\n\n\")); install.packages(p, repos = \"${R_REPO}\", quiet=T);} else {;cat(paste(\"Package\", p, \"is already installed\n\n\"));}"; \
     done
 
 ARG l="labeling \ 
@@ -293,7 +293,7 @@ ARG l="labeling \
     lsa \ 
     lubridate"
 RUN for package in $l; do \
-    R -q -e "p <- \"$package\"; if (isFALSE(p %in% installed.packages()[,\"Package\"])){; cat(paste(\"Installing package:\", p, \"\n\n\")); install.packages(p, repos = ${R_REPO}, quiet=T);} else {;cat(paste(\"Package\", p, \"is already installed\n\n\"));}"; \
+    R -q -e "p <- \"$package\"; if (isFALSE(p %in% installed.packages()[,\"Package\"])){; cat(paste(\"Installing package:\", p, \"\n\n\")); install.packages(p, repos = \"${R_REPO}\", quiet=T);} else {;cat(paste(\"Package\", p, \"is already installed\n\n\"));}"; \
     done
 
 ARG m="magic \ 
@@ -342,7 +342,7 @@ ARG m="magic \
     munsell \ 
     mvtnorm"
 RUN for package in $m; do \
-    R -q -e "p <- \"$package\"; if (isFALSE(p %in% installed.packages()[,\"Package\"])){; cat(paste(\"Installing package:\", p, \"\n\n\")); install.packages(p, repos = ${R_REPO}, quiet=T);} else {;cat(paste(\"Package\", p, \"is already installed\n\n\"));}"; \
+    R -q -e "p <- \"$package\"; if (isFALSE(p %in% installed.packages()[,\"Package\"])){; cat(paste(\"Installing package:\", p, \"\n\n\")); install.packages(p, repos = \"${R_REPO}\", quiet=T);} else {;cat(paste(\"Package\", p, \"is already installed\n\n\"));}"; \
     done
 
 ARG n="naivebayes \ 
@@ -358,7 +358,7 @@ ARG n="naivebayes \
     nortest \ 
     numDeriv"
 RUN for package in $n; do \
-    R -q -e "p <- \"$package\"; if (isFALSE(p %in% installed.packages()[,\"Package\"])){; cat(paste(\"Installing package:\", p, \"\n\n\")); install.packages(p, repos = ${R_REPO}, quiet=T);} else {;cat(paste(\"Package\", p, \"is already installed\n\n\"));}"; \
+    R -q -e "p <- \"$package\"; if (isFALSE(p %in% installed.packages()[,\"Package\"])){; cat(paste(\"Installing package:\", p, \"\n\n\")); install.packages(p, repos = \"${R_REPO}\", quiet=T);} else {;cat(paste(\"Package\", p, \"is already installed\n\n\"));}"; \
     done
 
 ARG o="OAIHarvester \ 
@@ -370,7 +370,7 @@ ARG o="OAIHarvester \
     openxlsx \ 
     ordinal"
 RUN for package in $o; do \
-    R -q -e "p <- \"$package\"; if (isFALSE(p %in% installed.packages()[,\"Package\"])){; cat(paste(\"Installing package:\", p, \"\n\n\")); install.packages(p, repos = ${R_REPO}, quiet=T);} else {;cat(paste(\"Package\", p, \"is already installed\n\n\"));}"; \
+    R -q -e "p <- \"$package\"; if (isFALSE(p %in% installed.packages()[,\"Package\"])){; cat(paste(\"Installing package:\", p, \"\n\n\")); install.packages(p, repos = \"${R_REPO}\", quiet=T);} else {;cat(paste(\"Package\", p, \"is already installed\n\n\"));}"; \
     done
 
 ARG p="packrat \ 
@@ -419,7 +419,7 @@ ARG p="packrat \
     purrr \ 
     pwr"
 RUN for package in $p; do \
-    R -q -e "p <- \"$package\"; if (isFALSE(p %in% installed.packages()[,\"Package\"])){; cat(paste(\"Installing package:\", p, \"\n\n\")); install.packages(p, repos = ${R_REPO}, quiet=T);} else {;cat(paste(\"Package\", p, \"is already installed\n\n\"));}"; \
+    R -q -e "p <- \"$package\"; if (isFALSE(p %in% installed.packages()[,\"Package\"])){; cat(paste(\"Installing package:\", p, \"\n\n\")); install.packages(p, repos = \"${R_REPO}\", quiet=T);} else {;cat(paste(\"Package\", p, \"is already installed\n\n\"));}"; \
     done
 
 ARG q="qap \ 
@@ -429,7 +429,7 @@ ARG q="qap \
     quantreg \ 
     quantregForest"
 RUN for package in $q; do \
-    R -q -e "p <- \"$package\"; if (isFALSE(p %in% installed.packages()[,\"Package\"])){; cat(paste(\"Installing package:\", p, \"\n\n\")); install.packages(p, repos = ${R_REPO}, quiet=T);} else {;cat(paste(\"Package\", p, \"is already installed\n\n\"));}"; \
+    R -q -e "p <- \"$package\"; if (isFALSE(p %in% installed.packages()[,\"Package\"])){; cat(paste(\"Installing package:\", p, \"\n\n\")); install.packages(p, repos = \"${R_REPO}\", quiet=T);} else {;cat(paste(\"Package\", p, \"is already installed\n\n\"));}"; \
     done
 
 ARG r="R.methodsS3 \ 
@@ -506,7 +506,7 @@ ARG r="R.methodsS3 \
     rvest \ 
     rvg"
 RUN for package in $r; do \
-    R -q -e "p <- \"$package\"; if (isFALSE(p %in% installed.packages()[,\"Package\"])){; cat(paste(\"Installing package:\", p, \"\n\n\")); install.packages(p, repos = ${R_REPO}, quiet=T);} else {;cat(paste(\"Package\", p, \"is already installed\n\n\"));}"; \
+    R -q -e "p <- \"$package\"; if (isFALSE(p %in% installed.packages()[,\"Package\"])){; cat(paste(\"Installing package:\", p, \"\n\n\")); install.packages(p, repos = \"${R_REPO}\", quiet=T);} else {;cat(paste(\"Package\", p, \"is already installed\n\n\"));}"; \
     done
 
 ARG s="sandwich \ 
@@ -559,7 +559,7 @@ ARG s="sandwich \
     synthpop \
     syuzhet"
 RUN for package in $s; do \
-    R -q -e "p <- \"$package\"; if (isFALSE(p %in% installed.packages()[,\"Package\"])){; cat(paste(\"Installing package:\", p, \"\n\n\")); install.packages(p, repos = ${R_REPO}, quiet=T);} else {;cat(paste(\"Package\", p, \"is already installed\n\n\"));}"; \
+    R -q -e "p <- \"$package\"; if (isFALSE(p %in% installed.packages()[,\"Package\"])){; cat(paste(\"Installing package:\", p, \"\n\n\")); install.packages(p, repos = \"${R_REPO}\", quiet=T);} else {;cat(paste(\"Package\", p, \"is already installed\n\n\"));}"; \
     done
 
 ARG t="tau \ 
@@ -590,7 +590,7 @@ ARG t="tau \
     TTR \ 
     twitteR"
 RUN for package in $t; do \
-    R -q -e "p <- \"$package\"; if (isFALSE(p %in% installed.packages()[,\"Package\"])){; cat(paste(\"Installing package:\", p, \"\n\n\")); install.packages(p, repos = ${R_REPO}, quiet=T);} else {;cat(paste(\"Package\", p, \"is already installed\n\n\"));}"; \
+    R -q -e "p <- \"$package\"; if (isFALSE(p %in% installed.packages()[,\"Package\"])){; cat(paste(\"Installing package:\", p, \"\n\n\")); install.packages(p, repos = \"${R_REPO}\", quiet=T);} else {;cat(paste(\"Package\", p, \"is already installed\n\n\"));}"; \
     done
 
 ARG u="ucminf \ 
@@ -600,7 +600,7 @@ ARG u="ucminf \
     utf8 \ 
     uuid"
 RUN for package in $u; do \
-    R -q -e "p <- \"$package\"; if (isFALSE(p %in% installed.packages()[,\"Package\"])){; cat(paste(\"Installing package:\", p, \"\n\n\")); install.packages(p, repos = ${R_REPO}, quiet=T);} else {;cat(paste(\"Package\", p, \"is already installed\n\n\"));}"; \
+    R -q -e "p <- \"$package\"; if (isFALSE(p %in% installed.packages()[,\"Package\"])){; cat(paste(\"Installing package:\", p, \"\n\n\")); install.packages(p, repos = \"${R_REPO}\", quiet=T);} else {;cat(paste(\"Package\", p, \"is already installed\n\n\"));}"; \
     done
 
 ARG v="vcd \ 
@@ -609,7 +609,7 @@ ARG v="vcd \
     viridisLite \ 
     visNetwork"
 RUN for package in $v; do \
-    R -q -e "p <- \"$package\"; if (isFALSE(p %in% installed.packages()[,\"Package\"])){; cat(paste(\"Installing package:\", p, \"\n\n\")); install.packages(p, repos = ${R_REPO}, quiet=T);} else {;cat(paste(\"Package\", p, \"is already installed\n\n\"));}"; \
+    R -q -e "p <- \"$package\"; if (isFALSE(p %in% installed.packages()[,\"Package\"])){; cat(paste(\"Installing package:\", p, \"\n\n\")); install.packages(p, repos = \"${R_REPO}\", quiet=T);} else {;cat(paste(\"Package\", p, \"is already installed\n\n\"));}"; \
     done
 
 ARG w="webshot \ 
@@ -620,7 +620,7 @@ ARG w="webshot \
     wordcloud2 \ 
     WRS2"
 RUN for package in $w; do \
-    R -q -e "p <- \"$package\"; if (isFALSE(p %in% installed.packages()[,\"Package\"])){; cat(paste(\"Installing package:\", p, \"\n\n\")); install.packages(p, repos = ${R_REPO}, quiet=T);} else {;cat(paste(\"Package\", p, \"is already installed\n\n\"));}"; \
+    R -q -e "p <- \"$package\"; if (isFALSE(p %in% installed.packages()[,\"Package\"])){; cat(paste(\"Installing package:\", p, \"\n\n\")); install.packages(p, repos = \"${R_REPO}\", quiet=T);} else {;cat(paste(\"Package\", p, \"is already installed\n\n\"));}"; \
     done
 
 ARG x="xfun \ 
@@ -631,19 +631,19 @@ ARG x="xfun \
     xtable \ 
     xts"
 RUN for package in $x; do \
-    R -q -e "p <- \"$package\"; if (isFALSE(p %in% installed.packages()[,\"Package\"])){; cat(paste(\"Installing package:\", p, \"\n\n\")); install.packages(p, repos = ${R_REPO}, quiet=T);} else {;cat(paste(\"Package\", p, \"is already installed\n\n\"));}"; \
+    R -q -e "p <- \"$package\"; if (isFALSE(p %in% installed.packages()[,\"Package\"])){; cat(paste(\"Installing package:\", p, \"\n\n\")); install.packages(p, repos = \"${R_REPO}\", quiet=T);} else {;cat(paste(\"Package\", p, \"is already installed\n\n\"));}"; \
     done
 
 ARG y="yaml"
 RUN for package in $y; do \
-    R -q -e "p <- \"$package\"; if (isFALSE(p %in% installed.packages()[,\"Package\"])){; cat(paste(\"Installing package:\", p, \"\n\n\")); install.packages(p, repos = ${R_REPO}, quiet=T);} else {;cat(paste(\"Package\", p, \"is already installed\n\n\"));}"; \
+    R -q -e "p <- \"$package\"; if (isFALSE(p %in% installed.packages()[,\"Package\"])){; cat(paste(\"Installing package:\", p, \"\n\n\")); install.packages(p, repos = \"${R_REPO}\", quiet=T);} else {;cat(paste(\"Package\", p, \"is already installed\n\n\"));}"; \
     done
 
 ARG z="zeallot \ 
     zip \ 
     zoo"
 RUN for package in $z; do \   
-    R -q -e "p <- \"$package\"; if (isFALSE(p %in% installed.packages()[,\"Package\"])){; cat(paste(\"Installing package:\", p, \"\n\n\")); install.packages(p, repos = ${R_REPO}, quiet=T);} else {;cat(paste(\"Package\", p, \"is already installed\n\n\"));}"; \
+    R -q -e "p <- \"$package\"; if (isFALSE(p %in% installed.packages()[,\"Package\"])){; cat(paste(\"Installing package:\", p, \"\n\n\")); install.packages(p, repos = \"${R_REPO}\", quiet=T);} else {;cat(paste(\"Package\", p, \"is already installed\n\n\"));}"; \
     done
 
 
@@ -698,8 +698,8 @@ ARG allpackages="\"$a\" \"$b\" \"$c\" \"$d\" \"$e\" \"$f\" \"$g\" \"$h\" \
     \"$s\" \"$t\" \"$u\" \"$v\" \"$w\" \"$x\" \"$y\" \"$z\""
 
 RUN export packages_format="$(echo $(echo ${allpackages} | sed -e 's/ /\"\, \"/g') | sed -e 's/\"\"/\"/g')" && \
-    R -q -e "vec <- setdiff(c($packages_format), unname(installed.packages()[,\"Package\"])); print(vec); if (length(vec) != 0){; for (i in vec){; cat(\"Installing required package: \", i, \"\n\n\"); install.packages(i, repos = ${R_REPO}, quiet=T); };}" && \
-    R -q -e "update.packages(ask=F, repos = ${R_REPO}, quiet=T)"
+    R -q -e "vec <- setdiff(c($packages_format), unname(installed.packages()[,\"Package\"])); print(vec); if (length(vec) != 0){; for (i in vec){; cat(\"Installing required package: \", i, \"\n\n\"); install.packages(i, repos = \"${R_REPO}\", quiet=T); };}" && \
+    R -q -e "update.packages(ask=F, repos = \"${R_REPO}\", quiet=T)"
 
 # entrypoint
 ENTRYPOINT rstudio-server start && tail -f /dev/null
