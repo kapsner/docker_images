@@ -19,6 +19,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libgmp3-dev \
     libpq-dev \
     libffi-dev \
+    libmagick++-dev \
     libmpfr-dev \
     libgsl-dev \
     libglu1-mesa-dev \
