@@ -436,6 +436,7 @@ ARG r="R.methodsS3 \
     r2d3 \ 
     R6 \ 
     randomForest \ 
+    ranger \
     rappdirs \ 
     rapportools \ 
     rARPACK \ 
