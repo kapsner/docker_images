@@ -1,6 +1,6 @@
 FROM r_base_image:latest
 
-ENV R_REPO='https://ftp.fau.de/cran/'
+ENV R_REPO='\"https://ftp.fau.de/cran/\"'
 
 # RUN R -q -e 'install.packages(c("base"), repos = "https://ftp.fau.de/cran/", quiet=T)'                 # default installation
 # RUN R -q -e 'install.packages(c("compiler"), repos = "https://ftp.fau.de/cran/", quiet=T)'                 # default installation
