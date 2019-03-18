@@ -79,6 +79,7 @@ ARG c="C50 \
     clipr \ 
     clisymbols \ 
     cluster \ 
+    ClusterR \
     cmprsk \ 
     coda \ 
     codetools \ 
@@ -155,7 +156,8 @@ RUN for package in $e; do \
     R -q -e "p <- \"$package\"; if (isFALSE(p %in% installed.packages()[,\"Package\"])){; cat(paste(\"Installing package:\", p, \"\n\n\")); install.packages(p, repos = \"${R_REPO}\", quiet=T);} else {;cat(paste(\"Package\", p, \"is already installed\n\n\"));}"; \
     done
 
-ARG f="FactoMineR \ 
+ARG f="factoextra \
+    FactoMineR \ 
     fansi \ 
     fastAdaboost \ 
     fastmatch \ 
