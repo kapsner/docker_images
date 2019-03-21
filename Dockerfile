@@ -385,6 +385,7 @@ ARG p="packrat \
     pbdZMQ \ 
     pbkrtest \ 
     PBSmodelling \ 
+    PerformanceAnalytics \
     permute \ 
     pillar \ 
     pkgbuild \ 
