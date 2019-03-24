@@ -684,11 +684,6 @@ RUN ./home/user/.TinyTeX/bin/x86_64-linux/tlmgr install \
 # install keras
 RUN R -q -e 'keras::install_keras()' 
 
-# add custom RStudio theme ("Dracula")
-ADD ./volume/user-settings /home/user/.rstudio/monitored/user-settings/
-RUN chown -R user:user /home/user/.rstudio && \
-    chmod 644 /home/user/.rstudio/monitored/user-settings/user-settings
-
 # make deployed shiny app accessible via port 1234
 RUN echo "options(shiny.port = 1234)" >> /etc/R/Rprofile.site && \
     echo "options(shiny.host = '0.0.0.0')" >> /etc/R/Rprofile.site && \
