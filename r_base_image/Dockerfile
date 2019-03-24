@@ -32,3 +32,4 @@ RUN apt-get clean && apt-get autoclean
 RUN wget https://s3.amazonaws.com/rstudio-ide-build/server/trusty/amd64/rstudio-server-1.2.1206-amd64.deb
 RUN gdebi -n rstudio-server-1.2.1206-amd64.deb
 RUN rm -f rstudio-server-1.2.1206-amd64.deb
+

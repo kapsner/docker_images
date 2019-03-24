@@ -2,21 +2,6 @@ FROM r_base_image:latest
 
 ENV R_REPO="https://ftp.fau.de/cran/"
 
-# RUN R -q -e 'install.packages(c("base"), repos = "https://ftp.fau.de/cran/", quiet=T)'                 # default installation
-# RUN R -q -e 'install.packages(c("compiler"), repos = "https://ftp.fau.de/cran/", quiet=T)'                 # default installation
-# RUN R -q -e 'install.packages(c("datasets"), repos = "https://ftp.fau.de/cran/", quiet=T)'                 # default installation
-# RUN R -q -e 'install.packages(c("graphics"), repos = "https://ftp.fau.de/cran/", quiet=T)'                 # default installation
-# RUN R -q -e 'install.packages(c("grDevices"), repos = "https://ftp.fau.de/cran/", quiet=T)'                 # default installation
-# RUN R -q -e 'install.packages(c("grid"), repos = "https://ftp.fau.de/cran/", quiet=T)'                 # default installation
-# RUN R -q -e 'install.packages(c("methods"), repos = "https://ftp.fau.de/cran/", quiet=T)'                 # default installation
-# RUN R -q -e 'install.packages(c("parallel"), repos = "https://ftp.fau.de/cran/", quiet=T)'                 # default installation
-# RUN R -q -e 'install.packages(c("splines"), repos = "https://ftp.fau.de/cran/", quiet=T)'                 # default installation
-# RUN R -q -e 'install.packages(c("stats"), repos = "https://ftp.fau.de/cran/", quiet=T)'                 # default installation
-# RUN R -q -e 'install.packages(c("stats4"), repos = "https://ftp.fau.de/cran/", quiet=T)'                 # default installation
-# RUN R -q -e 'install.packages(c("tcltk"), repos = "https://ftp.fau.de/cran/", quiet=T)'                 # default installation
-# RUN R -q -e 'install.packages(c("tools"), repos = "https://ftp.fau.de/cran/", quiet=T)'                 # default installation
-# RUN R -q -e 'install.packages(c("utils"), repos = "https://ftp.fau.de/cran/", quiet=T)'                 # default installation
-
 # Update where R expects to find various Java files
 RUN R CMD javareconf
 
@@ -35,6 +20,7 @@ RUN for package in $a; do \
     done
 
 ARG b="backports \ 
+    base \
     base64enc \ 
     bayesplot \ 
     BBmisc \ 
@@ -88,6 +74,7 @@ ARG c="C50 \
     colourpicker \ 
     combinat \ 
     commonmark \ 
+    compiler \
     config \ 
     corpcor \ 
     corrplot \ 
@@ -107,6 +94,7 @@ RUN for package in $c; do \
 ARG d="data.table \ 
     DatabaseConnector \ 
     DatabaseConnectorJars \ 
+    datasets \
     DBI \ 
     dbplyr \ 
     ddalpha \ 
@@ -165,6 +153,7 @@ ARG f="factoextra \
     ff \ 
     ffbase \ 
     flashClust \ 
+    flexclust \
     flexmix \ 
     forcats \ 
     foreach \ 
@@ -209,6 +198,9 @@ ARG g="GA \
     gower \ 
     GPArotation \ 
     gplots \ 
+    graphics \
+    grDevices \
+    grid \
     gridBase \ 
     gridExtra \ 
     gsubfn \ 
@@ -319,6 +311,7 @@ ARG m="magic \
     MCMCpack \ 
     memoise \ 
     merTools \ 
+    methods \
     mgcv \ 
     mi \ 
     mime \ 
@@ -377,6 +370,7 @@ RUN for package in $o; do \
 
 ARG p="packrat \ 
     pander \ 
+    parallel \
     parallelMap \ 
     ParamHelpers \ 
     party \ 
@@ -544,12 +538,15 @@ ARG s="sandwich \
     sparsepp \ 
     spatial \ 
     spikeslab \ 
+    splines \
     sqldf \ 
     SqlRender \ 
     SQUAREM \ 
     stabs \ 
     StanHeaders \ 
     stargazer \ 
+    stats \
+    stats4 \
     stringdist \ 
     stringi \ 
     stringr \ 
@@ -566,6 +563,7 @@ RUN for package in $s; do \
     done
 
 ARG t="tau \ 
+    tcltk \
     tcltk2 \ 
     TeachingDemos \ 
     tensorflow \ 
@@ -585,6 +583,7 @@ ARG t="tau \
     tm \ 
     TMB \ 
     tokenizers \ 
+    tools \
     topicmodels \ 
     triebeard \ 
     trimcluster \ 
@@ -601,6 +600,7 @@ ARG u="ucminf \
     urltools \ 
     usethis \ 
     utf8 \ 
+    utils \
     uuid"
 RUN for package in $u; do \
     R -q -e "p <- \"$package\"; if (isFALSE(p %in% installed.packages()[,\"Package\"])){; cat(paste(\"Installing package:\", p, \"\n\n\")); install.packages(p, repos = \"${R_REPO}\", quiet=T);} else {;cat(paste(\"Package\", p, \"is already installed\n\n\"));}"; \
@@ -681,6 +681,8 @@ RUN ./home/user/.TinyTeX/bin/x86_64-linux/tlmgr install \
     babel \
     babel-german
 
+# install keras
+RUN R -q -e 'keras::install_keras()' 
 
 # add custom RStudio theme ("Dracula")
 ADD ./volume/user-settings /home/user/.rstudio/monitored/user-settings/
@@ -703,6 +705,30 @@ ARG allpackages="\"$a\" \"$b\" \"$c\" \"$d\" \"$e\" \"$f\" \"$g\" \"$h\" \
 RUN export packages_format="$(echo $(echo ${allpackages} | sed -e 's/ /\"\, \"/g') | sed -e 's/\"\"/\"/g')" && \
     R -q -e "vec <- setdiff(c($packages_format), unname(installed.packages()[,\"Package\"])); print(vec); if (length(vec) != 0){; for (i in vec){; cat(\"Installing required package: \", i, \"\n\n\"); install.packages(i, repos = \"${R_REPO}\", quiet=T); };}" && \
     R -q -e "update.packages(ask=F, repos = \"${R_REPO}\", quiet=T)"
+
+# install some python packages
+# install pip requirements
+RUN yes | pip3 install setuptools wheel
+
+RUN yes | pip3 install \
+    catboost \
+    "colorama>=0.3.8" \
+    cython
+
+RUN yes | pip3 install \
+    matplotlib
+
+RUN yes | pip3 install \
+    nltk \
+    nose \
+    numpy
+
+RUN yes | pip3 install \
+    pandas
+
+RUN yes | pip3 install \
+    scikit-learn \
+    scipy
 
 # entrypoint
 ENTRYPOINT rstudio-server start && tail -f /dev/null
