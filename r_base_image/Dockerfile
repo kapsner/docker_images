@@ -29,8 +29,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 RUN apt-get clean && apt-get autoclean
 
 # get RStudio-Server (Preview Version): https://www.rstudio.com/products/rstudio/download/preview/
-ENV RSERVER_VERSION="1.2.1330"
-RUN wget -O rstudio-server.deb https://s3.amazonaws.com/rstudio-ide-build/desktop/bionic/amd64/rstudio-${RSERVER_VERSION}-amd64.deb
+RUN wget -O rstudio-server.deb https://s3.amazonaws.com/rstudio-ide-build/server/bionic/amd64/rstudio-server-1.2.1330-amd64.deb
 RUN gdebi -n rstudio-server.deb
 RUN rm -f rstudio-server.deb
 
@@ -38,4 +37,3 @@ RUN rm -f rstudio-server.deb
 ADD ./user-settings /home/user/.rstudio/monitored/user-settings/
 RUN chown -R user:user /home/user/.rstudio && \
     chmod 644 /home/user/.rstudio/monitored/user-settings/user-settings
-
