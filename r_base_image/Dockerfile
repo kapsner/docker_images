@@ -30,7 +30,8 @@ RUN apt-get clean && apt-get autoclean
 
 # get RStudio-Server (Preview Version): https://www.rstudio.com/products/rstudio/download/preview/
 #RUN wget https://s3.amazonaws.com/rstudio-ide-build/server/trusty/amd64/rstudio-server-1.2.1206-amd64.deb
-RUN wget https://s3.amazonaws.com/rstudio-ide-build/desktop/bionic/amd64/rstudio-1.2.1330-amd64.deb
-RUN gdebi -n rstudio-server*amd64.deb
-RUN rm -f rstudio-server*amd64.deb
+ENV RSERVER_VERSION="1.2.1330"
+RUN wget https://s3.amazonaws.com/rstudio-ide-build/desktop/bionic/amd64/rstudio-${RSERVER_VERSION}-amd64.deb
+RUN gdebi -n rstudio-server-${RSERVER_VERSION}-amd64.deb
+RUN rm -f rstudio-server-${RSERVER_VERSION}-amd64.deb
 
