@@ -28,8 +28,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 RUN apt-get clean && apt-get autoclean
 
-# get RStudio-Server (Preview Version)
-RUN wget https://s3.amazonaws.com/rstudio-ide-build/server/trusty/amd64/rstudio-server-1.2.1206-amd64.deb
-RUN gdebi -n rstudio-server-1.2.1206-amd64.deb
-RUN rm -f rstudio-server-1.2.1206-amd64.deb
+# get RStudio-Server (Preview Version): https://www.rstudio.com/products/rstudio/download/preview/
+#RUN wget https://s3.amazonaws.com/rstudio-ide-build/server/trusty/amd64/rstudio-server-1.2.1206-amd64.deb
+RUN wget https://s3.amazonaws.com/rstudio-ide-build/desktop/bionic/amd64/rstudio-1.2.1330-amd64.deb
+RUN gdebi -n rstudio-server*amd64.deb
+RUN rm -f rstudio-server*amd64.deb
 
