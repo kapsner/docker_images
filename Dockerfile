@@ -681,9 +681,6 @@ RUN ./home/user/.TinyTeX/bin/x86_64-linux/tlmgr install \
     babel \
     babel-german
 
-# install keras
-RUN R -q -e 'keras::install_keras()' 
-
 # make deployed shiny app accessible via port 1234
 RUN echo "options(shiny.port = 1234)" >> /etc/R/Rprofile.site && \
     echo "options(shiny.host = '0.0.0.0')" >> /etc/R/Rprofile.site && \
@@ -703,7 +700,10 @@ RUN export packages_format="$(echo $(echo ${allpackages} | sed -e 's/ /\"\, \"/g
 
 # install some python packages
 # install pip requirements
-RUN yes | pip3 install setuptools wheel
+RUN yes | pip3 install \
+    setuptools \
+    wheel \
+    virtualenv
 
 RUN yes | pip3 install \
     catboost \
@@ -724,6 +724,11 @@ RUN yes | pip3 install \
 RUN yes | pip3 install \
     scikit-learn \
     scipy
+
+# install keras (when pip3 virtualenv is already installed)
+USER user
+RUN R -q -e 'keras::install_keras()' 
+USER root
 
 # entrypoint
 ENTRYPOINT rstudio-server start && tail -f /dev/null
