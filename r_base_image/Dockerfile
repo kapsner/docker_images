@@ -35,7 +35,7 @@ RUN gdebi -n rstudio-server.deb
 RUN rm -f rstudio-server.deb
 
 # add custom RStudio theme ("Dracula")
-ADD ../volume/user-settings /home/user/.rstudio/monitored/user-settings/
+ADD ./user-settings /home/user/.rstudio/monitored/user-settings/
 RUN chown -R user:user /home/user/.rstudio && \
     chmod 644 /home/user/.rstudio/monitored/user-settings/user-settings
 
