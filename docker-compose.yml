@@ -5,8 +5,9 @@ services:
     image: r_datascience:latest
     # restart: unless-stopped
     ports:
-    - "8787:8787"
-    - "1234:1234"
+    - "8787:8787" #rstudio
+    - "1234:1234" #shiny
+    - "54321:54321" #h2o flow
     volumes:
     - ./volume:/home/user/volume
     build:
