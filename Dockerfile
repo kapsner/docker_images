@@ -681,8 +681,8 @@ RUN ./home/user/.TinyTeX/bin/x86_64-linux/tlmgr install \
     babel \
     babel-german
 
-# make deployed shiny app accessible via port 1234
-RUN echo "options(shiny.port = 1234)" >> /etc/R/Rprofile.site && \
+# make deployed shiny app accessible via port 3838
+RUN echo "options(shiny.port = 3838)" >> /etc/R/Rprofile.site && \
     echo "options(shiny.host = '0.0.0.0')" >> /etc/R/Rprofile.site && \
     echo "options(shiny.launch.browser = FALSE)" >> /etc/R/Rprofile.site 
 
