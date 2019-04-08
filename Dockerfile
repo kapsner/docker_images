@@ -424,7 +424,8 @@ ARG q="qap \
     quadprog \ 
     quantmod \ 
     quantreg \ 
-    quantregForest"
+    quantregForest \
+    questionr"
 RUN for package in $q; do \
     R -q -e "p <- \"$package\"; if (isFALSE(p %in% installed.packages()[,\"Package\"])){; cat(paste(\"Installing package:\", p, \"\n\n\")); install.packages(p, repos = \"${R_REPO}\", quiet=T);} else {;cat(paste(\"Package\", p, \"is already installed\n\n\"));}"; \
     done
