@@ -77,6 +77,7 @@ ARG c="C50 \
     compiler \
     config \ 
     corpcor \ 
+    corpus \
     corrplot \ 
     covr \ 
     cowplot \ 
@@ -570,6 +571,7 @@ ARG t="tau \
     tensorflow \ 
     testthat \ 
     text2vec \ 
+    textstem \
     textir \ 
     textshape \ 
     tfdatasets \ 
