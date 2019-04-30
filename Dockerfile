@@ -519,6 +519,7 @@ ARG s="sandwich \
     sfsmisc \ 
     shiny \ 
     shinydashboard \
+    shinyFiles \
     shinyjs \ 
     shinystan \ 
     shinythemes \ 
