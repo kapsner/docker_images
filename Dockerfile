@@ -670,6 +670,7 @@ RUN R -q -e 'tinytex::install_tinytex()'
 USER root
 
 # install required LaTeX-Packages
+RUN ./home/user/.TinyTeX/bin/x86_64-linux/tlmgr update --self
 RUN ./home/user/.TinyTeX/bin/x86_64-linux/tlmgr install \
     multirow \
     xcolor \
