@@ -24,16 +24,23 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libgsl-dev \
     libglu1-mesa-dev \
     texinfo \
-    unixodbc-dev
+    unixodbc-dev \
+    gcc-8 \
+    libobjc-7-dev
 
 RUN apt-get clean && apt-get autoclean
 
 # get RStudio-Server (Preview Version): https://www.rstudio.com/products/rstudio/download/preview/
-RUN wget -O rstudio-server.deb https://s3.amazonaws.com/rstudio-ide-build/server/bionic/amd64/rstudio-server-1.2.1330-amd64.deb
-RUN gdebi -n rstudio-server.deb
-RUN rm -f rstudio-server.deb
+#RUN wget -O rstudio-server.deb https://s3.amazonaws.com/rstudio-ide-build/server/bionic/amd64/rstudio-server-1.2.1330-amd64.deb
+RUN wget https://download2.rstudio.org/server/bionic/amd64/rstudio-server-1.2.1335-amd64.deb
+RUN gdebi -n rstudio-server-1.2.1335-amd64.deb
+RUN rm -f rstudio-server-1.2.1335-amd64.deb
 
 # add custom RStudio theme ("Dracula")
 ADD ./user-settings /home/user/.rstudio/monitored/user-settings/
 RUN chown -R user:user /home/user/.rstudio && \
     chmod 644 /home/user/.rstudio/monitored/user-settings/user-settings
+
+# to test, if rstudio server is working and if user-settings have the correct format, run:
+# docker run -it -p 8787:8787 --rm r_base_image bash
+# in the chontainer run: rstudio-server start

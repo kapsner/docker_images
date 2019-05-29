@@ -522,6 +522,7 @@ ARG s="sandwich \
     shinyFiles \
     shinyjs \ 
     shinystan \ 
+    shinytest \
     shinythemes \ 
     shinyWidgets \ 
     sigmoid \ 
