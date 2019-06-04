@@ -30,6 +30,7 @@ ARG b="backports \
     bigmemory.sri \ 
     bindr \ 
     bindrcpp \ 
+    BiocManager \
     bit \ 
     bit64 \ 
     bitops \ 
@@ -745,6 +746,11 @@ RUN yes | pip3 install \
 USER user
 RUN R -q -e 'keras::install_keras()' 
 USER root
+
+# install Bioconductorstuff
+RUN R -q -e "BiocManager::install('Biobase')"
+RUN R -q -e "BiocManager::install('gPCA')"
+RUN R -q -e "BiocManager::install('sva')"
 
 # entrypoint
 ENTRYPOINT rstudio-server start && tail -f /dev/null
