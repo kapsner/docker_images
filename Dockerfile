@@ -688,13 +688,16 @@ RUN ./home/user/.TinyTeX/bin/x86_64-linux/tlmgr install \
     babel \
     babel-german
 
+# add TeX-installation to R_ENVIRON Path
+RUN echo "PATH=/home/user/bin:${PATH}" >> /etc/R/Renviron.site 
+
+# fix hyphenation patterns
+RUN fmtutil --all
+
 # install phantomjs
 USER user 
 RUN R -q -e 'webshot::install_phantomjs()'
 USER root
-
-# add TeX-installation to R_ENVIRON Path
-RUN echo "PATH=/home/user/bin:${PATH}" >> /etc/R/Renviron.site 
 
 # make deployed shiny app accessible via port 3838
 RUN echo "options(shiny.port = 3838)" >> /etc/R/Rprofile.site && \
