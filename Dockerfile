@@ -365,6 +365,7 @@ ARG o="OAIHarvester \
     openNLPdata \ 
     openssl \ 
     openxlsx \ 
+    optparse \
     ordinal"
 RUN for package in $o; do \
     R -q -e "p <- \"$package\"; if (isFALSE(p %in% installed.packages()[,\"Package\"])){; cat(paste(\"Installing package:\", p, \"\n\n\")); install.packages(p, repos = \"${R_REPO}\", quiet=T);} else {;cat(paste(\"Package\", p, \"is already installed\n\n\"));}"; \
