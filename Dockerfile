@@ -23,7 +23,8 @@ ARG b="backports \
     base \
     base64enc \ 
     bayesplot \ 
-    BBmisc \ 
+    BBmisc \
+    bench \ 
     BH \ 
     bibtex \ 
     bigmemory \ 
@@ -316,6 +317,7 @@ ARG m="magic \
     methods \
     mgcv \ 
     mi \ 
+    microbenchmark \
     mime \ 
     miniUI \ 
     minqa \ 
