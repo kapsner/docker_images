@@ -26,7 +26,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     texinfo \
     unixodbc-dev \
     gcc-8 \
-    libobjc-7-dev
+    libobjc-7-dev \
+    lmodern
 
 RUN apt-get clean && apt-get autoclean
 
