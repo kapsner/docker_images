@@ -755,6 +755,7 @@ USER root
 RUN R -q -e "BiocManager::install('Biobase')"
 RUN R -q -e "BiocManager::install('gPCA')"
 RUN R -q -e "BiocManager::install('sva')"
+RUN R -q -e "BiocManager::install('GEOquery')"
 
 # entrypoint
 ENTRYPOINT rstudio-server start && tail -f /dev/null
