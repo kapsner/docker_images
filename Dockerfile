@@ -757,5 +757,8 @@ RUN R -q -e "BiocManager::install('gPCA')"
 RUN R -q -e "BiocManager::install('sva')"
 RUN R -q -e "BiocManager::install('GEOquery')"
 
+# install development packages
+RUN R -q -e "install_github('coolbutuseless/ggdebug')"
+
 # entrypoint
 ENTRYPOINT rstudio-server start && tail -f /dev/null
