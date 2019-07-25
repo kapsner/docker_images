@@ -675,6 +675,7 @@ USER root
 
 # install required LaTeX-Packages
 RUN ./home/user/.TinyTeX/bin/x86_64-linux/tlmgr update --self
+RUN ./home/user/.TinyTeX/bin/x86_64-linux/tlmgr update --self
 RUN ./home/user/.TinyTeX/bin/x86_64-linux/tlmgr install \
     multirow \
     xcolor \
@@ -763,7 +764,7 @@ RUN R -q -e "BiocManager::install('sva')"
 RUN R -q -e "BiocManager::install('GEOquery')"
 
 # install development packages
-RUN R -q -e "install_github('coolbutuseless/ggdebug')"
+RUN R -q -e "devtools::install_github('coolbutuseless/ggdebug')"
 
 # entrypoint
 ENTRYPOINT rstudio-server start && tail -f /dev/null
