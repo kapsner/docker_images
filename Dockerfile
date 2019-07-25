@@ -692,7 +692,12 @@ RUN ./home/user/.TinyTeX/bin/x86_64-linux/tlmgr install \
     babel \
     babel-german \
     hyphen-german \
-    lm
+    lm \
+    hyperref \
+    url \
+    graphics-def \
+    titling \
+    caption
 
 # add TeX-installation to R_ENVIRON Path
 RUN echo "PATH=/home/user/bin:${PATH}" >> /etc/R/Renviron.site 
