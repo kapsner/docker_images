@@ -179,6 +179,7 @@ ARG g="GA \
     gclus \ 
     gdata \ 
     gdtools \ 
+    GeneralizedHyperbolic \
     generics \ 
     genetics \ 
     geometry \ 
@@ -351,6 +352,7 @@ ARG n="naivebayes \
     nlme \ 
     nloptr \ 
     NLP \ 
+    nls2 \
     NMF \ 
     nnet \ 
     nnls \ 
