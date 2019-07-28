@@ -428,6 +428,7 @@ RUN for package in $p; do \
 
 ARG q="qap \ 
     qdapDictionaries \ 
+    qpdf \
     quadprog \ 
     quantmod \ 
     quantreg \ 
