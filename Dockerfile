@@ -701,7 +701,9 @@ RUN ./home/user/.TinyTeX/bin/x86_64-linux/tlmgr install \
     url \
     graphics-def \
     titling \
-    caption
+    caption \
+    amsmath \
+    amsfonts
 
 # add TeX-installation to R_ENVIRON Path
 RUN echo "PATH=/home/user/bin:${PATH}" >> /etc/R/Renviron.site 
