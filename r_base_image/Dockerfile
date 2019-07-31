@@ -27,7 +27,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     unixodbc-dev \
     gcc-8 \
     libobjc-7-dev \
-    lmodern
+    lmodern \
+    # rJava dependencies
+    liblzma-dev \ 
+    libbz2-dev
 
 RUN apt-get clean && apt-get autoclean
 
