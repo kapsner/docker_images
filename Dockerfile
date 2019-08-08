@@ -595,6 +595,7 @@ ARG t="tau \
     timeDate \ 
     tm \ 
     TMB \ 
+    tinytex \
     tokenizers \ 
     tools \
     topicmodels \ 
@@ -670,7 +671,6 @@ RUN git clone --recursive https://github.com/Microsoft/LightGBM && \
 
 
 # for tinytex, change user to make it available for current RStudio-Sever-User
-RUN R -q -e 'install.packages("tinytex", repos = "https://ftp.fau.de/cran/", quiet=T)' 
 USER user 
 RUN R -q -e 'tinytex::install_tinytex()' 
 # switch back for other users
@@ -715,6 +715,7 @@ RUN ./home/user/.TinyTeX/bin/x86_64-linux/tlmgr install \
 
 # add TeX-installation to R_ENVIRON Path
 RUN echo "PATH=/home/user/bin:${PATH}" >> /etc/R/Renviron.site 
+ENV PATH="/home/user/bin:${PATH}"
 
 # install phantomjs
 USER user 
