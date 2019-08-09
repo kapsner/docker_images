@@ -407,6 +407,7 @@ ARG p="packrat \
     praise \ 
     prediction \ 
     prettyunits \ 
+    pROC \
     processx \ 
     prodlim \ 
     profvis \ 
