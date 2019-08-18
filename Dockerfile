@@ -125,6 +125,7 @@ ARG d="data.table \
     DRR \ 
     DT \ 
     dtt \ 
+    dtplyr \ 
     dunn.test \ 
     dygraphs"
 RUN for package in $d; do \
@@ -328,6 +329,7 @@ ARG m="magic \
     mlbench \ 
     MLmetrics \ 
     mlr \ 
+    mlr3 \
     mltools \ 
     mnormt \ 
     ModelMetrics \ 
@@ -558,8 +560,8 @@ ARG s="sandwich \
     stabs \ 
     StanHeaders \ 
     stargazer \ 
-    stats \
-    stats4 \
+    stats \ 
+    stats4 \ 
     stringdist \ 
     stringi \ 
     stringr \ 
@@ -780,6 +782,11 @@ RUN R -q -e "BiocManager::install('GEOquery')"
 
 # install development packages
 RUN R -q -e "devtools::install_github('coolbutuseless/ggdebug')"
+
+# install my stuff
+RUN R -q -e "devtools::install_github('kapsner/KhelperR')"
+RUN R -q -e "devtools::install_github('kapsner/PCRBiasCorrection@latest')"
+RUN R -q -e "devtools::install_github('kapsner/BiasCorrector@latest')"
 
 # entrypoint
 ENTRYPOINT rstudio-server start && tail -f /dev/null
