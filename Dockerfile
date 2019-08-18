@@ -784,7 +784,7 @@ RUN R -q -e "BiocManager::install('GEOquery')"
 RUN R -q -e "devtools::install_github('coolbutuseless/ggdebug')"
 
 # install my stuff
-RUN R -q -e "devtools::install_github('kapsner/KhelperR')"
+RUN R -q -e "devtools::install_github('kapsner/KhelpeR@latest')"
 RUN R -q -e "devtools::install_github('kapsner/PCRBiasCorrection@latest')"
 RUN R -q -e "devtools::install_github('kapsner/BiasCorrector@latest')"
 
