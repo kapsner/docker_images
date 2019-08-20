@@ -15,7 +15,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libcairo2-dev \
     libxt-dev \
     libsasl2-dev \
+    # xml2 package
     libxml2-dev \
+    # xslt package
+    libxslt1-dev \
     libgmp3-dev \
     libpq-dev \
     libffi-dev \
