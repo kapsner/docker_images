@@ -668,10 +668,10 @@ RUN for package in $z; do \
 
 
 # download and compile lightgbm (not yet on CRAN) # https://github.com/Microsoft/LightGBM/tree/master/R-package
-# RUN git clone --recursive https://github.com/Microsoft/LightGBM && \
-#     cd LightGBM && \
-#     Rscript build_r.R
-RUN R -e "devtools::install_github('Microsoft/LightGBM', subdir = 'R-package')"
+RUN git clone --recursive https://github.com/Microsoft/LightGBM && \
+    cd LightGBM && \
+    Rscript build_r.R
+#RUN R -e "devtools::install_github('Microsoft/LightGBM', subdir = 'R-package')"
 
 
 # for tinytex, change user to make it available for current RStudio-Sever-User
