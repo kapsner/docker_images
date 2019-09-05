@@ -782,6 +782,13 @@ RUN R -q -e "BiocManager::install('sva')"
 RUN R -q -e "BiocManager::install('GEOquery')"
 RUN R -q -e "BiocManager::install('impute')"
 RUN R -q -e "BiocManager::install('affy')"
+RUN R -q -e "BiocManager::install('gcrma')"
+RUN R -q -e "BiocManager::install('hgu133plus2cdf')"
+RUN R -q -e "BiocManager::install('GO.db')"
+RUN R -q -e "BiocManager::install('org.Hs.eg.db')"
+RUN R -q -e "BiocManager::install('clusterProfiler')"
+RUN R -q -e "BiocManager::install('pathview')"
+RUN R -q -e "BiocManager::install('pathfindR')"
 
 # install development packages
 RUN R -q -e "devtools::install_github('coolbutuseless/ggdebug')"
