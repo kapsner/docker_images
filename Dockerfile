@@ -789,6 +789,7 @@ RUN R -q -e "BiocManager::install('org.Hs.eg.db')"
 RUN R -q -e "BiocManager::install('clusterProfiler')"
 RUN R -q -e "BiocManager::install('pathview')"
 RUN R -q -e "BiocManager::install('pathfindR')"
+RUN R -q -e "BiocManager::install('hgu133plus2probe')"
 
 # install development packages
 RUN R -q -e "devtools::install_github('coolbutuseless/ggdebug')"
