@@ -798,6 +798,9 @@ RUN R -q -e "devtools::install_github('coolbutuseless/ggdebug')"
 RUN R -q -e "devtools::install_github('kapsner/KhelpeR@latest')"
 RUN R -q -e "devtools::install_github('kapsner/PCRBiasCorrection@latest')"
 RUN R -q -e "devtools::install_github('kapsner/BiasCorrector@latest')"
+RUN R -q -e "devtools::install_git('https://gitlab.miracum.org/miracum-dqa/dqastats.git')"
+RUN R -q -e "devtools::install_git('https://gitlab.miracum.org/miracum-dqa/dqagui.git')"
+RUN R -q -e "devtools::install_git('https://gitlab.miracum.org/miracum-dqa/miRacumDQA.git')"
 
 # entrypoint
 ENTRYPOINT rstudio-server start && tail -f /dev/null
