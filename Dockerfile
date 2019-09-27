@@ -794,13 +794,15 @@ RUN R -q -e "BiocManager::install('hgu133plus2probe')"
 # install development packages
 RUN R -q -e "devtools::install_github('coolbutuseless/ggdebug')"
 
-# install my stuff
+# install my own stuff
 RUN R -q -e "devtools::install_github('kapsner/KhelpeR@latest')"
 RUN R -q -e "devtools::install_github('kapsner/PCRBiasCorrection@latest')"
 RUN R -q -e "devtools::install_github('kapsner/BiasCorrector@latest')"
 RUN R -q -e "devtools::install_git('https://gitlab.miracum.org/miracum-dqa/dqastats.git')"
 RUN R -q -e "devtools::install_git('https://gitlab.miracum.org/miracum-dqa/dqagui.git')"
 RUN R -q -e "devtools::install_git('https://gitlab.miracum.org/miracum-dqa/miRacumDQA.git')"
+RUN R -q -e "devtools::install_git('https://gitlab.miracum.org/clearly/sigident.git')"
+RUN R -q -e "devtools::install_git('https://gitlab.miracum.org/kosmic/kosmicgui.git')"
 
 # entrypoint
 ENTRYPOINT rstudio-server start && tail -f /dev/null
