@@ -797,7 +797,7 @@ RUN R -q -e "devtools::install_github('coolbutuseless/ggdebug')"
 # install my own stuff
 RUN R -q -e "devtools::install_github('kapsner/KhelpeR@latest')"
 RUN R -q -e "devtools::install_github('kapsner/rBiasCorrection@latest')"
-RUN R -q -e "devtools::install_github('kapsner/BiasCorrector@latest')"
+#RUN R -q -e "devtools::install_github('kapsner/BiasCorrector@latest')"
 RUN R -q -e "devtools::install_github('kapsner/expenditR')"
 RUN R -q -e "devtools::install_git('https://gitlab.miracum.org/miracum-dqa/dqastats.git')"
 RUN R -q -e "devtools::install_git('https://gitlab.miracum.org/miracum-dqa/dqagui.git')"
