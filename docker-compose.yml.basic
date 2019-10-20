@@ -10,8 +10,4 @@ services:
     - "54321:54321" #h2o flow
     volumes:
     - ./volume:/home/user/volume 
-    build:
-      context: .
     tty: true
-    #command: bash -c "rstudio-server start && tail -f /dev/null"
-

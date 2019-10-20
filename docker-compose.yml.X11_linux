@@ -14,7 +14,4 @@ services:
     environment: 
     - DISPLAY=$DISPLAY
     network_mode: host
-    build:
-      context: .
     tty: true
-    #command: bash -c "rstudio-server start && tail -f /dev/null"

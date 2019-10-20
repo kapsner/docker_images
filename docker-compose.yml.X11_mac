@@ -13,8 +13,4 @@ services:
     - /tmp/.X11-unix:/tmp/.X11-unix
     environment: 
     - DISPLAY=$IP:0
-    build:
-      context: .
     tty: true
-    #command: bash -c "rstudio-server start && tail -f /dev/null"
-

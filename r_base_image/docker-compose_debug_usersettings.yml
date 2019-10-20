@@ -1,0 +1,13 @@
+version: '3'
+services:
+  rstudio:
+    container_name: r_base_image
+    image: r_base_image:latest
+    # restart: unless-stopped
+    ports:
+    - "8787:8787" #rstudio
+    volumes:
+    - ./volume:/home/user/.rstudio/monitored/user-settings/
+    tty: true
+    command: bash -c "rstudio-server start && tail -f /dev/null"
+
