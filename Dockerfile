@@ -566,6 +566,7 @@ ARG s="sandwich \
     stringi \ 
     stringr \ 
     strucchange \ 
+    styler \
     summarytools \ 
     survey \ 
     survival \ 
