@@ -794,6 +794,7 @@ RUN R -q -e "BiocManager::install('hgu133plus2probe')"
 
 # install development packages
 RUN R -q -e "devtools::install_github('coolbutuseless/ggdebug')"
+RUN R -q -e "devtools::install_github('skranz/ReplaceInFiles')"
 
 # install my own stuff
 RUN R -q -e "devtools::install_github('kapsner/KhelpeR@latest')"
