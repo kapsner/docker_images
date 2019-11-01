@@ -793,19 +793,19 @@ RUN R -q -e "BiocManager::install('pathfindR')"
 RUN R -q -e "BiocManager::install('hgu133plus2probe')"
 
 # install development packages
-RUN R -q -e "devtools::install_github('coolbutuseless/ggdebug')"
-RUN R -q -e "devtools::install_github('skranz/ReplaceInFiles')"
+RUN R -q -e "devtools::install_github(repo = 'coolbutuseless/ggdebug', ref = 'master')"
+RUN R -q -e "devtools::install_github(repo = 'skranz/ReplaceInFiles', ref = 'master')"
 
 # install my own stuff
-RUN R -q -e "devtools::install_github('kapsner/KhelpeR@latest')"
-RUN R -q -e "devtools::install_github('kapsner/rBiasCorrection@latest')"
-RUN R -q -e "devtools::install_github('kapsner/BiasCorrector@latest')"
-RUN R -q -e "devtools::install_github('kapsner/expenditR')"
-RUN R -q -e "devtools::install_git('https://gitlab.miracum.org/miracum-dqa/dqastats.git')"
-RUN R -q -e "devtools::install_git('https://gitlab.miracum.org/miracum-dqa/dqagui.git')"
-RUN R -q -e "devtools::install_git('https://gitlab.miracum.org/miracum-dqa/miRacumDQA.git')"
-RUN R -q -e "devtools::install_git('https://gitlab.miracum.org/clearly/sigident.git')"
-RUN R -q -e "devtools::install_git('https://gitlab.miracum.org/kosmic/kosmicgui.git')"
+RUN R -q -e "devtools::install_github(repo = 'kapsner/KhelpeR', ref = 'latest')"
+RUN R -q -e "devtools::install_github(repo = 'kapsner/rBiasCorrection', ref = 'latest')"
+RUN R -q -e "devtools::install_github(repo = 'kapsner/BiasCorrector', ref = 'latest')"
+RUN R -q -e "devtools::install_github(repo = 'kapsner/expenditR', ref = 'master')"
+RUN R -q -e "devtools::install_git(url = 'https://gitlab.miracum.org/miracum-dqa/dqastats.git', ref = 'master')"
+RUN R -q -e "devtools::install_git(url = 'https://gitlab.miracum.org/miracum-dqa/dqagui.git', ref = 'master')"
+RUN R -q -e "devtools::install_git(url = 'https://gitlab.miracum.org/miracum-dqa/miRacumDQA.git', ref = 'master')"
+RUN R -q -e "devtools::install_git(url = 'https://gitlab.miracum.org/clearly/sigident.git', ref = 'master')"
+RUN R -q -e "devtools::install_git(url = 'https://gitlab.miracum.org/kosmic/kosmicgui.git', ref = 'master')"
 
 # entrypoint
 ENTRYPOINT rstudio-server start && tail -f /dev/null
