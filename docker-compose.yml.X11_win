@@ -1,14 +1,17 @@
 version: '3'
 services:
-  rstudio:
-    container_name: rdatascience
+  rdatascience:
     image: r_datascience:latest
     # restart: unless-stopped
     ports:
     - "8787:8787" #rstudio
     - "3838:3838" #shiny
     - "54321:54321" #h2o flow
+    # https://github.com/rocker-org/rocker-versioned/blob/master/rstudio/README.md
+    environment:
+    - DISPLAY=$IP:0
+    - PASSWORD=password
+    - ROOT=TRUE
+    #- ADD=shiny
     volumes:
     - ./volume:/home/user/volume
-    environment: 
-    - DISPLAY=$IP:0

@@ -1,46 +1,9 @@
-FROM rocker/verse:3.6.1
+FROM r_base_image:latest
 
-# set cran repo
-RUN echo "options('repos' = 'https://ftp.fau.de/cran/')" >> /usr/local/lib/R/etc/Rprofile.site
-
-# install required custom system dependencies
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    byobu \
-    curl \
-    htop \
-    libffi-dev \
-    libglu1-mesa-dev \
-    libgmp3-dev \
-    libgsl-dev \
-    libmpfr-dev \
-    libxt-dev \
-    # xslt package
-    libxslt1-dev \
-    lmodern \
-    locate \
-    nano \
-    net-tools \
-    pandoc \
-    pandoc-citeproc \
-    python3-dev \
-    python3-pip \
-    python3-venv \
-    # dependencies for aplpack
-    tcl8.6-dev \
-    tk8.6-dev \
-    traceroute
+ENV R_REPO="https://ftp.fau.de/cran/"
 
 # Update where R expects to find various Java files
 RUN R CMD javareconf
-
-# set ENV-Vars
-ARG DISPLAY
-ENV DISPLAY=${DISPLAY}
-
-# first, make sure, that package "remotes" is installed, so we can make use
-# of its function remotes::update_packages 
-# https://rdrr.io/cran/remotes/man/update_packages.html
-RUN R -q -e "p <- \"remotes\"; if (isFALSE(p %in% installed.packages()[,\"Package\"])){; cat(paste(\"Installing package:\", p, \"\n\n\")); install.packages(p, repos = \"${R_REPO}\", quiet=T);} else {;cat(paste(\"Package\", p, \"is already installed\n\n\"));}"
 
 ARG a="abind \ 
     acepack \ 
@@ -53,7 +16,7 @@ ARG a="abind \
     arulesViz \ 
     assertthat"
 RUN for package in $a; do \
-    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
+    R -q -e "p <- \"$package\"; if (isFALSE(p %in% installed.packages()[,\"Package\"])){; cat(paste(\"Installing package:\", p, \"\n\n\")); install.packages(p, repos = \"${R_REPO}\", quiet=T);} else {;cat(paste(\"Package\", p, \"is already installed\n\n\"));}"; \
     done
 
 ARG b="backports \ 
@@ -85,7 +48,7 @@ ARG b="backports \
     BSDA \ 
     bst"
 RUN for package in $b; do \
-    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
+    R -q -e "p <- \"$package\"; if (isFALSE(p %in% installed.packages()[,\"Package\"])){; cat(paste(\"Installing package:\", p, \"\n\n\")); install.packages(p, repos = \"${R_REPO}\", quiet=T);} else {;cat(paste(\"Package\", p, \"is already installed\n\n\"));}"; \
     done
 
 ARG c="C50 \ 
@@ -128,7 +91,7 @@ ARG c="C50 \
     curl \ 
     CVST"
 RUN for package in $c; do \
-    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
+    R -q -e "p <- \"$package\"; if (isFALSE(p %in% installed.packages()[,\"Package\"])){; cat(paste(\"Installing package:\", p, \"\n\n\")); install.packages(p, repos = \"${R_REPO}\", quiet=T);} else {;cat(paste(\"Package\", p, \"is already installed\n\n\"));}"; \
     done
 
 ARG d="data.table \ 
@@ -166,7 +129,7 @@ ARG d="data.table \
     dunn.test \ 
     dygraphs"
 RUN for package in $d; do \
-    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
+    R -q -e "p <- \"$package\"; if (isFALSE(p %in% installed.packages()[,\"Package\"])){; cat(paste(\"Installing package:\", p, \"\n\n\")); install.packages(p, repos = \"${R_REPO}\", quiet=T);} else {;cat(paste(\"Package\", p, \"is already installed\n\n\"));}"; \
     done
 
 ARG e="e1071 \ 
@@ -182,7 +145,7 @@ ARG e="e1071 \
     exactRankTests \ 
     expm"
 RUN for package in $e; do \
-    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
+    R -q -e "p <- \"$package\"; if (isFALSE(p %in% installed.packages()[,\"Package\"])){; cat(paste(\"Installing package:\", p, \"\n\n\")); install.packages(p, repos = \"${R_REPO}\", quiet=T);} else {;cat(paste(\"Package\", p, \"is already installed\n\n\"));}"; \
     done
 
 ARG f="factoextra \
@@ -208,7 +171,7 @@ ARG f="factoextra \
     futile.logger \ 
     futile.options"
 RUN for package in $f; do \
-    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
+    R -q -e "p <- \"$package\"; if (isFALSE(p %in% installed.packages()[,\"Package\"])){; cat(paste(\"Installing package:\", p, \"\n\n\")); install.packages(p, repos = \"${R_REPO}\", quiet=T);} else {;cat(paste(\"Package\", p, \"is already installed\n\n\"));}"; \
     done
 
 ARG g="GA \
@@ -249,7 +212,7 @@ ARG g="GA \
     gtable \ 
     gtools"
 RUN for package in $g; do \
-    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
+    R -q -e "p <- \"$package\"; if (isFALSE(p %in% installed.packages()[,\"Package\"])){; cat(paste(\"Installing package:\", p, \"\n\n\")); install.packages(p, repos = \"${R_REPO}\", quiet=T);} else {;cat(paste(\"Package\", p, \"is already installed\n\n\"));}"; \
     done
 
 ARG h="h2o \ 
@@ -269,7 +232,7 @@ ARG h="h2o \
     httr \ 
     hunspell"
 RUN for package in $h; do \
-    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
+    R -q -e "p <- \"$package\"; if (isFALSE(p %in% installed.packages()[,\"Package\"])){; cat(paste(\"Installing package:\", p, \"\n\n\")); install.packages(p, repos = \"${R_REPO}\", quiet=T);} else {;cat(paste(\"Package\", p, \"is already installed\n\n\"));}"; \
     done
 
 ARG i="igraph \ 
@@ -285,13 +248,13 @@ ARG i="igraph \
     irr \ 
     iterators"
 RUN for package in $i; do \
-    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
+    R -q -e "p <- \"$package\"; if (isFALSE(p %in% installed.packages()[,\"Package\"])){; cat(paste(\"Installing package:\", p, \"\n\n\")); install.packages(p, repos = \"${R_REPO}\", quiet=T);} else {;cat(paste(\"Package\", p, \"is already installed\n\n\"));}"; \
     done
 
 ARG j="jpeg \ 
     jsonlite"
 RUN for package in $j; do \
-    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
+    R -q -e "p <- \"$package\"; if (isFALSE(p %in% installed.packages()[,\"Package\"])){; cat(paste(\"Installing package:\", p, \"\n\n\")); install.packages(p, repos = \"${R_REPO}\", quiet=T);} else {;cat(paste(\"Package\", p, \"is already installed\n\n\"));}"; \
     done
 
 ARG k="kableExtra \ 
@@ -302,7 +265,7 @@ ARG k="kableExtra \
     KMsurv \ 
     knitr"
 RUN for package in $k; do \
-    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
+    R -q -e "p <- \"$package\"; if (isFALSE(p %in% installed.packages()[,\"Package\"])){; cat(paste(\"Installing package:\", p, \"\n\n\")); install.packages(p, repos = \"${R_REPO}\", quiet=T);} else {;cat(paste(\"Package\", p, \"is already installed\n\n\"));}"; \
     done
 
 ARG l="labeling \ 
@@ -329,7 +292,7 @@ ARG l="labeling \
     lsa \ 
     lubridate"
 RUN for package in $l; do \
-    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
+    R -q -e "p <- \"$package\"; if (isFALSE(p %in% installed.packages()[,\"Package\"])){; cat(paste(\"Installing package:\", p, \"\n\n\")); install.packages(p, repos = \"${R_REPO}\", quiet=T);} else {;cat(paste(\"Package\", p, \"is already installed\n\n\"));}"; \
     done
 
 ARG m="magic \ 
@@ -381,7 +344,7 @@ ARG m="magic \
     munsell \ 
     mvtnorm"
 RUN for package in $m; do \
-    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
+    R -q -e "p <- \"$package\"; if (isFALSE(p %in% installed.packages()[,\"Package\"])){; cat(paste(\"Installing package:\", p, \"\n\n\")); install.packages(p, repos = \"${R_REPO}\", quiet=T);} else {;cat(paste(\"Package\", p, \"is already installed\n\n\"));}"; \
     done
 
 ARG n="naivebayes \ 
@@ -398,7 +361,7 @@ ARG n="naivebayes \
     nortest \ 
     numDeriv"
 RUN for package in $n; do \
-    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
+    R -q -e "p <- \"$package\"; if (isFALSE(p %in% installed.packages()[,\"Package\"])){; cat(paste(\"Installing package:\", p, \"\n\n\")); install.packages(p, repos = \"${R_REPO}\", quiet=T);} else {;cat(paste(\"Package\", p, \"is already installed\n\n\"));}"; \
     done
 
 ARG o="OAIHarvester \ 
@@ -411,7 +374,7 @@ ARG o="OAIHarvester \
     optparse \
     ordinal"
 RUN for package in $o; do \
-    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
+    R -q -e "p <- \"$package\"; if (isFALSE(p %in% installed.packages()[,\"Package\"])){; cat(paste(\"Installing package:\", p, \"\n\n\")); install.packages(p, repos = \"${R_REPO}\", quiet=T);} else {;cat(paste(\"Package\", p, \"is already installed\n\n\"));}"; \
     done
 
 ARG p="packrat \ 
@@ -463,7 +426,7 @@ ARG p="packrat \
     purrr \ 
     pwr"
 RUN for package in $p; do \
-    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
+    R -q -e "p <- \"$package\"; if (isFALSE(p %in% installed.packages()[,\"Package\"])){; cat(paste(\"Installing package:\", p, \"\n\n\")); install.packages(p, repos = \"${R_REPO}\", quiet=T);} else {;cat(paste(\"Package\", p, \"is already installed\n\n\"));}"; \
     done
 
 ARG q="qap \ 
@@ -475,7 +438,7 @@ ARG q="qap \
     quantregForest \
     questionr"
 RUN for package in $q; do \
-    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
+    R -q -e "p <- \"$package\"; if (isFALSE(p %in% installed.packages()[,\"Package\"])){; cat(paste(\"Installing package:\", p, \"\n\n\")); install.packages(p, repos = \"${R_REPO}\", quiet=T);} else {;cat(paste(\"Package\", p, \"is already installed\n\n\"));}"; \
     done
 
 ARG r="R.methodsS3 \ 
@@ -552,7 +515,7 @@ ARG r="R.methodsS3 \
     rvest \ 
     rvg"
 RUN for package in $r; do \
-    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
+    R -q -e "p <- \"$package\"; if (isFALSE(p %in% installed.packages()[,\"Package\"])){; cat(paste(\"Installing package:\", p, \"\n\n\")); install.packages(p, repos = \"${R_REPO}\", quiet=T);} else {;cat(paste(\"Package\", p, \"is already installed\n\n\"));}"; \
     done
 
 ARG s="sandwich \ 
@@ -612,7 +575,7 @@ ARG s="sandwich \
     synthpop \
     syuzhet"
 RUN for package in $s; do \
-    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
+    R -q -e "p <- \"$package\"; if (isFALSE(p %in% installed.packages()[,\"Package\"])){; cat(paste(\"Installing package:\", p, \"\n\n\")); install.packages(p, repos = \"${R_REPO}\", quiet=T);} else {;cat(paste(\"Package\", p, \"is already installed\n\n\"));}"; \
     done
 
 ARG t="tau \ 
@@ -647,7 +610,7 @@ ARG t="tau \
     TTR \ 
     twitteR"
 RUN for package in $t; do \
-    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
+    R -q -e "p <- \"$package\"; if (isFALSE(p %in% installed.packages()[,\"Package\"])){; cat(paste(\"Installing package:\", p, \"\n\n\")); install.packages(p, repos = \"${R_REPO}\", quiet=T);} else {;cat(paste(\"Package\", p, \"is already installed\n\n\"));}"; \
     done
 
 ARG u="ucminf \ 
@@ -658,7 +621,7 @@ ARG u="ucminf \
     utils \
     uuid"
 RUN for package in $u; do \
-    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
+    R -q -e "p <- \"$package\"; if (isFALSE(p %in% installed.packages()[,\"Package\"])){; cat(paste(\"Installing package:\", p, \"\n\n\")); install.packages(p, repos = \"${R_REPO}\", quiet=T);} else {;cat(paste(\"Package\", p, \"is already installed\n\n\"));}"; \
     done
 
 ARG v="vcd \ 
@@ -667,7 +630,7 @@ ARG v="vcd \
     viridisLite \ 
     visNetwork"
 RUN for package in $v; do \
-    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
+    R -q -e "p <- \"$package\"; if (isFALSE(p %in% installed.packages()[,\"Package\"])){; cat(paste(\"Installing package:\", p, \"\n\n\")); install.packages(p, repos = \"${R_REPO}\", quiet=T);} else {;cat(paste(\"Package\", p, \"is already installed\n\n\"));}"; \
     done
 
 ARG w="webshot \ 
@@ -678,7 +641,7 @@ ARG w="webshot \
     wordcloud2 \ 
     WRS2"
 RUN for package in $w; do \
-    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
+    R -q -e "p <- \"$package\"; if (isFALSE(p %in% installed.packages()[,\"Package\"])){; cat(paste(\"Installing package:\", p, \"\n\n\")); install.packages(p, repos = \"${R_REPO}\", quiet=T);} else {;cat(paste(\"Package\", p, \"is already installed\n\n\"));}"; \
     done
 
 ARG x="xfun \ 
@@ -689,19 +652,19 @@ ARG x="xfun \
     xtable \ 
     xts"
 RUN for package in $x; do \
-    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
+    R -q -e "p <- \"$package\"; if (isFALSE(p %in% installed.packages()[,\"Package\"])){; cat(paste(\"Installing package:\", p, \"\n\n\")); install.packages(p, repos = \"${R_REPO}\", quiet=T);} else {;cat(paste(\"Package\", p, \"is already installed\n\n\"));}"; \
     done
 
 ARG y="yaml"
 RUN for package in $y; do \
-    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
+    R -q -e "p <- \"$package\"; if (isFALSE(p %in% installed.packages()[,\"Package\"])){; cat(paste(\"Installing package:\", p, \"\n\n\")); install.packages(p, repos = \"${R_REPO}\", quiet=T);} else {;cat(paste(\"Package\", p, \"is already installed\n\n\"));}"; \
     done
 
 ARG z="zeallot \ 
     zip \ 
     zoo"
 RUN for package in $z; do \   
-    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
+    R -q -e "p <- \"$package\"; if (isFALSE(p %in% installed.packages()[,\"Package\"])){; cat(paste(\"Installing package:\", p, \"\n\n\")); install.packages(p, repos = \"${R_REPO}\", quiet=T);} else {;cat(paste(\"Package\", p, \"is already installed\n\n\"));}"; \
     done
 
 
@@ -711,9 +674,17 @@ RUN git clone --recursive https://github.com/Microsoft/LightGBM && \
     Rscript build_r.R
 #RUN R -e "devtools::install_github('Microsoft/LightGBM', subdir = 'R-package')"
 
+
+# for tinytex, change user to make it available for current RStudio-Sever-User
+USER user 
+RUN R -q -e 'tinytex::install_tinytex()' 
+# switch back for other users
+USER root
+
 # install required LaTeX-Packages
-RUN tlmgr update --self
-RUN tlmgr install \
+RUN ./home/user/.TinyTeX/bin/x86_64-linux/tlmgr update --self
+RUN ./home/user/.TinyTeX/bin/x86_64-linux/tlmgr update --self
+RUN ./home/user/.TinyTeX/bin/x86_64-linux/tlmgr install \
     multirow \
     xcolor \
     colortbl \
@@ -747,6 +718,20 @@ RUN tlmgr install \
     ifxetex \
     ifluatex
 
+# add TeX-installation to R_ENVIRON Path
+RUN echo "PATH=/home/user/bin:${PATH}" >> /etc/R/Renviron.site 
+ENV PATH="/home/user/bin:${PATH}"
+
+# install phantomjs
+USER user 
+RUN R -q -e 'webshot::install_phantomjs()'
+USER root
+
+# make deployed shiny app accessible via port 3838
+RUN echo "options(shiny.port = 3838)" >> /etc/R/Rprofile.site && \
+    echo "options(shiny.host = '0.0.0.0')" >> /etc/R/Rprofile.site && \
+    echo "options(shiny.launch.browser = FALSE)" >> /etc/R/Rprofile.site 
+
 # safety-check at the end: 
 # 1) look if everything is installed correctely (if not, you might add system-dependencies in the base_image)
 # 2) update all packages to the newest version
@@ -756,7 +741,8 @@ ARG allpackages="\"$a\" \"$b\" \"$c\" \"$d\" \"$e\" \"$f\" \"$g\" \"$h\" \
     \"$s\" \"$t\" \"$u\" \"$v\" \"$w\" \"$x\" \"$y\" \"$z\""
 
 RUN export packages_format="$(echo $(echo ${allpackages} | sed -e 's/ /\"\, \"/g') | sed -e 's/\"\"/\"/g')" && \
-    R -q -e "vec <- setdiff(c($packages_format), unname(installed.packages()[,\"Package\"])); print(vec); vec2 <- intersect(c(vec), unname(available.packages()[,\"Package\"])); print(vec2); install.packages(pkgs = vec2)"
+    R -q -e "vec <- setdiff(c($packages_format), unname(installed.packages()[,\"Package\"])); print(vec); if (length(vec) != 0){; for (i in vec){; cat(\"Installing required package: \", i, \"\n\n\"); install.packages(i, repos = \"${R_REPO}\", quiet=T); };}" && \
+    R -q -e "update.packages(ask=F, repos = \"${R_REPO}\", quiet=T)"
 
 # install some python packages
 # install pip requirements
@@ -785,54 +771,26 @@ RUN yes | pip3 install \
     scikit-learn \
     scipy
 
-# workaround, to get stuff properly installed in users home dir
-# set rstudio user here
-ENV RSTUDIO_USER="rstudio"
-
-# add user + password
-# https://stackoverflow.com/questions/2150882/how-to-automatically-add-user-account-and-password-with-a-bash-script
-#RUN useradd -ms /bin/bash ${RSTUDIO_USER} # rstudio user already exists
-RUN echo ${RSTUDIO_USER}:password | chpasswd 
-
-# switch user
-USER ${RSTUDIO_USER}
-# install phantomjs
-RUN R -q -e "webshot::install_phantomjs()"
-
-# install shinytest dependencies (= phantomjs)
-RUN R -q -e "shinytest::installDependencies()"
-
 # install keras (when pip3 virtualenv is already installed)
-RUN R -q -e "keras::install_keras()"
-
-# switch back
+USER user
+RUN R -q -e 'keras::install_keras()' 
 USER root
 
-# add newly installed dependencies to PATH
-ENV PATH="/home/${RSTUDIO_USER}/bin:${PATH}"
-ENV PATH="/home/${RSTUDIO_USER}/.virtualenvs/r-reticulate/bin:${PATH}"
-RUN echo "PATH=${PATH}" >> /etc/R/Renviron.site
-
-# make deployed shiny app accessible via port 3838
-RUN echo "options(shiny.port = 3838)" >> /etc/R/Rprofile.site && \
-    echo "options(shiny.host = '0.0.0.0')" >> /etc/R/Rprofile.site && \
-    echo "options(shiny.launch.browser = FALSE)" >> /etc/R/Rprofile.site 
-
 # install Bioconductorstuff
-RUN R -q -e "BiocManager::install('affy')"
 RUN R -q -e "BiocManager::install('Biobase')"
-RUN R -q -e "BiocManager::install('clusterProfiler')"
-RUN R -q -e "BiocManager::install('gcrma')"
-RUN R -q -e "BiocManager::install('GEOquery')"
-RUN R -q -e "BiocManager::install('GO.db')"
 RUN R -q -e "BiocManager::install('gPCA')"
-RUN R -q -e "BiocManager::install('hgu133plus2cdf')"
-RUN R -q -e "BiocManager::install('hgu133plus2probe')"
-RUN R -q -e "BiocManager::install('impute')"
-RUN R -q -e "BiocManager::install('org.Hs.eg.db')"
-RUN R -q -e "BiocManager::install('pathfindR')"
-RUN R -q -e "BiocManager::install('pathview')"
 RUN R -q -e "BiocManager::install('sva')"
+RUN R -q -e "BiocManager::install('GEOquery')"
+RUN R -q -e "BiocManager::install('impute')"
+RUN R -q -e "BiocManager::install('affy')"
+RUN R -q -e "BiocManager::install('gcrma')"
+RUN R -q -e "BiocManager::install('hgu133plus2cdf')"
+RUN R -q -e "BiocManager::install('GO.db')"
+RUN R -q -e "BiocManager::install('org.Hs.eg.db')"
+RUN R -q -e "BiocManager::install('clusterProfiler')"
+RUN R -q -e "BiocManager::install('pathview')"
+RUN R -q -e "BiocManager::install('pathfindR')"
+RUN R -q -e "BiocManager::install('hgu133plus2probe')"
 
 # install development packages
 RUN R -q -e "devtools::install_github(repo = 'coolbutuseless/ggdebug', ref = 'master')"
@@ -849,7 +807,5 @@ RUN R -q -e "devtools::install_git(url = 'https://gitlab.miracum.org/miracum-dqa
 RUN R -q -e "devtools::install_git(url = 'https://gitlab.miracum.org/clearly/sigident.git', ref = 'master')"
 RUN R -q -e "devtools::install_git(url = 'https://gitlab.miracum.org/kosmic/kosmicgui.git', ref = 'master')"
 
-# add custom RStudio theme ("Dracula")
-ADD user-settings /home/${RSTUDIO_USER}/.rstudio/monitored/user-settings/
-RUN chown -R ${RSTUDIO_USER}:${RSTUDIO_USER} /home/${RSTUDIO_USER}/.rstudio && \
-    chmod 644 /home/${RSTUDIO_USER}/.rstudio/monitored/user-settings/user-settings
+# entrypoint
+ENTRYPOINT rstudio-server start && tail -f /dev/null

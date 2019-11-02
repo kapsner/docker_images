@@ -2,14 +2,23 @@
 
 - this is a container for R-Datascience-development  
 
-## Installation
+## Installation 
 
-We are now building from rocker/verse docker image (https://hub.docker.com/r/rocker/verse).
+- to install, run:  
+```
+git clone https://github.com/kapsner/docker-Rdatascience.git
+cd docker-Rdatascience/
+chmod +x install.sh
+./install.sh
+```
 
-Set your rstudio password in the corresponding docker-compose file.
+- to update, run:  
+```
+chmod +x update.sh  
+./update.sh  
+```
 
 - to run the container with X11-support (for some libraries, e.g. Rcmdr), rename the respective X11-docker-compose to docker-compose.yml and copy it to your local working directory:
-
 ```
 # linux:
 cp docker-compose.yml.X11_linux docker-compose.yml
@@ -30,13 +39,11 @@ More information:
 - if you don't need X11-support, just rename the file "docker-compose.yml.basic" to "docker-compose.yml" and copy it to your local working-directory.
 
 - in the directory of your docker-compose.yml, create the volume-directory to share files with your docker-container:  
-
 ```
 mkdir ./volume  
 ```
 
 - then you can start the container (insert your prefered settings in the file "docker-compose.yml"):  
-
 ```
 # basic and X11_linux:
 docker-compose up -d 
