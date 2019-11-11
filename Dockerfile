@@ -712,8 +712,7 @@ RUN git clone --recursive https://github.com/Microsoft/LightGBM && \
 #RUN R -e "devtools::install_github('Microsoft/LightGBM', subdir = 'R-package')"
 
 # install required LaTeX-Packages
-RUN tlmgr update --self
-RUN tlmgr install \
+RUN tlmgr update --self && tlmgr install \
     multirow \
     xcolor \
     colortbl \
@@ -744,8 +743,7 @@ RUN tlmgr install \
     latex-graphics-dev \
     geometry \
     ec \
-    ifxetex \
-    ifluatex
+    iftex
 
 # safety-check at the end: 
 # 1) look if everything is installed correctely (if not, you might add system-dependencies in the base_image)
