@@ -712,7 +712,9 @@ RUN git clone --recursive https://github.com/Microsoft/LightGBM && \
 #RUN R -e "devtools::install_github('Microsoft/LightGBM', subdir = 'R-package')"
 
 # install required LaTeX-Packages
-RUN tlmgr update --self && tlmgr install \
+RUN tlmgr option repository http://mirror.ctan.org/systems/texlive/tlnet && \
+    tlmgr update --self && \
+    tlmgr install \
     multirow \
     xcolor \
     colortbl \
