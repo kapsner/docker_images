@@ -1,0 +1,14 @@
+version: '3'
+services:
+  r_datascience_debug:
+    image: r_datascience
+    # restart: unless-stopped
+    ports:
+      - "8787:8787" #rstudio
+    volumes:
+      - ./volume:/home/user/.rstudio/monitored/user-settings/
+    environment:
+      - DISPLAY=$DISPLAY
+      - PASSWORD=password
+      - ROOT=TRUE
+    tty: true
