@@ -882,6 +882,11 @@ RUN rm -rf /var/lib/apt/lists/*
 RUN rm -rf /home/${RSTUDIO_USER}/.cache/pip/*
 RUN apt-get clean && apt-get autoclean && apt-get autoremove
 
+RUN R -q -e "install.packages(c('mlr3learners', 'mlr3db', 'mlr3filters', 'mlr3tuning'))"
+RUN R -q -e "devtools::install_github(repo = 'mlr-org/mlr3survival', ref = 'master')"
+RUN R -q -e "devtools::install_github(repo = 'mlr-org/mlr3ordinal', ref = 'master')"
+RUN R -q -e "devtools::install_github(repo = 'mlr-org/mlr3viz', ref = 'master')"
+
 # add custom RStudio theme ("Dracula")
 ADD volume/user-settings /home/${RSTUDIO_USER}/.rstudio/monitored/user-settings/
 RUN chown -R ${RSTUDIO_USER}:${RSTUDIO_USER} /home/${RSTUDIO_USER}/.rstudio && \
