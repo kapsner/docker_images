@@ -877,6 +877,11 @@ RUN R -q -e "devtools::install_git(url = 'https://gitlab.miracum.org/miracum-dqa
 RUN R -q -e "devtools::install_git(url = 'https://gitlab.miracum.org/clearly/sigident.git', ref = 'master')"
 RUN R -q -e "devtools::install_git(url = 'https://gitlab.miracum.org/kosmic/kosmicgui.git', ref = 'master')"
 
+# clear caches
+RUN rm -rf /var/lib/apt/lists/*
+RUN rm -rf /home/${RSTUDIO_USER}/.cache/pip/*
+RUN apt-get clean && apt-get autoclean && apt-get autoremove
+
 # add custom RStudio theme ("Dracula")
 ADD volume/user-settings /home/${RSTUDIO_USER}/.rstudio/monitored/user-settings/
 RUN chown -R ${RSTUDIO_USER}:${RSTUDIO_USER} /home/${RSTUDIO_USER}/.rstudio && \
