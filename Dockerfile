@@ -783,11 +783,48 @@ RUN R -q -e "devtools::install_github(repo = 'skranz/ReplaceInFiles', ref = 'mas
 
 # install some python packages
 # install pip requirements
+# virtualenv is required for install_keras
 RUN yes | pip3 install \
     setuptools \
     wheel \
     virtualenv
 
+# workaround, to get stuff properly installed in users home dir
+# set rstudio user here
+ENV RSTUDIO_USER="rstudio" 
+
+# add user + password
+# https://s/home/${RSTUDIO_USER}/.virtualenvs/r-reticulate/bin/tackoverflow.com/questions/2150882/how-to-automatically-add-user-account-and-password-with-a-bash-script
+#RUN useradd -ms /bin/bash ${RSTUDIO_USER} # rstudio user already exists
+RUN echo ${RSTUDIO_USER}:password | chpasswd 
+
+# switch user
+USER ${RSTUDIO_USER}
+
+# install keras (when pip3 virtualenv is already installed)
+RUN R -q -e "keras::install_keras()"
+
+# configure python
+RUN R -q -e "reticulate::py_config()"
+
+# switch back
+USER root
+
+# we can now add add the virtualenv python to PATH (on first place)
+# add newly installed dependencies to PATH
+ENV PATH="/home/${RSTUDIO_USER}/bin:/opt/TinyTeX/bin/x86_64-linux/:${PATH}"
+ENV PATH="/home/${RSTUDIO_USER}/.virtualenvs/r-reticulate/bin:${PATH}"
+
+# add PATH to a profile script (workaround so that path is available in rstudio's terminal)
+RUN echo "export PATH=${PATH}" > /home/${RSTUDIO_USER}/.profile && chmod +x /home/${RSTUDIO_USER}/.profile
+
+# Add RETICULATE_PYTHON variable to Renviron
+# current ${R_HOME} = /usr/local/lib/R
+RUN echo "export RETICULATE_PYTHON=/home/${RSTUDIO_USER}/.virtualenvs/r-reticulate/bin/python" >> /usr/local/lib/R/etc/Renviron
+# set PATH for all users
+RUN echo "PATH=${PATH}" > /etc/environment
+
+# now install other python packages
 RUN yes | pip3 install \
     catboost \
     "colorama>=0.3.8" \
@@ -811,16 +848,7 @@ RUN yes | pip3 install \
     scikit-learn \
     scipy
 
-# workaround, to get stuff properly installed in users home dir
-# set rstudio user here
-ENV RSTUDIO_USER="rstudio" 
-ENV RETICULATE_PYTHON="/home/rstudio/.virtualenvs/r-reticulate/bin/python"
-
-# add user + password
-# https://stackoverflow.com/questions/2150882/how-to-automatically-add-user-account-and-password-with-a-bash-script
-#RUN useradd -ms /bin/bash ${RSTUDIO_USER} # rstudio user already exists
-RUN echo ${RSTUDIO_USER}:password | chpasswd 
-
+# configure the other r packages
 # switch user
 USER ${RSTUDIO_USER}
 
@@ -830,19 +858,8 @@ RUN R -q -e "webshot::install_phantomjs()"
 # install shinytest dependencies (= phantomjs)
 RUN R -q -e "shinytest::installDependencies()"
 
-# install keras (when pip3 virtualenv is already installed)
-RUN R -q -e "keras::install_keras()"
-
-# configure python
-RUN R -q -e "reticulate::py_config()"
-
 # switch back
 USER root
-
-# add newly installed dependencies to PATH
-ENV PATH="/home/${RSTUDIO_USER}/bin:${PATH}"
-ENV PATH="/home/${RSTUDIO_USER}/.virtualenvs/r-reticulate/bin:${PATH}"
-RUN echo "PATH=${PATH}" >> /etc/R/Renviron.site
 
 # make deployed shiny app accessible via port 3838
 RUN echo "options(shiny.port = 3838)" >> /etc/R/Rprofile.site && \
