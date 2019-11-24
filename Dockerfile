@@ -747,7 +747,6 @@ RUN tlmgr option repository http://mirror.ctan.org/systems/texlive/tlnet && \
     makecell \
     multirow \
     oberdiek \
-    scrbook \
     tabu \
     threeparttable \
     threeparttablex \
