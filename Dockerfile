@@ -221,8 +221,10 @@ ARG g="GA \
     generics \ 
     genetics \ 
     geometry \ 
+    GGally \
     ggeffects \ 
     ggfortify \ 
+    ggmap \
     ggplot2 \ 
     ggpubr \ 
     ggrepel \ 
@@ -298,6 +300,7 @@ ARG k="kableExtra \
     keras \ 
     kernlab \ 
     KernSmooth \ 
+    kknn \
     km.ci \ 
     KMsurv \ 
     knitr"
@@ -318,6 +321,7 @@ ARG l="labeling \
     ldatuning \ 
     LDAvis \ 
     leaps \ 
+    lhs \
     libcoin \ 
     LiblineaR \ 
     lintr \ 
@@ -367,6 +371,10 @@ ARG m="magic \
     MLmetrics \ 
     mlr \ 
     mlr3 \
+    mlr3db \
+    mlr3filters \
+    mlr3learners \
+    mlr3tuning \
     mltools \ 
     mnormt \ 
     ModelMetrics \ 
@@ -443,7 +451,9 @@ ARG p="packrat \
     polspline \ 
     polynom \ 
     prabclus \ 
-    praise \ 
+    praise \
+    praznik \ 
+    precrec \
     prediction \ 
     prettyunits \ 
     pROC \
@@ -609,6 +619,7 @@ ARG s="sandwich \
     survival \ 
     survminer \ 
     survMisc \ 
+    svglite \
     synthpop \
     syuzhet"
 RUN for package in $s; do \
@@ -715,37 +726,39 @@ RUN git clone --recursive https://github.com/Microsoft/LightGBM && \
 RUN tlmgr option repository http://mirror.ctan.org/systems/texlive/tlnet && \
     tlmgr update --self && \
     tlmgr install \
-    multirow \
-    xcolor \
-    colortbl \
-    wrapfig \
-    float \
-    tabu \
-    varwidth \
-    threeparttable \
-    threeparttablex \
-    environ \
-    trimspaces \
-    ulem \
-    makecell \
+    amsfonts \
+    amsmath \
     babel \
     babel-german \
-    hyphen-german \
-    lm \
-    hyperref \
-    url \
-    graphics-def \
-    titling \
     caption \
-    amsmath \
-    amsfonts \
-    tools \
-    oberdiek \
-    graphics \
-    latex-graphics-dev \
-    geometry \
+    colortbl \
     ec \
-    iftex
+    environ \
+    float \
+    geometry \
+    graphics \
+    graphics-def \
+    hyperref \
+    hyphen-german \
+    iftex \
+    koma-script \
+    latex-graphics-dev \
+    lm \
+    makecell \
+    multirow \
+    oberdiek \
+    scrbook \
+    tabu \
+    threeparttable \
+    threeparttablex \
+    titling \
+    tools \
+    trimspaces \
+    varwidth \
+    wrapfig \
+    ulem \
+    url \
+    xcolor
 
 # safety-check at the end: 
 # 1) look if everything is installed correctely (if not, you might add system-dependencies in the base_image)
@@ -779,6 +792,10 @@ RUN R -q -e "BiocManager::install('sva')"
 
 # install development packages
 RUN R -q -e "devtools::install_github(repo = 'coolbutuseless/ggdebug', ref = 'master')"
+RUN R -q -e "devtools::install_github(repo = 'mlr-org/mlr3book', ref = 'master')"
+RUN R -q -e "devtools::install_github(repo = 'mlr-org/mlr3ordinal', ref = 'master')"
+RUN R -q -e "devtools::install_github(repo = 'mlr-org/mlr3survival', ref = 'master')"
+RUN R -q -e "devtools::install_github(repo = 'mlr-org/mlr3viz', ref = 'master')"
 RUN R -q -e "devtools::install_github(repo = 'skranz/ReplaceInFiles', ref = 'master')"
 
 # install some python packages
@@ -812,7 +829,7 @@ USER root
 
 # we can now add add the virtualenv python to PATH (on first place)
 # add newly installed dependencies to PATH
-ENV PATH="/home/${RSTUDIO_USER}/bin:/opt/TinyTeX/bin/x86_64-linux/:${PATH}"
+ENV PATH="/home/${RSTUDIO_USER}/bin:${PATH}"
 ENV PATH="/home/${RSTUDIO_USER}/.virtualenvs/r-reticulate/bin:${PATH}"
 
 # add PATH to a profile script (workaround so that path is available in rstudio's terminal)
@@ -832,6 +849,9 @@ RUN yes | pip3 install \
 
 RUN yes | pip3 install \
     jinja2
+
+RUN yes | pip3 install \
+    lightgbm
 
 RUN yes | pip3 install \
     matplotlib
@@ -881,12 +901,6 @@ RUN R -q -e "devtools::install_git(url = 'https://gitlab.miracum.org/kosmic/kosm
 RUN rm -rf /var/lib/apt/lists/*
 RUN rm -rf /home/${RSTUDIO_USER}/.cache/pip/*
 RUN apt-get clean && apt-get autoclean && apt-get autoremove
-
-RUN R -q -e "install.packages(c('mlr3learners', 'mlr3db', 'mlr3filters', 'mlr3tuning'))"
-RUN R -q -e "devtools::install_github(repo = 'mlr-org/mlr3survival', ref = 'master')"
-RUN R -q -e "devtools::install_github(repo = 'mlr-org/mlr3ordinal', ref = 'master')"
-RUN R -q -e "devtools::install_github(repo = 'mlr-org/mlr3viz', ref = 'master')"
-RUN R -q -e "devtools::install_github(repo = 'mlr-org/mlr3book', ref = 'master')"
 
 # add custom RStudio theme ("Dracula")
 ADD volume/user-settings /home/${RSTUDIO_USER}/.rstudio/monitored/user-settings/
