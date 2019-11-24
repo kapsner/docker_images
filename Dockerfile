@@ -886,6 +886,7 @@ RUN R -q -e "install.packages(c('mlr3learners', 'mlr3db', 'mlr3filters', 'mlr3tu
 RUN R -q -e "devtools::install_github(repo = 'mlr-org/mlr3survival', ref = 'master')"
 RUN R -q -e "devtools::install_github(repo = 'mlr-org/mlr3ordinal', ref = 'master')"
 RUN R -q -e "devtools::install_github(repo = 'mlr-org/mlr3viz', ref = 'master')"
+RUN R -q -e "devtools::install_github(repo = 'mlr-org/mlr3book', ref = 'master')"
 
 # add custom RStudio theme ("Dracula")
 ADD volume/user-settings /home/${RSTUDIO_USER}/.rstudio/monitored/user-settings/
