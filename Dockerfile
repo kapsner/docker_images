@@ -840,6 +840,10 @@ RUN echo "export RETICULATE_PYTHON=/home/${RSTUDIO_USER}/.virtualenvs/r-reticula
 # set PATH for all users
 RUN echo "PATH=${PATH}" > /etc/environment
 
+# switch user (let everything in .virtualenv/r-reticulate be installed by the user)
+# we can use pip3 here, since we added the virtualenv to the beginning of our PATH variable
+USER ${RSTUDIO_USER}
+
 # now install other python packages
 RUN yes | pip3 install \
     catboost \
@@ -868,9 +872,6 @@ RUN yes | pip3 install \
     scipy
 
 # configure the other r packages
-# switch user
-USER ${RSTUDIO_USER}
-
 # install phantomjs
 RUN R -q -e "webshot::install_phantomjs()"
 
