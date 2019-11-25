@@ -542,6 +542,7 @@ ARG r="R.methodsS3 \
     rngtools \ 
     rnn \ 
     robustbase \ 
+    RonFHIR \
     ROCR \ 
     Rook \ 
     ROSE \ 
