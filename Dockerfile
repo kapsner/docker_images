@@ -852,6 +852,9 @@ RUN yes | pip3 install \
     cython
 
 RUN yes | pip3 install \
+    fhirclient
+
+RUN yes | pip3 install \
     jinja2
 
 RUN yes | pip3 install \
