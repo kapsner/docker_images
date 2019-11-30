@@ -8,6 +8,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     byobu \
     curl \
     htop \
+    imagemagick \
     libffi-dev \
     libglu1-mesa-dev \
     libgmp3-dev \
@@ -752,6 +753,7 @@ RUN tlmgr option repository http://mirror.ctan.org/systems/texlive/tlnet && \
     multirow \
     oberdiek \
     tabu \
+    tex-gyre-math \
     threeparttable \
     threeparttablex \
     titling \
