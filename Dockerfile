@@ -374,6 +374,9 @@ ARG m="magic \
     mlr3db \
     mlr3filters \
     mlr3learners \
+    mlr3measures \
+    mlr3misc \
+    mlr3pipelines \
     mlr3tuning \
     mltools \ 
     mnormt \ 
@@ -793,6 +796,13 @@ RUN R -q -e "BiocManager::install('sva')"
 # install development packages
 RUN R -q -e "devtools::install_github(repo = 'coolbutuseless/ggdebug', ref = 'master')"
 RUN R -q -e "devtools::install_github(repo = 'mlr-org/mlr3book', ref = 'master')"
+RUN R -q -e "devtools::install_github(repo = 'mlr-org/mlr3learner.ctree', ref = 'master')"
+RUN R -q -e "devtools::install_github(repo = 'mlr-org/mlr3learners.extratrees', ref = 'master')"
+RUN R -q -e "devtools::install_github(repo = 'mlr-org/mlr3learners.fnn', ref = 'master')"
+RUN R -q -e "devtools::install_github(repo = 'mlr-org/mlr3learners.gbm', ref = 'master')"
+RUN R -q -e "devtools::install_github(repo = 'mlr-org/mlr3learners.ksvm', ref = 'master')"
+RUN R -q -e "devtools::install_github(repo = 'mlr-org/mlr3learners.liblinear', ref = 'master')"
+RUN R -q -e "devtools::install_github(repo = 'mlr-org/mlr3learners.mboost', ref = 'master')"
 RUN R -q -e "devtools::install_github(repo = 'mlr-org/mlr3ordinal', ref = 'master')"
 RUN R -q -e "devtools::install_github(repo = 'mlr-org/mlr3survival', ref = 'master')"
 RUN R -q -e "devtools::install_github(repo = 'mlr-org/mlr3viz', ref = 'master')"
