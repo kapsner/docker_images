@@ -806,9 +806,9 @@ RUN R -q -e "devtools::install_github(repo = 'mlr3learners/mlr3learners.extratre
 RUN R -q -e "devtools::install_github(repo = 'mlr3learners/mlr3learners.fnn', ref = 'master')"
 RUN R -q -e "devtools::install_github(repo = 'mlr3learners/mlr3learners.gbm', ref = 'master')"
 RUN R -q -e "devtools::install_github(repo = 'mlr3learners/mlr3learners.ksvm', ref = 'master')"
-#RUN R -q -e "devtools::install_github(repo = 'mlr3learners/mlr3learners.liblinear', ref = 'master')"
-#RUN R -q -e "devtools::install_github(repo = 'mlr3learners/mlr3learners.mboost', ref = 'master')"
-#RUN R -q -e "devtools::install_github(repo = 'skranz/ReplaceInFiles', ref = 'master')"
+RUN R -q -e "devtools::install_github(repo = 'mlr3learners/mlr3learners.liblinear', ref = 'master')"
+RUN R -q -e "devtools::install_github(repo = 'mlr3learners/mlr3learners.mboost', ref = 'master')"
+RUN R -q -e "devtools::install_github(repo = 'skranz/ReplaceInFiles', ref = 'master')"
 
 # install some python packages
 # install pip requirements
