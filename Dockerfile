@@ -911,6 +911,7 @@ RUN R -q -e "devtools::install_git(url = 'https://gitlab.miracum.org/miracum-dqa
 RUN R -q -e "devtools::install_git(url = 'https://gitlab.miracum.org/miracum-dqa/dqagui.git', ref = 'master')"
 RUN R -q -e "devtools::install_git(url = 'https://gitlab.miracum.org/miracum-dqa/miRacumDQA.git', ref = 'master')"
 RUN R -q -e "devtools::install_git(url = 'https://gitlab.miracum.org/clearly/sigident.git', ref = 'master')"
+RUN R -q -e "devtools::install_git(url = 'https://gitlab.miracum.org/clearly/sigident.preproc.git', ref = 'master')"
 RUN R -q -e "devtools::install_git(url = 'https://gitlab.miracum.org/kosmic/kosmicgui.git', ref = 'master')"
 
 # clear caches
