@@ -1,7 +1,8 @@
-version: '3'
+version: "3"
 services:
   r_datascience_debug:
-    image: r_datascience
+    #image: r_datascience
+    image: rocker/verse:3.6.1
     # restart: unless-stopped
     ports:
       - "8787:8787" #rstudio

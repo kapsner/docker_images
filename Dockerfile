@@ -923,3 +923,6 @@ RUN apt-get clean && apt-get autoclean && apt-get autoremove
 ADD volume/user-settings /home/${RSTUDIO_USER}/.rstudio/monitored/user-settings/
 RUN chown -R ${RSTUDIO_USER}:${RSTUDIO_USER} /home/${RSTUDIO_USER}/.rstudio && \
     chmod 644 /home/${RSTUDIO_USER}/.rstudio/monitored/user-settings/user-settings
+
+# debugging:
+# docker run --rm -p 8787:8787 -e PASSWORD=password -v ~/R:/home/rstudio/volume rocker/verse:3.6.1
