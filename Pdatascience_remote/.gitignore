@@ -1,0 +1,16 @@
+
+/*
+/*/
+
+*.log
+
+!/.gitignore
+!/README.md
+
+!/Dockerfile
+!/build_pdatascience.sh
+!/docker-compose.yml
+!/*.sh
+!/copy_json.sh
+
+/volume/

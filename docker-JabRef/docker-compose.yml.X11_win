@@ -1,0 +1,10 @@
+version: '3'
+services:
+  jabref:
+    container_name: jabrefc
+    image: jabref
+    volumes:
+    - ../../../Bibliographie:/home/volume
+    environment: 
+    - DISPLAY=$IP:0
+    tty: true

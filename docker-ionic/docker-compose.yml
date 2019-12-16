@@ -1,0 +1,20 @@
+version: '3'
+services:
+  ionic:
+    container_name: ionic
+    image: ionic:latest
+    ports:
+    - "8100:8100"
+    - "35729:35729"
+    - "53703:53703"
+    volumes:
+    - ./volume:/home/user/volume
+    build:
+      context: .
+    networks:
+      - ionic
+    tty: true
+    command: bash -c "/bin/bash"
+
+networks:
+    ionic:
