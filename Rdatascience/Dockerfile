@@ -207,7 +207,9 @@ ARG f="factoextra \
     fpc \ 
     fs \ 
     futile.logger \ 
-    futile.options"
+    futile.options \
+    future \
+    future.apply"
 RUN for package in $f; do \
     R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
     done
