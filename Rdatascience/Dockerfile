@@ -900,9 +900,9 @@ RUN R -q -e "shinytest::installDependencies()"
 USER root
 
 # make deployed shiny app accessible via port 3838
-RUN echo "options(shiny.port = 3838)" >> /etc/R/Rprofile.site && \
-    echo "options(shiny.host = '0.0.0.0')" >> /etc/R/Rprofile.site && \
-    echo "options(shiny.launch.browser = FALSE)" >> /etc/R/Rprofile.site 
+RUN echo "options(shiny.port = 3838)" >> /home/${RSTUDIO_USER}/Rprofile && \
+    echo "options(shiny.host = '0.0.0.0')" >> /home/${RSTUDIO_USER}/Rprofile && \
+    echo "options(shiny.launch.browser = FALSE)" >> /home/${RSTUDIO_USER}/Rprofile 
 
 # install my own stuff
 RUN R -q -e "devtools::install_github(repo = 'kapsner/KhelpeR', ref = 'latest')"
