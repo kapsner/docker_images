@@ -380,7 +380,9 @@ ARG m="magic \
     mlr3measures \
     mlr3misc \
     mlr3pipelines \
+    mlr3proba \
     mlr3tuning \
+    mlr3verse \
     mltools \ 
     mnormt \ 
     ModelMetrics \ 
@@ -397,6 +399,17 @@ ARG m="magic \
 RUN for package in $m; do \
     R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
     done
+
+RUN R -q -e "devtools::install_github(repo = 'mlr-org/mlr3ordinal', ref = 'master')"
+RUN R -q -e "devtools::install_github(repo = 'mlr-org/mlr3survival', ref = 'master')"
+RUN R -q -e "devtools::install_github(repo = 'mlr-org/mlr3viz', ref = 'master')"
+#RUN R -q -e "devtools::install_github(repo = 'mlr3learners/mlr3learners.ctree', ref = 'master')"
+RUN R -q -e "devtools::install_github(repo = 'mlr3learners/mlr3learners.extratrees', ref = 'master')"
+RUN R -q -e "devtools::install_github(repo = 'mlr3learners/mlr3learners.fnn', ref = 'master')"
+#RUN R -q -e "devtools::install_github(repo = 'mlr3learners/mlr3learners.gbm', ref = 'master')"
+#RUN R -q -e "devtools::install_github(repo = 'mlr3learners/mlr3learners.ksvm', ref = 'master')"
+#RUN R -q -e "devtools::install_github(repo = 'mlr3learners/mlr3learners.liblinear', ref = 'master')"
+RUN R -q -e "devtools::install_github(repo = 'mlr3learners/mlr3learners.mboost', ref = 'master')"
 
 ARG n="naivebayes \ 
     neuralnet \ 
@@ -799,17 +812,6 @@ RUN R -q -e "BiocManager::install('sva')"
 
 # install development packages
 RUN R -q -e "devtools::install_github(repo = 'coolbutuseless/ggdebug', ref = 'master')"
-RUN R -q -e "devtools::install_github(repo = 'mlr-org/mlr3book', ref = 'master')"
-RUN R -q -e "devtools::install_github(repo = 'mlr-org/mlr3ordinal', ref = 'master')"
-RUN R -q -e "devtools::install_github(repo = 'mlr-org/mlr3survival', ref = 'master')"
-RUN R -q -e "devtools::install_github(repo = 'mlr-org/mlr3viz', ref = 'master')"
-RUN R -q -e "devtools::install_github(repo = 'mlr3learners/mlr3learners.ctree', ref = 'master')"
-RUN R -q -e "devtools::install_github(repo = 'mlr3learners/mlr3learners.extratrees', ref = 'master')"
-RUN R -q -e "devtools::install_github(repo = 'mlr3learners/mlr3learners.fnn', ref = 'master')"
-RUN R -q -e "devtools::install_github(repo = 'mlr3learners/mlr3learners.gbm', ref = 'master')"
-RUN R -q -e "devtools::install_github(repo = 'mlr3learners/mlr3learners.ksvm', ref = 'master')"
-RUN R -q -e "devtools::install_github(repo = 'mlr3learners/mlr3learners.liblinear', ref = 'master')"
-RUN R -q -e "devtools::install_github(repo = 'mlr3learners/mlr3learners.mboost', ref = 'master')"
 RUN R -q -e "devtools::install_github(repo = 'skranz/ReplaceInFiles', ref = 'master')"
 
 # install some python packages
