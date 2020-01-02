@@ -933,3 +933,6 @@ RUN chown -R ${RSTUDIO_USER}:${RSTUDIO_USER} /home/${RSTUDIO_USER}/.rstudio && \
 
 # debugging:
 # docker run --rm -p 8787:8787 -e PASSWORD=password -v ~/R:/home/rstudio/volume rocker/verse:3.6.1
+
+
+# GPU support: https://github.com/seabbs/tidyverse-gpu/blob/master/Dockerfile
