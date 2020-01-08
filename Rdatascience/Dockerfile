@@ -99,6 +99,7 @@ ARG c="C50 \
     cellranger \ 
     checkmate \ 
     chron \ 
+    citr \
     Ckmeans.1d.dp \ 
     class \ 
     cli \ 
