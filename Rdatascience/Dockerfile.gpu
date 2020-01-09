@@ -1,0 +1,85 @@
+FROM rocker/verse:3.6.1
+
+# set cran repo
+RUN echo "options('repos' = 'https://ftp.fau.de/cran/')" >> /usr/local/lib/R/etc/Rprofile.site
+
+# install required custom system dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    byobu \
+    curl \
+    htop \
+    imagemagick \
+    libffi-dev \
+    libglu1-mesa-dev \
+    libgmp3-dev \
+    libgsl-dev \
+    libmpfr-dev \
+    libxt-dev \
+    # xslt package
+    libxslt1-dev \
+    lmodern \
+    locate \
+    nano \
+    net-tools \
+    pandoc \
+    pandoc-citeproc \
+    python3-dev \
+    python3-pip \
+    python3-venv \
+    # dependencies for aplpack
+    tcl8.6-dev \
+    tk8.6-dev \
+    traceroute
+
+# Update where R expects to find various Java files
+RUN R CMD javareconf
+
+# GPU stuff adapted from 
+# https://gitlab.com/nvidia/container-images/cuda/blob/master/dist/ubuntu18.04/10.2/base/Dockerfile
+# https://hub.docker.com/r/rocker/cuda/dockerfile
+
+RUN curl -fsSL https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/7fa2af80.pub | apt-key add - && \
+    echo "deb https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64 /" > /etc/apt/sources.list.d/cuda.list && \
+    echo "deb https://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1804/x86_64 /" > /etc/apt/sources.list.d/nvidia-ml.list
+
+ENV CUDA_VERSION 10.2.89
+
+ENV CUDA_PKG_VERSION 10-2=$CUDA_VERSION-1
+
+# For libraries in the cuda-compat-* package: https://docs.nvidia.com/cuda/eula/index.html#attachment-a
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    cuda-cudart-$CUDA_PKG_VERSION \
+    cuda-compat-10-2
+RUN ln -s cuda-10.2 /usr/local/cuda && \
+    rm -rf /var/lib/apt/lists/*
+
+# Required for nvidia-docker v1
+RUN echo "/usr/local/nvidia/lib" >> /etc/ld.so.conf.d/nvidia.conf && \
+    echo "/usr/local/nvidia/lib64" >> /etc/ld.so.conf.d/nvidia.conf
+
+ENV PATH /usr/local/nvidia/bin:/usr/local/cuda/bin:${PATH}
+ENV LD_LIBRARY_PATH /usr/local/nvidia/lib:/usr/local/nvidia/lib64
+
+# nvidia-container-runtime
+ENV NVIDIA_VISIBLE_DEVICES all
+ENV NVIDIA_DRIVER_CAPABILITIES compute,utility
+ENV NVIDIA_REQUIRE_CUDA "cuda>=10.2 brand=tesla,driver>=384,driver<385 brand=tesla,driver>=396,driver<397 brand=tesla,driver>=410,driver<411 brand=tesla,driver>=418,driver<419"
+
+# install xgboost
+# https://xgboost.readthedocs.io/en/latest/build.html#r-gpu-support
+RUN git clone --recursive https://github.com/dmlc/xgboost && \
+    cd xgboost && \
+    mkdir build && \
+    cd build && \
+    cmake .. -DUSE_CUDA=ON -DR_LIB=ON && \
+    make install -j
+RUN rm -rf xgboost/*
+# test gpu: https://github.com/dmlc/xgboost/blob/master/R-package/demo/gpu_accelerated.R
+
+
+
+
+# install lightgbm GPU
+# https://lightgbm.readthedocs.io/en/latest/GPU-Tutorial.html
+# https://github.com/microsoft/LightGBM/blob/master/docker/gpu/dockerfile.gpu
+
