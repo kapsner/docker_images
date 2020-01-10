@@ -12,6 +12,8 @@ FROM nvidia/cuda:10.2-devel-ubuntu18.04
 
 FROM rocker/verse:3.6.1
 
+ENV DEBIAN_FRONTEND noninteractive
+
 # set cran repo
 RUN echo "options('repos' = 'https://ftp.fau.de/cran/')" >> /usr/local/lib/R/etc/Rprofile.site
 
@@ -730,7 +732,6 @@ RUN for package in $w; do \
     done
 
 ARG x="xfun \ 
-    xgboost \ 
     XML \ 
     xml2 \ 
     xopen \ 
