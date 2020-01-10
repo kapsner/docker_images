@@ -73,7 +73,8 @@ ARG a="abind \
     assertthat"
 RUN for package in $a; do \
     R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
-    done
+    done && \
+    rm -rf /tmp/*
 
 ARG b="backports \ 
     base \
@@ -105,7 +106,8 @@ ARG b="backports \
     bst"
 RUN for package in $b; do \
     R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
-    done
+    done && \
+    rm -rf /tmp/*
 
 ARG c="C50 \ 
     callr \ 
@@ -149,7 +151,8 @@ ARG c="C50 \
     CVST"
 RUN for package in $c; do \
     R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
-    done
+    done && \
+    rm -rf /tmp/*
 
 ARG d="data.table \ 
     DatabaseConnector \ 
@@ -187,7 +190,8 @@ ARG d="data.table \
     dygraphs"
 RUN for package in $d; do \
     R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
-    done
+    done && \
+    rm -rf /tmp/*
 
 ARG e="e1071 \ 
     earth \ 
@@ -203,7 +207,8 @@ ARG e="e1071 \
     expm"
 RUN for package in $e; do \
     R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
-    done
+    done && \
+    rm -rf /tmp/*
 
 ARG f="factoextra \
     FactoMineR \ 
@@ -231,7 +236,8 @@ ARG f="factoextra \
     future.apply"
 RUN for package in $f; do \
     R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
-    done
+    done && \
+    rm -rf /tmp/*
 
 ARG g="GA \
     gamlr \ 
@@ -274,10 +280,10 @@ ARG g="GA \
     gtools"
 RUN for package in $g; do \
     R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
-    done
+    done && \
+    rm -rf /tmp/*
 
 ARG h="h2o \ 
-    h2oEnsemble \ 
     haplo.stats \ 
     haven \ 
     hermite \ 
@@ -294,7 +300,8 @@ ARG h="h2o \
     hunspell"
 RUN for package in $h; do \
     R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
-    done
+    done && \
+    rm -rf /tmp/*
 
 ARG i="igraph \ 
     influenceR \ 
@@ -310,13 +317,15 @@ ARG i="igraph \
     iterators"
 RUN for package in $i; do \
     R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
-    done
+    done && \
+    rm -rf /tmp/*
 
 ARG j="jpeg \ 
     jsonlite"
 RUN for package in $j; do \
     R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
-    done
+    done && \
+    rm -rf /tmp/*
 
 ARG k="kableExtra \ 
     keras \ 
@@ -328,7 +337,8 @@ ARG k="kableExtra \
     knitr"
 RUN for package in $k; do \
     R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
-    done
+    done && \
+    rm -rf /tmp/*
 
 ARG l="labeling \ 
     lambda.r \ 
@@ -356,7 +366,8 @@ ARG l="labeling \
     lubridate"
 RUN for package in $l; do \
     R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
-    done
+    done && \
+    rm -rf /tmp/*
 
 ARG m="magic \ 
     magrittr \ 
@@ -417,7 +428,8 @@ ARG m="magic \
     mvtnorm"
 RUN for package in $m; do \
     R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
-    done
+    done && \
+    rm -rf /tmp/*
 
 RUN R -q -e "devtools::install_github(repo = 'mlr-org/mlr3ordinal', ref = 'master')"
 RUN R -q -e "devtools::install_github(repo = 'mlr-org/mlr3survival', ref = 'master')"
@@ -445,7 +457,8 @@ ARG n="naivebayes \
     numDeriv"
 RUN for package in $n; do \
     R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
-    done
+    done && \
+    rm -rf /tmp/*
 
 ARG o="OAIHarvester \ 
     odbc \ 
@@ -458,7 +471,8 @@ ARG o="OAIHarvester \
     ordinal"
 RUN for package in $o; do \
     R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
-    done
+    done && \
+    rm -rf /tmp/*
 
 ARG p="packrat \ 
     pander \ 
@@ -512,7 +526,8 @@ ARG p="packrat \
     pwr"
 RUN for package in $p; do \
     R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
-    done
+    done && \
+    rm -rf /tmp/*
 
 ARG q="qap \ 
     qdapDictionaries \ 
@@ -524,7 +539,8 @@ ARG q="qap \
     questionr"
 RUN for package in $q; do \
     R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
-    done
+    done && \
+    rm -rf /tmp/*
 
 ARG r="R.methodsS3 \ 
     R.oo \ 
@@ -602,7 +618,8 @@ ARG r="R.methodsS3 \
     rvg"
 RUN for package in $r; do \
     R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
-    done
+    done && \
+    rm -rf /tmp/*
 
 ARG s="sandwich \ 
     scales \ 
@@ -663,7 +680,8 @@ ARG s="sandwich \
     syuzhet"
 RUN for package in $s; do \
     R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
-    done
+    done && \
+    rm -rf /tmp/*
 
 ARG t="tau \ 
     tcltk \
@@ -698,7 +716,8 @@ ARG t="tau \
     twitteR"
 RUN for package in $t; do \
     R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
-    done
+    done && \
+    rm -rf /tmp/*
 
 ARG u="ucminf \ 
     udpipe \ 
@@ -709,7 +728,8 @@ ARG u="ucminf \
     uuid"
 RUN for package in $u; do \
     R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
-    done
+    done && \
+    rm -rf /tmp/*
 
 ARG v="vcd \ 
     vegan \ 
@@ -718,7 +738,8 @@ ARG v="vcd \
     visNetwork"
 RUN for package in $v; do \
     R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
-    done
+    done && \
+    rm -rf /tmp/*
 
 ARG w="webshot \ 
     wesanderson \
@@ -729,7 +750,8 @@ ARG w="webshot \
     WRS2"
 RUN for package in $w; do \
     R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
-    done
+    done && \
+    rm -rf /tmp/*
 
 ARG x="xfun \ 
     XML \ 
@@ -739,19 +761,22 @@ ARG x="xfun \
     xts"
 RUN for package in $x; do \
     R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
-    done
+    done && \
+    rm -rf /tmp/*
 
 ARG y="yaml"
 RUN for package in $y; do \
     R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
-    done
+    done && \
+    rm -rf /tmp/*
 
 ARG z="zeallot \ 
     zip \ 
     zoo"
 RUN for package in $z; do \   
     R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
-    done
+    done && \
+    rm -rf /tmp/*
 
 # install required LaTeX-Packages
 RUN tlmgr option repository http://mirror.ctan.org/systems/texlive/tlnet && \
@@ -805,7 +830,8 @@ RUN export packages_format="$(echo $(echo ${allpackages} | sed -e 's/ /\"\, \"/g
     R -q -e "vec <- setdiff(c($packages_format), unname(installed.packages()[,\"Package\"])); print(vec); vec2 <- intersect(c(vec), unname(available.packages()[,\"Package\"])); print(vec2); install.packages(pkgs = vec2)"
 
 # update all installed packages
-RUN R -q -e "vec <- unname(installed.packages()[,\"Package\"]); remotes::update_packages(packages = vec, upgrade = \"always\")"
+RUN R -q -e "vec <- unname(installed.packages()[,\"Package\"]); remotes::update_packages(packages = vec, upgrade = \"always\")"  && \
+    rm -rf /tmp/*
 
 # install Bioconductorstuff
 RUN R -q -e "BiocManager::install('affy')"
@@ -989,7 +1015,8 @@ RUN R -q -e "devtools::install_git(url = 'https://gitlab.miracum.org/clearly/sig
 RUN R -q -e "devtools::install_git(url = 'https://gitlab.miracum.org/kosmic/kosmicgui.git', ref = 'master')"
 
 # clear caches
-RUN rm -rf /var/lib/apt/lists/*
+RUN rm -rf /var/lib/apt/lists/* && \
+    rm -rf /tmp/*
 RUN rm -rf /home/${RSTUDIO_USER}/.cache/pip/*
 RUN apt-get clean && apt-get autoclean && apt-get autoremove
 
