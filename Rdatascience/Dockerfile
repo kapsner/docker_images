@@ -755,6 +755,7 @@ RUN tlmgr option repository http://mirror.ctan.org/systems/texlive/tlnet && \
     colortbl \
     ec \
     environ \
+    epstopdf-pkg \
     float \
     geometry \
     graphics \
@@ -768,6 +769,7 @@ RUN tlmgr option repository http://mirror.ctan.org/systems/texlive/tlnet && \
     makecell \
     multirow \
     oberdiek \
+    pdflscape \
     tabu \
     tex-gyre-math \
     threeparttable \
