@@ -36,14 +36,14 @@ RUN wget -O cmake.tar.gz https://github.com/Kitware/CMake/releases/download/v3.1
     ./bootstrap && \
     make && \
     make install
-RUN rm -rf cmake/* && rm -rf cmake.tar.gz
+RUN rm -rf cmake && rm -rf cmake.tar.gz
 
 RUN git clone --recursive -b v0.90 https://github.com/dmlc/xgboost && \
     mkdir -p xgboost/build && \
     cd xgboost/build && \
     cmake .. -DUSE_CUDA=ON -DR_LIB=ON -DUSE_NCCL=ON && \
     make install -j$(nproc)
-RUN rm -rf xgboost/*
+RUN rm -rf xgboost
 
 # install lightgbm GPU
 # https://lightgbm.readthedocs.io/en/latest/GPU-Tutorial.html
@@ -79,7 +79,7 @@ RUN cd LightGBM && \
     # R_PACKAGE_SOURCE <- "\/LightGBM\/R-package\/" is necessary, because the default settings are searching in some temp folder for the precompiled lib_lightgbm.so
     sed -i -e 's/use_precompile <- FALSE/use_precompile <- TRUE; R_PACKAGE_SOURCE <- "\/LightGBM\/R-package\/";/g' R-package/src/install.libs.R && \
     Rscript build_r.R
-RUN rm -rf LightGBM/*
+RUN rm -rf LightGBM
 
 # Entry
 # compile: docker build -f Dockerfile.gpu -t dockergpu .
