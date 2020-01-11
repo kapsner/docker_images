@@ -1,16 +1,4 @@
-### Multistage build
-## Stage 1: GPU stuff
-FROM nvidia/cuda:10.2-devel-ubuntu18.04
-
-### Install GPU-support here
-# GPU stuff adapted from 
-# https://gitlab.com/nvidia/container-images/cuda/blob/master/dist/ubuntu16.04/10.2/base/Dockerfile
-# https://gitlab.com/nvidia/container-images/cuda/blob/master/dist/ubuntu18.04/10.2/base/Dockerfile
-# https://gitlab.com/nvidia/container-images/cuda/blob/master/dist/ubuntu18.04/10.2/runtime/Dockerfile
-# https://github.com/microsoft/LightGBM/blob/master/docker/gpu/dockerfile.gpu
-# https://hub.docker.com/r/rocker/cuda/dockerfile
-
-FROM rocker/verse:3.6.1
+FROM rocker/verse:3.6.1 AS base_packages
 
 ENV DEBIAN_FRONTEND noninteractive
 
@@ -23,9 +11,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
     htop \
     imagemagick \
-    libboost-dev \
-    libboost-system-dev \
-    libboost-filesystem-dev \
     libffi-dev \
     libglu1-mesa-dev \
     libgmp3-dev \
@@ -853,6 +838,69 @@ RUN R -q -e "BiocManager::install('sva')"
 RUN R -q -e "devtools::install_github(repo = 'coolbutuseless/ggdebug', ref = 'master')"
 RUN R -q -e "devtools::install_github(repo = 'skranz/ReplaceInFiles', ref = 'master')"
 
+############################
+### GPU compile start
+############################
+## Stage compile: compile lightgbm and xgboost here
+FROM rocker/cuda-dev:3.6.1 AS compile
+# https://hub.docker.com/r/rocker/cuda-dev/dockerfile
+
+# install prerequisites
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libboost-dev \
+    libboost-system-dev \
+    libboost-filesystem-dev
+RUN rm -rf /var/lib/apt/lists/*
+
+# install latest cmake (> 3.12 required for compiling of latest xgboost)
+RUN wget -O cmake.tar.gz https://github.com/Kitware/CMake/releases/download/v3.15.2/cmake-3.15.2.tar.gz && \
+    tar -zxvf cmake.tar.gz && \
+    mv cmake-* cmake/ && \
+    cd cmake && \
+    ./bootstrap && \
+    make && \
+    make install
+RUN rm -rf cmake && rm -rf cmake.tar.gz
+
+# precompile lightgbm GPU
+# https://lightgbm.readthedocs.io/en/latest/GPU-Tutorial.html
+ENV OPENCL_LIBRARIES /usr/local/cuda/lib64
+ENV OPENCL_INCLUDE_DIR /usr/local/cuda/include
+
+# Install lightgbm
+RUN git clone --recursive --branch stable --depth 1 https://github.com/microsoft/LightGBM && \
+    cd LightGBM && \
+    mkdir build && \
+    cd build && \
+    cmake -DUSE_GPU=ON -DOpenCL_LIBRARY=/usr/local/cuda/lib64/libOpenCL.so -DOpenCL_INCLUDE_DIR=/usr/local/cuda/include/ .. && \
+    make OPENCL_HEADERS=/usr/local/${CUDA_HOME}/targets/x86_64-linux/include LIBOPENCL=/usr/local/${CUDA_HOME}/targets/x86_64-linux/lib
+
+# Install lightgbm R package 
+RUN cd LightGBM && \
+    sed -i -e 's/use_gpu <- FALSE/use_gpu <- TRUE/g' R-package/src/install.libs.R && \
+    # R_PACKAGE_SOURCE <- "\/LightGBM\/R-package\/" is necessary, because the default settings are searching in some temp folder for the precompiled lib_lightgbm.so
+    sed -i -e 's/use_precompile <- FALSE/use_precompile <- TRUE; R_PACKAGE_SOURCE <- "\/LightGBM\/R-package\/";/g' R-package/src/install.libs.R && \
+    Rscript build_r.R
+
+# install xgboost r package
+# https://hub.docker.com/r/rocker/ml-gpu/dockerfile 
+# tag v0.82 is latest GPU-compilable tag with rocker images
+RUN git clone --recursive -b v0.82 https://github.com/dmlc/xgboost && \
+    mkdir -p xgboost/build && \
+    cd xgboost/build && \
+    cmake .. -DUSE_CUDA=ON -DR_LIB=ON -DUSE_NCCL=ON && \
+    make install -j$(nproc)
+
+############################
+### GPU compile end
+############################
+
+# copy base packages
+COPY --from=base_packages /usr/local/lib/R/site-library/* /usr/local/lib/R/site-library/*
+
+# copy base TinyTex
+COPY --from=base_packages /opt/* /opt/
+
 # install some python packages
 # install pip requirements
 # virtualenv is required for install_keras
@@ -940,64 +988,16 @@ RUN R -q -e "shinytest::installDependencies()"
 # switch back
 USER root
 
-######################
-### GPU stuff begin
-######################
-# copy GPU stuff from stage 1: we want to have GPU-support in our final R container
-COPY --from=0 ${CUDA_HOME}-10.2 ${CUDA_HOME}-10.2
-COPY --from=0 /usr/include/nccl.h /usr/include/nccl.h
-COPY --from=0 /usr/lib/x86_64-linux-gnu/libnccl* /usr/lib/x86_64-linux-gnu/
-RUN ln -s ${CUDA_HOME}-10.2 ${CUDA_HOME}
-
-# install latest cmake (> 3.12 required for compiling of latest xgboost)
-RUN wget -O cmake.tar.gz https://github.com/Kitware/CMake/releases/download/v3.15.2/cmake-3.15.2.tar.gz && \
-    tar -zxvf cmake.tar.gz && \
-    mv cmake-* cmake/ && \
-    cd cmake && \
-    ./bootstrap && \
-    make && \
-    make install
-RUN rm -rf cmake && rm -rf cmake.tar.gz
-
-RUN git clone --recursive -b v0.90 https://github.com/dmlc/xgboost && \
-    mkdir -p xgboost/build && \
-    cd xgboost/build && \
-    cmake .. -DUSE_CUDA=ON -DR_LIB=ON -DUSE_NCCL=ON && \
-    make install -j$(nproc)
-RUN rm -rf xgboost
-
-# install lightgbm GPU
-# https://lightgbm.readthedocs.io/en/latest/GPU-Tutorial.html
-ENV OPENCL_LIBRARIES /usr/local/cuda/lib64
-ENV OPENCL_INCLUDE_DIR /usr/local/cuda/include
-
-# Add OpenCL ICD files for LightGBM
-RUN mkdir -p /etc/OpenCL/vendors && \
-    echo "libnvidia-opencl.so.1" > /etc/OpenCL/vendors/nvidia.icd
-
-# Install lightgbm
-RUN git clone --recursive --branch stable --depth 1 https://github.com/microsoft/LightGBM && \
-    cd LightGBM && \
-    mkdir build && \
-    cd build && \
-    cmake -DUSE_GPU=ON -DOpenCL_LIBRARY=/usr/local/cuda/lib64/libOpenCL.so -DOpenCL_INCLUDE_DIR=/usr/local/cuda/include/ .. && \
-    make OPENCL_HEADERS=/usr/local/${CUDA_HOME}/targets/x86_64-linux/include LIBOPENCL=/usr/local/${CUDA_HOME}/targets/x86_64-linux/lib
-
+### Finish GPU installing stuff
 # Install lightgbm python package
 RUN cd LightGBM/python-package && \
     python setup.py install --precompile
-
-# Install  R package 
-RUN cd LightGBM && \
-    sed -i -e 's/use_gpu <- FALSE/use_gpu <- TRUE/g' R-package/src/install.libs.R && \
-    # R_PACKAGE_SOURCE <- "\/LightGBM\/R-package\/" is necessary, because the default settings are searching in some temp folder for the precompiled lib_lightgbm.so
-    sed -i -e 's/use_precompile <- FALSE/use_precompile <- TRUE; R_PACKAGE_SOURCE <- "\/LightGBM\/R-package\/";/g' R-package/src/install.libs.R && \
-    Rscript build_r.R
 RUN rm -rf LightGBM
 
-######################
-### GPU stuff end
-######################
+# Install xgboost python package
+RUN cd xgboost/python-package && \
+    python setup.py install
+RUN rm -rf xgboost
 
 # install my own stuff
 RUN R -q -e "devtools::install_github(repo = 'kapsner/KhelpeR', ref = 'latest')"
