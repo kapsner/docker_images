@@ -1,7 +1,7 @@
 version: '3'
 services:
   rdatascience:
-    image: r_datascience:latest
+    image: rdc_base:latest
     # restart: unless-stopped
     ports:
     - "8787:8787" #rstudio

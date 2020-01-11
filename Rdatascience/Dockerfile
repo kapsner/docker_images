@@ -1,4 +1,4 @@
-FROM rocker/verse:3.6.1 AS base_packages
+FROM rocker/verse:3.6.1
 
 ENV DEBIAN_FRONTEND noninteractive
 
@@ -73,7 +73,6 @@ ARG b="backports \
     bigmemory.sri \ 
     bindr \ 
     bindrcpp \ 
-    BiocManager \
     bit \ 
     bit64 \ 
     bitops \ 
@@ -268,8 +267,7 @@ RUN for package in $g; do \
     done && \
     rm -rf /tmp/*
 
-ARG h="h2o \ 
-    haplo.stats \ 
+ARG h="haplo.stats \ 
     haven \ 
     hermite \ 
     hexbin \ 
@@ -818,24 +816,7 @@ RUN export packages_format="$(echo $(echo ${allpackages} | sed -e 's/ /\"\, \"/g
 RUN R -q -e "vec <- unname(installed.packages()[,\"Package\"]); remotes::update_packages(packages = vec, upgrade = \"always\")"  && \
     rm -rf /tmp/*
 
-# install Bioconductorstuff
-RUN R -q -e "BiocManager::install('affy')"
-RUN R -q -e "BiocManager::install('Biobase')"
-RUN R -q -e "BiocManager::install('clusterProfiler')"
-RUN R -q -e "BiocManager::install('gcrma')"
-RUN R -q -e "BiocManager::install('GEOquery')"
-RUN R -q -e "BiocManager::install('GO.db')"
-RUN R -q -e "BiocManager::install('gPCA')"
-RUN R -q -e "BiocManager::install('hgu133plus2cdf')"
-RUN R -q -e "BiocManager::install('hgu133plus2probe')"
-RUN R -q -e "BiocManager::install('impute')"
-RUN R -q -e "BiocManager::install('org.Hs.eg.db')"
-RUN R -q -e "BiocManager::install('pathfindR')"
-RUN R -q -e "BiocManager::install('pathview')"
-RUN R -q -e "BiocManager::install('sva')"
-
 # install development packages
-RUN R -q -e "devtools::install_github(repo = 'coolbutuseless/ggdebug', ref = 'master')"
 RUN R -q -e "devtools::install_github(repo = 'skranz/ReplaceInFiles', ref = 'master')"
 
 ############################
@@ -1004,8 +985,6 @@ RUN R -q -e "devtools::install_github(repo = 'kapsner/mlr3learners.lightgbm', re
 RUN R -q -e "devtools::install_git(url = 'https://gitlab.miracum.org/miracum-dqa/dqastats.git', ref = 'master')"
 RUN R -q -e "devtools::install_git(url = 'https://gitlab.miracum.org/miracum-dqa/dqagui.git', ref = 'master')"
 RUN R -q -e "devtools::install_git(url = 'https://gitlab.miracum.org/miracum-dqa/miRacumDQA.git', ref = 'master')"
-RUN R -q -e "devtools::install_git(url = 'https://gitlab.miracum.org/clearly/sigident.git', ref = 'master')"
-RUN R -q -e "devtools::install_git(url = 'https://gitlab.miracum.org/clearly/sigident.preproc.git', ref = 'master')"
 RUN R -q -e "devtools::install_git(url = 'https://gitlab.miracum.org/kosmic/kosmicgui.git', ref = 'master')"
 
 # clear caches
@@ -1028,4 +1007,4 @@ RUN chown -R ${RSTUDIO_USER}:${RSTUDIO_USER} /home/${RSTUDIO_USER}/.rstudio && \
 # docker run --rm -p 8787:8787 -e PASSWORD=password -v ~/R:/home/rstudio/volume rocker/verse:3.6.1
 
 # GPU
-# docker run --gpus all -p 8787:8787 -e PASSWORD=password -v ~/R:/home/rstudio/volume r_datascience
+# docker run --rm --gpus all -p 8787:8787 -e PASSWORD=password -v ~/R:/home/rstudio/volume r_datascience

@@ -1,4 +1,49 @@
-FROM rdc_base:latest
+
+### GPU background here
+# https://gitlab.com/nvidia/container-images/cuda/blob/master/dist/ubuntu16.04/10.2/base/Dockerfile
+# https://gitlab.com/nvidia/container-images/cuda/blob/master/dist/ubuntu18.04/10.2/base/Dockerfile
+# https://gitlab.com/nvidia/container-images/cuda/blob/master/dist/ubuntu18.04/10.2/runtime/Dockerfile
+# https://github.com/microsoft/LightGBM/blob/master/docker/gpu/dockerfile.gpu
+# https://hub.docker.com/r/rocker/cuda/dockerfile
+
+FROM rocker/verse:3.6.1
+
+# set cran repo
+RUN echo "options('repos' = 'https://ftp.fau.de/cran/')" >> /usr/local/lib/R/etc/Rprofile.site
+
+
+# workaround, to get stuff properly installed in users home dir
+# set rstudio user here
+ENV RSTUDIO_USER="rstudio" 
+
+# add user + password
+# https://s/home/${RSTUDIO_USER}/.virtualenvs/r-reticulate/bin/tackoverflow.com/questions/2150882/how-to-automatically-add-user-account-and-password-with-a-bash-script
+#RUN useradd -ms /bin/bash ${RSTUDIO_USER} # rstudio user already exists
+RUN echo ${RSTUDIO_USER}:password | chpasswd 
+
+# switch user
+USER ${RSTUDIO_USER}
+
+RUN R -e "install.packages('reticulate'); reticulate::install_miniconda()"
+
+# configure python
+RUN R -q -e "reticulate::py_config()"
+
+USER root
+
+# we can now add add the virtualenv python to PATH (on first place)
+# add newly installed dependencies to PATH
+ENV PATH="/home/${RSTUDIO_USER}/bin:${PATH}"
+ENV PATH="/home/${RSTUDIO_USER}/.local/share/r-miniconda/envs/r-reticulate/bin:${PATH}"
+
+# add PATH to a profile script (workaround so that path is available in rstudio's terminal)
+RUN echo "export PATH=${PATH}" > /home/${RSTUDIO_USER}/.profile && chmod +x /home/${RSTUDIO_USER}/.profile
+
+# Add RETICULATE_PYTHON variable to Renviron
+# current ${R_HOME} = /usr/local/lib/R
+RUN echo "export RETICULATE_PYTHON=/home/${RSTUDIO_USER}/.local/share/r-miniconda/envs/r-reticulate/bin/python" >> /usr/local/lib/R/etc/Renviron
+# set PATH for all users
+RUN echo "PATH=${PATH}" > /etc/environment
 
 ########################
 ########################
@@ -6,8 +51,6 @@ FROM rdc_base:latest
 #### ML capabilities
 ########################
 ########################
-
-# uninstall lightgbm, xgboost, keras
 
 
 ########################
@@ -130,3 +173,30 @@ RUN git clone --recursive -b v0.82 https://github.com/dmlc/xgboost && \
     cd xgboost/build && \
     cmake .. -DUSE_CUDA=ON -DR_LIB=ON -DUSE_NCCL=ON && \
     make install -j$(nproc)
+
+
+
+### Finish GPU installing stuff
+# switch user
+USER ${RSTUDIO_USER}
+
+# Install lightgbm python package
+RUN cd LightGBM/python-package && \
+    python setup.py install --precompile
+RUN rm -rf LightGBM
+
+# Install xgboost python package
+RUN cd xgboost/python-package && \
+    python setup.py install --precompile
+RUN rm -rf xgboost
+
+
+
+# install keras/tensorflow
+#RUN R -q -e "install.packages('keras')"
+
+# install keras (when pip3 virtualenv is already installed)
+#RUN R -q -e "keras::install_keras(tensorflow = 'gpu')"
+
+# switch back
+#USER root
