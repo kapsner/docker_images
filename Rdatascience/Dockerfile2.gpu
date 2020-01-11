@@ -165,10 +165,10 @@ RUN cd LightGBM && \
     sed -i -e 's/use_gpu <- FALSE/use_gpu <- TRUE/g' R-package/src/install.libs.R && \
     Rscript build_r.R
 
-# install xgboost r package
+# install xgboost GPU R package
 # https://hub.docker.com/r/rocker/ml-gpu/dockerfile 
 # tag v0.82 is latest GPU-compilable tag with rocker images
-RUN git clone --recursive -b v0.82 https://github.com/dmlc/xgboost
+RUN git clone --recursive -b v0.90 https://github.com/dmlc/xgboost
 RUN mkdir -p xgboost/build && \
     cd xgboost/build && \
     cmake .. -DUSE_CUDA=ON -DR_LIB=ON -DUSE_NCCL=ON && \
@@ -177,18 +177,29 @@ RUN mkdir -p xgboost/build && \
 
 
 ### Finish GPU installing stuff
+# change permissions
+RUN chown -R ${RSTUDIO_USER}:${RSTUDIO_USER} LightGBM
+RUN chown -R ${RSTUDIO_USER}:${RSTUDIO_USER} xgboost
+
 # switch user
 USER ${RSTUDIO_USER}
 
-# Install lightgbm python package
+# Install lightgbm GPU python package
+RUN cd LightGBM && \
+    mkdir -p build && \
+    cd build && \
+    cmake -DUSE_GPU=1 .. && \
+    make -j$(nproc)
 RUN cd LightGBM/python-package && \
     python setup.py install --precompile
-RUN rm -rf LightGBM
 
-# Install xgboost python package
-RUN cd xgboost/python-package && \
-    python setup.py install --precompile
-RUN rm -rf xgboost
+# Install xgboost GPU python package
+#RUN cd xgboost && \
+#    cd build && \
+#    cmake .. -DUSE_CUDA=ON -DUSE_NCCL=ON && \
+#    make install -j$(nproc)
+#RUN cd xgboost/python-package && \
+#    python setup.py install --precompile
 
 
 
@@ -199,4 +210,6 @@ RUN rm -rf xgboost
 #RUN R -q -e "keras::install_keras(tensorflow = 'gpu')"
 
 # switch back
-#USER root
+USER root
+RUN rm -rf LightGBM
+RUN rm -rf xgboost

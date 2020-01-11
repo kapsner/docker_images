@@ -117,16 +117,56 @@ RUN rm -rf cmake && rm -rf cmake.tar.gz
 
 # compile lightgbm GPU R package
 # https://lightgbm.readthedocs.io/en/latest/GPU-Tutorial.html
-RUN git clone --recursive --branch stable --depth 1 https://github.com/microsoft/LightGBM && \
-    cd LightGBM && \
+RUN git clone --recursive --branch stable --depth 1 https://github.com/microsoft/LightGBM
+RUN cd LightGBM && \
     sed -i -e 's/use_gpu <- FALSE/use_gpu <- TRUE/g' R-package/src/install.libs.R && \
     Rscript build_r.R
 
-# install xgboost r package
+# install xgboost GPU R package
 # https://hub.docker.com/r/rocker/ml-gpu/dockerfile 
 # tag v0.82 is latest GPU-compilable tag with rocker images
-RUN git clone --recursive -b v0.82 https://github.com/dmlc/xgboost && \
-    mkdir -p xgboost/build && \
+RUN git clone --recursive -b v0.90 https://github.com/dmlc/xgboost
+RUN mkdir -p xgboost/build && \
     cd xgboost/build && \
     cmake .. -DUSE_CUDA=ON -DR_LIB=ON -DUSE_NCCL=ON && \
     make install -j$(nproc)
+
+
+
+### Finish GPU installing stuff
+# change permissions
+RUN chown -R ${RSTUDIO_USER}:${RSTUDIO_USER} LightGBM
+RUN chown -R ${RSTUDIO_USER}:${RSTUDIO_USER} xgboost
+
+# switch user
+USER ${RSTUDIO_USER}
+
+# Install lightgbm GPU python package
+RUN cd LightGBM && \
+    mkdir -p build && \
+    cd build && \
+    cmake -DUSE_GPU=1 .. && \
+    make -j$(nproc)
+RUN cd LightGBM/python-package && \
+    python setup.py install --precompile
+
+# Install xgboost GPU python package
+RUN cd xgboost && \
+    cd build && \
+    cmake .. -DUSE_CUDA=ON -DUSE_NCCL=ON && \
+    make install -j$(nproc)
+RUN cd xgboost/python-package && \
+    python setup.py install --precompile
+
+
+
+# install keras/tensorflow
+#RUN R -q -e "install.packages('keras')"
+
+# install keras (when pip3 virtualenv is already installed)
+#RUN R -q -e "keras::install_keras(tensorflow = 'gpu')"
+
+# switch back
+USER root
+RUN rm -rf LightGBM
+RUN rm -rf xgboost
