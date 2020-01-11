@@ -867,19 +867,13 @@ RUN rm -rf cmake && rm -rf cmake.tar.gz
 ENV OPENCL_LIBRARIES /usr/local/cuda/lib64
 ENV OPENCL_INCLUDE_DIR /usr/local/cuda/include
 
-# Install lightgbm
+RUN mkdir -p /etc/OpenCL/vendors && \
+    echo "libnvidia-opencl.so.1" > /etc/OpenCL/vendors/nvidia.icd
+
+# Install lightgbm R package
 RUN git clone --recursive --branch stable --depth 1 https://github.com/microsoft/LightGBM && \
     cd LightGBM && \
-    mkdir build && \
-    cd build && \
-    cmake -DUSE_GPU=ON -DOpenCL_LIBRARY=/usr/local/cuda/lib64/libOpenCL.so -DOpenCL_INCLUDE_DIR=/usr/local/cuda/include/ .. && \
-    make OPENCL_HEADERS=/usr/local/${CUDA_HOME}/targets/x86_64-linux/include LIBOPENCL=/usr/local/${CUDA_HOME}/targets/x86_64-linux/lib
-
-# Install lightgbm R package 
-RUN cd LightGBM && \
     sed -i -e 's/use_gpu <- FALSE/use_gpu <- TRUE/g' R-package/src/install.libs.R && \
-    # R_PACKAGE_SOURCE <- "\/LightGBM\/R-package\/" is necessary, because the default settings are searching in some temp folder for the precompiled lib_lightgbm.so
-    sed -i -e 's/use_precompile <- FALSE/use_precompile <- TRUE; R_PACKAGE_SOURCE <- "\/LightGBM\/R-package\/";/g' R-package/src/install.libs.R && \
     Rscript build_r.R
 
 # install xgboost r package
@@ -922,7 +916,7 @@ RUN echo ${RSTUDIO_USER}:password | chpasswd
 USER ${RSTUDIO_USER}
 
 # install keras (when pip3 virtualenv is already installed)
-RUN R -q -e "keras::install_keras()"
+RUN R -q -e "keras::install_keras(tensorflow = 'gpu')"
 
 # configure python
 RUN R -q -e "reticulate::py_config()"
@@ -996,7 +990,7 @@ RUN rm -rf LightGBM
 
 # Install xgboost python package
 RUN cd xgboost/python-package && \
-    python setup.py install
+    python setup.py install --precompile
 RUN rm -rf xgboost
 
 # install my own stuff
