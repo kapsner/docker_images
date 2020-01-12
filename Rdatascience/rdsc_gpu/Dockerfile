@@ -11,13 +11,20 @@
 FROM rocker/verse:3.6.1
 
 ########################
-#### configure reticulate
+#### install/configure reticulate
 ########################
 ENV RSTUDIO_USER="rstudio" 
 RUN echo ${RSTUDIO_USER}:password | chpasswd 
 
 # switch user
 USER ${RSTUDIO_USER}
+
+# install reticulate
+ARG packages="reticulate" 
+RUN for package in $packages; do \
+    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
+    done && \
+    rm -rf /tmp/*
 
 # install miniconda via reticulate and configure python
 RUN R -q -e "reticulate::install_miniconda(); reticulate::py_config()"
