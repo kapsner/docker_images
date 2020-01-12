@@ -45,7 +45,7 @@ RUN echo "PATH=${PATH}" > /etc/environment
 USER ${RSTUDIO_USER}
 
 # install scikit-learn
-RUN yes | pip3 install \
+RUN yes | pip install \
     scikit-learn
 
 # switch back
