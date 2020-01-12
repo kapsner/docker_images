@@ -14,4 +14,4 @@ services:
     - ROOT=TRUE
     #- ADD=shiny
     volumes:
-    - ./volume:/home/user/volume
+    - ./volume:/home/rstudio/volume
