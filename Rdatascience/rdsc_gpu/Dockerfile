@@ -252,4 +252,4 @@ RUN rm -rf /home/${RSTUDIO_USER}/.cache/pip/*
 RUN apt-get clean && apt-get autoclean && apt-get autoremove
 
 # docker GPU not working with docker-compose
-# docker run --rm --gpus all -p 8787:8787 -e PASSWORD=password -e ROOT=TRUE -v ~/R:/home/rstudio/volume rdc_gpu
+# docker run --rm --gpus all -p 8787:8787 -e PASSWORD=password -e ROOT=TRUE -v ~/R:/home/rstudio/volume rdsc_gpu
