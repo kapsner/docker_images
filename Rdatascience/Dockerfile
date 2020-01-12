@@ -47,46 +47,23 @@ ENV DISPLAY=${DISPLAY}
 RUN R -q -e "p <- \"remotes\"; if (isFALSE(p %in% installed.packages()[,\"Package\"])){; cat(paste(\"Installing package:\", p, \"\n\n\")); install.packages(p, repos = \"${R_REPO}\", quiet=T);} else {;cat(paste(\"Package\", p, \"is already installed\n\n\"));}"
 
 ARG a="abind \ 
-    acepack \ 
     ada \ 
     adabag \ 
-    ade4 \ 
-    aplpack \ 
     arm \ 
     arules \ 
-    arulesViz \ 
-    assertthat"
+    arulesViz"
 RUN for package in $a; do \
     R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
     done && \
     rm -rf /tmp/*
 
-ARG b="backports \ 
-    base \
-    base64enc \ 
-    bayesplot \ 
-    BBmisc \
-    bench \ 
+ARG b="bench \ 
     BH \ 
-    bibtex \ 
     bigmemory \ 
-    bigmemory.sri \ 
-    bindr \ 
-    bindrcpp \ 
-    bit \ 
-    bit64 \ 
-    bitops \ 
     blme \ 
-    blob \ 
-    bmp \ 
-    boot \ 
-    brew \ 
-    bridgesampling \ 
+    bookdown \ 
     brms \ 
     brnn \ 
-    Brobdingnag \ 
-    broom \ 
-    BSDA \ 
     bst"
 RUN for package in $b; do \
     R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
@@ -94,43 +71,26 @@ RUN for package in $b; do \
     rm -rf /tmp/*
 
 ARG c="C50 \ 
-    callr \ 
     car \ 
     carData \ 
     caret \ 
     caretEnsemble \ 
-    caTools \ 
     cellranger \ 
     checkmate \ 
-    chron \ 
     citr \
     Ckmeans.1d.dp \ 
     class \ 
-    cli \ 
     clipr \ 
-    clisymbols \ 
     cluster \ 
-    ClusterR \
-    cmprsk \ 
-    coda \ 
-    codetools \ 
+    ClusterR \ 
     coin \ 
-    colorspace \ 
-    colourpicker \ 
-    combinat \ 
-    commonmark \ 
-    compiler \
     config \ 
-    corpcor \ 
-    corpus \
+    corpus \ 
     corrplot \ 
     covr \ 
     cowplot \ 
     CPE \ 
     cramer \ 
-    crayon \ 
-    crosstalk \ 
-    Cubist \ 
     curl \ 
     CVST"
 RUN for package in $c; do \
@@ -139,36 +99,20 @@ RUN for package in $c; do \
     rm -rf /tmp/*
 
 ARG d="data.table \ 
-    DatabaseConnector \ 
-    DatabaseConnectorJars \ 
-    datasets \
     DBI \ 
-    dbplyr \ 
-    ddalpha \ 
-    debugme \ 
     deepboost \ 
-    dendextend \ 
-    DEoptimR \ 
     desc \ 
     DescTools \ 
-    deSolve \ 
     devtools \ 
     DiagrammeR \ 
-    dichromat \ 
-    digest \ 
     dimRed \ 
-    diptest \ 
     discretization \ 
     distrom \ 
-    DMwR \ 
     doBy \ 
     doMC \ 
     doParallel \ 
-    downloader \ 
     dplyr \ 
-    DRR \ 
     DT \ 
-    dtt \ 
     dtplyr \ 
     dunn.test \ 
     dygraphs"
@@ -181,42 +125,23 @@ ARG e="e1071 \
     earth \ 
     effects \ 
     effsize \ 
-    ellipse \ 
-    emmeans \ 
-    EMT \ 
     epitools \ 
-    estimability \ 
-    evaluate \ 
-    exactRankTests \ 
-    expm"
+    exactRankTests"
 RUN for package in $e; do \
     R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
     done && \
     rm -rf /tmp/*
 
-ARG f="factoextra \
-    FactoMineR \ 
-    fansi \ 
+ARG f="factoextra \ 
     fastAdaboost \ 
-    fastmatch \ 
-    feather \ 
-    ff \ 
-    ffbase \ 
-    flashClust \ 
     flexclust \
     flexmix \ 
-    forcats \ 
     foreach \ 
     forecast \
     foreign \ 
-    forge \ 
     formatR \ 
-    Formula \ 
     fpc \ 
-    fs \ 
-    futile.logger \ 
-    futile.options \
-    future \
+    future \ 
     future.apply"
 RUN for package in $f; do \
     R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
@@ -227,41 +152,15 @@ ARG g="GA \
     gamlr \ 
     gbm \ 
     gclus \ 
-    gdata \ 
-    gdtools \ 
-    GeneralizedHyperbolic \
-    generics \ 
     genetics \ 
-    geometry \ 
-    GGally \
-    ggeffects \ 
     ggfortify \ 
-    ggmap \
+    ggmap \ 
     ggplot2 \ 
     ggpubr \ 
-    ggrepel \ 
     ggridges \ 
-    ggsci \ 
-    ggsignif \ 
-    gh \ 
-    gistr \ 
     git2r \ 
-    glmmTMB \ 
     glmnet \ 
-    glue \ 
-    gmailr \ 
-    gmp \ 
-    gower \ 
-    GPArotation \ 
-    gplots \ 
-    graphics \
-    grDevices \
-    grid \
-    gridBase \ 
-    gridExtra \ 
-    gsubfn \ 
-    gtable \ 
-    gtools"
+    gplots"
 RUN for package in $g; do \
     R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
     done && \
@@ -269,16 +168,7 @@ RUN for package in $g; do \
 
 ARG h="haplo.stats \ 
     haven \ 
-    hermite \ 
-    hexbin \ 
-    highr \ 
     Hmisc \ 
-    hms \ 
-    htmltab \ 
-    htmlTable \ 
-    htmltools \ 
-    htmlwidgets \ 
-    httpuv \ 
     httr \ 
     hunspell"
 RUN for package in $h; do \
@@ -287,17 +177,10 @@ RUN for package in $h; do \
     rm -rf /tmp/*
 
 ARG i="igraph \ 
-    influenceR \ 
     infotheo \ 
-    ini \ 
-    inline \ 
-    inum \ 
     ipred \ 
-    IRdisplay \ 
-    IRkernel \ 
     irlba \ 
-    irr \ 
-    iterators"
+    irr"
 RUN for package in $i; do \
     R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
     done && \
@@ -311,40 +194,24 @@ RUN for package in $j; do \
     rm -rf /tmp/*
 
 ARG k="kableExtra \ 
-    keras \ 
     kernlab \ 
-    KernSmooth \ 
-    kknn \
-    km.ci \ 
-    KMsurv \ 
+    kknn \ 
     knitr"
 RUN for package in $k; do \
     R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
     done && \
     rm -rf /tmp/*
 
-ARG l="labeling \ 
-    lambda.r \ 
-    lars \ 
-    lasso2 \ 
-    later \ 
-    lattice \ 
-    latticeExtra \ 
+ARG l="latticeExtra \ 
     lava \ 
-    lazyeval \ 
     lda \ 
     ldatuning \ 
     LDAvis \ 
-    leaps \ 
-    lhs \
-    libcoin \ 
     LiblineaR \ 
     lintr \ 
     lm.beta \ 
     lme4 \ 
     lmtest \ 
-    loo \ 
-    lpSolve \ 
     lsa \ 
     lubridate"
 RUN for package in $l; do \
@@ -352,63 +219,32 @@ RUN for package in $l; do \
     done && \
     rm -rf /tmp/*
 
-ARG m="magic \ 
-    magrittr \ 
-    manipulate \ 
+ARG m="manipulate \ 
     manipulateWidget \ 
     maps \ 
     maptools \ 
     markdown \ 
     MASS \ 
     Matrix \ 
-    matrixcalc \ 
     MatrixModels \ 
-    matrixStats \ 
-    maxLik \ 
-    maxstat \ 
     mboost \ 
-    mc2d \ 
-    mclust \ 
-    mcmc \ 
     MCMCpack \ 
-    memoise \ 
     merTools \ 
-    methods \
-    mgcv \ 
-    mi \ 
-    microbenchmark \
-    mime \ 
-    miniUI \ 
-    minqa \ 
-    miscTools \ 
-    mixOmics \ 
-    mlapi \ 
+    microbenchmark \ 
     mlbench \ 
     MLmetrics \ 
-    mlr \ 
-    mlr3 \
-    mlr3db \
-    mlr3filters \
-    mlr3learners \
-    mlr3measures \
-    mlr3misc \
-    mlr3pipelines \
-    mlr3proba \
-    mlr3tuning \
-    mlr3verse \
+    mlr3 \ 
+    mlr3db \ 
+    mlr3filters \ 
+    mlr3learners \ 
+    mlr3measures \ 
+    mlr3misc \ 
+    mlr3pipelines \ 
+    mlr3proba \ 
+    mlr3tuning \ 
+    mlr3verse \ 
     mltools \ 
-    mnormt \ 
-    ModelMetrics \ 
-    modelr \ 
-    modeltools \ 
-    moments \ 
-    mongolite \ 
-    mstate \ 
-    muhaz \ 
-    multcomp \ 
-    multcompView \ 
-    munsell \ 
-    mvtnorm"
+    muhaz"
 RUN for package in $m; do \
     R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
     done && \
@@ -428,23 +264,18 @@ RUN R -q -e "devtools::install_github(repo = 'mlr3learners/mlr3learners.mboost',
 ARG n="naivebayes \ 
     neuralnet \ 
     ngramrr \ 
-    nleqslv \ 
     nlme \ 
-    nloptr \ 
     NLP \ 
-    nls2 \
-    NMF \ 
+    nls2 \ 
     nnet \ 
     nnls \ 
-    nortest \ 
-    numDeriv"
+    nortest"
 RUN for package in $n; do \
     R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
     done && \
     rm -rf /tmp/*
 
-ARG o="OAIHarvester \ 
-    odbc \ 
+ARG o="odbc \ 
     officer \ 
     onewaytests \ 
     openNLPdata \ 
@@ -457,66 +288,29 @@ RUN for package in $o; do \
     done && \
     rm -rf /tmp/*
 
-ARG p="packrat \ 
-    pander \ 
-    parallel \
-    parallelMap \ 
-    ParamHelpers \ 
+ARG p="parallel \ 
     party \ 
     partykit \ 
-    pbapply \ 
-    pbdZMQ \ 
     pbkrtest \ 
-    PBSmodelling \ 
-    PerformanceAnalytics \
-    permute \ 
-    pillar \ 
-    pkgbuild \ 
-    pkgconfig \ 
-    pkgload \ 
-    pkgmaker \ 
-    PKI \ 
-    plogr \ 
+    PerformanceAnalytics \ 
     plotly \ 
-    plotmo \ 
-    plotrix \ 
     pls \ 
     plyr \ 
-    pmml \ 
-    polspline \ 
     polynom \ 
-    prabclus \ 
-    praise \
-    praznik \ 
-    precrec \
-    prediction \ 
-    prettyunits \ 
+    precrec \ 
     pROC \
     processx \ 
-    prodlim \ 
     profvis \ 
-    progress \ 
-    promises \ 
-    proto \ 
-    proxy \ 
     PRROC \ 
-    pryr \ 
-    ps \ 
-    pscl \ 
     pspearman \ 
-    psych \ 
-    purrr \ 
-    pwr"
+    psych"
 RUN for package in $p; do \
     R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
     done && \
     rm -rf /tmp/*
 
-ARG q="qap \ 
-    qdapDictionaries \ 
-    qpdf \
-    quadprog \ 
-    quantmod \ 
+ARG q="qdap \ 
+    qpdf \ 
     quantreg \ 
     quantregForest \
     questionr"
@@ -525,76 +319,42 @@ RUN for package in $q; do \
     done && \
     rm -rf /tmp/*
 
-ARG r="R.methodsS3 \ 
-    R.oo \ 
-    R.utils \ 
+ARG r="R.utils \ 
     r2d3 \ 
     R6 \ 
     randomForest \ 
-    ranger \
-    rappdirs \ 
-    rapportools \ 
-    rARPACK \ 
+    ranger \ 
     rbokeh \ 
-    rcmdcheck \ 
     Rcmdr \ 
-    RColorBrewer \ 
     rcompanion \ 
     RConics \ 
     Rcpp \ 
-    RcppEigen \ 
-    RcppParallel \ 
-    RcppRoll \ 
     RCurl \ 
     readr \ 
     readstata13 \ 
     readxl \ 
-    recipes \ 
-    REdaS \ 
-    registry \ 
-    relimp \ 
-    rematch \ 
     remotes \ 
     ReporteRs \ 
     ReporteRsjars \ 
-    repr \ 
-    reprex \ 
-    reshape \ 
     reshape2 \ 
-    ResourceSelection \ 
     reticulate \ 
-    rex \ 
     rgenoud \ 
-    rgexf \ 
-    rgl \ 
-    rio \ 
     rJava \ 
     RJDBC \ 
-    rjson \ 
-    RJSONIO \ 
     rlang \ 
     rmarkdown \ 
-    Rmpfr \ 
     rms \ 
     rngtools \ 
     rnn \ 
-    robustbase \ 
-    RonFHIR \
     ROCR \ 
-    Rook \ 
-    ROSE \ 
     roxygen2 \ 
     rpart \ 
-    RPostgres \
-    RPostgreSQL \ 
-    rprojroot \ 
-    rsconnect \ 
-    rsdmx \
-    RSpectra \ 
+    RPostgres \ 
     RSQLite \ 
     rstan \ 
     rstantools \ 
     rstudioapi \ 
+    rts \ 
     RVAideMemoire \ 
     rversions \ 
     rvest \ 
@@ -604,18 +364,12 @@ RUN for package in $r; do \
     done && \
     rm -rf /tmp/*
 
-ARG s="sandwich \ 
-    scales \ 
-    scatterplot3d \ 
-    sciplot \ 
-    selectr \ 
+ARG s="SentimentAnalysis \ 
     sem \ 
     seriation \ 
-    sessioninfo \ 
-    sfsmisc \ 
     shiny \ 
-    shinydashboard \
-    shinyFiles \
+    shinydashboard \ 
+    shinyFiles \ 
     shinyjs \ 
     shinystan \ 
     shinytest \
@@ -626,40 +380,16 @@ ARG s="sandwich \
     sjmisc \ 
     sjPlot \ 
     sjstats \ 
-    slam \ 
     smbinning \ 
-    snakecase \ 
-    snow \ 
-    SnowballC \ 
-    snowfall \ 
-    sourcetools \ 
-    sp \ 
     sparklyr \ 
     SparseM \ 
-    sparsepp \ 
-    spatial \ 
-    spikeslab \ 
-    splines \
-    sqldf \ 
-    SqlRender \ 
-    SQUAREM \ 
-    stabs \ 
-    StanHeaders \ 
+    sqldf \  
     stargazer \ 
-    stats \ 
-    stats4 \ 
-    stringdist \ 
-    stringi \ 
-    stringr \ 
-    strucchange \ 
-    styler \
+    styler \ 
     summarytools \ 
-    survey \ 
     survival \ 
     survminer \ 
-    survMisc \ 
-    svglite \
-    synthpop \
+    synthpop \ 
     syuzhet"
 RUN for package in $s; do \
     R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
@@ -667,35 +397,21 @@ RUN for package in $s; do \
     rm -rf /tmp/*
 
 ARG t="tau \ 
-    tcltk \
-    tcltk2 \ 
-    TeachingDemos \ 
-    tensorflow \ 
     testthat \ 
     text2vec \ 
-    textstem \
+    textstem \ 
     textir \ 
-    textshape \ 
-    tfdatasets \ 
-    tfruns \ 
-    TH.data \ 
     threejs \ 
     tibble \ 
     tidyr \ 
+    tidymodels \ 
     tidyselect \ 
     tidyverse \ 
     timeDate \ 
     tm \ 
-    TMB \ 
-    tinytex \
-    tokenizers \ 
-    tools \
+    tinytex \ 
     topicmodels \ 
-    triebeard \ 
-    trimcluster \ 
-    tseries \
-    TSP \ 
-    TTR \ 
+    tseries \ 
     twitteR"
 RUN for package in $t; do \
     R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
@@ -706,42 +422,30 @@ ARG u="ucminf \
     udpipe \ 
     urltools \ 
     usethis \ 
-    utf8 \ 
-    utils \
-    uuid"
+    utf8"
 RUN for package in $u; do \
     R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
     done && \
     rm -rf /tmp/*
 
-ARG v="vcd \ 
-    vegan \ 
-    viridis \ 
-    viridisLite \ 
-    visNetwork"
+ARG v="vegan"
 RUN for package in $v; do \
     R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
     done && \
     rm -rf /tmp/*
 
-ARG w="webshot \ 
-    wesanderson \
-    whisker \ 
-    withr \ 
+ARG w="wesanderson \ 
     wordcloud \ 
-    wordcloud2 \ 
-    WRS2"
+    wordcloud2"
 RUN for package in $w; do \
     R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
     done && \
     rm -rf /tmp/*
 
 ARG x="xfun \ 
+    xgboost \
     XML \ 
-    xml2 \ 
-    xopen \ 
-    xtable \ 
-    xts"
+    xml2"
 RUN for package in $x; do \
     R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
     done && \
@@ -753,8 +457,7 @@ RUN for package in $y; do \
     done && \
     rm -rf /tmp/*
 
-ARG z="zeallot \ 
-    zip \ 
+ARG z="zip \ 
     zoo"
 RUN for package in $z; do \   
     R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
@@ -819,70 +522,11 @@ RUN R -q -e "vec <- unname(installed.packages()[,\"Package\"]); remotes::update_
 # install development packages
 RUN R -q -e "devtools::install_github(repo = 'skranz/ReplaceInFiles', ref = 'master')"
 
-############################
-### GPU compile start
-############################
-## Stage compile: compile lightgbm and xgboost here
-FROM rocker/cuda-dev:3.6.1 AS compile
-# https://hub.docker.com/r/rocker/cuda-dev/dockerfile
-
-# install prerequisites
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    libboost-dev \
-    libboost-system-dev \
-    libboost-filesystem-dev
-RUN rm -rf /var/lib/apt/lists/*
-
-# install latest cmake (> 3.12 required for compiling of latest xgboost)
-RUN wget -O cmake.tar.gz https://github.com/Kitware/CMake/releases/download/v3.15.2/cmake-3.15.2.tar.gz && \
-    tar -zxvf cmake.tar.gz && \
-    mv cmake-* cmake/ && \
-    cd cmake && \
-    ./bootstrap && \
-    make && \
-    make install
-RUN rm -rf cmake && rm -rf cmake.tar.gz
-
-# precompile lightgbm GPU
-# https://lightgbm.readthedocs.io/en/latest/GPU-Tutorial.html
-ENV OPENCL_LIBRARIES /usr/local/cuda/lib64
-ENV OPENCL_INCLUDE_DIR /usr/local/cuda/include
-
-RUN mkdir -p /etc/OpenCL/vendors && \
-    echo "libnvidia-opencl.so.1" > /etc/OpenCL/vendors/nvidia.icd
-
 # Install lightgbm R package
-RUN git clone --recursive --branch stable --depth 1 https://github.com/microsoft/LightGBM && \
-    cd LightGBM && \
-    sed -i -e 's/use_gpu <- FALSE/use_gpu <- TRUE/g' R-package/src/install.libs.R && \
+RUN git clone --recursive --branch stable --depth 1 https://github.com/microsoft/LightGBM
+RUN cd LightGBM && \
     Rscript build_r.R
-
-# install xgboost r package
-# https://hub.docker.com/r/rocker/ml-gpu/dockerfile 
-# tag v0.82 is latest GPU-compilable tag with rocker images
-RUN git clone --recursive -b v0.82 https://github.com/dmlc/xgboost && \
-    mkdir -p xgboost/build && \
-    cd xgboost/build && \
-    cmake .. -DUSE_CUDA=ON -DR_LIB=ON -DUSE_NCCL=ON && \
-    make install -j$(nproc)
-
-############################
-### GPU compile end
-############################
-
-# copy base packages
-COPY --from=base_packages /usr/local/lib/R/site-library/* /usr/local/lib/R/site-library/*
-
-# copy base TinyTex
-COPY --from=base_packages /opt/* /opt/
-
-# install some python packages
-# install pip requirements
-# virtualenv is required for install_keras
-RUN yes | pip3 install \
-    setuptools \
-    wheel \
-    virtualenv
+RUN rm -rf LightGBM
 
 # workaround, to get stuff properly installed in users home dir
 # set rstudio user here
@@ -896,11 +540,8 @@ RUN echo ${RSTUDIO_USER}:password | chpasswd
 # switch user
 USER ${RSTUDIO_USER}
 
-# install keras (when pip3 virtualenv is already installed)
-RUN R -q -e "keras::install_keras(tensorflow = 'gpu')"
-
-# configure python
-RUN R -q -e "reticulate::py_config()"
+# install miniconda via reticulate and configure python
+RUN R -q -e "reticulate::install_miniconda(); reticulate::py_config()"
 
 # switch back
 USER root
@@ -908,14 +549,14 @@ USER root
 # we can now add add the virtualenv python to PATH (on first place)
 # add newly installed dependencies to PATH
 ENV PATH="/home/${RSTUDIO_USER}/bin:${PATH}"
-ENV PATH="/home/${RSTUDIO_USER}/.virtualenvs/r-reticulate/bin:${PATH}"
+ENV PATH="/home/${RSTUDIO_USER}/.local/share/r-miniconda/envs/r-reticulate/bin:${PATH}"
 
 # add PATH to a profile script (workaround so that path is available in rstudio's terminal)
 RUN echo "export PATH=${PATH}" > /home/${RSTUDIO_USER}/.profile && chmod +x /home/${RSTUDIO_USER}/.profile
 
 # Add RETICULATE_PYTHON variable to Renviron
 # current ${R_HOME} = /usr/local/lib/R
-RUN echo "export RETICULATE_PYTHON=/home/${RSTUDIO_USER}/.virtualenvs/r-reticulate/bin/python" >> /usr/local/lib/R/etc/Renviron
+RUN echo "export RETICULATE_PYTHON=/home/${RSTUDIO_USER}/.local/share/r-miniconda/envs/r-reticulate/bin/python" >> /usr/local/lib/R/etc/Renviron
 # set PATH for all users
 RUN echo "PATH=${PATH}" > /etc/environment
 
@@ -935,8 +576,8 @@ RUN yes | pip3 install \
 RUN yes | pip3 install \
     jinja2
 
-#RUN yes | pip3 install \
-#    lightgbm
+RUN yes | pip3 install \
+    lightgbm
 
 RUN yes | pip3 install \
     matplotlib
@@ -963,17 +604,6 @@ RUN R -q -e "shinytest::installDependencies()"
 # switch back
 USER root
 
-### Finish GPU installing stuff
-# Install lightgbm python package
-RUN cd LightGBM/python-package && \
-    python setup.py install --precompile
-RUN rm -rf LightGBM
-
-# Install xgboost python package
-RUN cd xgboost/python-package && \
-    python setup.py install --precompile
-RUN rm -rf xgboost
-
 # install my own stuff
 RUN R -q -e "devtools::install_github(repo = 'kapsner/KhelpeR', ref = 'latest')"
 RUN R -q -e "devtools::install_github(repo = 'kapsner/rBiasCorrection', ref = 'latest')"
@@ -999,12 +629,9 @@ RUN echo "options(shiny.port = 3838)" >> /home/${RSTUDIO_USER}/.Rprofile && \
     echo "options(shiny.launch.browser = FALSE)" >> /home/${RSTUDIO_USER}/.Rprofile 
 
 # add custom RStudio theme ("Dracula")
-ADD volume/user-settings /home/${RSTUDIO_USER}/.rstudio/monitored/user-settings/
+ADD _volume/user-settings /home/${RSTUDIO_USER}/.rstudio/monitored/user-settings/
 RUN chown -R ${RSTUDIO_USER}:${RSTUDIO_USER} /home/${RSTUDIO_USER}/.rstudio && \
     chmod 644 /home/${RSTUDIO_USER}/.rstudio/monitored/user-settings/user-settings
 
 # debugging:
 # docker run --rm -p 8787:8787 -e PASSWORD=password -v ~/R:/home/rstudio/volume rocker/verse:3.6.1
-
-# GPU
-# docker run --rm --gpus all -p 8787:8787 -e PASSWORD=password -v ~/R:/home/rstudio/volume r_datascience

@@ -1,4 +1,26 @@
-FROM rdc_base:latest
+# FROM rocker/verse:3.6.1
+# from rocker is possible, however, for the python stuff,
+# reticulate needs to be installed and configured first
+
+#ENV RSTUDIO_USER="rstudio" 
+#RUN echo ${RSTUDIO_USER}:password | chpasswd 
+#
+## switch user
+#USER ${RSTUDIO_USER}
+#
+## install miniconda via reticulate and configure python
+#RUN R -q -e "reticulate::install_miniconda(); reticulate::py_config()"
+#
+## switch back
+#USER root
+#
+#ENV PATH="/home/${RSTUDIO_USER}/bin:${PATH}"
+#ENV PATH="/home/${RSTUDIO_USER}/.local/share/r-miniconda/envs/r-reticulate/bin:${PATH}"
+#RUN echo "export PATH=${PATH}" > /home/${RSTUDIO_USER}/.profile && chmod +x /home/${RSTUDIO_USER}/.profile
+#RUN echo "export RETICULATE_PYTHON=/home/${RSTUDIO_USER}/.local/share/r-miniconda/envs/r-reticulate/bin/python" >> /usr/local/lib/R/etc/Renviron
+#RUN echo "PATH=${PATH}" > /etc/environment
+
+FROM rdsc_base:latest
 
 ########################
 ########################
@@ -8,6 +30,10 @@ FROM rdc_base:latest
 ########################
 
 # uninstall lightgbm, xgboost, keras
+# R 
+RUN R -e "remove.packages(c(\"LightGBM\", \"xgboost\"))"
+# python 
+RUN pip uninstall -y xgboost lightgbm tensorflow
 
 
 ########################
@@ -134,14 +160,16 @@ RUN mkdir -p xgboost/build && \
 
 
 ### Finish GPU installing stuff
-# change permissions
-RUN chown -R ${RSTUDIO_USER}:${RSTUDIO_USER} LightGBM
-RUN chown -R ${RSTUDIO_USER}:${RSTUDIO_USER} xgboost
+# clean up
+RUN rm -rf xgboost
+RUN rm -rf LightGBM
 
+# Install lightgbm GPU python package
+RUN git clone --recursive --branch stable --depth 1 https://github.com/microsoft/LightGBM && \
+    chown -R ${RSTUDIO_USER}:${RSTUDIO_USER} LightGBM
 # switch user
 USER ${RSTUDIO_USER}
 
-# Install lightgbm GPU python package
 RUN cd LightGBM && \
     mkdir -p build && \
     cd build && \
@@ -150,23 +178,51 @@ RUN cd LightGBM && \
 RUN cd LightGBM/python-package && \
     python setup.py install --precompile
 
-# Install xgboost GPU python package
-RUN cd xgboost && \
-    cd build && \
-    cmake .. -DUSE_CUDA=ON -DUSE_NCCL=ON && \
-    make install -j$(nproc)
-RUN cd xgboost/python-package && \
-    python setup.py install --precompile
-
-
-
-# install keras/tensorflow
-#RUN R -q -e "install.packages('keras')"
-
-# install keras (when pip3 virtualenv is already installed)
-#RUN R -q -e "keras::install_keras(tensorflow = 'gpu')"
-
 # switch back
 USER root
 RUN rm -rf LightGBM
+
+# Install xgboost GPU python package
+RUN git clone --recursive -b v0.90 https://github.com/dmlc/xgboost && \
+    chown -R ${RSTUDIO_USER}:${RSTUDIO_USER} xgboost
+# switch user
+USER ${RSTUDIO_USER}
+RUN mkdir -p xgboost/build && \
+    cd xgboost/build && \
+    cmake .. -DUSE_CUDA=ON -DUSE_NCCL=ON && \
+    make install -j$(nproc)
+RUN cd xgboost/python-package && \
+    python setup.py install
+
+# switch back
+USER root
 RUN rm -rf xgboost
+
+# install keras/tensorflow
+RUN R -q -e "install.packages('keras')"
+
+# switch user
+USER ${RSTUDIO_USER}
+
+# install keras (when pip3 virtualenv is already installed)
+RUN R -q -e "keras::install_keras(tensorflow = 'gpu')"
+
+# switch back
+USER root
+
+# install h2o
+ARG packages="h2o \
+    gnuR" 
+RUN for package in $packages; do \
+    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
+    done && \
+    rm -rf /tmp/*
+
+# clear caches
+RUN rm -rf /var/lib/apt/lists/* && \
+    rm -rf /tmp/*
+RUN rm -rf /home/${RSTUDIO_USER}/.cache/pip/*
+RUN apt-get clean && apt-get autoclean && apt-get autoremove
+
+# docker GPU not working with docker-compose
+# docker run --rm --gpus all -p 8787:8787 -e PASSWORD=password -e ROOT=TRUE -v ~/R:/home/rstudio/volume rdc_gpu

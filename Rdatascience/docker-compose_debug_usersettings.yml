@@ -1,7 +1,7 @@
 version: "3"
 services:
   r_datascience_debug:
-    #image: r_datascience
+    #image: rdsc_base:latest
     image: rocker/verse:3.6.1
     # restart: unless-stopped
     ports:

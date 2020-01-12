@@ -1,6 +1,6 @@
-FROM rdc_gpu:latest
+FROM rdsc_base:latest
 
-ARG packages = "BiocManager"
+ARG packages="BiocManager" 
 RUN for package in $packages; do \
     R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
     done && \
@@ -25,3 +25,9 @@ RUN R -q -e "BiocManager::install('sva')"
 # install my own stuff
 RUN R -q -e "devtools::install_git(url = 'https://gitlab.miracum.org/clearly/sigident.git', ref = 'master')"
 RUN R -q -e "devtools::install_git(url = 'https://gitlab.miracum.org/clearly/sigident.preproc.git', ref = 'master')"
+
+# clear caches
+RUN rm -rf /var/lib/apt/lists/* && \
+    rm -rf /tmp/*
+RUN rm -rf /home/${RSTUDIO_USER}/.cache/pip/*
+RUN apt-get clean && apt-get autoclean && apt-get autoremove
