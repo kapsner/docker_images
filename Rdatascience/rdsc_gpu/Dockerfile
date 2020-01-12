@@ -1,26 +1,35 @@
-# FROM rocker/verse:3.6.1
-# from rocker is possible, however, for the python stuff,
-# reticulate needs to be installed and configured first
+# FROM rdsc_base:latest
+# # if using FROM rdsc_base, reticulate configuration is not necessary anymore
+# # and can be commented out
 
-#ENV RSTUDIO_USER="rstudio" 
-#RUN echo ${RSTUDIO_USER}:password | chpasswd 
-#
-## switch user
-#USER ${RSTUDIO_USER}
-#
-## install miniconda via reticulate and configure python
-#RUN R -q -e "reticulate::install_miniconda(); reticulate::py_config()"
-#
-## switch back
-#USER root
-#
-#ENV PATH="/home/${RSTUDIO_USER}/bin:${PATH}"
-#ENV PATH="/home/${RSTUDIO_USER}/.local/share/r-miniconda/envs/r-reticulate/bin:${PATH}"
-#RUN echo "export PATH=${PATH}" > /home/${RSTUDIO_USER}/.profile && chmod +x /home/${RSTUDIO_USER}/.profile
-#RUN echo "export RETICULATE_PYTHON=/home/${RSTUDIO_USER}/.local/share/r-miniconda/envs/r-reticulate/bin/python" >> /usr/local/lib/R/etc/Renviron
-#RUN echo "PATH=${PATH}" > /etc/environment
+# # uninstall lightgbm, xgboost, keras
+# # R 
+# RUN R -e "remove.packages(c(\"LightGBM\", \"xgboost\"))"
+# # python 
+# RUN pip uninstall -y xgboost lightgbm tensorflow
 
-FROM rdsc_base:latest
+FROM rocker/verse:3.6.1
+
+########################
+#### configure reticulate
+########################
+ENV RSTUDIO_USER="rstudio" 
+RUN echo ${RSTUDIO_USER}:password | chpasswd 
+
+# switch user
+USER ${RSTUDIO_USER}
+
+# install miniconda via reticulate and configure python
+RUN R -q -e "reticulate::install_miniconda(); reticulate::py_config()"
+
+# switch back
+USER root
+
+ENV PATH="/home/${RSTUDIO_USER}/bin:${PATH}"
+ENV PATH="/home/${RSTUDIO_USER}/.local/share/r-miniconda/envs/r-reticulate/bin:${PATH}"
+RUN echo "export PATH=${PATH}" > /home/${RSTUDIO_USER}/.profile && chmod +x /home/${RSTUDIO_USER}/.profile
+RUN echo "export RETICULATE_PYTHON=/home/${RSTUDIO_USER}/.local/share/r-miniconda/envs/r-reticulate/bin/python" >> /usr/local/lib/R/etc/Renviron
+RUN echo "PATH=${PATH}" > /etc/environment
 
 ########################
 ########################
@@ -28,13 +37,6 @@ FROM rdsc_base:latest
 #### ML capabilities
 ########################
 ########################
-
-# uninstall lightgbm, xgboost, keras
-# R 
-RUN R -e "remove.packages(c(\"LightGBM\", \"xgboost\"))"
-# python 
-RUN pip uninstall -y xgboost lightgbm tensorflow
-
 
 ########################
 # base
