@@ -31,6 +31,16 @@ RUN echo "export PATH=${PATH}" > /home/${RSTUDIO_USER}/.profile && chmod +x /hom
 RUN echo "export RETICULATE_PYTHON=/home/${RSTUDIO_USER}/.local/share/r-miniconda/envs/r-reticulate/bin/python" >> /usr/local/lib/R/etc/Renviron
 RUN echo "PATH=${PATH}" > /etc/environment
 
+# switch user
+USER ${RSTUDIO_USER}
+
+# install scikit-learn
+RUN yes | pip3 install \
+    scikit-learn
+
+# switch back
+USER root
+
 ########################
 ########################
 #### add GPU accelerated
