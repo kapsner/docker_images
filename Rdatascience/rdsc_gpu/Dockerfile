@@ -238,7 +238,7 @@ RUN R -q -e "keras::install_keras(tensorflow = 'gpu')"
 USER root
 
 # install h2o
-ARG packages="gnuR \ 
+ARG packages="gpuR \ 
     h2o \ 
     mlr3 \ 
     mlr3misc \ 
