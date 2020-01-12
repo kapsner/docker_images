@@ -237,12 +237,40 @@ RUN R -q -e "keras::install_keras(tensorflow = 'gpu')"
 # switch back
 USER root
 
-# install h2o
-ARG packages="gpuR \ 
-    h2o \ 
-    mlr3 \ 
+# install other R packages
+ARG packages="future"
+RUN for package in $packages; do \
+    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
+    done && \
+    rm -rf /tmp/*
+
+ARG packages="gpuR" 
+RUN for package in $packages; do \
+    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
+    done && \
+    rm -rf /tmp/*
+
+ARG packages="h2o"
+RUN for package in $packages; do \
+    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
+    done && \
+    rm -rf /tmp/*
+
+ARG packages="mlr3 \ 
     mlr3misc \ 
-    paradox" 
+    mlr3tuning"
+RUN for package in $packages; do \
+    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
+    done && \
+    rm -rf /tmp/*
+
+ARG packages="paradox"
+RUN for package in $packages; do \
+    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
+    done && \
+    rm -rf /tmp/*
+
+ARG packages="qpdf"
 RUN for package in $packages; do \
     R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
     done && \
