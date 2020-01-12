@@ -10,14 +10,14 @@
 
 FROM rocker/verse:3.6.1
 
+# set cran repo
+RUN echo "options('repos' = 'https://ftp.fau.de/cran/')" >> /usr/local/lib/R/etc/Rprofile.site
+
 ########################
 #### install/configure reticulate
 ########################
 ENV RSTUDIO_USER="rstudio" 
 RUN echo ${RSTUDIO_USER}:password | chpasswd 
-
-# switch user
-USER ${RSTUDIO_USER}
 
 # install reticulate
 ARG packages="reticulate" 
@@ -25,6 +25,9 @@ RUN for package in $packages; do \
     R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
     done && \
     rm -rf /tmp/*
+
+# switch user
+USER ${RSTUDIO_USER}
 
 # install miniconda via reticulate and configure python
 RUN R -q -e "reticulate::install_miniconda(); reticulate::py_config()"
@@ -54,6 +57,9 @@ USER root
 #### ML capabilities
 ########################
 ########################
+
+# xgboost branch
+ENV XGBOOST_BRANCH v0.90
 
 ########################
 # base
@@ -170,7 +176,7 @@ RUN cd LightGBM && \
 # install xgboost GPU R package
 # https://hub.docker.com/r/rocker/ml-gpu/dockerfile 
 # tag v0.82 is latest GPU-compilable tag with rocker images
-RUN git clone --recursive -b v0.90 https://github.com/dmlc/xgboost
+RUN git clone --recursive -b ${XGBOOST_BRANCH} https://github.com/dmlc/xgboost
 RUN mkdir -p xgboost/build && \
     cd xgboost/build && \
     cmake .. -DUSE_CUDA=ON -DR_LIB=ON -DUSE_NCCL=ON && \
@@ -202,7 +208,7 @@ USER root
 RUN rm -rf LightGBM
 
 # Install xgboost GPU python package
-RUN git clone --recursive -b v0.90 https://github.com/dmlc/xgboost && \
+RUN git clone --recursive -b ${XGBOOST_BRANCH} https://github.com/dmlc/xgboost && \
     chown -R ${RSTUDIO_USER}:${RSTUDIO_USER} xgboost
 # switch user
 USER ${RSTUDIO_USER}
