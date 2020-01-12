@@ -238,8 +238,11 @@ RUN R -q -e "keras::install_keras(tensorflow = 'gpu')"
 USER root
 
 # install h2o
-ARG packages="h2o \
-    gnuR" 
+ARG packages="gnuR \ 
+    h2o \ 
+    mlr3 \ 
+    mlr3misc \ 
+    paradox" 
 RUN for package in $packages; do \
     R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
     done && \
