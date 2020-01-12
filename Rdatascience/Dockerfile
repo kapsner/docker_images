@@ -564,6 +564,11 @@ RUN echo "PATH=${PATH}" > /etc/environment
 # we can use pip3 here, since we added the virtualenv to the beginning of our PATH variable
 USER ${RSTUDIO_USER}
 
+# install python prerequisites
+RUN yes | pip3 install \
+    setuptools \
+    wheel
+
 # now install other python packages
 RUN yes | pip3 install \
     catboost \

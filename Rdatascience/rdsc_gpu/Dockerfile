@@ -46,7 +46,9 @@ USER ${RSTUDIO_USER}
 
 # install scikit-learn
 RUN yes | pip install \
-    scikit-learn
+    scikit-learn \
+    setuptools \
+    wheel
 
 # switch back
 USER root
