@@ -8,7 +8,7 @@
 # # python 
 # RUN pip uninstall -y xgboost lightgbm tensorflow
 
-FROM rocker/verse:3.6.1
+FROM rocker/verse:3.6.1 AS gpu_compile_stage
 
 # set cran repo
 RUN echo "options('repos' = 'https://ftp.fau.de/cran/')" >> /usr/local/lib/R/etc/Rprofile.site
@@ -137,7 +137,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     apt-mark hold libcudnn7
 RUN rm -rf /var/lib/apt/lists/*
 
-
+#########################
 #########################
 # update environment variables 
 ENV CUDA_HOME /usr/local/cuda
@@ -147,6 +147,7 @@ ENV PATH ${CUDA_HOME}/bin:${PATH}
 ENV OPENCL_LIBRARIES /usr/local/cuda/lib64
 ENV OPENCL_INCLUDE_DIR /usr/local/cuda/include
 
+#########################
 # install prerequisites for lightgbm
 RUN apt-get update && apt-get install -y --no-install-recommends \
     libboost-dev \
@@ -228,11 +229,13 @@ RUN R -q -e "keras::install_keras(tensorflow = 'gpu')"
 # switch back
 USER root
 
-ARG packages="gpuR" 
-RUN for package in $packages; do \
-    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
-    done && \
-    rm -rf /tmp/*
+# ARG packages="gpuR" 
+# RUN for package in $packages; do \
+#     R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
+#     done && \
+#     rm -rf /tmp/*
+
+# evtl h2o4gpu
 
 
 
@@ -247,22 +250,28 @@ RUN echo "options('repos' = 'https://ftp.fau.de/cran/')" >> /usr/local/lib/R/etc
 # Update where R expects to find various Java files
 RUN R CMD javareconf
 
+#######################
+### GPU compiled stuff
+#######################
+
+# python
 # copy miniconda path with previously installed python libs (tensorflow, xgboost, lightgbm)
 ENV MINI_C_PATH /home/rstudio/.local
-COPY --from=0 ${MINI_C_PATH} ${MINI_C_PATH}
+COPY --from=gpu_compile_stage ${MINI_C_PATH} ${MINI_C_PATH}
+
+
+# R
+# copy whole library
+ENV R_DIR /usr/local/lib/R/site-library
+
+# copy R lightgbm
+COPY --from=gpu_compile_stage ${R_DIR} ${R_DIR}
 
 ########################
 #### install/configure reticulate
 ########################
 ENV RSTUDIO_USER="rstudio" 
 RUN echo ${RSTUDIO_USER}:password | chpasswd 
-
-# install reticulate
-ARG packages="reticulate" 
-RUN for package in $packages; do \
-    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
-    done && \
-    rm -rf /tmp/*
 
 # switch user
 USER ${RSTUDIO_USER}
@@ -354,77 +363,53 @@ RUN rm -rf /var/lib/apt/lists/*
 RUN mkdir -p /etc/OpenCL/vendors && \
     echo "libnvidia-opencl.so.1" > /etc/OpenCL/vendors/nvidia.icd
 
-#######################
-### copy R's GPU compiled stuff
-#######################
-
-ENV R_DIR /usr/local/lib/R/site-library
-
-# copy R lightgbm
-COPY --from=0 ${R_DIR}/lightgbm ${R_DIR}/lightgbm
-
-# copy R xgboost
-COPY --from=0 ${R_DIR}/xgboost ${R_DIR}/xgboost
-
-# copy R keras and dependencies
-COPY --from=0 ${R_DIR}/xgboost ${R_DIR}/keras
-COPY --from=0 ${R_DIR}/config ${R_DIR}/config
-COPY --from=0 ${R_DIR}/tensorflow ${R_DIR}/tensorflow
-COPY --from=0 ${R_DIR}/tfruns ${R_DIR}/tfruns
-
-# copy gpuR and dependencies
-COPY --from=0 ${R_DIR}/gpuR ${R_DIR}/gpuR
-COPY --from=0 ${R_DIR}/assertive* ${R_DIR}/assertive*
-COPY --from=0 ${R_DIR}/RcppEigen ${R_DIR}/RcppEigen
-COPY --from=0 ${R_DIR}/RViennaCL ${R_DIR}/RViennaCL
-
 # finally, install required R packages
 
-ARG packages="future"
-RUN for package in $packages; do \
-    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
-    done && \
-    rm -rf /tmp/*
+# ARG packages="future"
+# RUN for package in $packages; do \
+#     R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
+#     done && \
+#     rm -rf /tmp/*
 
-ARG packages="h2o"
-RUN for package in $packages; do \
-    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
-    done && \
-    rm -rf /tmp/*
+# ARG packages="h2o"
+# RUN for package in $packages; do \
+#     R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
+#     done && \
+#     rm -rf /tmp/*
 
-ARG packages="mlr3 \ 
-    mlr3misc \ 
-    mlr3tuning \ 
-    mlbench \ 
-    MLmetrics"
-RUN for package in $packages; do \
-    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
-    done && \
-    rm -rf /tmp/*
+# ARG packages="mlr3 \ 
+#     mlr3misc \ 
+#     mlr3tuning \ 
+#     mlbench \ 
+#     MLmetrics"
+# RUN for package in $packages; do \
+#     R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
+#     done && \
+#     rm -rf /tmp/*
 
-ARG packages="paradox"
-RUN for package in $packages; do \
-    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
-    done && \
-    rm -rf /tmp/*
+# ARG packages="paradox"
+# RUN for package in $packages; do \
+#     R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
+#     done && \
+#     rm -rf /tmp/*
 
-ARG packages="qpdf"
-RUN for package in $packages; do \
-    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
-    done && \
-    rm -rf /tmp/*
+# ARG packages="qpdf"
+# RUN for package in $packages; do \
+#     R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
+#     done && \
+#     rm -rf /tmp/*
 
-ARG packages="paradox"
-RUN for package in $packages; do \
-    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
-    done && \
-    rm -rf /tmp/*
+# ARG packages="paradox"
+# RUN for package in $packages; do \
+#     R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
+#     done && \
+#     rm -rf /tmp/*
 
-ARG packages="qpdf"
-RUN for package in $packages; do \
-    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
-    done && \
-    rm -rf /tmp/*
+# ARG packages="qpdf"
+# RUN for package in $packages; do \
+#     R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
+#     done && \
+#     rm -rf /tmp/*
 
 # clear caches
 RUN rm -rf /var/lib/apt/lists/* && \
