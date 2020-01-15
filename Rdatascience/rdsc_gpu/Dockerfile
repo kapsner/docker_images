@@ -229,12 +229,6 @@ RUN R -q -e "keras::install_keras(tensorflow = 'gpu')"
 # switch back
 USER root
 
-# ARG packages="gpuR" 
-# RUN for package in $packages; do \
-#     R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
-#     done && \
-#     rm -rf /tmp/*
-
 # evtl h2o4gpu
 
 
@@ -365,51 +359,62 @@ RUN mkdir -p /etc/OpenCL/vendors && \
 
 # finally, install required R packages
 
-# ARG packages="future"
+ARG packages="future"
+RUN for package in $packages; do \
+    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
+    done && \
+    rm -rf /tmp/*
+
+# ARG packages="gpuR" 
 # RUN for package in $packages; do \
 #     R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
 #     done && \
 #     rm -rf /tmp/*
 
-# ARG packages="h2o"
-# RUN for package in $packages; do \
-#     R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
-#     done && \
-#     rm -rf /tmp/*
+ARG packages="h2o"
+RUN for package in $packages; do \
+    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
+    done && \
+    rm -rf /tmp/*
 
-# ARG packages="mlr3 \ 
-#     mlr3misc \ 
-#     mlr3tuning \ 
-#     mlbench \ 
-#     MLmetrics"
-# RUN for package in $packages; do \
-#     R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
-#     done && \
-#     rm -rf /tmp/*
+ARG packages="mlr3 \ 
+    mlr3misc \ 
+    mlr3tuning \ 
+    mlbench \ 
+    MLmetrics"
+RUN for package in $packages; do \
+    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
+    done && \
+    rm -rf /tmp/*
 
-# ARG packages="paradox"
-# RUN for package in $packages; do \
-#     R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
-#     done && \
-#     rm -rf /tmp/*
+ARG packages="paradox"
+RUN for package in $packages; do \
+    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
+    done && \
+    rm -rf /tmp/*
 
-# ARG packages="qpdf"
-# RUN for package in $packages; do \
-#     R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
-#     done && \
-#     rm -rf /tmp/*
+ARG packages="qpdf"
+RUN for package in $packages; do \
+    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
+    done && \
+    rm -rf /tmp/*
 
-# ARG packages="paradox"
-# RUN for package in $packages; do \
-#     R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
-#     done && \
-#     rm -rf /tmp/*
+ARG packages="paradox"
+RUN for package in $packages; do \
+    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
+    done && \
+    rm -rf /tmp/*
 
-# ARG packages="qpdf"
-# RUN for package in $packages; do \
-#     R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
-#     done && \
-#     rm -rf /tmp/*
+ARG packages="qpdf"
+RUN for package in $packages; do \
+    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
+    done && \
+    rm -rf /tmp/*
+
+# install my own stuff
+RUN R -q -e "devtools::install_github(repo = 'kapsner/lightgbm.py', ref = 'master')"
+RUN R -q -e "devtools::install_github(repo = 'kapsner/mlr3learners.lgbpy', ref = 'master')"
+RUN R -q -e "devtools::install_github(repo = 'kapsner/mlr3learners.lightgbm', ref = 'master')"
 
 # clear caches
 RUN rm -rf /var/lib/apt/lists/* && \
@@ -419,4 +424,4 @@ RUN apt-get clean && apt-get autoclean && apt-get autoremove
 
 # docker GPU not working with docker-compose
 # docker run --rm --gpus all -p 8787:8787 -e PASSWORD=password -e ROOT=TRUE -v ~/R:/home/rstudio/volume rdsc_gpu
-# debug: docker run -it --rm --gpus all rdsc_gpu bash
+# debug: docker run --rm --gpus all -p 8787:8787 -e PASSWORD=password rdsc_gpu
