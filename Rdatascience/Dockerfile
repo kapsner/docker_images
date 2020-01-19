@@ -11,6 +11,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
     htop \
     imagemagick \
+    # pocketsphinx
+    libasound2-dev \ 
     libffi-dev \
     libglu1-mesa-dev \
     libgmp3-dev \
@@ -20,6 +22,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     # xslt package
     libxslt1-dev \
     lmodern \
+    # pocketsphinx
+    libpulse-dev \
     locate \
     nano \
     net-tools \
@@ -28,6 +32,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     python3-dev \
     python3-pip \
     python3-venv \
+    # pocketsphinx
+    swig \
     # dependencies for aplpack
     tcl8.6-dev \
     tk8.6-dev \
@@ -593,11 +599,13 @@ RUN yes | pip3 install \
     numpy
 
 RUN yes | pip3 install \
-    pandas
+    pandas \
+    pocketsphinx
 
 RUN yes | pip3 install \
     scikit-learn \
-    scipy
+    scipy \
+    SpeechRecognition
 
 # configure the other r packages
 # install phantomjs
@@ -616,10 +624,10 @@ RUN R -q -e "devtools::install_github(repo = 'kapsner/BiasCorrector', ref = 'lat
 RUN R -q -e "devtools::install_github(repo = 'kapsner/expenditR', ref = 'master')"
 RUN R -q -e "devtools::install_github(repo = 'kapsner/lightgbm.py', ref = 'master')"
 RUN R -q -e "devtools::install_github(repo = 'kapsner/mlr3learners.lgbpy', ref = 'master')"
-RUN R -q -e "devtools::install_github(repo = 'kapsner/mlr3learners.lightgbm', ref = 'master')"
-RUN R -q -e "devtools::install_git(url = 'https://gitlab.miracum.org/miracum-dqa/dqastats.git', ref = 'master')"
-RUN R -q -e "devtools::install_git(url = 'https://gitlab.miracum.org/miracum-dqa/dqagui.git', ref = 'master')"
-RUN R -q -e "devtools::install_git(url = 'https://gitlab.miracum.org/miracum-dqa/miRacumDQA.git', ref = 'master')"
+RUN R -q -e "devtools::install_github(repo = 'mlr3learners/mlr3learners.lightgbm', ref = 'master')"
+RUN R -q -e "devtools::install_git(url = 'https://gitlab.miracum.org/miracum/dqa/dqastats.git', ref = 'master')"
+RUN R -q -e "devtools::install_git(url = 'https://gitlab.miracum.org/miracum/dqa/dqagui.git', ref = 'master')"
+RUN R -q -e "devtools::install_git(url = 'https://gitlab.miracum.org/miracum/dqa/miRacumDQA.git', ref = 'master')"
 RUN R -q -e "devtools::install_git(url = 'https://gitlab.miracum.org/kosmic/kosmicgui.git', ref = 'master')"
 
 # clear caches
