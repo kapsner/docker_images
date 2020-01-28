@@ -8,6 +8,7 @@ RUN echo "options('repos' = 'https://ftp.fau.de/cran/')" >> /usr/local/lib/R/etc
 # install required custom system dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
     byobu \
+    cmake \
     curl \
     htop \
     imagemagick \
