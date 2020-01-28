@@ -14,6 +14,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     imagemagick \
     # pocketsphinx
     libasound2-dev \ 
+    libboost-dev \
+    libboost-system-dev \
+    libboost-filesystem-dev \
     libffi-dev \
     libglu1-mesa-dev \
     libgmp3-dev \
