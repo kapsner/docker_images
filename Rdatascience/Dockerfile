@@ -471,8 +471,7 @@ RUN for package in $z; do \
     rm -rf /tmp/*
 
 # install required LaTeX-Packages
-RUN tlmgr option repository http://mirror.ctan.org/systems/texlive/tlnet && \
-    tlmgr update --self && \
+RUN tlmgr update --self \
     tlmgr install \
     amsfonts \
     amsmath \
@@ -482,7 +481,6 @@ RUN tlmgr option repository http://mirror.ctan.org/systems/texlive/tlnet && \
     colortbl \
     ec \
     environ \
-    epstopdf-pkg \
     float \
     geometry \
     graphics \
@@ -491,12 +489,10 @@ RUN tlmgr option repository http://mirror.ctan.org/systems/texlive/tlnet && \
     hyphen-german \
     iftex \
     koma-script \
-    latex-graphics-dev \
     lm \
     makecell \
     multirow \
     oberdiek \
-    pdflscape \
     tabu \
     tex-gyre-math \
     threeparttable \
@@ -537,6 +533,9 @@ RUN rm -rf LightGBM
 # workaround, to get stuff properly installed in users home dir
 # set rstudio user here
 ENV RSTUDIO_USER="rstudio" 
+
+# change the ownership of the tinytex-folder
+RUN chown -R ${RSTUDIO_USER}:${RSTUDIO_USER} /opt/TinyTex/
 
 # add user + password
 # https://s/home/${RSTUDIO_USER}/.virtualenvs/r-reticulate/bin/tackoverflow.com/questions/2150882/how-to-automatically-add-user-account-and-password-with-a-bash-script
