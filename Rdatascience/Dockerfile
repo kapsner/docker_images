@@ -539,7 +539,8 @@ RUN rm -rf LightGBM
 ENV RSTUDIO_USER="rstudio" 
 
 # change the ownership of the tinytex-folder
-RUN chown -R ${RSTUDIO_USER}:${RSTUDIO_USER} /opt/TinyTex/
+RUN chown -R ${RSTUDIO_USER}:${RSTUDIO_USER} /opt/TinyTeX/
+RUN chown -R ${RSTUDIO_USER}:${RSTUDIO_USER} /usr/local/bin/
 
 # add user + password
 # https://s/home/${RSTUDIO_USER}/.virtualenvs/r-reticulate/bin/tackoverflow.com/questions/2150882/how-to-automatically-add-user-account-and-password-with-a-bash-script
