@@ -7,7 +7,7 @@ FROM rdsc_gpu_base AS gpu_compile_stage
 #######################
 ### Final image
 #######################
-FROM rocker/verse:3.6.1
+FROM rocker/verse:3.6.2
 
 # set cran repo
 RUN echo "options('repos' = 'https://ftp.fau.de/cran/')" >> /usr/local/lib/R/etc/Rprofile.site

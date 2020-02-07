@@ -25,6 +25,7 @@ RUN R -q -e "BiocManager::install('sva')"
 # install my own stuff
 RUN R -q -e "devtools::install_git(url = 'https://gitlab.miracum.org/clearly/sigident.git', ref = 'master')"
 RUN R -q -e "devtools::install_git(url = 'https://gitlab.miracum.org/clearly/sigident.preproc.git', ref = 'master')"
+RUN R -q -e "devtools::install_git(url = 'https://gitlab.miracum.org/clearly/sigident.func.git', ref = 'master')"
 
 # clear caches
 RUN rm -rf /var/lib/apt/lists/* && \
