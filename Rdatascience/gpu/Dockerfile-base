@@ -214,7 +214,7 @@ RUN R -q -e "install.packages('keras')"
 # switch user
 USER ${RSTUDIO_USER}
 
-# install keras (when pip3 virtualenv is already installed)
+# install keras (when pip virtualenv is already installed)
 RUN R -q -e "keras::install_keras(tensorflow = 'gpu')"
 
 # switch back

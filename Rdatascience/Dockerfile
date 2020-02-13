@@ -10,6 +10,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     byobu \
     cmake \
     curl \
+    ffmpeg \
     htop \
     imagemagick \
     # pocketsphinx
@@ -571,42 +572,43 @@ RUN echo "export RETICULATE_PYTHON=/home/${RSTUDIO_USER}/.local/share/r-minicond
 RUN echo "PATH=${PATH}" > /etc/environment
 
 # switch user (let everything in .virtualenv/r-reticulate be installed by the user)
-# we can use pip3 here, since we added the virtualenv to the beginning of our PATH variable
+# we can use pip here, since we added the virtualenv to the beginning of our PATH variable
 USER ${RSTUDIO_USER}
 
 # install python prerequisites
-RUN yes | pip3 install \
+RUN yes | pip install \
     setuptools \
     wheel
 
 # now install other python packages
-RUN yes | pip3 install \
+RUN yes | pip install \
     catboost \
     "colorama>=0.3.8" \
     cython
 
-RUN yes | pip3 install \
+RUN yes | pip install \
     fhirclient
 
-RUN yes | pip3 install \
+RUN yes | pip install \
     jinja2
 
-RUN yes | pip3 install \
+RUN yes | pip install \
     lightgbm
 
-RUN yes | pip3 install \
+RUN yes | pip install \
     matplotlib
 
-RUN yes | pip3 install \
+RUN yes | pip install \
     nltk \
     nose \
     numpy
 
-RUN yes | pip3 install \
+RUN yes | pip install \
     pandas \
-    pocketsphinx
+    pocketsphinx \
+    pydub
 
-RUN yes | pip3 install \
+RUN yes | pip install \
     scikit-learn \
     scipy \
     SpeechRecognition
