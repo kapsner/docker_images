@@ -183,7 +183,7 @@ RUN for package in $packages; do \
 # install my own stuff
 RUN R -q -e "devtools::install_github(repo = 'kapsner/lightgbm.py', ref = 'master')"
 RUN R -q -e "devtools::install_github(repo = 'kapsner/mlr3learners.lgbpy', ref = 'master')"
-RUN R -q -e "devtools::install_github(repo = 'kapsner/mlr3learners.lightgbm', ref = 'master')"
+RUN R -q -e "devtools::install_github(repo = 'mlr3learners/mlr3learners.lightgbm', ref = 'master')"
 
 # clear caches
 RUN rm -rf /var/lib/apt/lists/* && \
