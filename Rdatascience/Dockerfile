@@ -188,6 +188,7 @@ RUN for package in $h; do \
     rm -rf /tmp/*
 
 ARG i="igraph \ 
+    influxdbr \
     infotheo \ 
     ipred \ 
     irlba \ 
