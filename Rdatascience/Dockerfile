@@ -476,8 +476,11 @@ RUN for package in $z; do \
     done && \
     rm -rf /tmp/*
 
+RUN R -q -e "tinytex::install_tinytex()"
+
 # install required LaTeX-Packages
 RUN tlmgr update --self \
+    tlmgr update --all \
     tlmgr install \
     amsfonts \
     amsmath \
@@ -487,6 +490,7 @@ RUN tlmgr update --self \
     colortbl \
     ec \
     environ \
+    epstopdf-pkg \
     float \
     geometry \
     graphics \
