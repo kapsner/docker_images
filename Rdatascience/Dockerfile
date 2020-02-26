@@ -490,7 +490,7 @@ RUN tlmgr update --self \
     colortbl \
     ec \
     environ \
-    epstopdf-pkg \
+    epstopdf \
     float \
     geometry \
     graphics \
