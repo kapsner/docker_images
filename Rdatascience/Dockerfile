@@ -488,6 +488,7 @@ RUN tlmgr update --self \
     babel-german \
     caption \
     colortbl \
+    dehyph-exptl \
     ec \
     environ \
     epstopdf \
@@ -505,6 +506,7 @@ RUN tlmgr update --self \
     oberdiek \
     tabu \
     tex-gyre-math \
+    texlive-scripts \
     threeparttable \
     threeparttablex \
     titling \
