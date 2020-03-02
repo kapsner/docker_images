@@ -188,7 +188,7 @@ RUN for package in $h; do \
     rm -rf /tmp/*
 
 ARG i="igraph \ 
-    influxdbr \
+    influxdbr \ 
     infotheo \ 
     ipred \ 
     irlba \ 
@@ -479,9 +479,9 @@ RUN for package in $z; do \
 RUN R -q -e "tinytex::install_tinytex()"
 
 # install required LaTeX-Packages
-RUN tlmgr update --self \
-RUN tlmgr update --all \
-    tlmgr install \
+RUN tlmgr update --self
+RUN tlmgr update --all
+RUN tlmgr install \
     amsfonts \
     amsmath \
     babel \
