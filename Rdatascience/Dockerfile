@@ -492,6 +492,7 @@ RUN tlmgr install \
     ec \
     environ \
     epstopdf \
+    epstopdf-pkg \
     float \
     geometry \
     graphics \
@@ -504,6 +505,7 @@ RUN tlmgr install \
     makecell \
     multirow \
     oberdiek \
+    pdflscape \ 
     tabu \
     tex-gyre-math \
     texlive-scripts \
