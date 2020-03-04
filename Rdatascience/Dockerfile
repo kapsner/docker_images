@@ -476,7 +476,7 @@ RUN for package in $z; do \
     done && \
     rm -rf /tmp/*
 
-RUN R -q -e "tinytex::install_tinytex()"
+RUN R -q -e "tinytex::reinstall_tinytex()"
 
 # install required LaTeX-Packages
 RUN tlmgr update --self
