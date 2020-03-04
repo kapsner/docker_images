@@ -476,49 +476,48 @@ RUN for package in $z; do \
     done && \
     rm -rf /tmp/*
 
-RUN R -q -e "tinytex::reinstall_tinytex()"
-
 # install required LaTeX-Packages
-RUN tlmgr update --self
-RUN tlmgr update --all
-RUN tlmgr install \
-    amsfonts \
-    amsmath \
-    babel \
-    babel-german \
-    caption \
-    colortbl \
-    dehyph-exptl \
-    ec \
-    environ \
-    epstopdf \
-    epstopdf-pkg \
-    float \
-    geometry \
-    graphics \
-    graphics-def \
-    hyperref \
-    hyphen-german \
-    iftex \
-    koma-script \
-    lm \
-    makecell \
-    multirow \
-    oberdiek \
-    pdflscape \ 
-    tabu \
-    tex-gyre-math \
-    texlive-scripts \
-    threeparttable \
-    threeparttablex \
-    titling \
-    tools \
-    trimspaces \
-    varwidth \
-    wrapfig \
-    ulem \
-    url \
-    xcolor
+RUN R -q -e "tinytex::reinstall_tinytex()"
+RUN R -q -e "tinytex::tlmgr_update(all = TRUE, self = TRUE)"
+
+ARG tiny="'amsfonts', \ 
+    'amsmath', \ 
+    'babel', \ 
+    'babel-german', \ 
+    'caption', \ 
+    'colortbl', \ 
+    'dehyph-exptl', \ 
+    'ec', \ 
+    'environ', \ 
+    'epstopdf', \ 
+    'epstopdf-pkg', \ 
+    'float', \ 
+    'geometry', \ 
+    'graphics', \ 
+    'graphics-def', \ 
+    'hyperref', \ 
+    'hyphen-german', \ 
+    'iftex', \ 
+    'koma-script', \ 
+    'lm', \ 
+    'makecell', \ 
+    'multirow', \ 
+    'oberdiek', \ 
+    'pdflscape', \ 
+    'tabu', \ 
+    'tex-gyre-math', \ 
+    'texlive-scripts', \ 
+    'threeparttable', \ 
+    'threeparttablex', \ 
+    'titling', \ 
+    'tools', \ 
+    'trimspaces', \ 
+    'varwidth', \ 
+    'wrapfig', \ 
+    'ulem', \ 
+    'url', \ 
+    'xcolor'"
+RUN R -q -e "tinytex::tlmgr_install(pkgs = c(${tiny}))"
 
 # safety-check at the end: 
 # 1) look if everything is installed correctely (if not, you might add system-dependencies in the base_image)
