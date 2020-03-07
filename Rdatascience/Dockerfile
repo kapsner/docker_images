@@ -440,7 +440,8 @@ RUN for package in $u; do \
     done && \
     rm -rf /tmp/*
 
-ARG v="vegan"
+ARG v="vegan \ 
+    vroom"
 RUN for package in $v; do \
     R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
     done && \
