@@ -60,6 +60,7 @@ RUN R -q -e "p <- \"remotes\"; if (isFALSE(p %in% installed.packages()[,\"Packag
 ARG a="abind \ 
     ada \ 
     adabag \ 
+    aplpack \ 
     arm \ 
     arules \ 
     arulesViz"
@@ -345,7 +346,8 @@ ARG r="R.utils \
     ReporteRsjars \ 
     reshape2 \ 
     reticulate \ 
-    rgenoud \ 
+    rgenoud \
+    rgl \  
     rJava \ 
     RJDBC \ 
     rlang \ 
