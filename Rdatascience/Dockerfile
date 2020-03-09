@@ -245,15 +245,10 @@ ARG m="manipulate \
     microbenchmark \ 
     mlbench \ 
     MLmetrics \ 
-    mlr3 \ 
     mlr3db \ 
-    mlr3filters \ 
-    mlr3learners \ 
     mlr3measures \ 
     mlr3misc \ 
-    mlr3pipelines \ 
     mlr3proba \ 
-    mlr3tuning \ 
     mlr3verse \ 
     mltools \ 
     muhaz"

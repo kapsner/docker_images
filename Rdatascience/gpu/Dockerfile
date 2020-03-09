@@ -128,6 +128,12 @@ RUN mkdir -p /etc/OpenCL/vendors && \
 
 # finally, install required R packages
 
+ARG packages="data.table"
+RUN for package in $packages; do \
+    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
+    done && \
+    rm -rf /tmp/*
+
 ARG packages="future"
 RUN for package in $packages; do \
     R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
@@ -146,9 +152,8 @@ RUN for package in $packages; do \
     done && \
     rm -rf /tmp/*
 
-ARG packages="mlr3 \ 
-    mlr3misc \ 
-    mlr3tuning \ 
+ARG packages="mlr3misc \ 
+    mlr3verse \ 
     mlbench \ 
     MLmetrics"
 RUN for package in $packages; do \
@@ -156,7 +161,7 @@ RUN for package in $packages; do \
     done && \
     rm -rf /tmp/*
 
-ARG packages="paradox"
+ARG packages="tidyr"
 RUN for package in $packages; do \
     R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
     done && \
@@ -168,13 +173,7 @@ RUN for package in $packages; do \
     done && \
     rm -rf /tmp/*
 
-ARG packages="paradox"
-RUN for package in $packages; do \
-    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
-    done && \
-    rm -rf /tmp/*
-
-ARG packages="qpdf"
+ARG packages="vroom"
 RUN for package in $packages; do \
     R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
     done && \
@@ -190,6 +189,16 @@ RUN rm -rf /var/lib/apt/lists/* && \
     rm -rf /tmp/*
 RUN rm -rf /home/${RSTUDIO_USER}/.cache/pip/*
 RUN apt-get clean && apt-get autoclean && apt-get autoremove
+
+# make deployed shiny app accessible via port 3838
+RUN echo "options(shiny.port = 3838)" >> /home/${RSTUDIO_USER}/.Rprofile && \
+    echo "options(shiny.host = '0.0.0.0')" >> /home/${RSTUDIO_USER}/.Rprofile && \
+    echo "options(shiny.launch.browser = FALSE)" >> /home/${RSTUDIO_USER}/.Rprofile 
+
+# add custom RStudio theme ("Dracula")
+ADD _volume/user-settings /home/${RSTUDIO_USER}/.rstudio/monitored/user-settings/
+RUN chown -R ${RSTUDIO_USER}:${RSTUDIO_USER} /home/${RSTUDIO_USER}/.rstudio && \
+    chmod 644 /home/${RSTUDIO_USER}/.rstudio/monitored/user-settings/user-settings
 
 # docker GPU not working with docker-compose
 # docker run --rm --gpus all -p 8787:8787 -e PASSWORD=password -e ROOT=TRUE -v ~/R:/home/rstudio/volume rdsc_gpu
