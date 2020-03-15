@@ -337,6 +337,7 @@ ARG r="R.utils \
     rcompanion \ 
     RConics \ 
     Rcpp \ 
+    RcppRoll \ 
     RCurl \ 
     readr \ 
     readstata13 \ 

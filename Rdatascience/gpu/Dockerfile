@@ -161,6 +161,12 @@ RUN for package in $packages; do \
     done && \
     rm -rf /tmp/*
 
+ARG packages="RcppRoll"
+RUN for package in $packages; do \
+    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
+    done && \
+    rm -rf /tmp/*
+
 ARG packages="tidyr"
 RUN for package in $packages; do \
     R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
