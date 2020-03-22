@@ -109,10 +109,11 @@ RUN for package in $e; do \
 
 ARG f="factoextra \ 
     fastAdaboost \ 
-    flexclust \
+    flexclust \ 
+    flexdashboard \ 
     flexmix \ 
     foreach \ 
-    forecast \
+    forecast \ 
     foreign \ 
     formatR \ 
     fpc \ 
