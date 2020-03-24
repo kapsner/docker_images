@@ -11,4 +11,4 @@ services:
     environment:
     - DISPLAY=$IP:0
     volumes:
-    - ./volume:/home/rstudio/volume
+    - ./volume:/home/user/volume

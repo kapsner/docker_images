@@ -11,6 +11,6 @@ services:
     environment:
     - DISPLAY=$DISPLAY
     volumes:
-    - ./volume:/home/rstudio/volume
+    - ./volume:/home/user/volume
     - /tmp/.X11-unix:/tmp/.X11-unix
     tty: true

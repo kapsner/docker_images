@@ -9,5 +9,5 @@ services:
     - "54321:54321" #h2o flow
     # https://github.com/rocker-org/rocker-versioned/blob/master/rstudio/README.md
     volumes:
-    - ./volume:/home/rstudio/volume 
+    - ./volume:/home/user/volume 
     tty: true

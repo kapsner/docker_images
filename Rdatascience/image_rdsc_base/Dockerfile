@@ -66,6 +66,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libboost-filesystem-dev \
     libbz2-dev \
     libcairo2-dev \
+    libclang-dev \
     libffi-dev \
     libglu1-mesa-dev \
     libgmp3-dev \
@@ -90,6 +91,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     net-tools \
     pandoc \
     pandoc-citeproc \
+    # rstudio dependency
+    psmisc \
     python3-dev \
     python3-pip \
     python3-venv \
@@ -101,7 +104,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     texinfo \
     tk8.6-dev \
     traceroute \
-    unixodbc-dev 
+    unixodbc-dev
 
 RUN apt-get clean && \ 
     apt-get autoclean && \
