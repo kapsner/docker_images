@@ -1,10 +1,10 @@
 #!/bin/bash
 
 printf "\nBuild rdsc_base image\n"
-source image_rdsc_base/build_rdsc_base.sh
+docker build -f image_rdsc_base/Dockerfile -t rdsc_base .
 
 printf "\nBuild rdsc_headless image\n"
-source image_rdsc_headless/build_rdsc_headless.sh
+docker build -f image_rdsc_headless/Dockerfile -t rdsc_headless .
 
 printf "\nBuild rdsc_rstudio image\n"
-source image_rdsc_rstudio/build_rdsc_rstudio.sh
+docker build -f image_rdsc_rstudio/Dockerfile -t rdsc_rstudio .
