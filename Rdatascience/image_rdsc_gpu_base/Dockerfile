@@ -1,33 +1,12 @@
-# FROM rdsc_base:latest
-# # if using FROM rdsc_base, reticulate configuration is not necessary anymore
-# # and can be commented out
+FROM rdsc_base:latest
 
-# # uninstall lightgbm, xgboost, keras
-# # R 
-# RUN R -e "remove.packages(c(\"LightGBM\", \"xgboost\"))"
-# # python 
-# RUN pip uninstall -y xgboost lightgbm tensorflow
+# set rsession user here
+ENV RSESSION_USER="user" 
 
-FROM rocker/verse:3.6.2
-
-# set cran repo
-RUN echo "options('repos' = 'https://ftp.fau.de/cran/')" >> /usr/local/lib/R/etc/Rprofile.site
-
-########################
-#### install/configure reticulate
-########################
-ENV RSTUDIO_USER="rstudio" 
-RUN echo ${RSTUDIO_USER}:password | chpasswd 
-
-# install reticulate
-ARG packages="reticulate" 
-RUN for package in $packages; do \
-    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
-    done && \
-    rm -rf /tmp/*
+ENV DEBIAN_FRONTEND=noninteractive
 
 # switch user
-USER ${RSTUDIO_USER}
+USER ${RSESSION_USER}
 
 # install miniconda via reticulate and configure python
 RUN R -q -e "reticulate::install_miniconda(); reticulate::py_config()"
@@ -35,14 +14,14 @@ RUN R -q -e "reticulate::install_miniconda(); reticulate::py_config()"
 # switch back
 USER root
 
-ENV PATH="/home/${RSTUDIO_USER}/bin:${PATH}"
-ENV PATH="/home/${RSTUDIO_USER}/.local/share/r-miniconda/envs/r-reticulate/bin:${PATH}"
-RUN echo "export PATH=${PATH}" > /home/${RSTUDIO_USER}/.profile && chmod +x /home/${RSTUDIO_USER}/.profile
-RUN echo "export RETICULATE_PYTHON=/home/${RSTUDIO_USER}/.local/share/r-miniconda/envs/r-reticulate/bin/python" >> /usr/local/lib/R/etc/Renviron
+ENV PATH="/home/${RSESSION_USER}/bin:${PATH}"
+ENV PATH="/home/${RSESSION_USER}/.local/share/r-miniconda/envs/r-reticulate/bin:${PATH}"
+RUN echo "export PATH=${PATH}" > /home/${RSESSION_USER}/.profile && chmod +x /home/${RSESSION_USER}/.profile
+RUN echo "export RETICULATE_PYTHON=/home/${RSESSION_USER}/.local/share/r-miniconda/envs/r-reticulate/bin/python" >> /usr/local/lib/R/etc/Renviron
 RUN echo "PATH=${PATH}" > /etc/environment
 
 # switch user
-USER ${RSTUDIO_USER}
+USER ${RSESSION_USER}
 
 # install scikit-learn
 RUN yes | pip install \
@@ -61,7 +40,7 @@ USER root
 ########################
 
 # xgboost branch
-ENV XGBOOST_BRANCH v0.90
+ENV XGBOOST_BRANCH=v0.90
 
 ########################
 # base
@@ -77,9 +56,9 @@ RUN curl -fsSL https://developer.download.nvidia.com/compute/cuda/repos/ubuntu18
     echo "deb https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64 /" > /etc/apt/sources.list.d/cuda.list && \
     echo "deb https://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1804/x86_64 /" > /etc/apt/sources.list.d/nvidia-ml.list
 
-ENV CUDA_VERSION 10.1.243
+ENV CUDA_VERSION=10.1.243
 
-ENV CUDA_PKG_VERSION 10-1=$CUDA_VERSION-1
+ENV CUDA_PKG_VERSION=10-1=$CUDA_VERSION-1
 
 # For libraries in the cuda-compat-* package: https://docs.nvidia.com/cuda/eula/index.html#attachment-a
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -92,18 +71,18 @@ RUN rm -rf /var/lib/apt/lists/*
 RUN echo "/usr/local/nvidia/lib" >> /etc/ld.so.conf.d/nvidia.conf && \
     echo "/usr/local/nvidia/lib64" >> /etc/ld.so.conf.d/nvidia.conf
 
-ENV PATH /usr/local/nvidia/bin:/usr/local/cuda/bin:${PATH}
-ENV LD_LIBRARY_PATH ${LD_LIBRARY_PATH}:/usr/local/nvidia/lib:/usr/local/nvidia/lib64
+ENV PATH=/usr/local/nvidia/bin:/usr/local/cuda/bin:${PATH}
+ENV LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/nvidia/lib:/usr/local/nvidia/lib64
 
 # nvidia-container-runtime
-ENV NVIDIA_VISIBLE_DEVICES all
-ENV NVIDIA_DRIVER_CAPABILITIES compute,utility
-ENV NVIDIA_REQUIRE_CUDA "cuda>=10.1 brand=tesla,driver>=384,driver<385 brand=tesla,driver>=396,driver<397 brand=tesla,driver>=410,driver<411"
+ENV NVIDIA_VISIBLE_DEVICES=all
+ENV NVIDIA_DRIVER_CAPABILITIES=compute,utility
+ENV NVIDIA_REQUIRE_CUDA="cuda>=10.1 brand=tesla,driver>=384,driver<385 brand=tesla,driver>=396,driver<397 brand=tesla,driver>=410,driver<411"
 
 ########################
 # runtime
 # adapted from https://gitlab.com/nvidia/container-images/cuda/blob/master/dist/ubuntu18.04/10.1/runtime/Dockerfile
-ENV NCCL_VERSION 2.4.8
+ENV NCCL_VERSION=2.4.8
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     cuda-libraries-$CUDA_PKG_VERSION \
@@ -125,12 +104,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libcublas-dev=10.2.1.243-1
 RUN rm -rf /var/lib/apt/lists/*
 
-ENV LIBRARY_PATH /usr/local/cuda/lib64/stubs
+ENV LIBRARY_PATH=/usr/local/cuda/lib64/stubs
 
 ########################
 # cudnn7
 # adapted from https://gitlab.com/nvidia/container-images/cuda/blob/master/dist/ubuntu18.04/10.1/devel/cudnn7/Dockerfile
-ENV CUDNN_VERSION 7.6.5.32
+ENV CUDNN_VERSION=7.6.5.32
 RUN apt-get update && apt-get install -y --no-install-recommends \
     libcudnn7=$CUDNN_VERSION-1+cuda10.1 \
     libcudnn7-dev=$CUDNN_VERSION-1+cuda10.1 && \
@@ -140,12 +119,12 @@ RUN rm -rf /var/lib/apt/lists/*
 #########################
 #########################
 # update environment variables 
-ENV CUDA_HOME /usr/local/cuda
-ENV LD_LIBRARY_PATH ${LD_LIBRARY_PATH}:${CUDA_HOME}/lib64
-ENV LD_LIBRARY_PATH ${LD_LIBRARY_PATH}:/usr/local/lib:/usr/local/nvidia/lib:/usr/local/nvidia/lib64
-ENV PATH ${CUDA_HOME}/bin:${PATH}
-ENV OPENCL_LIBRARIES /usr/local/cuda/lib64
-ENV OPENCL_INCLUDE_DIR /usr/local/cuda/include
+ENV CUDA_HOME=/usr/local/cuda
+ENV LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${CUDA_HOME}/lib64
+ENV LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/lib:/usr/local/nvidia/lib:/usr/local/nvidia/lib64
+ENV PATH=${CUDA_HOME}/bin:${PATH}
+ENV OPENCL_LIBRARIES=/usr/local/cuda/lib64
+ENV OPENCL_INCLUDE_DIR=/usr/local/cuda/include
 
 #########################
 # install prerequisites for lightgbm
@@ -212,7 +191,7 @@ RUN rm -rf LightGBM
 RUN R -q -e "install.packages('keras')"
 
 # switch user
-USER ${RSTUDIO_USER}
+USER ${RSESSION_USER}
 
 # install keras (when pip virtualenv is already installed)
 RUN R -q -e "keras::install_keras(tensorflow = 'gpu')"
@@ -220,4 +199,4 @@ RUN R -q -e "keras::install_keras(tensorflow = 'gpu')"
 # switch back
 USER root
 
-# evtl h2o4gpu, gpuR
+# evtl add h2o4gpu, gpuR

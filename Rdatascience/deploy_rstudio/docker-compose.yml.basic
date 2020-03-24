@@ -1,17 +1,13 @@
 version: '3'
 services:
   rdatascience:
-    image: rdsc_base:latest
+    image: rdsc_rstudio:latest
     # restart: unless-stopped
     ports:
     - "8787:8787" #rstudio
     - "3838:3838" #shiny
     - "54321:54321" #h2o flow
     # https://github.com/rocker-org/rocker-versioned/blob/master/rstudio/README.md
-    environment:
-    - PASSWORD=password
-    - ROOT=TRUE
-    #- ADD=shiny
     volumes:
     - ./volume:/home/rstudio/volume 
     tty: true

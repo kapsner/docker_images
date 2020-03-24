@@ -4,6 +4,10 @@ FROM ubuntu:19.10
 ENV DEBIAN_FRONTEND=noninteractive \
     JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 
+# set ENV-Vars
+ARG DISPLAY
+ENV DISPLAY=${DISPLAY}
+
 RUN apt-get update && apt-get install -y --no-install-recommends \
     apt-utils\ 
     build-essential \
@@ -120,3 +124,14 @@ RUN echo ${RSESSION_USER} ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/${RSESSION_
 # make R site-library default package installation folder writeable
 RUN mkdir -p /usr/local/lib/R/site-library
 RUN chown -R ${RSESSION_USER}:${RSESSION_USER} /usr/local/lib/R/site-library
+
+# set cran repo
+RUN echo "options('repos' = 'https://ftp.fau.de/cran/')" >> /etc/R/Rprofile.site
+
+# Update where R expects to find various Java files
+RUN R CMD javareconf
+
+# first, make sure, that package "remotes" is installed, so we can make use
+# of its function remotes::update_packages 
+# https://rdrr.io/cran/remotes/man/update_packages.html
+RUN R -q -e "install.packages(c('remotes', 'devtools'))"

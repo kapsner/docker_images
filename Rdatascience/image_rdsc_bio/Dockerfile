@@ -1,4 +1,5 @@
-FROM rdsc_base:latest
+FROM rdsc_rstudio:latest
+#FROM rdsc_headless:latest
 
 ARG packages="BiocManager" 
 RUN for package in $packages; do \

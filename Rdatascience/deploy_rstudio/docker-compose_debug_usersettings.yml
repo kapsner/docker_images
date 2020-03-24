@@ -1,8 +1,7 @@
 version: "3"
 services:
   r_datascience_debug:
-    #image: rdsc_base:latest
-    image: rocker/verse:3.6.1
+    image: rdsc_base:latest
     # restart: unless-stopped
     ports:
       - "8787:8787" #rstudio
@@ -10,6 +9,4 @@ services:
       - ./volume:/home/rstudio/.rstudio/monitored/user-settings/
     environment:
       - DISPLAY=$DISPLAY
-      - PASSWORD=password
-      - ROOT=TRUE
     tty: true

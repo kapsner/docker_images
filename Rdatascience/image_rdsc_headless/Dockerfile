@@ -1,61 +1,9 @@
-FROM rocker/verse:3.6.2
+FROM rdsc_base:latest
 
-ENV DEBIAN_FRONTEND noninteractive
+# set rsession user here
+ENV RSESSION_USER="user" 
 
-# set cran repo
-RUN echo "options('repos' = 'https://ftp.fau.de/cran/')" >> /usr/local/lib/R/etc/Rprofile.site
-
-# install required custom system dependencies
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    byobu \
-    cmake \
-    curl \
-    ffmpeg \
-    htop \
-    imagemagick \
-    # pocketsphinx
-    libasound2-dev \ 
-    libboost-dev \
-    libboost-system-dev \
-    libboost-filesystem-dev \
-    libffi-dev \
-    libglu1-mesa-dev \
-    libgmp3-dev \
-    libgsl-dev \
-    libmpfr-dev \
-    libxt-dev \
-    # xslt package
-    libxslt1-dev \
-    lmodern \
-    # pocketsphinx
-    libpulse-dev \
-    locate \
-    nano \
-    net-tools \
-    pandoc \
-    pandoc-citeproc \
-    python3-dev \
-    python3-pip \
-    python3-venv \
-    # pocketsphinx
-    swig \
-    # dependencies for aplpack
-    tcl8.6-dev \
-    tk8.6-dev \
-    traceroute
-RUN rm -rf /var/lib/apt/lists/*
-
-# Update where R expects to find various Java files
-RUN R CMD javareconf
-
-# set ENV-Vars
-ARG DISPLAY
-ENV DISPLAY=${DISPLAY}
-
-# first, make sure, that package "remotes" is installed, so we can make use
-# of its function remotes::update_packages 
-# https://rdrr.io/cran/remotes/man/update_packages.html
-RUN R -q -e "p <- \"remotes\"; if (isFALSE(p %in% installed.packages()[,\"Package\"])){; cat(paste(\"Installing package:\", p, \"\n\n\")); install.packages(p, repos = \"${R_REPO}\", quiet=T);} else {;cat(paste(\"Package\", p, \"is already installed\n\n\"));}"
+ENV DEBIAN_FRONTEND=noninteractive
 
 ARG a="abind \ 
     ada \ 
@@ -216,7 +164,8 @@ RUN for package in $k; do \
     done && \
     rm -rf /tmp/*
 
-ARG l="latticeExtra \ 
+ARG l="languageserver \
+    latticeExtra \ 
     lava \ 
     lda \ 
     ldatuning \ 
@@ -476,8 +425,14 @@ RUN for package in $z; do \
     done && \
     rm -rf /tmp/*
 
+# switch user
+USER ${RSESSION_USER}
 # install required LaTeX-Packages
-RUN R -q -e "tinytex::reinstall_tinytex()"
+RUN R -q -e "tinytex::install_tinytex()"
+USER root
+
+ENV PATH="/home/${RSESSION_USER}/bin:/home/${RSESSION_USER}/.TinyTeX/bin:${PATH}"
+
 RUN R -q -e "tinytex::tlmgr_update(all = TRUE, self = TRUE)"
 
 ARG tiny="'amsfonts', \ 
@@ -489,7 +444,6 @@ ARG tiny="'amsfonts', \
     'dehyph-exptl', \ 
     'ec', \ 
     'environ', \ 
-    'epstopdf', \ 
     'epstopdf-pkg', \ 
     'float', \ 
     'geometry', \ 
@@ -543,21 +497,8 @@ RUN cd LightGBM && \
     Rscript build_r.R
 RUN rm -rf LightGBM
 
-# workaround, to get stuff properly installed in users home dir
-# set rstudio user here
-ENV RSTUDIO_USER="rstudio" 
-
-# change the ownership of the tinytex-folder
-RUN chown -R ${RSTUDIO_USER}:${RSTUDIO_USER} /opt/TinyTeX/
-RUN chown -R ${RSTUDIO_USER}:${RSTUDIO_USER} /usr/local/bin/
-
-# add user + password
-# https://s/home/${RSTUDIO_USER}/.virtualenvs/r-reticulate/bin/tackoverflow.com/questions/2150882/how-to-automatically-add-user-account-and-password-with-a-bash-script
-#RUN useradd -ms /bin/bash ${RSTUDIO_USER} # rstudio user already exists
-RUN echo ${RSTUDIO_USER}:password | chpasswd 
-
 # switch user
-USER ${RSTUDIO_USER}
+USER ${RSESSION_USER}
 
 # install miniconda via reticulate and configure python
 RUN R -q -e "reticulate::install_miniconda(); reticulate::py_config()"
@@ -567,21 +508,20 @@ USER root
 
 # we can now add add the virtualenv python to PATH (on first place)
 # add newly installed dependencies to PATH
-ENV PATH="/home/${RSTUDIO_USER}/bin:${PATH}"
-ENV PATH="/home/${RSTUDIO_USER}/.local/share/r-miniconda/envs/r-reticulate/bin:${PATH}"
+ENV PATH="/home/${RSESSION_USER}/.local/share/r-miniconda/envs/r-reticulate/bin:${PATH}"
 
 # add PATH to a profile script (workaround so that path is available in rstudio's terminal)
-RUN echo "export PATH=${PATH}" > /home/${RSTUDIO_USER}/.profile && chmod +x /home/${RSTUDIO_USER}/.profile
+RUN echo "export PATH=${PATH}" > /home/${RSESSION_USER}/.profile && chmod +x /home/${RSESSION_USER}/.profile
 
 # Add RETICULATE_PYTHON variable to Renviron
 # current ${R_HOME} = /usr/local/lib/R
-RUN echo "export RETICULATE_PYTHON=/home/${RSTUDIO_USER}/.local/share/r-miniconda/envs/r-reticulate/bin/python" >> /usr/local/lib/R/etc/Renviron
+RUN echo "export RETICULATE_PYTHON=/home/${RSESSION_USER}/.local/share/r-miniconda/envs/r-reticulate/bin/python" >> /etc/R/Renviron
 # set PATH for all users
 RUN echo "PATH=${PATH}" > /etc/environment
 
 # switch user (let everything in .virtualenv/r-reticulate be installed by the user)
 # we can use pip here, since we added the virtualenv to the beginning of our PATH variable
-USER ${RSTUDIO_USER}
+USER ${RSESSION_USER}
 
 # install python prerequisites
 RUN yes | pip install \
@@ -598,6 +538,7 @@ RUN yes | pip install \
     fhirclient
 
 RUN yes | pip install \
+    jedi \
     jinja2
 
 RUN yes | pip install \
@@ -614,12 +555,19 @@ RUN yes | pip install \
 RUN yes | pip install \
     pandas \
     pocketsphinx \
-    pydub
+    pydub \
+    pylint
+
+RUN yes | pip install \
+    radian
 
 RUN yes | pip install \
     scikit-learn \
     scipy \
     SpeechRecognition
+
+RUN yes | pip install \
+    xgboost
 
 # configure the other r packages
 # install phantomjs
@@ -647,18 +595,15 @@ RUN R -q -e "devtools::install_git(url = 'https://gitlab.miracum.org/kosmic/kosm
 # clear caches
 RUN rm -rf /var/lib/apt/lists/* && \
     rm -rf /tmp/*
-RUN rm -rf /home/${RSTUDIO_USER}/.cache/pip/*
+RUN rm -rf /home/${RSESSION_USER}/.cache/pip/*
 RUN apt-get clean && apt-get autoclean && apt-get autoremove
 
 # make deployed shiny app accessible via port 3838
-RUN echo "options(shiny.port = 3838)" >> /home/${RSTUDIO_USER}/.Rprofile && \
-    echo "options(shiny.host = '0.0.0.0')" >> /home/${RSTUDIO_USER}/.Rprofile && \
-    echo "options(shiny.launch.browser = FALSE)" >> /home/${RSTUDIO_USER}/.Rprofile 
+RUN echo "options(shiny.port = 3838)" >> /home/${RSESSION_USER}/.Rprofile && \
+    echo "options(shiny.host = '0.0.0.0')" >> /home/${RSESSION_USER}/.Rprofile && \
+    echo "options(shiny.launch.browser = FALSE)" >> /home/${RSESSION_USER}/.Rprofile && \
+    # https://github.com/Ikuyadeu/vscode-R#r-session-watcher-experimental
+    echo "source(file.path(Sys.getenv(if (.Platform\$OS.type == 'windows') 'USERPROFILE' else 'HOME'), '.vscode-R', 'init.R'))" >> /home/${RSESSION_USER}/.Rprofile
 
-# add custom RStudio theme ("Dracula")
-ADD _volume/user-settings /home/${RSTUDIO_USER}/.rstudio/monitored/user-settings/
-RUN chown -R ${RSTUDIO_USER}:${RSTUDIO_USER} /home/${RSTUDIO_USER}/.rstudio && \
-    chmod 644 /home/${RSTUDIO_USER}/.rstudio/monitored/user-settings/user-settings
-
-# debugging:
-# docker run --rm -p 8787:8787 -e PASSWORD=password -v ~/R:/home/rstudio/volume rocker/verse:3.6.1
+# add radian profile
+ADD config/.radian_profile /home/${RSESSION_USER}/.radian_profile

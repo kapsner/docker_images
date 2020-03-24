@@ -2,18 +2,17 @@
 ### GPU image
 #######################
 
-FROM rdsc_gpu_base AS gpu_compile_stage
+FROM rdsc_gpu_base:latest AS gpu_compile_stage
 
 #######################
 ### Final image
 #######################
-FROM rocker/verse:3.6.2
+FROM rdsc_base:latest
 
-# set cran repo
-RUN echo "options('repos' = 'https://ftp.fau.de/cran/')" >> /usr/local/lib/R/etc/Rprofile.site
+# set rsession user here
+ENV RSESSION_USER="user" 
 
-# Update where R expects to find various Java files
-RUN R CMD javareconf
+ENV DEBIAN_FRONTEND=noninteractive
 
 #######################
 ### GPU compiled stuff
@@ -33,11 +32,8 @@ COPY --from=gpu_compile_stage ${R_DIR} ${R_DIR}
 ########################
 #### install/configure reticulate
 ########################
-ENV RSTUDIO_USER="rstudio" 
-RUN echo ${RSTUDIO_USER}:password | chpasswd 
-
 # switch user
-USER ${RSTUDIO_USER}
+USER ${RSESSION_USER}
 
 # install miniconda via reticulate and configure python
 RUN R -q -e "reticulate::py_config()"
@@ -45,10 +41,10 @@ RUN R -q -e "reticulate::py_config()"
 # switch back
 USER root
 
-ENV PATH="/home/${RSTUDIO_USER}/bin:${PATH}"
-ENV PATH="/home/${RSTUDIO_USER}/.local/share/r-miniconda/envs/r-reticulate/bin:${PATH}"
-RUN echo "export PATH=${PATH}" > /home/${RSTUDIO_USER}/.profile && chmod +x /home/${RSTUDIO_USER}/.profile
-RUN echo "export RETICULATE_PYTHON=/home/${RSTUDIO_USER}/.local/share/r-miniconda/envs/r-reticulate/bin/python" >> /usr/local/lib/R/etc/Renviron
+ENV PATH="/home/${RSESSION_USER}/bin:${PATH}"
+ENV PATH="/home/${RSESSION_USER}/.local/share/r-miniconda/envs/r-reticulate/bin:${PATH}"
+RUN echo "export PATH=${PATH}" > /home/${RSESSION_USER}/.profile && chmod +x /home/${RSESSION_USER}/.profile
+RUN echo "export RETICULATE_PYTHON=/home/${RSESSION_USER}/.local/share/r-miniconda/envs/r-reticulate/bin/python" >> /usr/local/lib/R/etc/Renviron
 RUN echo "PATH=${PATH}" > /etc/environment
 
 ########################
@@ -71,9 +67,9 @@ RUN curl -fsSL https://developer.download.nvidia.com/compute/cuda/repos/ubuntu18
     echo "deb https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64 /" > /etc/apt/sources.list.d/cuda.list && \
     echo "deb https://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1804/x86_64 /" > /etc/apt/sources.list.d/nvidia-ml.list
 
-ENV CUDA_VERSION 10.1.243
+ENV CUDA_VERSION=10.1.243
 
-ENV CUDA_PKG_VERSION 10-1=$CUDA_VERSION-1
+ENV CUDA_PKG_VERSION=10-1=$CUDA_VERSION-1
 
 # For libraries in the cuda-compat-* package: https://docs.nvidia.com/cuda/eula/index.html#attachment-a
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -90,14 +86,14 @@ ENV PATH /usr/local/nvidia/bin:/usr/local/cuda/bin:${PATH}
 ENV LD_LIBRARY_PATH ${LD_LIBRARY_PATH}:/usr/local/nvidia/lib:/usr/local/nvidia/lib64
 
 # nvidia-container-runtime
-ENV NVIDIA_VISIBLE_DEVICES all
-ENV NVIDIA_DRIVER_CAPABILITIES compute,utility
-ENV NVIDIA_REQUIRE_CUDA "cuda>=10.1 brand=tesla,driver>=384,driver<385 brand=tesla,driver>=396,driver<397 brand=tesla,driver>=410,driver<411"
+ENV NVIDIA_VISIBLE_DEVICES=all
+ENV NVIDIA_DRIVER_CAPABILITIES=compute,utility
+ENV NVIDIA_REQUIRE_CUDA="cuda>=10.1 brand=tesla,driver>=384,driver<385 brand=tesla,driver>=396,driver<397 brand=tesla,driver>=410,driver<411"
 
 ########################
 # runtime
 # adapted from https://gitlab.com/nvidia/container-images/cuda/blob/master/dist/ubuntu18.04/10.1/runtime/Dockerfile
-ENV NCCL_VERSION 2.4.8
+ENV NCCL_VERSION=2.4.8
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     cuda-libraries-$CUDA_PKG_VERSION \
@@ -108,12 +104,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 RUN rm -rf /var/lib/apt/lists/*
 
 # update environment variables 
-ENV CUDA_HOME /usr/local/cuda
-ENV LD_LIBRARY_PATH ${LD_LIBRARY_PATH}:${CUDA_HOME}/lib64
-ENV LD_LIBRARY_PATH ${LD_LIBRARY_PATH}:/usr/local/lib:/usr/local/nvidia/lib:/usr/local/nvidia/lib64
-ENV PATH ${CUDA_HOME}/bin:${PATH}
-ENV OPENCL_LIBRARIES /usr/local/cuda/lib64
-ENV OPENCL_INCLUDE_DIR /usr/local/cuda/include
+ENV CUDA_HOME=/usr/local/cuda
+ENV LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${CUDA_HOME}/lib64
+ENV LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/lib:/usr/local/nvidia/lib:/usr/local/nvidia/lib64
+ENV PATH=${CUDA_HOME}/bin:${PATH}
+ENV OPENCL_LIBRARIES=/usr/local/cuda/lib64
+ENV OPENCL_INCLUDE_DIR=/usr/local/cuda/include
 
 # install prerequisites for lightgbm
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -193,18 +189,22 @@ RUN R -q -e "devtools::install_github(repo = 'mlr3learners/mlr3learners.lightgbm
 # clear caches
 RUN rm -rf /var/lib/apt/lists/* && \
     rm -rf /tmp/*
-RUN rm -rf /home/${RSTUDIO_USER}/.cache/pip/*
+RUN rm -rf /home/${RSESSION_USER}/.cache/pip/*
 RUN apt-get clean && apt-get autoclean && apt-get autoremove
 
-# make deployed shiny app accessible via port 3838
-RUN echo "options(shiny.port = 3838)" >> /home/${RSTUDIO_USER}/.Rprofile && \
-    echo "options(shiny.host = '0.0.0.0')" >> /home/${RSTUDIO_USER}/.Rprofile && \
-    echo "options(shiny.launch.browser = FALSE)" >> /home/${RSTUDIO_USER}/.Rprofile 
+# get RStudio-Server (Preview Version): https://www.rstudio.com/products/rstudio/download/preview/
+ENV RSTUDIO_VERSION=1.3.926 \
+    RSTUIO_URL=https://download2.rstudio.org/server/bionic/amd64/
+ENV RSTUDIO_FILE="rstudio-server-${RSTUDIO_VERSION}-amd64.deb"
+ENV RSTUDIO_LINK=${RSTUIO_URL}${RSTUDIO_FILE}
+RUN wget ${RSTUDIO_LINK}
+RUN gdebi -n ${RSTUDIO_FILE}
+RUN rm -f ${RSTUDIO_FILE}
 
 # add custom RStudio theme ("Dracula")
-ADD _volume/user-settings /home/${RSTUDIO_USER}/.rstudio/monitored/user-settings/
-RUN chown -R ${RSTUDIO_USER}:${RSTUDIO_USER} /home/${RSTUDIO_USER}/.rstudio && \
-    chmod 644 /home/${RSTUDIO_USER}/.rstudio/monitored/user-settings/user-settings
+ADD config/user-settings /home/${RSESSION_USER}/.rstudio/monitored/user-settings/
+RUN chown -R ${RSESSION_USER}:${RSESSION_USER} /home/${RSESSION_USER}/.rstudio && \
+    chmod 644 /home/${RSESSION_USER}/.rstudio/monitored/user-settings/user-settings
 
 # docker GPU not working with docker-compose
 # docker run --rm --gpus all -p 8787:8787 -e PASSWORD=password -e ROOT=TRUE -v ~/R:/home/rstudio/volume rdsc_gpu

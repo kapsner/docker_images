@@ -1,7 +1,7 @@
 version: '3'
 services:
   rdatascience:
-    image: rdsc_base:latest
+    image: rdsc_rstudio:latest
     # restart: unless-stopped
     ports:
     - "8787:8787" #rstudio
@@ -10,8 +10,7 @@ services:
     # https://github.com/rocker-org/rocker-versioned/blob/master/rstudio/README.md
     environment:
     - DISPLAY=$IP:0
-    - PASSWORD=password
-    - ROOT=TRUE
-    #- ADD=shiny
     volumes:
     - ./volume:/home/rstudio/volume
+    - /tmp/.X11-unix:/tmp/.X11-unix
+    tty: true
