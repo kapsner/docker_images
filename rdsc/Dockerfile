@@ -570,7 +570,8 @@ RUN yes | pip install \
 RUN yes | pip install \
     pandas \
     pocketsphinx \
-    pydub
+    pydub \
+    pylint
 
 RUN yes | pip install \
     radian
@@ -579,6 +580,9 @@ RUN yes | pip install \
     scikit-learn \
     scipy \
     SpeechRecognition
+
+RUN yes | pip install \
+    xgboost
 
 # configure the other r packages
 # install phantomjs
@@ -616,3 +620,5 @@ RUN echo "options(shiny.port = 3838)" >> /home/${RSESSION_USER}/.Rprofile && \
     # https://github.com/Ikuyadeu/vscode-R#r-session-watcher-experimental
     echo "source(file.path(Sys.getenv(if (.Platform\$OS.type == 'windows') 'USERPROFILE' else 'HOME'), '.vscode-R', 'init.R'))" >> /home/${RSESSION_USER}/.Rprofile
 
+# add radian profile
+ADD .radian_profile /home/${RSESSION_USER}/.radian_profile

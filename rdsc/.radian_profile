@@ -1,0 +1,8 @@
+# >>> more arguments here: https://github.com/randy3k/radian
+
+# see https://help.farbox.com/pygments.html
+# for a list of supported color schemes, default scheme is "native"
+options(radian.color_scheme = "monokai")
+
+# highlight matching bracket
+options(radian.highlight_matching_bracket = FALSE)

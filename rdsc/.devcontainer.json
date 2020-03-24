@@ -6,7 +6,8 @@
     "extensions": [
       "ikuyadeu.r",
       "reditorsupport.r-lsp",
-      "grapecity.gc-excelviewer"
+      "grapecity.gc-excelviewer",
+      "ms-python.python"
     ],
     "settings": {
       "terminal.integrated.shell.linux": "/bin/bash",
@@ -15,7 +16,11 @@
       "r.sessionWatcher": true,
       "[r]": {
           "editor.formatOnSave": false
-      }
+      },
+      "python.disableInstallationCheck": true,
+      "terminal.integrated.inheritEnv": false,
+      "python.disableInstallationCheck": true,
+      "python.pythonPath": "/home/user/.local/share/r-miniconda/envs/r-reticulate/bin/python"
     },
     "remoteUser": "user",
     "remoteEnv": {
