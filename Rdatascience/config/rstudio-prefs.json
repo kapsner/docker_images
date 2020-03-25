@@ -1,0 +1,62 @@
+{
+    "panes": {
+        "quadrants": [
+            "Source",
+            "Console",
+            "TabSet1",
+            "TabSet2"
+        ],
+        "tabSet1": [
+            "Environment",
+            "History",
+            "Connections",
+            "Build",
+            "VCS",
+            "Tutorial",
+            "Presentation"
+        ],
+        "tabSet2": [
+            "Files",
+            "Plots",
+            "Packages",
+            "Help",
+            "Viewer"
+        ],
+        "console_left_on_top": false,
+        "console_right_on_top": true
+    },
+    "auto_expand_error_tracebacks": true,
+    "show_last_dot_value": true,
+    "continue_comments_on_newline": true,
+    "highlight_selected_line": true,
+    "show_invisibles": true,
+    "show_indent_guides": true,
+    "syntax_color_console": true,
+    "highlight_r_function_calls": true,
+    "console_line_length_limit": 2000,
+    "auto_append_newline": true,
+    "strip_trailing_whitespace": true,
+    "show_help_tooltip_on_idle": true,
+    "tab_multiline_completion": true,
+    "code_completion_characters": 2,
+    "check_arguments_to_r_function_calls": true,
+    "check_unexpected_assignment_in_function_call": true,
+    "warn_if_no_such_variable_in_scope": true,
+    "warn_variable_defined_but_not_used": true,
+    "style_diagnostics": true,
+    "save_files_before_build": true,
+    "cran_mirror": {
+        "name": "Germany (Erlangen) [https]",
+        "host": "Friedrich-Alexander-Universität Erlangen-Nürnberg (FAU)",
+        "url": "https://ftp.fau.de/cran/",
+        "country": "de",
+        "ok": 1,
+        "secondary": ""
+    },
+    "use_tinytex": true,
+    "posix_terminal_shell": "custom",
+    "custom_shell_command": "~/.local/share/r-miniconda/envs/r-reticulate/bin/radian",
+    "terminal_close_behavior": "never",
+    "editor_theme": "Dracula",
+    "show_hidden_files": true
+}

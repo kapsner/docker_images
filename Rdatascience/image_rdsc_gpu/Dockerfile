@@ -194,22 +194,28 @@ RUN apt-get clean && apt-get autoclean && apt-get autoremove
 
 # get RStudio-Server (Preview Version): https://www.rstudio.com/products/rstudio/download/preview/
 ENV RSTUDIO_VERSION=1.3.926 \
-    RSTUIO_URL=https://download2.rstudio.org/server/bionic/amd64/
+    RSTUIO_URL=https://s3.amazonaws.com/rstudio-ide-build/server/bionic/amd64/
+# stable
+# ENV RSTUDIO_VERSION=1.2.5033 \
+#     RSTUIO_URL=https://download2.rstudio.org/server/bionic/amd64/
 ENV RSTUDIO_FILE="rstudio-server-${RSTUDIO_VERSION}-amd64.deb"
 ENV RSTUDIO_LINK=${RSTUIO_URL}${RSTUDIO_FILE}
 RUN wget ${RSTUDIO_LINK}
 RUN gdebi -n ${RSTUDIO_FILE}
 RUN rm -f ${RSTUDIO_FILE}
 
-# add custom RStudio theme ("Dracula")
-ADD config/user-settings /home/${RSESSION_USER}/.rstudio/monitored/user-settings/
-RUN chown -R ${RSESSION_USER}:${RSESSION_USER} /home/${RSESSION_USER}/.rstudio && \
-    chmod 644 /home/${RSESSION_USER}/.rstudio/monitored/user-settings/user-settings
-
 # overwrite headless .Rprofile
-RUN echo "options(shiny.port = 3838)" >> /home/${RSESSION_USER}/.Rprofile && \
+RUN echo "options(shiny.port = 3838)" > /home/${RSESSION_USER}/.Rprofile && \
     echo "options(shiny.host = '0.0.0.0')" >> /home/${RSESSION_USER}/.Rprofile && \
     echo "options(shiny.launch.browser = FALSE)" >> /home/${RSESSION_USER}/.Rprofile
+
+# add custom RStudio theme ("Dracula")
+ADD config/rstudio-prefs.json /home/${RSESSION_USER}/.config/rstudio/rstudio-prefs.json
+RUN chown -R ${RSESSION_USER}:${RSESSION_USER} /home/${RSESSION_USER}/ && \
+    chmod 644 /home/${RSESSION_USER}/.config/rstudio/rstudio-prefs.json
+
+# entrypoint
+ENTRYPOINT rstudio-server start && tail -f /dev/null
 
 # docker GPU not working with docker-compose
 # docker run --rm --gpus all -p 8787:8787 -e PASSWORD=password -e ROOT=TRUE -v ~/R:/home/rstudio/volume rdsc_gpu
