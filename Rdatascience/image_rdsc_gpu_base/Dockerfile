@@ -5,6 +5,9 @@ ENV RSESSION_USER="user"
 
 ENV DEBIAN_FRONTEND=noninteractive
 
+# install reticulate package
+RUN R -q -e "remotes::update_packages(packages = \"reticulate\", upgrade = \"always\")"
+
 # switch user
 USER ${RSESSION_USER}
 
