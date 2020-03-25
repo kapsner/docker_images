@@ -207,11 +207,12 @@ RUN rm -f ${RSTUDIO_FILE}
 # overwrite headless .Rprofile
 RUN echo "options(shiny.port = 3838)" > /home/${RSESSION_USER}/.Rprofile && \
     echo "options(shiny.host = '0.0.0.0')" >> /home/${RSESSION_USER}/.Rprofile && \
-    echo "options(shiny.launch.browser = FALSE)" >> /home/${RSESSION_USER}/.Rprofile
+    echo "options(shiny.launch.browser = FALSE)" >> /home/${RSESSION_USER}/.Rprofile && \
+    chown -R ${RSESSION_USER}:${RSESSION_USER} /home/${RSESSION_USER}/.Rprofile
 
 # add custom RStudio theme ("Dracula")
 ADD config/rstudio-prefs.json /home/${RSESSION_USER}/.config/rstudio/rstudio-prefs.json
-RUN chown -R ${RSESSION_USER}:${RSESSION_USER} /home/${RSESSION_USER}/ && \
+RUN chown -R ${RSESSION_USER}:${RSESSION_USER} /home/${RSESSION_USER}/.config/ && \
     chmod 644 /home/${RSESSION_USER}/.config/rstudio/rstudio-prefs.json
 
 # entrypoint
