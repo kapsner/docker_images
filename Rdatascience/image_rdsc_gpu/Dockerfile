@@ -206,6 +206,11 @@ ADD config/user-settings /home/${RSESSION_USER}/.rstudio/monitored/user-settings
 RUN chown -R ${RSESSION_USER}:${RSESSION_USER} /home/${RSESSION_USER}/.rstudio && \
     chmod 644 /home/${RSESSION_USER}/.rstudio/monitored/user-settings/user-settings
 
+# overwrite headless .Rprofile
+RUN echo "options(shiny.port = 3838)" >> /home/${RSESSION_USER}/.Rprofile && \
+    echo "options(shiny.host = '0.0.0.0')" >> /home/${RSESSION_USER}/.Rprofile && \
+    echo "options(shiny.launch.browser = FALSE)" >> /home/${RSESSION_USER}/.Rprofile
+
 # docker GPU not working with docker-compose
 # docker run --rm --gpus all -p 8787:8787 -e PASSWORD=password -e ROOT=TRUE -v ~/R:/home/rstudio/volume rdsc_gpu
 # debug: docker run --rm --gpus all -p 8787:8787 -e PASSWORD=password rdsc_gpu

@@ -18,5 +18,10 @@ ADD config/user-settings /home/${RSESSION_USER}/.rstudio/monitored/user-settings
 RUN chown -R ${RSESSION_USER}:${RSESSION_USER} /home/${RSESSION_USER}/.rstudio && \
     chmod 644 /home/${RSESSION_USER}/.rstudio/monitored/user-settings/user-settings
 
+# overwrite headless .Rprofile
+RUN echo "options(shiny.port = 3838)" >> /home/${RSESSION_USER}/.Rprofile && \
+    echo "options(shiny.host = '0.0.0.0')" >> /home/${RSESSION_USER}/.Rprofile && \
+    echo "options(shiny.launch.browser = FALSE)" >> /home/${RSESSION_USER}/.Rprofile
+
 # entrypoint
 ENTRYPOINT rstudio-server start && tail -f /dev/null
