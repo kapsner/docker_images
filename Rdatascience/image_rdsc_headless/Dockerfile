@@ -433,10 +433,9 @@ USER root
 
 ENV PATH="/home/${RSESSION_USER}/bin:/home/${RSESSION_USER}/.TinyTeX/bin/x86_64-linux:${PATH}"
 
-RUN R -q -e "tinytex::tlmgr_update(all = TRUE, self = TRUE)"
-
 ARG tiny="'amsfonts', \ 
     'amsmath', \ 
+    'atveryend', \ 
     'babel', \ 
     'babel-german', \ 
     'caption', \ 
@@ -449,10 +448,10 @@ ARG tiny="'amsfonts', \
     'geometry', \ 
     'graphics', \ 
     'graphics-def', \ 
+    'hycolor', \ 
     'hyperref', \ 
     'hyphen-german', \ 
     'iftex', \ 
-    'ifluatex', \ 
     'koma-script', \ 
     'latex-graphics-dev', \ 
     'latexconfig', \ 
@@ -475,20 +474,21 @@ ARG tiny="'amsfonts', \
     'ulem', \ 
     'url', \ 
     'xcolor'"
+
+RUN R -q -e "tinytex::tlmgr_conf()"
 RUN R -q -e "tinytex::tlmgr_install(pkgs = c(${tiny}))"
+RUN R -q -e "tinytex::tlmgr_update()"
 
 RUN chown -R ${RSESSION_USER}:${RSESSION_USER} /home/${RSESSION_USER}/.TinyTeX && \
     chmod -R g+w /home/${RSESSION_USER}/.TinyTeX && \
     chmod -R g+wx /home/${RSESSION_USER}/bin
 
-RUN /home/${RSESSION_USER}/bin/texhash
-
 # safety-check at the end: 
 # 1) look if everything is installed correctely (if not, you might add system-dependencies in the base_image)
 # 2) update all packages to the newest version
 # 3) start rstudio-server
-ARG allpackages="\"$a\" \"$b\" \"$c\" \"$d\" \"$e\" \"$f\" \"$g\" \"$h\" \
-    \"$i\" \"$j\" \"$k\" \"$l\" \"$m\" \"$n\" \"$o\" \"$p\" \"$q\" \"$r\" \
+ARG allpackages="\"$a\" \"$b\" \"$c\" \"$d\" \"$e\" \"$f\" \"$g\" \"$h\" \ 
+    \"$i\" \"$j\" \"$k\" \"$l\" \"$m\" \"$n\" \"$o\" \"$p\" \"$q\" \"$r\" \ 
     \"$s\" \"$t\" \"$u\" \"$v\" \"$w\" \"$x\" \"$y\" \"$z\""
 
 RUN export packages_format="$(echo $(echo ${allpackages} | sed -e 's/ /\"\, \"/g') | sed -e 's/\"\"/\"/g')" && \
