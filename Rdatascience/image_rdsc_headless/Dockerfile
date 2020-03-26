@@ -530,7 +530,7 @@ RUN echo "export PATH=${PATH}" >> /home/${RSESSION_USER}/.bash_profile && chmod 
 RUN echo "RETICULATE_PYTHON=/home/${RSESSION_USER}/.local/share/r-miniconda/envs/r-reticulate/bin/python" >> /etc/R/Renviron
 # set PATH for all users
 RUN echo "PATH=${PATH}" >> /etc/R/Renviron
-RUN echo "PATH=${PATH}" > /etc/environment
+RUN echo "PATH=${PATH}" >> /etc/environment
 
 # switch user (let everything in .virtualenv/r-reticulate be installed by the user)
 # we can use pip here, since we added the virtualenv to the beginning of our PATH variable
