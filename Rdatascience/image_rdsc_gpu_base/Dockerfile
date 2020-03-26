@@ -21,7 +21,7 @@ ENV PATH="/home/${RSESSION_USER}/bin:${PATH}"
 ENV PATH="/home/${RSESSION_USER}/.local/share/r-miniconda/envs/r-reticulate/bin:${PATH}"
 RUN echo "export PATH=${PATH}" > /home/${RSESSION_USER}/.profile && chmod +x /home/${RSESSION_USER}/.profile
 RUN echo "export RETICULATE_PYTHON=/home/${RSESSION_USER}/.local/share/r-miniconda/envs/r-reticulate/bin/python" >> /etc/R/Renviron
-RUN echo "PATH=${PATH}" > /etc/environment
+RUN echo "PATH=${PATH}" >> /etc/environment
 
 # switch user
 USER ${RSESSION_USER}
