@@ -431,7 +431,7 @@ USER ${RSESSION_USER}
 RUN R -q -e "tinytex::install_tinytex()"
 USER root
 
-ENV PATH="/home/${RSESSION_USER}/bin:/home/${RSESSION_USER}/.TinyTeX/bin:${PATH}"
+ENV PATH="/home/${RSESSION_USER}/bin:/home/${RSESSION_USER}/.TinyTeX/bin/x86_64-linux:${PATH}"
 
 RUN R -q -e "tinytex::tlmgr_update(all = TRUE, self = TRUE)"
 
@@ -452,7 +452,10 @@ ARG tiny="'amsfonts', \
     'hyperref', \ 
     'hyphen-german', \ 
     'iftex', \ 
+    'ifluatex', \ 
     'koma-script', \ 
+    'latex-graphics-dev', \ 
+    'latexconfig', \ 
     'lm', \ 
     'makecell', \ 
     'multirow', \ 
@@ -466,12 +469,19 @@ ARG tiny="'amsfonts', \
     'titling', \ 
     'tools', \ 
     'trimspaces', \ 
+    'ulem', \ 
     'varwidth', \ 
     'wrapfig', \ 
     'ulem', \ 
     'url', \ 
     'xcolor'"
 RUN R -q -e "tinytex::tlmgr_install(pkgs = c(${tiny}))"
+
+RUN chown -R ${RSESSION_USER}:${RSESSION_USER} /home/${RSESSION_USER}/.TinyTeX && \
+    chmod -R g+w /home/${RSESSION_USER}/.TinyTeX && \
+    chmod -R g+wx /home/${RSESSION_USER}/bin
+
+RUN /home/${RSESSION_USER}/bin/texhash
 
 # safety-check at the end: 
 # 1) look if everything is installed correctely (if not, you might add system-dependencies in the base_image)
@@ -510,13 +520,16 @@ USER root
 # add newly installed dependencies to PATH
 ENV PATH="/home/${RSESSION_USER}/.local/share/r-miniconda/envs/r-reticulate/bin:${PATH}"
 
-# add PATH to a profile script (workaround so that path is available in rstudio's terminal)
-RUN echo "export PATH=${PATH}" > /home/${RSESSION_USER}/.profile && chmod +x /home/${RSESSION_USER}/.profile
+# add PATH to a bash_profile script (workaround so that path is available in rstudio's terminal)
+# https://support.rstudio.com/hc/en-us/articles/115010737148-Using-the-RStudio-Terminal#env
+# https://docs.rstudio.com/ide/server-pro/1.2.1293-1/r-sessions.html
+RUN echo "export PATH=${PATH}" >> /home/${RSESSION_USER}/.bash_profile && chmod +x /home/${RSESSION_USER}/.bash_profile
 
 # Add RETICULATE_PYTHON variable to Renviron
 # current ${R_HOME} = /usr/local/lib/R
-RUN echo "export RETICULATE_PYTHON=/home/${RSESSION_USER}/.local/share/r-miniconda/envs/r-reticulate/bin/python" >> /etc/R/Renviron
+RUN echo "RETICULATE_PYTHON=/home/${RSESSION_USER}/.local/share/r-miniconda/envs/r-reticulate/bin/python" >> /etc/R/Renviron
 # set PATH for all users
+RUN echo "PATH=${PATH}" >> /etc/R/Renviron
 RUN echo "PATH=${PATH}" > /etc/environment
 
 # switch user (let everything in .virtualenv/r-reticulate be installed by the user)

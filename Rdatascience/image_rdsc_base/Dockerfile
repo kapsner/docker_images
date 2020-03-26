@@ -76,6 +76,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libmagick++-dev \
     libmpfr-dev \
     libobjc-7-dev \
+    libopenmpi-dev \
     libpq-dev \
     libsasl2-dev \
     libxt-dev \
@@ -83,6 +84,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libxml2-dev \
     # xslt package
     libxslt1-dev \
+    libzmq3-dev \
     lmodern \
     # pocketsphinx
     libpulse-dev \
@@ -96,6 +98,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     python3-dev \
     python3-pip \
     python3-venv \
+    qpdf \
     r-base-dev \
     # pocketsphinx
     swig \
