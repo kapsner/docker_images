@@ -140,4 +140,4 @@ RUN R CMD javareconf
 # first, make sure, that package "remotes" is installed, so we can make use
 # of its function remotes::update_packages 
 # https://rdrr.io/cran/remotes/man/update_packages.html
-RUN R -q -e "install.packages(c('remotes', 'devtools'))"
+RUN R -q -e "install.packages(c('remotes', 'devtools', 'reticulate', 'data.table'))"

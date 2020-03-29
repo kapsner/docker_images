@@ -3,10 +3,7 @@ FROM rdsc_base:latest
 # set rsession user here
 ENV RSESSION_USER="user" 
 
-ENV DEBIAN_FRONTEND=noninteractive
-
-# install reticulate package
-RUN R -q -e "remotes::update_packages(packages = \"reticulate\", upgrade = \"always\")"
+ENV DEBIAN_FRONTEND=noninteractives
 
 # switch user
 USER ${RSESSION_USER}
@@ -19,7 +16,7 @@ USER root
 
 ENV PATH="/home/${RSESSION_USER}/bin:${PATH}"
 ENV PATH="/home/${RSESSION_USER}/.local/share/r-miniconda/envs/r-reticulate/bin:${PATH}"
-RUN echo "export PATH=${PATH}" > /home/${RSESSION_USER}/.profile && chmod +x /home/${RSESSION_USER}/.profile
+RUN echo "export PATH=${PATH}" > /home/${RSESSION_USER}/.bash_profile && chmod +x /home/${RSESSION_USER}/.bash_profile
 RUN echo "export RETICULATE_PYTHON=/home/${RSESSION_USER}/.local/share/r-miniconda/envs/r-reticulate/bin/python" >> /etc/R/Renviron
 RUN echo "PATH=${PATH}" >> /etc/environment
 
@@ -41,9 +38,6 @@ USER root
 #### ML capabilities
 ########################
 ########################
-
-# xgboost branch
-ENV XGBOOST_BRANCH=v0.90
 
 ########################
 # base
@@ -159,6 +153,9 @@ RUN cd LightGBM && \
     Rscript build_r.R
 
 # install xgboost GPU R package
+# xgboost branch
+ENV XGBOOST_BRANCH=v0.90
+
 # https://hub.docker.com/r/rocker/ml-gpu/dockerfile 
 # tag v0.82 is latest GPU-compilable tag with rocker images
 RUN git clone --recursive -b ${XGBOOST_BRANCH} https://github.com/dmlc/xgboost
