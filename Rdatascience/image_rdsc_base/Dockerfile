@@ -141,3 +141,31 @@ RUN R CMD javareconf
 # of its function remotes::update_packages 
 # https://rdrr.io/cran/remotes/man/update_packages.html
 RUN R -q -e "install.packages(c('remotes', 'devtools', 'reticulate', 'data.table'))"
+
+# switch user
+USER ${RSESSION_USER}
+
+# install miniconda via reticulate and configure python
+RUN R -q -e "reticulate::install_miniconda(); reticulate::py_config()"
+
+# switch back
+USER root
+
+# we can now add add the virtualenv python to PATH (on first place)
+# add newly installed dependencies to PATH
+ENV PATH="/home/${RSESSION_USER}/.local/share/r-miniconda/envs/r-reticulate/bin:${PATH}"
+
+# Add RETICULATE_PYTHON variable to Renviron
+# current ${R_HOME} = /usr/local/lib/R
+RUN echo "RETICULATE_PYTHON=/home/${RSESSION_USER}/.local/share/r-miniconda/envs/r-reticulate/bin/python" >> /etc/R/Renviron
+
+# switch user (let everything in .virtualenv/r-reticulate be installed by the user)
+# we can use pip here, since we added the virtualenv to the beginning of our PATH variable
+USER ${RSESSION_USER}
+
+# install python prerequisites
+RUN yes | pip install \
+    setuptools \
+    wheel
+
+USER root

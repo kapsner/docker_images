@@ -507,41 +507,11 @@ RUN cd LightGBM && \
     Rscript build_r.R
 RUN rm -rf LightGBM
 
-# switch user
-USER ${RSESSION_USER}
-
-# install miniconda via reticulate and configure python
-RUN R -q -e "reticulate::install_miniconda(); reticulate::py_config()"
-
-# switch back
-USER root
-
-# we can now add add the virtualenv python to PATH (on first place)
-# add newly installed dependencies to PATH
-ENV PATH="/home/${RSESSION_USER}/.local/share/r-miniconda/envs/r-reticulate/bin:${PATH}"
-
-# add PATH to a bash_profile script (workaround so that path is available in rstudio's terminal)
-# https://support.rstudio.com/hc/en-us/articles/115010737148-Using-the-RStudio-Terminal#env
-# https://docs.rstudio.com/ide/server-pro/1.2.1293-1/r-sessions.html
-RUN echo "export PATH=${PATH}" >> /home/${RSESSION_USER}/.bash_profile && chmod +x /home/${RSESSION_USER}/.bash_profile
-
-# Add RETICULATE_PYTHON variable to Renviron
-# current ${R_HOME} = /usr/local/lib/R
-RUN echo "RETICULATE_PYTHON=/home/${RSESSION_USER}/.local/share/r-miniconda/envs/r-reticulate/bin/python" >> /etc/R/Renviron
-# set PATH for all users
-RUN echo "PATH=${PATH}" >> /etc/R/Renviron
-RUN echo "PATH=${PATH}" >> /etc/environment
-
 # switch user (let everything in .virtualenv/r-reticulate be installed by the user)
 # we can use pip here, since we added the virtualenv to the beginning of our PATH variable
 USER ${RSESSION_USER}
 
-# install python prerequisites
-RUN yes | pip install \
-    setuptools \
-    wheel
-
-# now install other python packages
+# install additional python packages
 RUN yes | pip install \
     catboost \
     "colorama>=0.3.8" \
@@ -618,6 +588,15 @@ RUN echo "options(shiny.port = 3838)" >> /home/${RSESSION_USER}/.Rprofile && \
     # https://github.com/Ikuyadeu/vscode-R#r-session-watcher-experimental
     echo "source(file.path(Sys.getenv(if (.Platform\$OS.type == 'windows') 'USERPROFILE' else 'HOME'), '.vscode-R', 'init.R'))" >> /home/${RSESSION_USER}/.Rprofile && \
     chown -R ${RSESSION_USER}:${RSESSION_USER} /home/${RSESSION_USER}/.Rprofile
+
+# add PATH to a bash_profile script (workaround so that path is available in rstudio's terminal)
+# https://support.rstudio.com/hc/en-us/articles/115010737148-Using-the-RStudio-Terminal#env
+# https://docs.rstudio.com/ide/server-pro/1.2.1293-1/r-sessions.html
+RUN echo "export PATH=${PATH}" >> /home/${RSESSION_USER}/.bash_profile && chmod +x /home/${RSESSION_USER}/.bash_profile
+
+# set PATH for all users
+RUN echo "PATH=${PATH}" >> /etc/R/Renviron
+RUN echo "PATH=${PATH}" >> /etc/environment
 
 # add radian profile
 ADD config/.radian_profile /home/${RSESSION_USER}/.radian_profile

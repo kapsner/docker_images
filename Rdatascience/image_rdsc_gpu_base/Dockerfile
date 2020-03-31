@@ -5,33 +5,6 @@ ENV RSESSION_USER="user"
 
 ENV DEBIAN_FRONTEND=noninteractives
 
-# switch user
-USER ${RSESSION_USER}
-
-# install miniconda via reticulate and configure python
-RUN R -q -e "reticulate::install_miniconda(); reticulate::py_config()"
-
-# switch back
-USER root
-
-ENV PATH="/home/${RSESSION_USER}/bin:${PATH}"
-ENV PATH="/home/${RSESSION_USER}/.local/share/r-miniconda/envs/r-reticulate/bin:${PATH}"
-RUN echo "export PATH=${PATH}" > /home/${RSESSION_USER}/.bash_profile && chmod +x /home/${RSESSION_USER}/.bash_profile
-RUN echo "export RETICULATE_PYTHON=/home/${RSESSION_USER}/.local/share/r-miniconda/envs/r-reticulate/bin/python" >> /etc/R/Renviron
-RUN echo "PATH=${PATH}" >> /etc/environment
-
-# switch user
-USER ${RSESSION_USER}
-
-# install scikit-learn
-RUN yes | pip install \
-    scikit-learn \
-    setuptools \
-    wheel
-
-# switch back
-USER root
-
 ########################
 ########################
 #### add GPU accelerated

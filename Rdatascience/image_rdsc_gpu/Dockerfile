@@ -30,24 +30,6 @@ ENV R_DIR /usr/local/lib/R/site-library
 COPY --from=gpu_compile_stage ${R_DIR} ${R_DIR}
 
 ########################
-#### install/configure reticulate
-########################
-# switch user
-USER ${RSESSION_USER}
-
-# install miniconda via reticulate and configure python
-RUN R -q -e "reticulate::py_config()"
-
-# switch back
-USER root
-
-ENV PATH="/home/${RSESSION_USER}/bin:${PATH}"
-ENV PATH="/home/${RSESSION_USER}/.local/share/r-miniconda/envs/r-reticulate/bin:${PATH}"
-RUN echo "export PATH=${PATH}" > /home/${RSESSION_USER}/.profile && chmod +x /home/${RSESSION_USER}/.profile
-RUN echo "export RETICULATE_PYTHON=/home/${RSESSION_USER}/.local/share/r-miniconda/envs/r-reticulate/bin/python" >> /etc/R/Renviron
-RUN echo "PATH=${PATH}" > /etc/environment
-
-########################
 ########################
 #### add GPU accelerated
 #### ML capabilities
@@ -214,6 +196,15 @@ RUN echo "options(shiny.port = 3838)" > /home/${RSESSION_USER}/.Rprofile && \
 ADD config/rstudio-prefs.json /home/${RSESSION_USER}/.config/rstudio/rstudio-prefs.json
 RUN chown -R ${RSESSION_USER}:${RSESSION_USER} /home/${RSESSION_USER}/.config/ && \
     chmod 644 /home/${RSESSION_USER}/.config/rstudio/rstudio-prefs.json
+
+# add PATH to a bash_profile script (workaround so that path is available in rstudio's terminal)
+# https://support.rstudio.com/hc/en-us/articles/115010737148-Using-the-RStudio-Terminal#env
+# https://docs.rstudio.com/ide/server-pro/1.2.1293-1/r-sessions.html
+RUN echo "export PATH=${PATH}" >> /home/${RSESSION_USER}/.bash_profile && chmod +x /home/${RSESSION_USER}/.bash_profile
+
+# set PATH for all users
+RUN echo "PATH=${PATH}" >> /etc/R/Renviron
+RUN echo "PATH=${PATH}" >> /etc/environment
 
 # entrypoint
 ENTRYPOINT rstudio-server start && tail -f /dev/null
