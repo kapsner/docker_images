@@ -1,4 +1,4 @@
-FROM rdsc_headless:latest
+FROM rdsc_headless_jm:latest
 
 # set rstudio user here
 ENV RSESSION_USER="user" 

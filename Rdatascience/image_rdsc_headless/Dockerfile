@@ -1,4 +1,4 @@
-FROM rdsc_base:latest
+FROM rdsc_base_jm:latest
 
 # set rsession user here
 ENV RSESSION_USER="user" 
@@ -292,6 +292,7 @@ ARG r="R.utils \
     readr \ 
     readstata13 \ 
     readxl \ 
+    redcapAPI \ 
     remotes \ 
     ReporteRs \ 
     ReporteRsjars \ 
@@ -310,6 +311,7 @@ ARG r="R.utils \
     roxygen2 \ 
     rpart \ 
     RPostgres \ 
+    RSelenium \ 
     RSQLite \ 
     rstan \ 
     rstantools \ 

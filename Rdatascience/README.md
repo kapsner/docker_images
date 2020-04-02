@@ -5,7 +5,7 @@
 ## Installation
 
 ```
-git clone https://github.com/kapsner/docker_images Rdatascience
+git clone https://github.com/joundso/docker_images.git Rdatascience
 cd Rdatascience
 ```
 
@@ -20,3 +20,6 @@ Deployment scripts are available in the deploy folders.
 - about RStudio Server: https://www.rstudio.com/products/rstudio/download-server/  
 - about Shiny: https://www.rstudio.com/products/shiny/  
 - RStudio and Shiny are trademarks of RStudio, Inc.  
+
+## Contributions
+Big thanks to the [source of this fork](https://github.com/kapsner)!
