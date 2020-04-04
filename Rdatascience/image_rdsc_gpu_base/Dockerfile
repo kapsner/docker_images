@@ -14,7 +14,7 @@ ENV DEBIAN_FRONTEND=noninteractives
 
 ########################
 # base
-# adapted from https://gitlab.com/nvidia/container-images/cuda/blob/master/dist/ubuntu18.04/10.1/base/Dockerfile
+# adapted from https://gitlab.com/nvidia/container-images/cuda/blob/master/dist/ubuntu18.04/10.2/base/Dockerfile
 RUN apt-get update && apt-get install -y --no-install-recommends \
     apt-transport-https \
     ca-certificates \
@@ -26,15 +26,15 @@ RUN curl -fsSL https://developer.download.nvidia.com/compute/cuda/repos/ubuntu18
     echo "deb https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64 /" > /etc/apt/sources.list.d/cuda.list && \
     echo "deb https://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1804/x86_64 /" > /etc/apt/sources.list.d/nvidia-ml.list
 
-ENV CUDA_VERSION=10.1.243
+ENV CUDA_VERSION=10.2.89
 
-ENV CUDA_PKG_VERSION=10-1=$CUDA_VERSION-1
+ENV CUDA_PKG_VERSION=10-2=$CUDA_VERSION-1
 
 # For libraries in the cuda-compat-* package: https://docs.nvidia.com/cuda/eula/index.html#attachment-a
 RUN apt-get update && apt-get install -y --no-install-recommends \
     cuda-cudart-$CUDA_PKG_VERSION \
-    cuda-compat-10-1
-RUN ln -s cuda-10.1 /usr/local/cuda
+    cuda-compat-10-2
+RUN ln -s cuda-10.2 /usr/local/cuda
 RUN rm -rf /var/lib/apt/lists/*
 
 # Required for nvidia-docker v1
@@ -47,42 +47,43 @@ ENV LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/nvidia/lib:/usr/local/nvidia/l
 # nvidia-container-runtime
 ENV NVIDIA_VISIBLE_DEVICES=all
 ENV NVIDIA_DRIVER_CAPABILITIES=compute,utility
-ENV NVIDIA_REQUIRE_CUDA="cuda>=10.1 brand=tesla,driver>=384,driver<385 brand=tesla,driver>=396,driver<397 brand=tesla,driver>=410,driver<411"
+ENV NVIDIA_REQUIRE_CUDA="cuda>=10.2 brand=tesla,driver>=384,driver<385 brand=tesla,driver>=396,driver<397 brand=tesla,driver>=410,driver<411 brand=tesla,driver>=418,driver<419"
 
 ########################
 # runtime
-# adapted from https://gitlab.com/nvidia/container-images/cuda/blob/master/dist/ubuntu18.04/10.1/runtime/Dockerfile
-ENV NCCL_VERSION=2.4.8
+# adapted from https://gitlab.com/nvidia/container-images/cuda/blob/master/dist/ubuntu18.04/10.2/runtime/Dockerfile
+ENV NCCL_VERSION=2.5.6
+ENV LIBCUBLAS_VERSION=10.2.2.89-1
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     cuda-libraries-$CUDA_PKG_VERSION \
     cuda-nvtx-$CUDA_PKG_VERSION \
-    libcublas10=10.2.1.243-1 \
-    libnccl2=$NCCL_VERSION-1+cuda10.1 && \
+    libcublas10=${LIBCUBLAS_VERSION} \
+    libnccl2=$NCCL_VERSION-1+cuda10.2 && \
     apt-mark hold libnccl2
 RUN rm -rf /var/lib/apt/lists/*
 
 ########################
 # devel
-# adapted from https://gitlab.com/nvidia/container-images/cuda/blob/master/dist/ubuntu18.04/10.1/devel/Dockerfile
+# adapted from https://gitlab.com/nvidia/container-images/cuda/blob/master/dist/ubuntu18.04/10.2/devel/Dockerfile
 RUN apt-get update && apt-get install -y --no-install-recommends \
     cuda-nvml-dev-$CUDA_PKG_VERSION \
     cuda-command-line-tools-$CUDA_PKG_VERSION \
     cuda-libraries-dev-$CUDA_PKG_VERSION \
     cuda-minimal-build-$CUDA_PKG_VERSION \
-    libnccl-dev=$NCCL_VERSION-1+cuda10.1 \
-    libcublas-dev=10.2.1.243-1
+    libnccl-dev=$NCCL_VERSION-1+cuda10.2 \
+    libcublas-dev=${LIBCUBLAS_VERSION}
 RUN rm -rf /var/lib/apt/lists/*
 
 ENV LIBRARY_PATH=/usr/local/cuda/lib64/stubs
 
 ########################
 # cudnn7
-# adapted from https://gitlab.com/nvidia/container-images/cuda/blob/master/dist/ubuntu18.04/10.1/devel/cudnn7/Dockerfile
+# adapted from https://gitlab.com/nvidia/container-images/cuda/blob/master/dist/ubuntu18.04/10.2/devel/cudnn7/Dockerfile
 ENV CUDNN_VERSION=7.6.5.32
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    libcudnn7=$CUDNN_VERSION-1+cuda10.1 \
-    libcudnn7-dev=$CUDNN_VERSION-1+cuda10.1 && \
+    libcudnn7=$CUDNN_VERSION-1+cuda10.2 \
+    libcudnn7-dev=$CUDNN_VERSION-1+cuda10.2 && \
     apt-mark hold libcudnn7
 RUN rm -rf /var/lib/apt/lists/*
 
@@ -99,9 +100,6 @@ ENV OPENCL_INCLUDE_DIR=/usr/local/cuda/include
 #########################
 # install prerequisites for lightgbm
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    libboost-dev \
-    libboost-system-dev \
-    libboost-filesystem-dev \
     ocl-icd-opencl-dev
 RUN rm -rf /var/lib/apt/lists/*
 
@@ -126,12 +124,14 @@ RUN cd LightGBM && \
     Rscript build_r.R
 
 # install xgboost GPU R package
+# installation will work only with g++/gcc version <= 8
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    g++-8 \
+    gcc-8
+RUN ln -sf /usr/bin/gcc-8 /usr/bin/gcc && \
+    ln -sf /usr/bin/g++-8 /usr/bin/g++
 # xgboost branch
-ENV XGBOOST_BRANCH=v0.90
-
-# https://hub.docker.com/r/rocker/ml-gpu/dockerfile 
-# tag v0.82 is latest GPU-compilable tag with rocker images
-RUN git clone --recursive -b ${XGBOOST_BRANCH} https://github.com/dmlc/xgboost
+RUN git clone --recursive https://github.com/dmlc/xgboost
 RUN mkdir -p xgboost/build && \
     cd xgboost/build && \
     cmake .. -DUSE_CUDA=ON -DR_LIB=ON -DUSE_NCCL=ON && \
@@ -143,11 +143,17 @@ RUN rm -rf LightGBM
 
 ### install python versions
 # lightgbm
-RUN pip install lightgbm --install-option=--gpu
+RUN git clone --recursive --branch stable --depth 1 https://github.com/microsoft/LightGBM
+RUN mkdir -p LightGBM/build && \
+    cd LightGBM/build && \
+    cmake -DUSE_GPU=1 .. &&\
+    make -j$(nproc)
+RUN cd LightGBM/python-package && \
+    python setup.py install --precompile
 
 # xgboost
 # Install xgboost GPU python package
-RUN git clone --recursive -b ${XGBOOST_BRANCH} https://github.com/dmlc/xgboost
+RUN git clone --recursive https://github.com/dmlc/xgboost
 RUN mkdir -p xgboost/build && \
     cd xgboost/build && \
     cmake .. -DUSE_CUDA=ON -DUSE_NCCL=ON && \
