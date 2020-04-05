@@ -211,13 +211,8 @@ RUN for package in $m; do \
 RUN R -q -e "devtools::install_github(repo = 'mlr-org/mlr3ordinal', ref = 'master')"
 RUN R -q -e "devtools::install_github(repo = 'mlr-org/mlr3survival', ref = 'master')"
 RUN R -q -e "devtools::install_github(repo = 'mlr-org/mlr3viz', ref = 'master')"
-#RUN R -q -e "devtools::install_github(repo = 'mlr3learners/mlr3learners.ctree', ref = 'master')"
-RUN R -q -e "devtools::install_github(repo = 'mlr3learners/mlr3learners.extratrees', ref = 'master')"
-RUN R -q -e "devtools::install_github(repo = 'mlr3learners/mlr3learners.fnn', ref = 'master')"
-#RUN R -q -e "devtools::install_github(repo = 'mlr3learners/mlr3learners.gbm', ref = 'master')"
-#RUN R -q -e "devtools::install_github(repo = 'mlr3learners/mlr3learners.ksvm', ref = 'master')"
-#RUN R -q -e "devtools::install_github(repo = 'mlr3learners/mlr3learners.liblinear', ref = 'master')"
-RUN R -q -e "devtools::install_github(repo = 'mlr3learners/mlr3learners.mboost', ref = 'master')"
+RUN R -q -e "devtools::install_github(repo = 'mlr3learners/mlr3learners.drat', ref = 'master')"
+RUN R -q -e "devtools::install_github(repo = 'pat-s/styler@mlr-style', ref = 'master')"
 
 ARG n="naivebayes \ 
     neuralnet \ 
