@@ -211,7 +211,7 @@ RUN for package in $m; do \
 RUN R -q -e "devtools::install_github(repo = 'mlr-org/mlr3ordinal', ref = 'master')"
 RUN R -q -e "devtools::install_github(repo = 'mlr-org/mlr3survival', ref = 'master')"
 RUN R -q -e "devtools::install_github(repo = 'mlr-org/mlr3viz', ref = 'master')"
-RUN R -q -e "devtools::install_github(repo = 'mlr3learners/mlr3learners.drat', ref = 'master')"
+#RUN R -q -e "devtools::install_github(repo = 'mlr3learners/mlr3learners.drat', ref = 'master')"
 RUN R -q -e "devtools::install_github(repo = 'pat-s/styler@mlr-style', ref = 'master')"
 
 ARG n="naivebayes \ 
