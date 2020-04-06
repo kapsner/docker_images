@@ -118,7 +118,7 @@ RUN rm -rf cmake && rm -rf cmake.tar.gz
 
 # compile lightgbm GPU R package
 # https://lightgbm.readthedocs.io/en/latest/GPU-Tutorial.html
-RUN git clone --recursive --branch stable --depth 1 https://github.com/microsoft/LightGBM
+RUN git clone --recursive https://github.com/microsoft/LightGBM
 RUN cd LightGBM && \
     sed -i -e 's/use_gpu <- FALSE/use_gpu <- TRUE/g' R-package/src/install.libs.R && \
     Rscript build_r.R
@@ -143,7 +143,7 @@ RUN rm -rf LightGBM
 
 ### install python versions
 # lightgbm
-RUN git clone --recursive --branch stable --depth 1 https://github.com/microsoft/LightGBM
+RUN git clone --recursive https://github.com/microsoft/LightGBM
 RUN mkdir -p LightGBM/build && \
     cd LightGBM/build && \
     cmake -DUSE_GPU=1 .. &&\

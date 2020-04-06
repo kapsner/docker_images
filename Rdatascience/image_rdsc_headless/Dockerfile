@@ -497,7 +497,7 @@ RUN R -q -e "vec <- unname(installed.packages()[,\"Package\"]); remotes::update_
 RUN R -q -e "devtools::install_github(repo = 'skranz/ReplaceInFiles', ref = 'master')"
 
 # Install lightgbm R package
-RUN git clone --recursive --branch stable --depth 1 https://github.com/microsoft/LightGBM
+RUN git clone --recursive https://github.com/microsoft/LightGBM
 RUN cd LightGBM && \
     Rscript build_r.R
 RUN rm -rf LightGBM
