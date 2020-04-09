@@ -279,6 +279,7 @@ ARG r="R.utils \
     ranger \ 
     rbokeh \ 
     Rcmdr \ 
+    rcmdcheck \ 
     rcompanion \ 
     RConics \ 
     Rcpp \ 
