@@ -109,7 +109,8 @@ RUN for package in $packages; do \
     done && \
     rm -rf /tmp/*
 
-ARG packages="future"
+ARG packages="future \
+    future.apply"
 RUN for package in $packages; do \
     R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
     done && \
