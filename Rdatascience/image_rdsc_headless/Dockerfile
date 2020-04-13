@@ -97,6 +97,7 @@ ARG f="factoextra \
     flexclust \ 
     flexdashboard \ 
     flexmix \ 
+    flextable \ 
     foreach \ 
     forecast \ 
     foreign \ 
