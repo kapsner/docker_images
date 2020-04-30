@@ -1,4 +1,4 @@
-FROM ubuntu:19.10
+FROM ubuntu:20.04
 
 # set environment variable to supress user interaction
 ENV DEBIAN_FRONTEND=noninteractive \
@@ -54,7 +54,7 @@ RUN echo JAVA_HOME="${JAVA_HOME}" >> /etc/environment
 # https://cran.r-project.org/bin/linux/ubuntu/
 RUN gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9
 RUN gpg -a --export E298A3A825C0D65DFD57CBB651716619E084DAB9 | sudo apt-key add -
-RUN add-apt-repository "deb http://cran.r-project.org/bin/linux/ubuntu $(lsb_release -cs)-cran35/"
+RUN add-apt-repository "deb http://cran.r-project.org/bin/linux/ubuntu $(lsb_release -cs)-cran40/"
 
 # install required custom system dependencies
 RUN apt-get install -y --no-install-recommends \
