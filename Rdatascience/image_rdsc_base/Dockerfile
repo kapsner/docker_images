@@ -127,9 +127,8 @@ RUN echo ${RSESSION_USER}:password | chpasswd
 RUN echo ${RSESSION_USER} ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/${RSESSION_USER} && \
     chmod 0440 /etc/sudoers.d/${RSESSION_USER}
 
-# make R site-library default package installation folder writeable
-RUN mkdir -p /usr/local/lib/R/site-library
-RUN chown -R ${RSESSION_USER}:${RSESSION_USER} /usr/local/lib/R/site-library
+# fix permissions
+RUN chown -R ${RSESSION_USER}:${RSESSION_USER} /usr/lib/R/site-library
 
 # set cran repo
 RUN echo "options('repos' = 'https://ftp.fau.de/cran/')" >> /etc/R/Rprofile.site
