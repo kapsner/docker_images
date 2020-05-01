@@ -127,11 +127,9 @@ RUN echo ${RSESSION_USER}:password | chpasswd
 RUN echo ${RSESSION_USER} ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/${RSESSION_USER} && \
     chmod 0440 /etc/sudoers.d/${RSESSION_USER}
 
-# Set R_HOME
-ENV R_HOME=/usr/lib/R
-ENV R_LIBS_SITE=/usr/lib/R/site-library
-# fix permissions
-RUN chown -R ${RSESSION_USER}:${RSESSION_USER} ${R_LIBS_SITE}
+# make R site-library default package installation folder writeable
+RUN mkdir -p /usr/local/lib/R/site-library
+RUN chown -R ${RSESSION_USER}:${RSESSION_USER} /usr/local/lib/R/site-library
 
 # set cran repo
 RUN echo "options('repos' = 'https://ftp.fau.de/cran/')" >> /etc/R/Rprofile.site
@@ -158,8 +156,10 @@ USER root
 ENV PATH="/home/${RSESSION_USER}/.local/share/r-miniconda/envs/r-reticulate/bin:${PATH}"
 
 # Add RETICULATE_PYTHON variable to Renviron
-# current ${R_HOME} = /usr/local/lib/R
 RUN echo "RETICULATE_PYTHON=/home/${RSESSION_USER}/.local/share/r-miniconda/envs/r-reticulate/bin/python" >> /etc/R/Renviron
+# Since R 4.0.0, we also need to add R_LIBS_SITE to /etc/R/Renviron
+ENV R_LIBS_SITE=/usr/local/lib/R/site-library
+RUN echo "R_LIBS_SITE=${R_LIBS_SITE}" >> /etc/R/Renviron
 
 # switch user (let everything in .virtualenv/r-reticulate be installed by the user)
 # we can use pip here, since we added the virtualenv to the beginning of our PATH variable

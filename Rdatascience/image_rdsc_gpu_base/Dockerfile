@@ -3,7 +3,8 @@ FROM rdsc_base:latest
 # set rsession user here
 ENV RSESSION_USER="user" 
 
-ENV DEBIAN_FRONTEND=noninteractives
+# set frontend stuff
+ENV DEBIAN_FRONTEND=noninteractive
 
 ########################
 ########################
