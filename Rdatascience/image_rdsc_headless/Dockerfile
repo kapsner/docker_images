@@ -58,7 +58,8 @@ RUN for package in $c; do \
     done && \
     rm -rf /tmp/*
 
-ARG d="data.table \ 
+ARG d="d3r \ 
+    data.table \ 
     DBI \ 
     deepboost \ 
     desc \ 
@@ -344,6 +345,7 @@ ARG s="SentimentAnalysis \
     stargazer \ 
     styler \ 
     summarytools \ 
+    sunburstR \ 
     survival \ 
     survminer \ 
     synthpop \ 
