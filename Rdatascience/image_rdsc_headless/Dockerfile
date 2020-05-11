@@ -120,6 +120,7 @@ ARG g="GA \
     ggmap \ 
     ggplot2 \ 
     ggpubr \ 
+    ggraph \ 
     ggridges \ 
     git2r \ 
     glmnet \ 
