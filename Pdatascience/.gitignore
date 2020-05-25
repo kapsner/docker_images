@@ -8,7 +8,12 @@
 !/README.md
 
 !/Dockerfile
-!/build_pdatascience.sh
-!/docker-compose.yml
+!/build_pdsc.sh
+!/build_pdsc_gpu.sh
 !/*.sh
-!/p_base_image/
+!/_old_install/
+!/deploy/
+!/image_pdsc_base/
+!/image_pdsc_gpu/
+!/image_pdsc_gpu_base/
+!/image_pdsc_headless/
