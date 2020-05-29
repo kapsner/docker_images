@@ -116,6 +116,9 @@ RUN echo ${PYTHON_USER} ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/${PYTHON_USER
 # symlink pip3
 RUN ln -s /bin/pip3 /bin/pip
 
+# symlink python
+RUN ln -s /bin/python3 /bin/python
+
 # install python prerequisites
 RUN yes | pip install \
     setuptools \
@@ -170,6 +173,7 @@ RUN yes | pip install \
     plotly \
     pocketsphinx \
     psycopg2-binary \ 
+    pydicom \ 
     pydub \
     pylint
 
@@ -188,7 +192,8 @@ RUN yes | pip install \
     sympy
 
 RUN yes | pip install \
-    tabulate
+    tabulate \
+    torch
 
 ENV PATH=/home/user/.local/bin:${PATH}
 

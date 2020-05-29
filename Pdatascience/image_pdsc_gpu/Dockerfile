@@ -105,6 +105,9 @@ RUN yes | pip install \
 RUN yes | pip install \
     tensorflow-gpu
 
+RUN yes | pip install \
+    pycuda
+
 USER ${PYTHON_USER}
 
 ENTRYPOINT tail -f /dev/null
