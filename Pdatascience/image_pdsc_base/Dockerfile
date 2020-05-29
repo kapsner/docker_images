@@ -196,7 +196,3 @@ RUN yes | pip install \
     torch
 
 ENV PATH=/home/user/.local/bin:${PATH}
-
-USER ${PYTHON_USER}
-
-ENTRYPOINT tail -f /dev/null
