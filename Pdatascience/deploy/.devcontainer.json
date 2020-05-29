@@ -1,6 +1,6 @@
 {
   "name": "p datascience",
-  "image": "pdsc_base:latest",
+  "image": "pdsc_headless:latest",
   "forwardPorts": [3000, 3838],
   "workspaceFolder": "/home/user/",
   "extensions": [
@@ -19,5 +19,8 @@
   "remoteUser": "user",
   "remoteEnv": {
     "TERM_PROGRAM": "vscode"
-  }
+  },
+  "mounts": [
+    "source=/mount/this/folder,target=/home/user/development,type=bind,consistency=cached"
+  ]
 }

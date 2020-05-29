@@ -114,7 +114,7 @@ RUN echo ${PYTHON_USER} ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/${PYTHON_USER
     chmod 0440 /etc/sudoers.d/${PYTHON_USER}
 
 # symlink pip3
-RUN ln -s /bin/pip /bin/pip
+RUN ln -s /bin/pip3 /bin/pip
 
 # install python prerequisites
 RUN yes | pip install \
@@ -141,6 +141,7 @@ RUN yes | pip install \
     gensim
 
 RUN yes | pip install \
+    imgaug \ 
     ipython
 
 RUN yes | pip install \
@@ -161,7 +162,11 @@ RUN yes | pip install \
     numpy
 
 RUN yes | pip install \
+    opencv-python
+
+RUN yes | pip install \
     pandas \
+    pillow \
     plotly \
     pocketsphinx \
     psycopg2-binary \ 
@@ -172,6 +177,7 @@ RUN yes | pip install \
     requests
 
 RUN yes | pip install \
+    scikit-image \ 
     scikit-learn \
     scipy \
     scrapy \
