@@ -1,6 +1,6 @@
 {
   "name": "p datascience",
-  "image": "pdsc_headless:latest",
+  "image": "pdsc_gpu:latest",
   "forwardPorts": [3000, 3838],
   "workspaceFolder": "/home/user/",
   "extensions": [
@@ -13,14 +13,16 @@
     "terminal.integrated.inheritEnv": false,
     "python.pythonPath": "/usr/bin/python3",
     "python.linting.pylintEnabled": true,
-    "python.linting.pylintPath": "/home/user/.local/bin/pylint",
+    "python.linting.pylintPath": "/usr/local/bin/pylint",
     "python.linting.enabled": true
   },
   "remoteUser": "user",
   "remoteEnv": {
     "TERM_PROGRAM": "vscode"
   },
+  "runArgs": ["--gpus=all"],   
   "mounts": [
-    "source=/mount/this/folder,target=/home/user/development,type=bind,consistency=cached"
+    "source=/mount/this/folder,target=/home/user/development,type=bind,consistency=cached",
+    "source=./vscode-server,target=/home/user/.vscode-server,type=bind,consistency=cached"
   ]
 }

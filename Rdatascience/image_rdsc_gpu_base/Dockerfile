@@ -108,7 +108,7 @@ RUN mkdir -p /etc/OpenCL/vendors && \
     echo "libnvidia-opencl.so.1" > /etc/OpenCL/vendors/nvidia.icd
 
 # install latest cmake (> 3.12 required for compiling of latest xgboost)
-RUN wget -O cmake.tar.gz https://github.com/Kitware/CMake/releases/download/v3.15.2/cmake-3.15.2.tar.gz
+RUN wget -O cmake.tar.gz https://github.com/Kitware/CMake/releases/download/v3.17.3/cmake-3.17.3.tar.gz
 RUN tar -zxvf cmake.tar.gz && \
     mv cmake-* cmake/ && \
     cd cmake && \
