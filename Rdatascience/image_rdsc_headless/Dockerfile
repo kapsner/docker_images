@@ -378,6 +378,8 @@ RUN for package in $t; do \
     done && \
     rm -rf /tmp/*
 
+RUN R -q -e "devtools::install_github(repo = 'ropensci/tic', ref = 'master')"
+
 ARG u="ucminf \ 
     udpipe \ 
     urltools \ 

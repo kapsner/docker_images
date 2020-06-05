@@ -132,7 +132,7 @@ RUN mkdir -p /usr/local/lib/R/site-library
 RUN chown -R ${RSESSION_USER}:${RSESSION_USER} /usr/local/lib/R/site-library
 
 # set cran repo
-RUN echo "options('repos' = 'https://ftp.fau.de/cran/')" >> /etc/R/Rprofile.site
+RUN echo "options('repos' = 'https://cloud.r-project.org/')" >> /etc/R/Rprofile.site
 
 # Update where R expects to find various Java files
 RUN R CMD javareconf
