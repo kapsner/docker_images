@@ -13,6 +13,7 @@ RUN R -q -e "BiocManager::install(version = 'devel')"
 # install Bioconductorstuff
 RUN R -q -e "BiocManager::install('affy')"
 RUN R -q -e "BiocManager::install('Biobase')"
+RUN R -q -e "BiocManager::install('BiocCheck')"
 RUN R -q -e "BiocManager::install('clusterProfiler')"
 RUN R -q -e "BiocManager::install('DESeq2')"
 RUN R -q -e "BiocManager::install('EnhancedVolcano')"
