@@ -564,7 +564,7 @@ RUN R -q -e "shinytest::installDependencies()"
 # switch back
 USER root
 
-# install my own stuff
+# install my packages
 RUN R -q -e "devtools::install_github(repo = 'kapsner/KhelpeR', ref = 'latest')"
 #RUN R -q -e "devtools::install_github(repo = 'kapsner/rBiasCorrection', ref = 'latest')"
 RUN R -q -e "devtools::install_github(repo = 'kapsner/BiasCorrector', ref = 'latest')"
@@ -572,11 +572,19 @@ RUN R -q -e "devtools::install_github(repo = 'kapsner/expenditR', ref = 'master'
 #RUN R -q -e "devtools::install_github(repo = 'kapsner/lightgbm.py', ref = 'master')"
 RUN R -q -e "devtools::install_github(repo = 'kapsner/mlr3learners.lgbpy', ref = 'master')"
 RUN R -q -e "devtools::install_github(repo = 'mlr3learners/mlr3learners.lightgbm', ref = 'master')"
-RUN R -q -e "devtools::install_git(url = 'https://gitlab.miracum.org/miracum/misc/dizutils.git', ref = 'master')"
+
+# install the stuff, where I participated
 #RUN R -q -e "devtools::install_git(url = 'https://gitlab.miracum.org/miracum/dqa/dqastats.git', ref = 'master')"
 #RUN R -q -e "devtools::install_git(url = 'https://gitlab.miracum.org/miracum/dqa/dqagui.git', ref = 'master')"
 RUN R -q -e "devtools::install_git(url = 'https://gitlab.miracum.org/miracum/dqa/miRacumdqa.git', ref = 'master')"
 RUN R -q -e "devtools::install_git(url = 'https://gitlab.miracum.org/kosmic/kosmicgui.git', ref = 'master')"
+
+# CRAN packages with my participation
+ARG pack="DIZutils"
+RUN for package in $pack; do \   
+    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
+    done && \
+    rm -rf /tmp/*
 
 # clear caches
 RUN rm -rf /var/lib/apt/lists/* && \

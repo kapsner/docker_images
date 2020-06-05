@@ -7,6 +7,9 @@ RUN for package in $packages; do \
     done && \
     rm -rf /tmp/*
 
+# install devel version
+RUN R -q -e "BiocManager::install(version = 'devel')"
+
 # install Bioconductorstuff
 RUN R -q -e "BiocManager::install('affy')"
 RUN R -q -e "BiocManager::install('Biobase')"
@@ -27,10 +30,11 @@ RUN R -q -e "BiocManager::install('pheatmap')"
 RUN R -q -e "BiocManager::install('SummarizedExperiment')"
 RUN R -q -e "BiocManager::install('sva')"
 
-# install my own stuff
+# install the stuff, where I participated
 RUN R -q -e "devtools::install_git(url = 'https://gitlab.miracum.org/clearly/sigident.git', ref = 'master')"
 RUN R -q -e "devtools::install_git(url = 'https://gitlab.miracum.org/clearly/sigident.preproc.git', ref = 'master')"
 RUN R -q -e "devtools::install_git(url = 'https://gitlab.miracum.org/clearly/sigident.func.git', ref = 'master')"
+RUN R -q -e "devtools::install_git(url = 'https://gitlab.miracum.org/clearly/tromics.git', ref = 'master')"
 
 # clear caches
 RUN rm -rf /var/lib/apt/lists/* && \
