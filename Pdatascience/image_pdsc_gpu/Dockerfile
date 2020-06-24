@@ -162,6 +162,9 @@ RUN yes | pip install \
     cython
 
 RUN yes | pip install \
+    dicom2nifti
+ 
+RUN yes | pip install \
     eli5
 
 RUN yes | pip install \
@@ -185,6 +188,9 @@ RUN yes | pip install \
 
 RUN yes | pip install \
     matplotlib
+
+RUN yes | pip install \
+    nibabel
 
 RUN yes | pip install \
     nltk \
@@ -222,7 +228,7 @@ RUN yes | pip install \
 
 RUN yes | pip install \
     tabulate \
-    tensorflow-gpu==2.2.0 \
+    tf-nightly-gpu \
     torch
 
 USER ${PYTHON_USER}

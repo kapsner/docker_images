@@ -135,6 +135,9 @@ RUN yes | pip install \
     cython
 
 RUN yes | pip install \
+    dicom2nifti
+ 
+RUN yes | pip install \
     eli5
 
 RUN yes | pip install \
@@ -158,6 +161,9 @@ RUN yes | pip install \
 
 RUN yes | pip install \
     matplotlib
+
+RUN yes | pip install \
+    nibabel
 
 RUN yes | pip install \
     nltk \
