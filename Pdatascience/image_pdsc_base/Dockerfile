@@ -193,6 +193,7 @@ RUN yes | pip install \
     scipy \
     scrapy \
     seaborn \
+    SimpleITK \
     spacy \
     SpeechRecognition \ 
     statsmodels \
