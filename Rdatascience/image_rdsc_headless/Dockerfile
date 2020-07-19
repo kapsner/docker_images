@@ -211,7 +211,7 @@ RUN for package in $m; do \
     done && \
     rm -rf /tmp/*
 
-RUN R -q -e "devtools::install_github(repo = 'mlr-org/mlr3ordinal', ref = 'master')"
+#RUN R -q -e "devtools::install_github(repo = 'mlr-org/mlr3ordinal', ref = 'master')"
 RUN R -q -e "devtools::install_github(repo = 'mlr-org/mlr3survival', ref = 'master')"
 RUN R -q -e "devtools::install_github(repo = 'mlr-org/mlr3viz', ref = 'master')"
 #RUN R -q -e "devtools::install_github(repo = 'mlr3learners/mlr3learners.drat', ref = 'master')"

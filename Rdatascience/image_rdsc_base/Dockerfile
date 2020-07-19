@@ -79,6 +79,9 @@ RUN apt-get install -y --no-install-recommends \
     libopenmpi-dev \
     libpq-dev \
     libsasl2-dev \
+    # V8 dependencies
+    libv8-dev \
+    libnode-dev \
     libxt-dev \
     # xml2 package
     libxml2-dev \
