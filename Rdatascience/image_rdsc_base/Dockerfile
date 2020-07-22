@@ -80,7 +80,6 @@ RUN apt-get install -y --no-install-recommends \
     libpq-dev \
     libsasl2-dev \
     # V8 dependencies
-    libv8-dev \
     libnode-dev \
     libxt-dev \
     # xml2 package
