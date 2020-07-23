@@ -8,7 +8,7 @@ RUN for package in $packages; do \
     rm -rf /tmp/*
 
 # install devel version
-RUN R -q -e "BiocManager::install(version = 'devel')"
+RUN R -q -e "BiocManager::install(version = 'devel', ask = FALSE)"
 
 # install Bioconductorstuff
 RUN R -q -e "BiocManager::install('affy')"
