@@ -39,6 +39,6 @@ RUN R -q -e "devtools::install_git(url = 'https://gitlab.miracum.org/clearly/tro
 
 # clear caches
 RUN rm -rf /var/lib/apt/lists/* && \
-    rm -rf /tmp/*
-RUN rm -rf /home/${RSTUDIO_USER}/.cache/pip/*
-RUN apt-get clean && apt-get autoclean && apt-get autoremove
+    rm -rf /tmp/* && \
+    rm -rf /home/${RSTUDIO_USER}/.cache/pip/* && \
+    apt-get clean && apt-get autoclean && apt-get autoremove
