@@ -590,7 +590,7 @@ RUN for package in $pack; do \
 RUN rm -rf /var/lib/apt/lists/* && \
     rm -rf /tmp/*
 RUN rm -rf /home/${RSESSION_USER}/.cache/pip/*
-RUN apt-get clean && apt-get autoclean && apt-get autoremove
+RUN apt-get clean && apt-get autoclean && apt-get autoremove -y
 
 # make deployed shiny app accessible via port 3838
 RUN echo "options(shiny.port = 3838)" >> /home/${RSESSION_USER}/.Rprofile && \
