@@ -173,3 +173,7 @@ RUN yes | pip install \
     wheel
 
 USER root
+
+# environment variable for data.table
+# https://github.com/Rdatatable/data.table/pull/3435/files
+RUN echo "R_DATATABLE_NUM_PROCS_PERCENT=100" >> /etc/R/Renviron
