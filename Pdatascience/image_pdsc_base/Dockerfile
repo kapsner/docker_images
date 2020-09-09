@@ -160,12 +160,11 @@ RUN yes | pip install \
     keras
 
 RUN yes | pip install \
-    matplotlib
+    matplotlib \
+    monai
 
 RUN yes | pip install \
-    nibabel
-
-RUN yes | pip install \
+    nibabel \
     nltk \
     nose \
     notebook \ 
