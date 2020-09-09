@@ -298,6 +298,7 @@ ARG r="R.utils \
     reticulate \ 
     rgenoud \
     rgl \  
+    rhub \ 
     rJava \ 
     RJDBC \ 
     rlang \ 
@@ -567,7 +568,7 @@ USER root
 # install my packages
 RUN R -q -e "devtools::install_github(repo = 'kapsner/KhelpeR', ref = 'development')"
 #RUN R -q -e "devtools::install_github(repo = 'kapsner/rBiasCorrection', ref = 'latest')"
-RUN R -q -e "devtools::install_github(repo = 'kapsner/BiasCorrector', ref = 'latest')"
+RUN R -q -e "devtools::install_github(repo = 'kapsner/BiasCorrector', ref = 'master')"
 RUN R -q -e "devtools::install_github(repo = 'kapsner/expenditR', ref = 'master')"
 #RUN R -q -e "devtools::install_github(repo = 'kapsner/lightgbm.py', ref = 'master')"
 RUN R -q -e "devtools::install_github(repo = 'kapsner/mlr3learners.lgbpy', ref = 'master')"
