@@ -1,11 +1,11 @@
-FROM rdsc_headless_j:latest
+FROM joundso/rdsc_headless_j:latest
 
 # set rstudio user here
 ENV RSESSION_USER="user" 
 ENV DEBIAN_FRONTEND=noninteractive
 
 # get RStudio-Server (Preview Version): https://www.rstudio.com/products/rstudio/download/preview/
-ENV RSTUDIO_VERSION=1.3.952 \
+ENV RSTUDIO_VERSION=1.3.1093 \
     RSTUIO_URL=https://s3.amazonaws.com/rstudio-ide-build/server/bionic/amd64/
 # stable
 # ENV RSTUDIO_VERSION=1.2.5033 \

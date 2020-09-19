@@ -7,15 +7,49 @@ printf "\n\nPlease insert your login credentials to registry: $REGISTRY_PREFIX .
 docker login
 
 printf "joundso:"
+
+## Base image:
 IMAGE_NAME=rdsc_base_j
 printf "\nBuilding $IMAGE_NAME image\n"
-docker build -f image_rdsc_base/Dockerfile -t $REGISTRY_PREFIX/$IMAGE_NAME:$VERSION_TAG .
-printf "\nPushing rdsc_base image\n"
-# docker tag "$REGISTRY_PREFIX/$IMAGE_NAME$VERSION_TAG" "$REGISTRY_PREFIX/$IMAGE_NAME:$VERSION_TAG"
+# pull latest image for caching:
+docker pull $REGISTRY_PREFIX/$IMAGE_NAME:$VERSION_TAG
+# build new image (latest):
+docker build -f image_$IMAGE_NAME/Dockerfile -t $REGISTRY_PREFIX/$IMAGE_NAME .
+printf "\nPushing $IMAGE_NAME image\n"
+# push new image as new 'latest':
+docker push "$REGISTRY_PREFIX/$IMAGE_NAME"
+# also tag it with the new tag:
+docker tag $REGISTRY_PREFIX/$IMAGE_NAME $REGISTRY_PREFIX/$IMAGE_NAME:$VERSION_TAG
+# and also push this (tagged) image:
 docker push "$REGISTRY_PREFIX/$IMAGE_NAME:$VERSION_TAG"
 
-# printf "\nBuilding rdsc_headless image\n"
-# docker build -f image_rdsc_headless/Dockerfile -t rdsc_headless_j .
 
-# printf "\nBuilding rdsc_rstudio image\n"
-# docker build -f image_rdsc_rstudio/Dockerfile -t rdsc_rstudio_j .
+## Headless image:
+IMAGE_NAME=rdsc_headless_j
+printf "\nBuilding $IMAGE_NAME image\n"
+# pull latest image for caching:
+docker pull $REGISTRY_PREFIX/$IMAGE_NAME:$VERSION_TAG
+# build new image (latest):
+docker build -f image_$IMAGE_NAME/Dockerfile -t $REGISTRY_PREFIX/$IMAGE_NAME .
+printf "\nPushing $IMAGE_NAME image\n"
+# push new image as new 'latest':
+docker push "$REGISTRY_PREFIX/$IMAGE_NAME"
+# also tag it with the new tag:
+docker tag $REGISTRY_PREFIX/$IMAGE_NAME $REGISTRY_PREFIX/$IMAGE_NAME:$VERSION_TAG
+# and also push this (tagged) image:
+docker push "$REGISTRY_PREFIX/$IMAGE_NAME:$VERSION_TAG"
+
+## Rstudio image:
+IMAGE_NAME=rdsc_rstudio_j
+printf "\nBuilding $IMAGE_NAME image\n"
+# pull latest image for caching:
+docker pull $REGISTRY_PREFIX/$IMAGE_NAME:$VERSION_TAG
+# build new image (latest):
+docker build -f image_$IMAGE_NAME/Dockerfile -t $REGISTRY_PREFIX/$IMAGE_NAME .
+printf "\nPushing $IMAGE_NAME image\n"
+# push new image as new 'latest':
+docker push "$REGISTRY_PREFIX/$IMAGE_NAME"
+# also tag it with the new tag:
+docker tag $REGISTRY_PREFIX/$IMAGE_NAME $REGISTRY_PREFIX/$IMAGE_NAME:$VERSION_TAG
+# and also push this (tagged) image:
+docker push "$REGISTRY_PREFIX/$IMAGE_NAME:$VERSION_TAG"
