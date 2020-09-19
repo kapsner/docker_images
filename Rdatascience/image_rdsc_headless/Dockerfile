@@ -1,4 +1,4 @@
-FROM rdsc_base_jm:latest
+FROM rdsc_base_j:latest
 
 # set rsession user here
 ENV RSESSION_USER="user" 
@@ -58,7 +58,8 @@ RUN for package in $c; do \
     done && \
     rm -rf /tmp/*
 
-ARG d="data.table \ 
+ARG d="d3r \ 
+    data.table \ 
     DBI \ 
     deepboost \ 
     desc \ 
@@ -97,6 +98,7 @@ ARG f="factoextra \
     flexclust \ 
     flexdashboard \ 
     flexmix \ 
+    flextable \ 
     foreach \ 
     forecast \ 
     foreign \ 
@@ -118,6 +120,7 @@ ARG g="GA \
     ggmap \ 
     ggplot2 \ 
     ggpubr \ 
+    ggraph \ 
     ggridges \ 
     git2r \ 
     glmnet \ 
@@ -208,16 +211,11 @@ RUN for package in $m; do \
     done && \
     rm -rf /tmp/*
 
-RUN R -q -e "devtools::install_github(repo = 'mlr-org/mlr3ordinal', ref = 'master')"
+#RUN R -q -e "devtools::install_github(repo = 'mlr-org/mlr3ordinal', ref = 'master')"
 RUN R -q -e "devtools::install_github(repo = 'mlr-org/mlr3survival', ref = 'master')"
 RUN R -q -e "devtools::install_github(repo = 'mlr-org/mlr3viz', ref = 'master')"
-#RUN R -q -e "devtools::install_github(repo = 'mlr3learners/mlr3learners.ctree', ref = 'master')"
-RUN R -q -e "devtools::install_github(repo = 'mlr3learners/mlr3learners.extratrees', ref = 'master')"
-RUN R -q -e "devtools::install_github(repo = 'mlr3learners/mlr3learners.fnn', ref = 'master')"
-#RUN R -q -e "devtools::install_github(repo = 'mlr3learners/mlr3learners.gbm', ref = 'master')"
-#RUN R -q -e "devtools::install_github(repo = 'mlr3learners/mlr3learners.ksvm', ref = 'master')"
-#RUN R -q -e "devtools::install_github(repo = 'mlr3learners/mlr3learners.liblinear', ref = 'master')"
-RUN R -q -e "devtools::install_github(repo = 'mlr3learners/mlr3learners.mboost', ref = 'master')"
+#RUN R -q -e "devtools::install_github(repo = 'mlr3learners/mlr3learners.drat', ref = 'master')"
+RUN R -q -e "devtools::install_github(repo = 'pat-s/styler@mlr-style', ref = 'master')"
 
 ARG n="naivebayes \ 
     neuralnet \ 
@@ -284,6 +282,7 @@ ARG r="R.utils \
     ranger \ 
     rbokeh \ 
     Rcmdr \ 
+    rcmdcheck \ 
     rcompanion \ 
     RConics \ 
     Rcpp \ 
@@ -300,6 +299,7 @@ ARG r="R.utils \
     reticulate \ 
     rgenoud \
     rgl \  
+    rhub \ 
     rJava \ 
     RJDBC \ 
     rlang \ 
@@ -349,6 +349,7 @@ ARG s="SentimentAnalysis \
     stargazer \ 
     styler \ 
     summarytools \ 
+    sunburstR \ 
     survival \ 
     survminer \ 
     synthpop \ 
@@ -379,6 +380,8 @@ RUN for package in $t; do \
     R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
     done && \
     rm -rf /tmp/*
+
+RUN R -q -e "devtools::install_github(repo = 'ropensci/tic', ref = 'master')"
 
 ARG u="ucminf \ 
     udpipe \ 
@@ -504,7 +507,7 @@ RUN R -q -e "vec <- unname(installed.packages()[,\"Package\"]); remotes::update_
 RUN R -q -e "devtools::install_github(repo = 'skranz/ReplaceInFiles', ref = 'master')"
 
 # Install lightgbm R package
-RUN git clone --recursive --branch stable --depth 1 https://github.com/microsoft/LightGBM
+RUN git clone --recursive https://github.com/microsoft/LightGBM
 RUN cd LightGBM && \
     Rscript build_r.R
 RUN rm -rf LightGBM
@@ -564,24 +567,33 @@ RUN R -q -e "shinytest::installDependencies()"
 # switch back
 USER root
 
-# install my own stuff
-RUN R -q -e "devtools::install_github(repo = 'kapsner/KhelpeR', ref = 'latest')"
+# install my packages
+RUN R -q -e "devtools::install_github(repo = 'kapsner/KhelpeR', ref = 'development')"
 #RUN R -q -e "devtools::install_github(repo = 'kapsner/rBiasCorrection', ref = 'latest')"
-RUN R -q -e "devtools::install_github(repo = 'kapsner/BiasCorrector', ref = 'latest')"
+RUN R -q -e "devtools::install_github(repo = 'kapsner/BiasCorrector', ref = 'master')"
 RUN R -q -e "devtools::install_github(repo = 'kapsner/expenditR', ref = 'master')"
 #RUN R -q -e "devtools::install_github(repo = 'kapsner/lightgbm.py', ref = 'master')"
 RUN R -q -e "devtools::install_github(repo = 'kapsner/mlr3learners.lgbpy', ref = 'master')"
-RUN R -q -e "devtools::install_github(repo = 'mlr3learners/mlr3learners.lightgbm', ref = 'master')"
+RUN R -q -e "devtools::install_github(repo = 'mlr3learners/mlr3learners.lightgbm', ref = 'development')"
+
+# install the stuff, where I participated
 #RUN R -q -e "devtools::install_git(url = 'https://gitlab.miracum.org/miracum/dqa/dqastats.git', ref = 'master')"
 #RUN R -q -e "devtools::install_git(url = 'https://gitlab.miracum.org/miracum/dqa/dqagui.git', ref = 'master')"
-RUN R -q -e "devtools::install_git(url = 'https://gitlab.miracum.org/miracum/dqa/miRacumDQA.git', ref = 'master')"
+RUN R -q -e "devtools::install_git(url = 'https://gitlab.miracum.org/miracum/dqa/miRacumdqa.git', ref = 'master')"
 RUN R -q -e "devtools::install_git(url = 'https://gitlab.miracum.org/kosmic/kosmicgui.git', ref = 'master')"
+
+# CRAN packages with my participation
+ARG pack="DIZutils"
+RUN for package in $pack; do \   
+    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
+    done && \
+    rm -rf /tmp/*
 
 # clear caches
 RUN rm -rf /var/lib/apt/lists/* && \
     rm -rf /tmp/*
 RUN rm -rf /home/${RSESSION_USER}/.cache/pip/*
-RUN apt-get clean && apt-get autoclean && apt-get autoremove
+RUN apt-get clean && apt-get autoclean && apt-get autoremove -y
 
 # make deployed shiny app accessible via port 3838
 RUN echo "options(shiny.port = 3838)" >> /home/${RSESSION_USER}/.Rprofile && \

@@ -1,4 +1,4 @@
-FROM ubuntu:19.10
+FROM ubuntu:20.04
 
 # set environment variable to supress user interaction
 ENV DEBIAN_FRONTEND=noninteractive \
@@ -54,7 +54,7 @@ RUN echo JAVA_HOME="${JAVA_HOME}" >> /etc/environment
 # https://cran.r-project.org/bin/linux/ubuntu/
 RUN gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9
 RUN gpg -a --export E298A3A825C0D65DFD57CBB651716619E084DAB9 | sudo apt-key add -
-RUN add-apt-repository "deb http://cran.r-project.org/bin/linux/ubuntu $(lsb_release -cs)-cran35/"
+RUN add-apt-repository "deb http://cran.r-project.org/bin/linux/ubuntu $(lsb_release -cs)-cran40/"
 
 # install required custom system dependencies
 RUN apt-get install -y --no-install-recommends \
@@ -79,6 +79,8 @@ RUN apt-get install -y --no-install-recommends \
     libopenmpi-dev \
     libpq-dev \
     libsasl2-dev \
+    # V8 dependencies
+    libnode-dev \
     libxt-dev \
     # xml2 package
     libxml2-dev \
@@ -132,7 +134,7 @@ RUN mkdir -p /usr/local/lib/R/site-library
 RUN chown -R ${RSESSION_USER}:${RSESSION_USER} /usr/local/lib/R/site-library
 
 # set cran repo
-RUN echo "options('repos' = 'https://ftp.fau.de/cran/')" >> /etc/R/Rprofile.site
+RUN echo "options('repos' = 'https://cloud.r-project.org/')" >> /etc/R/Rprofile.site
 
 # Update where R expects to find various Java files
 RUN R CMD javareconf
@@ -156,8 +158,10 @@ USER root
 ENV PATH="/home/${RSESSION_USER}/.local/share/r-miniconda/envs/r-reticulate/bin:${PATH}"
 
 # Add RETICULATE_PYTHON variable to Renviron
-# current ${R_HOME} = /usr/local/lib/R
 RUN echo "RETICULATE_PYTHON=/home/${RSESSION_USER}/.local/share/r-miniconda/envs/r-reticulate/bin/python" >> /etc/R/Renviron
+# Since R 4.0.0, we also need to add R_LIBS_SITE to /etc/R/Renviron
+ENV R_LIBS_SITE=/usr/local/lib/R/site-library
+RUN echo "R_LIBS_SITE=${R_LIBS_SITE}" >> /etc/R/Renviron
 
 # switch user (let everything in .virtualenv/r-reticulate be installed by the user)
 # we can use pip here, since we added the virtualenv to the beginning of our PATH variable
@@ -169,3 +173,7 @@ RUN yes | pip install \
     wheel
 
 USER root
+
+# environment variable for data.table
+# https://github.com/Rdatatable/data.table/pull/3435/files
+RUN echo "R_DATATABLE_NUM_PROCS_PERCENT=100" >> /etc/R/Renviron
