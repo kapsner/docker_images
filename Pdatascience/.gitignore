@@ -13,6 +13,7 @@
 !/*.sh
 !/_old_install/
 !/deploy/
+!/config/
 !/image_pdsc_base/
 !/image_pdsc_gpu/
 !/image_pdsc_gpu_base/

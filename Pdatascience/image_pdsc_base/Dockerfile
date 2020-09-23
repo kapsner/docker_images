@@ -206,7 +206,7 @@ RUN yes | pip install \
     tabulate \
     torch
 
-ADD ./pycodestyle /home/${PYTHON_USER}/.config/pycodestyle
+ADD ./config/pycodestyle /home/${PYTHON_USER}/.config/pycodestyle
 RUN chown ${PYTHON_USER}:${PYTHON_USER} /home/${PYTHON_USER}/.config/pycodestyle
 
 ENV PATH=/home/${PYTHON_USER}/.local/bin:${PATH}
