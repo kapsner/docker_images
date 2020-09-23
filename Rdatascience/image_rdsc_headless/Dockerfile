@@ -173,7 +173,8 @@ ARG l="languageserver \
     lda \ 
     ldatuning \ 
     LDAvis \ 
-    LiblineaR \ 
+    LiblineaR \
+    lightgbm \ 
     lintr \ 
     lm.beta \ 
     lme4 \ 
@@ -505,10 +506,10 @@ RUN R -q -e "vec <- unname(installed.packages()[,\"Package\"]); remotes::update_
 RUN R -q -e "devtools::install_github(repo = 'skranz/ReplaceInFiles', ref = 'master')"
 
 # Install lightgbm R package
-RUN git clone --recursive https://github.com/microsoft/LightGBM
-RUN cd LightGBM && \
-    Rscript build_r.R
-RUN rm -rf LightGBM
+# RUN git clone --recursive https://github.com/microsoft/LightGBM
+# RUN cd LightGBM && \
+#     Rscript build_r.R
+# RUN rm -rf LightGBM
 
 # switch user (let everything in .virtualenv/r-reticulate be installed by the user)
 # we can use pip here, since we added the virtualenv to the beginning of our PATH variable
