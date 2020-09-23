@@ -206,13 +206,12 @@ ARG t="testthat \
     tidyr \ 
     tidyverse \ 
     timeDate \ 
-    tinytex"
+    tinytex \ 
+    treemap"
 RUN for package in $t; do \
     R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, build_manual = FALSE, quiet = TRUE, upgrade = \"always\")"; \
     done && \
     rm -rf /tmp/*
-
-RUN R -q -e "devtools::install_github(repo = 'ropensci/tic', ref = 'master')"
 
 ARG u="urltools \ 
     usethis \ 
