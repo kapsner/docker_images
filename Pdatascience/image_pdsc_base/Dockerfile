@@ -183,7 +183,8 @@ RUN yes | pip install \
     pycodestyle \
     pydicom \ 
     pydub \
-    pylint
+    pylint \
+    pytorch-lightning
 RUN yes | pip install \
     --upgrade autopep8
 
@@ -204,7 +205,8 @@ RUN yes | pip install \
 
 RUN yes | pip install \
     tabulate \
-    torch
+    torch \
+    torchvision
 
 ADD ./config/pycodestyle /home/${PYTHON_USER}/.config/pycodestyle
 RUN chown ${PYTHON_USER}:${PYTHON_USER} /home/${PYTHON_USER}/.config/pycodestyle
