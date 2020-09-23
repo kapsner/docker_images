@@ -14,7 +14,8 @@
     "python.pythonPath": "/usr/bin/python3",
     "python.linting.pylintEnabled": true,
     "python.linting.pylintPath": "/usr/local/bin/pylint",
-    "python.linting.enabled": true
+    "python.linting.enabled": true,
+    "python.formatting.provider": "autopep8"
   },
   "remoteUser": "user",
   "remoteEnv": {

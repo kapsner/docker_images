@@ -176,12 +176,16 @@ RUN yes | pip install \
 RUN yes | pip install \
     pandas \
     pillow \
+    pipreqs \
     plotly \
     pocketsphinx \
     psycopg2-binary \ 
+    pycodestyle \
     pydicom \ 
     pydub \
     pylint
+RUN yes | pip install \
+    --upgrade autopep8
 
 RUN yes | pip install \
     requests
@@ -202,4 +206,7 @@ RUN yes | pip install \
     tabulate \
     torch
 
-ENV PATH=/home/user/.local/bin:${PATH}
+ADD ./pycodestyle /home/${PYTHON_USER}/.config/pycodestyle
+RUN chown ${PYTHON_USER}:${PYTHON_USER} /home/${PYTHON_USER}/.config/pycodestyle
+
+ENV PATH=/home/${PYTHON_USER}/.local/bin:${PATH}
