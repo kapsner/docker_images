@@ -23,6 +23,9 @@ RUN yes | pip install \
 RUN yes | pip install \
     xgboost
 
+ADD ./config/pycodestyle /home/${PYTHON_USER}/.config/pycodestyle
+RUN chown ${PYTHON_USER}:${PYTHON_USER} /home/${PYTHON_USER}/.config/pycodestyle
+
 USER ${PYTHON_USER}
 
 ENTRYPOINT tail -f /dev/null

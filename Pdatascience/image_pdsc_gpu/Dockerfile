@@ -231,6 +231,9 @@ RUN yes | pip install \
     tf-nightly-gpu \
     torch
 
+ADD ./config/pycodestyle /home/${PYTHON_USER}/.config/pycodestyle
+RUN chown ${PYTHON_USER}:${PYTHON_USER} /home/${PYTHON_USER}/.config/pycodestyle
+
 USER ${PYTHON_USER}
 
 ENV TF_FORCE_GPU_ALLOW_GROWTH=true
