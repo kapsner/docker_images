@@ -1,7 +1,7 @@
 {
   "name": "p datascience",
   "image": "pdsc_gpu:latest",
-  "forwardPorts": [3000, 3838, 8888],
+  "forwardPorts": [3000, 6006, 8888],
   "workspaceFolder": "/home/user/",
   "extensions": [
     "grapecity.gc-excelviewer",

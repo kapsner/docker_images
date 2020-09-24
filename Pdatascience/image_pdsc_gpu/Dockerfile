@@ -228,7 +228,7 @@ RUN yes | pip install \
 
 RUN yes | pip install \
     tabulate \
-    tf-nightly-gpu \
+    tensorflow-gpu \
     torch
 
 ADD ./config/pycodestyle /home/${PYTHON_USER}/.config/pycodestyle

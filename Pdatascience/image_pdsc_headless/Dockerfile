@@ -18,7 +18,7 @@ RUN yes | pip install \
     lightgbm
 
 RUN yes | pip install \
-    tf-nightly
+    tensorflow
 
 RUN yes | pip install \
     xgboost
