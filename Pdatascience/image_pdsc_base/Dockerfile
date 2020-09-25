@@ -175,6 +175,7 @@ RUN yes | pip install \
 
 RUN yes | pip install \
     pandas \
+    pdoc3 \
     pillow \
     pipreqs \
     plotly \
@@ -201,14 +202,12 @@ RUN yes | pip install \
     SimpleITK \
     spacy \
     SpeechRecognition \ 
-    sphinx \
     statsmodels \
     sympy
 
 RUN yes | pip install \
     tabulate \
     torch \
-    torchvision \
-    tox
+    torchvision
 
 ENV PATH=/home/${PYTHON_USER}/.local/bin:${PATH}
