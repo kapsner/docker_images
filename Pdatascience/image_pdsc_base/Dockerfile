@@ -184,6 +184,7 @@ RUN yes | pip install \
     pydicom \ 
     pydub \
     pylint \
+    pytest \
     pytorch-lightning
 RUN yes | pip install \
     --upgrade autopep8
@@ -200,12 +201,14 @@ RUN yes | pip install \
     SimpleITK \
     spacy \
     SpeechRecognition \ 
+    sphinx \
     statsmodels \
     sympy
 
 RUN yes | pip install \
     tabulate \
     torch \
-    torchvision
+    torchvision \
+    tox
 
 ENV PATH=/home/${PYTHON_USER}/.local/bin:${PATH}
