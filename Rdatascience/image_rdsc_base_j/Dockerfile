@@ -8,7 +8,7 @@ ENV DEBIAN_FRONTEND=noninteractive \
 ARG DISPLAY
 ENV DISPLAY=${DISPLAY}
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
+RUN apt-get update && apt-get install -y --no-install-recommends --no-install-suggests \
     apt-utils\ 
     build-essential \
     byobu \
@@ -57,7 +57,7 @@ RUN gpg -a --export E298A3A825C0D65DFD57CBB651716619E084DAB9 | sudo apt-key add 
 RUN add-apt-repository "deb http://cran.r-project.org/bin/linux/ubuntu $(lsb_release -cs)-cran40/"
 
 # install required custom system dependencies
-RUN apt-get install -y --no-install-recommends \
+RUN apt-get install -y --no-install-recommends --no-install-suggests \
     imagemagick \
     # pocketsphinx
     libasound2-dev \ 
@@ -142,35 +142,35 @@ RUN R CMD javareconf
 # first, make sure, that package "remotes" is installed, so we can make use
 # of its function remotes::update_packages 
 # https://rdrr.io/cran/remotes/man/update_packages.html
-RUN R -q -e "install.packages(c('remotes', 'devtools', 'reticulate', 'data.table'))"
+RUN R -q -e "install.packages(c('remotes', 'devtools', 'reticulate', 'data.table'), quiet = T)"
 
 # switch user
 USER ${RSESSION_USER}
 
-# install miniconda via reticulate and configure python
-RUN R -q -e "reticulate::install_miniconda(); reticulate::py_config()"
+# # install miniconda via reticulate and configure python
+# RUN R -q -e "reticulate::install_miniconda(); reticulate::py_config()"
 
 # switch back
-USER root
+# USER root
 
-# we can now add add the virtualenv python to PATH (on first place)
-# add newly installed dependencies to PATH
-ENV PATH="/home/${RSESSION_USER}/.local/share/r-miniconda/envs/r-reticulate/bin:${PATH}"
+# # we can now add add the virtualenv python to PATH (on first place)
+# # add newly installed dependencies to PATH
+# ENV PATH="/home/${RSESSION_USER}/.local/share/r-miniconda/envs/r-reticulate/bin:${PATH}"
 
-# Add RETICULATE_PYTHON variable to Renviron
-RUN echo "RETICULATE_PYTHON=/home/${RSESSION_USER}/.local/share/r-miniconda/envs/r-reticulate/bin/python" >> /etc/R/Renviron
-# Since R 4.0.0, we also need to add R_LIBS_SITE to /etc/R/Renviron
-ENV R_LIBS_SITE=/usr/local/lib/R/site-library
-RUN echo "R_LIBS_SITE=${R_LIBS_SITE}" >> /etc/R/Renviron
+# # Add RETICULATE_PYTHON variable to Renviron
+# RUN echo "RETICULATE_PYTHON=/home/${RSESSION_USER}/.local/share/r-miniconda/envs/r-reticulate/bin/python" >> /etc/R/Renviron
+# # Since R 4.0.0, we also need to add R_LIBS_SITE to /etc/R/Renviron
+# ENV R_LIBS_SITE=/usr/local/lib/R/site-library
+# RUN echo "R_LIBS_SITE=${R_LIBS_SITE}" >> /etc/R/Renviron
 
-# switch user (let everything in .virtualenv/r-reticulate be installed by the user)
-# we can use pip here, since we added the virtualenv to the beginning of our PATH variable
-USER ${RSESSION_USER}
+# # switch user (let everything in .virtualenv/r-reticulate be installed by the user)
+# # we can use pip here, since we added the virtualenv to the beginning of our PATH variable
+# USER ${RSESSION_USER}
 
-# install python prerequisites
-RUN yes | pip install \
-    setuptools \
-    wheel
+# # install python prerequisites
+# RUN yes | pip install \
+#     setuptools \
+#     wheel
 
 USER root
 

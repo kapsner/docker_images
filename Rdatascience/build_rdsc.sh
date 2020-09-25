@@ -1,7 +1,7 @@
 #!/bin/bash
 
 REGISTRY_PREFIX=joundso
-VERSION_TAG=0.0.1
+VERSION_TAG=0.0.1.9001
 
 printf "\n\nPlease insert your login credentials to registry: $REGISTRY_PREFIX ...\n"
 docker login
@@ -12,7 +12,7 @@ printf "joundso:"
 IMAGE_NAME=rdsc_base_j
 printf "\nBuilding $IMAGE_NAME image\n"
 # pull latest image for caching:
-docker pull $REGISTRY_PREFIX/$IMAGE_NAME:$VERSION_TAG
+docker pull $REGISTRY_PREFIX/$IMAGE_NAME
 # build new image (latest):
 docker build -f image_$IMAGE_NAME/Dockerfile -t $REGISTRY_PREFIX/$IMAGE_NAME .
 printf "\nPushing $IMAGE_NAME image\n"
@@ -28,7 +28,7 @@ docker push "$REGISTRY_PREFIX/$IMAGE_NAME:$VERSION_TAG"
 IMAGE_NAME=rdsc_headless_j
 printf "\nBuilding $IMAGE_NAME image\n"
 # pull latest image for caching:
-docker pull $REGISTRY_PREFIX/$IMAGE_NAME:$VERSION_TAG
+docker pull $REGISTRY_PREFIX/$IMAGE_NAME
 # build new image (latest):
 docker build -f image_$IMAGE_NAME/Dockerfile -t $REGISTRY_PREFIX/$IMAGE_NAME .
 printf "\nPushing $IMAGE_NAME image\n"
@@ -43,7 +43,7 @@ docker push "$REGISTRY_PREFIX/$IMAGE_NAME:$VERSION_TAG"
 IMAGE_NAME=rdsc_rstudio_j
 printf "\nBuilding $IMAGE_NAME image\n"
 # pull latest image for caching:
-docker pull $REGISTRY_PREFIX/$IMAGE_NAME:$VERSION_TAG
+docker pull $REGISTRY_PREFIX/$IMAGE_NAME
 # build new image (latest):
 docker build -f image_$IMAGE_NAME/Dockerfile -t $REGISTRY_PREFIX/$IMAGE_NAME .
 printf "\nPushing $IMAGE_NAME image\n"
