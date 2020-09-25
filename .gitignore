@@ -2,12 +2,7 @@
 /*/
 
 !/.gitignore
-!/base_image/
-!/base_image-light/
-!/docker-ionic/
-!/docker-JabRef/
-!/Pdatascience/
-!/Pdatascience_remote/
-!/Pdatascience_vscode/
+!/CHANGELOG.md
+!/README.md
 !/Rdatascience/
 !/rserver/
