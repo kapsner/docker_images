@@ -232,7 +232,7 @@ RUN yes | pip install \
     torch
 
 ADD ./config/pycodestyle /home/${PYTHON_USER}/.config/pycodestyle
-RUN chown ${PYTHON_USER}:${PYTHON_USER} /home/${PYTHON_USER}/.config/pycodestyle
+RUN chown -R ${PYTHON_USER}:${PYTHON_USER} /home/${PYTHON_USER}/.config/
 
 USER ${PYTHON_USER}
 
