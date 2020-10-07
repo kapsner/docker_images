@@ -4,7 +4,7 @@ services:
     image: rdsc_base:latest
     # restart: unless-stopped
     ports:
-      - "8787:8787" #rstudio
+      - "127.0.0.1:8787:8787" #rstudio
     volumes:
       - ./volume:/home/user/.rstudio/monitored/user-settings/
     environment:
