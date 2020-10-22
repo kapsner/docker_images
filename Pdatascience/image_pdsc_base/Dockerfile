@@ -186,7 +186,9 @@ RUN yes | pip install \
     pydub \
     pylint \
     pytest \
-    pytorch-lightning
+    pytorch-lightning \
+    pytorch-lightning-bolts
+    
 RUN yes | pip install \
     --upgrade autopep8
 
