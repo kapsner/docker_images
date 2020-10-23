@@ -38,6 +38,7 @@ pytest
 pytorch-lightning
 pytorch-lightning-bolts
 requests
+scikit-build
 scikit-image 
 scikit-learn
 scipy
