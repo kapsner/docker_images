@@ -10,7 +10,6 @@ ENV PYTHON_USER="user"
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Install packages
-
 RUN yes | pip install -f \
     https://h2o-release.s3.amazonaws.com/h2o/latest_stable_Py.html h2o
 

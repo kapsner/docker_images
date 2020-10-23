@@ -96,6 +96,10 @@ RUN yes | pip install \
     setuptools \
     wheel
 
+# install datascience packages
+ADD ./config/requirements.txt /home/${PYTHON_USER}/requirements.txt
+RUN yes | pip install -r /home/${PYTHON_USER}/requirements.txt
+
 ########################
 # xgboost installation will work only with g++/gcc version <= 8
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -152,84 +156,11 @@ RUN cd xgboost/python-package && \
 RUN rm -rf xgboost
 RUN rm -rf LightGBM
 
-# install datascience packages
-RUN yes | pip install \
-    bokeh
+RUN yes | pip install -f \
+    https://h2o-release.s3.amazonaws.com/h2o/latest_stable_Py.html h2o
 
 RUN yes | pip install \
-    catboost \
-    "colorama>=0.3.8" \
-    cython
-
-RUN yes | pip install \
-    dicom2nifti
- 
-RUN yes | pip install \
-    eli5
-
-RUN yes | pip install \
-    fasttext \
-    future
-
-RUN yes | pip install \
-    gensim
-
-RUN yes | pip install \
-    imgaug \ 
-    ipython
-
-RUN yes | pip install \
-    jedi \
-    jinja2 \
-    jupyter
-
-RUN yes | pip install \
-    keras
-
-RUN yes | pip install \
-    matplotlib
-
-RUN yes | pip install \
-    nibabel
-
-RUN yes | pip install \
-    nltk \
-    nose \
-    notebook \ 
-    numpy
-
-RUN yes | pip install \
-    opencv-python
-
-RUN yes | pip install \
-    pandas \
-    pillow \
-    plotly \
-    # pocketsphinx \
-    psycopg2-binary \ 
-    pycuda \ 
-    pydicom \ 
-    pydub \
-    pylint
-
-RUN yes | pip install \
-    requests
-
-RUN yes | pip install \
-    scikit-image \ 
-    scikit-learn \
-    scipy \
-    scrapy \
-    seaborn \
-    spacy \
-    # SpeechRecognition \ 
-    statsmodels \
-    sympy
-
-RUN yes | pip install \
-    tabulate \
-    tensorflow-gpu \
-    torch
+    tensorflow-gpu
 
 ADD ./config/pycodestyle /home/${PYTHON_USER}/.config/pycodestyle
 RUN chown -R ${PYTHON_USER}:${PYTHON_USER} /home/${PYTHON_USER}/.config/
