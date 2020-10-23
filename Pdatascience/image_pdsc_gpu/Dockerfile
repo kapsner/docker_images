@@ -1,7 +1,7 @@
 #######################
 ### Final image
 #######################
-FROM nvidia/cuda:10.1-cudnn7-devel-ubuntu18.04
+FROM nvidia/cuda:11.1-cudnn8-devel-ubuntu18.04
 
 # set python user here
 ENV PYTHON_USER="user" 
@@ -13,9 +13,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 # https://www.tensorflow.org/install/gpu
 # Install TensorRT. Requires that libcudnn7 is installed above.
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    libnvinfer6 \
-    libnvinfer-dev \
-    libnvinfer-plugin6
+    python3-libnvinfer
 RUN apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
