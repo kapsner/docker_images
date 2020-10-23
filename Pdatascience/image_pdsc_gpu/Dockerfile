@@ -10,10 +10,21 @@ ENV PYTHON_USER="user"
 ENV DEBIAN_FRONTEND=noninteractive
 
 #########################
+ARG CUDA=11.0
+ARG CUDNN=8.0.4.30-1
+ARG CUDNN_MAJOR_VERSION=8
+ARG LIB_DIR_PREFIX=x86_64
+ARG LIBNVINFER=7.1.3-1
+ARG LIBNVINFER_MAJOR_VERSION=7
 # https://www.tensorflow.org/install/gpu
 # Install TensorRT. Requires that libcudnn7 is installed above.
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    python3-libnvinfer
+    libnvinfer${LIBNVINFER_MAJOR_VERSION}=${LIBNVINFER}+cuda${CUDA} \
+    libnvinfer-dev=${LIBNVINFER}+cuda${CUDA} \
+    libnvinfer-plugin-dev=${LIBNVINFER}+cuda${CUDA} \
+    libnvinfer-plugin${LIBNVINFER_MAJOR_VERSION}=${LIBNVINFER}+cuda${CUDA} && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 RUN apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
@@ -33,6 +44,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
     cmake \
     git \
+    gfortran \
     gcc-8 \
     htop \
     libboost-dev \
@@ -53,13 +65,51 @@ RUN apt-get clean && \
 # Add python apt repository for latest python
 RUN add-apt-repository ppa:deadsnakes/ppa
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    python3.8 \
-    python3.8-dev \
-    python3-gdcm \ 
+    libgdcm-tools \
+    python3.9 \
+    python3.9-dev \
     python3-pip \
     python3-yaml \ 
     python3-h5py \ 
-    python3.8-venv
+    python3.9-venv \
+    imagemagick \
+    # pocketsphinx
+    libasound2-dev \ 
+    libboost-dev \
+    libboost-system-dev \
+    libboost-filesystem-dev \
+    libbz2-dev \
+    libcairo2-dev \
+    libclang-dev \
+    libffi-dev \
+    libglu1-mesa-dev \
+    libgmp3-dev \
+    libgsl-dev \
+    # rJava dependencies
+    liblzma-dev \ 
+    libmagick++-dev \
+    libmpfr-dev \
+    libobjc-7-dev \
+    libopenblas-dev \
+    libopenmpi-dev \
+    libpq-dev \
+    libsasl2-dev \
+    libxt-dev \
+    # xml2 package
+    libxml2-dev \
+    # xslt package
+    libxslt1-dev \
+    libzmq3-dev \
+    lmodern \
+    # pocketsphinx
+    libpulse-dev \
+    locate \
+    nano \
+    net-tools \
+    # pocketsphinx
+    swig \
+    traceroute \
+    unixodbc-dev
 RUN apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
@@ -79,18 +129,20 @@ RUN echo ${PYTHON_USER} ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/${PYTHON_USER
 RUN ln -s /usr/bin/pip3 /usr/bin/pip
 
 # symlink python
-RUN ln -s /usr/bin/python3.8 /usr/bin/python
+RUN ln -s /usr/bin/python3.9 /usr/bin/python
 
 # update-alternatives
 RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.6 1
-RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.8 2
+RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.9 2
 
 RUN update-alternatives --config python3
 
 RUN yes | pip install \
     --upgrade pip
 
+# install python prerequisites
 RUN yes | pip install \
+    --upgrade numpy>=1.19.2 \
     setuptools \
     wheel
 

@@ -21,7 +21,7 @@ nibabel
 nltk
 nose
 notebook 
-numpy
+numpy>=1.19.2
 opencv-python
 pandas
 pdoc3

@@ -23,6 +23,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     gcc-8 \
     gdebi-core \
     git \
+    gfortran \
     gpg-agent \
     htop \
     iputils-ping \
@@ -70,6 +71,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libmagick++-dev \
     libmpfr-dev \
     libobjc-7-dev \
+    libopenblas-dev \
     libopenmpi-dev \
     libpq-dev \
     libsasl2-dev \
@@ -120,8 +122,12 @@ RUN ln -s /bin/pip3 /bin/pip
 # symlink python
 RUN ln -s /bin/python3 /bin/python
 
+RUN yes | pip install \
+    --upgrade pip
+
 # install python prerequisites
 RUN yes | pip install \
+    --upgrade numpy>=1.19.2 \
     setuptools \
     wheel
 
