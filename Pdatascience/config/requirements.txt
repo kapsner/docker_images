@@ -1,4 +1,5 @@
 # install datascience packages
+autopep8
 bokeh
 catboost
 colorama>=0.3.8
@@ -36,7 +37,6 @@ pylint
 pytest
 pytorch-lightning
 pytorch-lightning-bolts
-autopep8
 requests
 scikit-image 
 scikit-learn
