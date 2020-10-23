@@ -1,7 +1,7 @@
 #######################
 ### Final image
 #######################
-FROM nvidia/cuda:11.1-cudnn8-devel-ubuntu18.04
+FROM nvidia/cuda:11.0-cudnn8-devel-ubuntu18.04
 
 # set python user here
 ENV PYTHON_USER="user" 
