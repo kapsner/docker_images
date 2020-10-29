@@ -1,5 +1,5 @@
 # install datascience packages
-bokeh
+#bokeh
 catboost
 colorama>=0.3.8
 dicom2nifti
