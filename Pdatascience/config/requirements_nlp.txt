@@ -1,0 +1,10 @@
+# install datascience packages
+bokeh
+fasttext
+gensim
+plotly
+pocketsphinx
+pydub
+seaborn
+spacy
+SpeechRecognition

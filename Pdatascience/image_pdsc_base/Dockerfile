@@ -134,6 +134,7 @@ RUN yes | pip install \
 # install datascience packages
 ADD ./config/requirements*.txt /home/${PYTHON_USER}/
 RUN yes | pip install -r /home/${PYTHON_USER}/requirements_base.txt --use-feature=2020-resolver
+#RUN yes | pip install -r /home/${PYTHON_USER}/requirements_nlp.txt --use-feature=2020-resolver
 RUN yes | pip install -r /home/${PYTHON_USER}/requirements.txt --use-feature=2020-resolver
 
 ENV PATH=/home/${PYTHON_USER}/.local/bin:${PATH}

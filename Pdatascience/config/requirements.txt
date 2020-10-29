@@ -1,11 +1,8 @@
 # install datascience packages
-#bokeh
 catboost
 colorama>=0.3.8
 dicom2nifti
 eli5
-fasttext
-gensim
 imgaug 
 keras
 matplotlib
@@ -16,11 +13,8 @@ nose
 opencv-python
 pandas
 pillow
-plotly
-pocketsphinx
 psycopg2-binary 
 pydicom 
-pydub
 pytorch-lightning
 pytorch-lightning-bolts
 scikit-build
@@ -28,10 +22,7 @@ scikit-image
 scikit-learn
 scipy
 scrapy
-seaborn
 SimpleITK
-spacy
-SpeechRecognition 
 statsmodels
 sympy
 tabulate
