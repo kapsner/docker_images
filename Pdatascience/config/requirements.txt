@@ -8,8 +8,6 @@ keras
 matplotlib
 monai
 nibabel
-nltk
-nose
 opencv-python
 pandas
 pillow

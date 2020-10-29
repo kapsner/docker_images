@@ -2,6 +2,7 @@
 bokeh
 fasttext
 gensim
+nltk
 plotly
 pocketsphinx
 pydub
