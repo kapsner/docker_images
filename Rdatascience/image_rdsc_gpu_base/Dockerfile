@@ -1,10 +1,181 @@
-FROM rdsc_base:latest
+FROM nvidia/cuda:11.0-cudnn8-devel-ubuntu18.04
 
 # set rsession user here
 ENV RSESSION_USER="user" 
 
-# set frontend stuff
-ENV DEBIAN_FRONTEND=noninteractive
+# set environment variable to supress user interaction
+ENV DEBIAN_FRONTEND=noninteractive \
+    JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    apt-utils\ 
+    build-essential \
+    byobu \
+    cmake \
+    curl \
+    #default-jdk \
+    #default-jre \
+    openjdk-8-jdk \
+    dialog \
+    dirmngr \
+    ffmpeg \
+    gcc-8 \
+    gdebi-core \
+    git \
+    gpg-agent \
+    htop \
+    iputils-ping \
+    less \
+    libcurl4-openssl-dev \
+    libssh-dev \
+    libssl-dev \
+    locales \
+    make \
+    nano \
+    net-tools \
+    software-properties-common \
+    ssh \
+    sudo \
+    tar \
+    traceroute \
+    unzip \
+    vim \
+    wget
+RUN rm -rf /var/lib/apt/lists/*
+
+RUN locale-gen en_US.utf8 \
+    && /usr/sbin/update-locale LANG=en_US.UTF-8
+ENV LANG=en_US.UTF-8
+
+RUN echo JAVA_HOME="${JAVA_HOME}" >> /etc/environment
+
+# Add R apt repository for latest R
+# https://cran.r-project.org/bin/linux/ubuntu/
+RUN gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9
+RUN gpg -a --export E298A3A825C0D65DFD57CBB651716619E084DAB9 | sudo apt-key add -
+RUN add-apt-repository "deb http://cran.r-project.org/bin/linux/ubuntu $(lsb_release -cs)-cran40/"
+
+# install required custom system dependencies
+RUN apt-get install -y --no-install-recommends \
+    imagemagick \
+    # pocketsphinx
+    libasound2-dev \ 
+    libboost-dev \
+    libboost-system-dev \
+    libboost-filesystem-dev \
+    libbz2-dev \
+    libcairo2-dev \
+    libclang-dev \
+    libffi-dev \
+    libglu1-mesa-dev \
+    libgmp3-dev \
+    libgsl-dev \
+    # rJava dependencies
+    liblzma-dev \ 
+    libmagick++-dev \
+    libmpfr-dev \
+    libobjc-7-dev \
+    libopenmpi-dev \
+    libpq-dev \
+    libsasl2-dev \
+    # V8 dependencies
+    libnode-dev \
+    libxt-dev \
+    # xml2 package
+    libxml2-dev \
+    # xslt package
+    libxslt1-dev \
+    libzmq3-dev \
+    lmodern \
+    # pocketsphinx
+    libpulse-dev \
+    locate \
+    nano \
+    net-tools \
+    pandoc \
+    pandoc-citeproc \
+    # rstudio dependency
+    psmisc \
+    python3-dev \
+    python3-pip \
+    python3-venv \
+    qpdf \
+    r-base-dev \
+    # pocketsphinx
+    swig \
+    # dependencies for aplpack
+    tcl8.6-dev \
+    texinfo \
+    tk8.6-dev \
+    traceroute \
+    unixodbc-dev
+
+RUN apt-get clean && \ 
+    apt-get autoclean && \
+    rm -rf /var/lib/apt/lists/*
+
+# add user + password
+# https://stackoverflow.com/questions/2150882/how-to-automatically-add-user-account-and-password-with-a-bash-script
+# workaround, to get stuff properly installed in users home dir
+# set rstudio user here
+ENV RSESSION_USER="user" 
+ENV USER_UID=1000
+ENV USER_GID=${USER_UID}
+
+RUN groupadd --gid ${USER_GID} ${RSESSION_USER} && \
+    useradd --uid ${USER_UID} --gid ${USER_GID} -m ${RSESSION_USER}
+RUN echo ${RSESSION_USER}:password | chpasswd 
+RUN echo ${RSESSION_USER} ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/${RSESSION_USER} && \
+    chmod 0440 /etc/sudoers.d/${RSESSION_USER}
+
+# make R site-library default package installation folder writeable
+RUN mkdir -p /usr/local/lib/R/site-library
+RUN chown -R ${RSESSION_USER}:${RSESSION_USER} /usr/local/lib/R/site-library
+
+# set cran repo
+RUN echo "options('repos' = 'https://cloud.r-project.org/')" >> /etc/R/Rprofile.site
+
+# Update where R expects to find various Java files
+RUN R CMD javareconf
+
+# first, make sure, that package "remotes" is installed, so we can make use
+# of its function remotes::update_packages 
+# https://rdrr.io/cran/remotes/man/update_packages.html
+RUN R -q -e "install.packages(c('remotes', 'devtools', 'reticulate', 'data.table'))"
+
+# switch user
+USER ${RSESSION_USER}
+
+# install miniconda via reticulate and configure python
+RUN R -q -e "reticulate::install_miniconda(); reticulate::py_config()"
+
+# switch back
+USER root
+
+# we can now add add the virtualenv python to PATH (on first place)
+# add newly installed dependencies to PATH
+ENV PATH="/home/${RSESSION_USER}/.local/share/r-miniconda/envs/r-reticulate/bin:${PATH}"
+
+# Add RETICULATE_PYTHON variable to Renviron
+RUN echo "RETICULATE_PYTHON=/home/${RSESSION_USER}/.local/share/r-miniconda/envs/r-reticulate/bin/python" >> /etc/R/Renviron
+# Since R 4.0.0, we also need to add R_LIBS_SITE to /etc/R/Renviron
+ENV R_LIBS_SITE=/usr/local/lib/R/site-library
+RUN echo "R_LIBS_SITE=${R_LIBS_SITE}" >> /etc/R/Renviron
+
+# switch user (let everything in .virtualenv/r-reticulate be installed by the user)
+# we can use pip here, since we added the virtualenv to the beginning of our PATH variable
+USER ${RSESSION_USER}
+
+# install python prerequisites
+RUN yes | pip install \
+    setuptools \
+    wheel
+
+USER root
+
+# environment variable for data.table
+# https://github.com/Rdatatable/data.table/pull/3435/files
+RUN echo "R_DATATABLE_NUM_PROCS_PERCENT=100" >> /etc/R/Renviron
 
 ########################
 ########################
@@ -13,83 +184,29 @@ ENV DEBIAN_FRONTEND=noninteractive
 ########################
 ########################
 
-########################
-# base
-# adapted from https://gitlab.com/nvidia/container-images/cuda/blob/master/dist/ubuntu18.04/10.2/base/Dockerfile
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    apt-transport-https \
-    ca-certificates \
-    curl \
-    gnupg2
-RUN rm -rf /var/lib/apt/lists/*
-
-RUN curl -fsSL https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/7fa2af80.pub | apt-key add - && \
-    echo "deb https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64 /" > /etc/apt/sources.list.d/cuda.list && \
-    echo "deb https://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1804/x86_64 /" > /etc/apt/sources.list.d/nvidia-ml.list
-
-ENV CUDA_VERSION=10.2.89
-
-ENV CUDA_PKG_VERSION=10-2=$CUDA_VERSION-1
-
-# For libraries in the cuda-compat-* package: https://docs.nvidia.com/cuda/eula/index.html#attachment-a
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    cuda-cudart-$CUDA_PKG_VERSION \
-    cuda-compat-10-2
-RUN ln -s cuda-10.2 /usr/local/cuda
-RUN rm -rf /var/lib/apt/lists/*
-
-# Required for nvidia-docker v1
-RUN echo "/usr/local/nvidia/lib" >> /etc/ld.so.conf.d/nvidia.conf && \
-    echo "/usr/local/nvidia/lib64" >> /etc/ld.so.conf.d/nvidia.conf
-
-ENV PATH=/usr/local/nvidia/bin:/usr/local/cuda/bin:${PATH}
-ENV LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/nvidia/lib:/usr/local/nvidia/lib64
-
-# nvidia-container-runtime
-ENV NVIDIA_VISIBLE_DEVICES=all
-ENV NVIDIA_DRIVER_CAPABILITIES=compute,utility
-ENV NVIDIA_REQUIRE_CUDA="cuda>=10.2 brand=tesla,driver>=384,driver<385 brand=tesla,driver>=396,driver<397 brand=tesla,driver>=410,driver<411 brand=tesla,driver>=418,driver<419"
-
-########################
-# runtime
-# adapted from https://gitlab.com/nvidia/container-images/cuda/blob/master/dist/ubuntu18.04/10.2/runtime/Dockerfile
-ENV NCCL_VERSION=2.5.6
-ENV LIBCUBLAS_VERSION=10.2.2.89-1
-
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    cuda-libraries-$CUDA_PKG_VERSION \
-    cuda-nvtx-$CUDA_PKG_VERSION \
-    libcublas10=${LIBCUBLAS_VERSION} \
-    libnccl2=$NCCL_VERSION-1+cuda10.2 && \
-    apt-mark hold libnccl2
-RUN rm -rf /var/lib/apt/lists/*
-
-########################
-# devel
-# adapted from https://gitlab.com/nvidia/container-images/cuda/blob/master/dist/ubuntu18.04/10.2/devel/Dockerfile
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    cuda-nvml-dev-$CUDA_PKG_VERSION \
-    cuda-command-line-tools-$CUDA_PKG_VERSION \
-    cuda-libraries-dev-$CUDA_PKG_VERSION \
-    cuda-minimal-build-$CUDA_PKG_VERSION \
-    libnccl-dev=$NCCL_VERSION-1+cuda10.2 \
-    libcublas-dev=${LIBCUBLAS_VERSION}
-RUN rm -rf /var/lib/apt/lists/*
-
-ENV LIBRARY_PATH=/usr/local/cuda/lib64/stubs
-
-########################
-# cudnn7
-# adapted from https://gitlab.com/nvidia/container-images/cuda/blob/master/dist/ubuntu18.04/10.2/devel/cudnn7/Dockerfile
-ENV CUDNN_VERSION=7.6.5.32
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    libcudnn7=$CUDNN_VERSION-1+cuda10.2 \
-    libcudnn7-dev=$CUDNN_VERSION-1+cuda10.2 && \
-    apt-mark hold libcudnn7
-RUN rm -rf /var/lib/apt/lists/*
+# install/update latest cmake (> 3.12 required for compiling of latest xgboost)
+RUN yes | pip install \
+    --upgrade cmake
 
 #########################
-#########################
+ARG CUDA=11.0
+ARG CUDNN=8.0.4.30-1
+ARG CUDNN_MAJOR_VERSION=8
+ARG LIB_DIR_PREFIX=x86_64
+ARG LIBNVINFER=7.1.3-1
+ARG LIBNVINFER_MAJOR_VERSION=7
+# https://www.tensorflow.org/install/gpu
+# Install TensorRT. Requires that libcudnn7 is installed above.
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libnvinfer${LIBNVINFER_MAJOR_VERSION}=${LIBNVINFER}+cuda${CUDA} \
+    libnvinfer-dev=${LIBNVINFER}+cuda${CUDA} \
+    libnvinfer-plugin-dev=${LIBNVINFER}+cuda${CUDA} \
+    libnvinfer-plugin${LIBNVINFER_MAJOR_VERSION}=${LIBNVINFER}+cuda${CUDA} && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+RUN apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
 # update environment variables 
 ENV CUDA_HOME=/usr/local/cuda
 ENV LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${CUDA_HOME}/lib64
@@ -106,16 +223,6 @@ RUN rm -rf /var/lib/apt/lists/*
 
 RUN mkdir -p /etc/OpenCL/vendors && \
     echo "libnvidia-opencl.so.1" > /etc/OpenCL/vendors/nvidia.icd
-
-# install latest cmake (> 3.12 required for compiling of latest xgboost)
-RUN wget -O cmake.tar.gz https://github.com/Kitware/CMake/releases/download/v3.17.3/cmake-3.17.3.tar.gz
-RUN tar -zxvf cmake.tar.gz && \
-    mv cmake-* cmake/ && \
-    cd cmake && \
-    ./bootstrap && \
-    make && \
-    make install
-RUN rm -rf cmake && rm -rf cmake.tar.gz
 
 # compile lightgbm GPU R package
 # https://lightgbm.readthedocs.io/en/latest/GPU-Tutorial.html

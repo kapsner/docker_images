@@ -1,33 +1,9 @@
-#######################
-### Final image
-#######################
-FROM nvidia/cuda:11.0-cudnn8-devel-ubuntu18.04
+FROM gpu_base:latest
 
-# set python user here
-ENV PYTHON_USER="user" 
-
-# set frontend stuff
+# set environment variable to supress user interaction
 ENV DEBIAN_FRONTEND=noninteractive
 
-#########################
-ARG CUDA=11.0
-ARG CUDNN=8.0.4.30-1
-ARG CUDNN_MAJOR_VERSION=8
-ARG LIB_DIR_PREFIX=x86_64
-ARG LIBNVINFER=7.1.3-1
-ARG LIBNVINFER_MAJOR_VERSION=7
-# https://www.tensorflow.org/install/gpu
-# Install TensorRT. Requires that libcudnn7 is installed above.
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    libnvinfer${LIBNVINFER_MAJOR_VERSION}=${LIBNVINFER}+cuda${CUDA} \
-    libnvinfer-dev=${LIBNVINFER}+cuda${CUDA} \
-    libnvinfer-plugin-dev=${LIBNVINFER}+cuda${CUDA} \
-    libnvinfer-plugin${LIBNVINFER_MAJOR_VERSION}=${LIBNVINFER}+cuda${CUDA} && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
-RUN apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
-
+########################
 # update environment variables 
 ENV CUDA_HOME=/usr/local/cuda
 ENV LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${CUDA_HOME}/lib64
@@ -35,82 +11,15 @@ ENV LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/lib:/usr/local/nvidia/lib:/usr
 ENV PATH=${CUDA_HOME}/bin:${PATH}
 ENV OPENCL_LIBRARIES=/usr/local/cuda/lib64
 ENV OPENCL_INCLUDE_DIR=/usr/local/cuda/include
+########################
 
-#########################
-
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    apt-utils\ 
-    build-essential \
-    curl \
-    cmake \
-    git \
-    gfortran \
-    gcc-8 \
-    htop \
-    libboost-dev \
-    libboost-system-dev \
-    libboost-filesystem-dev \
-    libbz2-dev \
-    libcurl4-openssl-dev \
-    libssh-dev \
-    libssl-dev \
-    nano \
-    net-tools \
-    software-properties-common \
-    sudo \
-    wget
-RUN apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
-
-# Add python apt repository for latest python
-RUN add-apt-repository ppa:deadsnakes/ppa
+# install required custom system dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
     libgdcm-tools \
-    python3.9 \
-    python3.9-dev \
-    python3-pip \
     python3-yaml \ 
-    python3-h5py \ 
-    python3.9-venv \
-    imagemagick \
-    # pocketsphinx
-    libasound2-dev \ 
-    libboost-dev \
-    libboost-system-dev \
-    libboost-filesystem-dev \
-    libbz2-dev \
-    libcairo2-dev \
-    libclang-dev \
-    libffi-dev \
-    libglu1-mesa-dev \
-    libgmp3-dev \
-    libgsl-dev \
-    # rJava dependencies
-    liblzma-dev \ 
-    libmagick++-dev \
-    libmpfr-dev \
-    libobjc-7-dev \
-    libopenblas-dev \
-    libopenmpi-dev \
-    libpq-dev \
-    libsasl2-dev \
-    libxt-dev \
-    # xml2 package
-    libxml2-dev \
-    # xslt package
-    libxslt1-dev \
-    libzmq3-dev \
-    lmodern \
-    # pocketsphinx
-    libpulse-dev \
-    locate \
-    nano \
-    net-tools \
-    # pocketsphinx
-    swig \
-    traceroute \
-    unixodbc-dev
-RUN apt-get clean && \
+    python3-h5py
+RUN apt-get clean && \ 
+    apt-get autoclean && \
     rm -rf /var/lib/apt/lists/*
 
 ########################
@@ -125,66 +34,22 @@ RUN echo ${PYTHON_USER}:password | chpasswd
 RUN echo ${PYTHON_USER} ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/${PYTHON_USER} && \
     chmod 0440 /etc/sudoers.d/${PYTHON_USER}
 
-# symlink pip3
-RUN ln -s /usr/bin/pip3 /usr/bin/pip
-
-# symlink python
-RUN ln -s /usr/bin/python3.9 /usr/bin/python
-
-# update-alternatives
-RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.6 1
-RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.9 2
-
-RUN update-alternatives --config python3
-
-RUN yes | pip install \
-    --upgrade pip
-
-# install python prerequisites
-RUN yes | pip install \
-    --upgrade numpy>=1.19.2 \
-    setuptools \
-    wheel
-
-# install/update latest cmake (> 3.12 required for compiling of latest xgboost)
-RUN yes | pip install \
-    --upgrade cmake
+########################
 
 # install scikit-build from source (for SimpleITK)
 RUN python -m pip install scikit-build
 
 # install datascience packages
-ADD ./config/requirements.txt /home/${PYTHON_USER}/requirements.txt
-RUN yes | pip install -r /home/${PYTHON_USER}/requirements.txt
+ADD ./config/requirements*.txt /home/${PYTHON_USER}/
+RUN yes | pip install -r /home/${PYTHON_USER}/requirements_base.txt --use-feature=2020-resolver
+RUN yes | pip install -r /home/${PYTHON_USER}/requirements.txt --use-feature=2020-resolver
 
-########################
-# xgboost installation will work only with g++/gcc version <= 8
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    g++-8 \
-    gcc-8
-RUN apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
-RUN ln -sf /usr/bin/gcc-8 /usr/bin/gcc && \
-    ln -sf /usr/bin/g++-8 /usr/bin/g++
-
-#########################
-# install prerequisites for lightgbm
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    ocl-icd-opencl-dev
-RUN apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
-
-RUN mkdir -p /etc/OpenCL/vendors && \
-    echo "libnvidia-opencl.so.1" > /etc/OpenCL/vendors/nvidia.icd
-
-#########################
 # lightgbm
 RUN git clone --recursive https://github.com/microsoft/LightGBM
 RUN mkdir -p LightGBM/build && \
     cd LightGBM/build && \
     cmake -DUSE_GPU=1 .. &&\
     make -j$(nproc)
-RUN ls -al /usr/lib/
 RUN cd LightGBM/python-package && \
     python setup.py install --precompile
 

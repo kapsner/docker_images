@@ -132,7 +132,8 @@ RUN yes | pip install \
     wheel
 
 # install datascience packages
-ADD ./config/requirements.txt /home/${PYTHON_USER}/requirements.txt
+ADD ./config/requirements*.txt /home/${PYTHON_USER}/
+RUN yes | pip install -r /home/${PYTHON_USER}/requirements_base.txt
 RUN yes | pip install -r /home/${PYTHON_USER}/requirements.txt
 
 ENV PATH=/home/${PYTHON_USER}/.local/bin:${PATH}
