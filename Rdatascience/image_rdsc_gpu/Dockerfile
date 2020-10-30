@@ -6,16 +6,6 @@ ENV DEBIAN_FRONTEND=noninteractive \
 
 RUN echo JAVA_HOME="${JAVA_HOME}" >> /etc/environment
 
-########################
-# update environment variables 
-ENV CUDA_HOME=/usr/local/cuda
-ENV LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${CUDA_HOME}/lib64
-ENV LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/lib:/usr/local/nvidia/lib:/usr/local/nvidia/lib64
-ENV PATH=${CUDA_HOME}/bin:${PATH}
-ENV OPENCL_LIBRARIES=/usr/local/cuda/lib64
-ENV OPENCL_INCLUDE_DIR=/usr/local/cuda/include
-########################
-
 # Add R apt repository for latest R
 # https://cran.r-project.org/bin/linux/ubuntu/
 RUN gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9
@@ -27,6 +17,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     pandoc \
     pandoc-citeproc \
     # rstudio dependency
+    libapparmor1 \
     psmisc \
     qpdf \
     r-base-dev \
@@ -242,7 +233,9 @@ ENV RSTUDIO_VERSION=1.3.952 \
 ENV RSTUDIO_FILE="rstudio-server-${RSTUDIO_VERSION}-amd64.deb"
 ENV RSTUDIO_LINK=${RSTUIO_URL}${RSTUDIO_FILE}
 RUN wget ${RSTUDIO_LINK}
-RUN gdebi -n ${RSTUDIO_FILE}
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libapparmor1
+RUN dpkg -i ${RSTUDIO_FILE}
 RUN rm -f ${RSTUDIO_FILE}
 
 # overwrite headless .Rprofile

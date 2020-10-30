@@ -2,7 +2,7 @@
   "name": "p datascience",
   "image": "pdsc_gpu:latest",
   "forwardPorts": [3000, 6006, 8888],
-  "workspaceFolder": "/home/user/",
+  "workspaceFolder": "/home/user/development",
   "extensions": [
     "grapecity.gc-excelviewer",
     "ms-python.python"
@@ -27,7 +27,6 @@
   },
   "runArgs": ["--gpus=all"],   
   "mounts": [
-    "source=/mount/this/folder,target=/home/user/development,type=bind,consistency=cached",
-    "source=./vscode-server,target=/home/user/.vscode-server,type=bind,consistency=cached"
+    "source=/mount/this/folder,target=/home/user/development,type=bind,consistency=cached"
   ]
 }

@@ -3,16 +3,6 @@ FROM gpu_base:latest
 # set environment variable to supress user interaction
 ENV DEBIAN_FRONTEND=noninteractive
 
-########################
-# update environment variables 
-ENV CUDA_HOME=/usr/local/cuda
-ENV LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${CUDA_HOME}/lib64
-ENV LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/lib:/usr/local/nvidia/lib:/usr/local/nvidia/lib64
-ENV PATH=${CUDA_HOME}/bin:${PATH}
-ENV OPENCL_LIBRARIES=/usr/local/cuda/lib64
-ENV OPENCL_INCLUDE_DIR=/usr/local/cuda/include
-########################
-
 # install required custom system dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
     libgdcm-tools \
@@ -21,6 +11,19 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 RUN apt-get clean && \ 
     apt-get autoclean && \
     rm -rf /var/lib/apt/lists/*
+
+# install python3-gdcm
+RUN git clone --branch master https://github.com/HealthplusAI/python3-gdcm.git && \
+    cd python3-gdcm && \
+    dpkg -i build_1-1_amd64.deb && \
+    apt-get install -f
+RUN rm -rf python3-gdcm
+
+RUN cp /usr/local/lib/gdcm.py /usr/local/lib/python${PYVERSION}/dist-packages/.
+RUN cp /usr/local/lib/gdcmswig.py /usr/local/lib/python${PYVERSION}/dist-packages/.
+RUN cp /usr/local/lib/_gdcmswig.so /usr/local/lib/python${PYVERSION}/dist-packages/.
+RUN cp /usr/local/lib/libgdcm* /usr/local/lib/python${PYVERSION}/dist-packages/.
+RUN ldconfig
 
 ########################
 # define python user
@@ -43,7 +46,7 @@ RUN python -m pip install scikit-build
 ADD ./config/requirements*.txt /home/${PYTHON_USER}/
 RUN yes | pip install -r /home/${PYTHON_USER}/requirements_base.txt --use-feature=2020-resolver
 #RUN yes | pip install -r /home/${PYTHON_USER}/requirements_nlp.txt --use-feature=2020-resolver
-RUN yes | pip install -r /home/${PYTHON_USER}/requirements.txt --use-feature=2020-resolver
+RUN yes | pip install -r /home/${PYTHON_USER}/requirements.txt
 
 # lightgbm
 RUN git clone --recursive https://github.com/microsoft/LightGBM

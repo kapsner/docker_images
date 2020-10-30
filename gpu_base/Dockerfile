@@ -1,6 +1,8 @@
 FROM nvidia/cuda:11.0-cudnn8-devel-ubuntu18.04
 
-ENV DEBIAN_FRONTEND=noninteractive 
+ENV DEBIAN_FRONTEND=noninteractive
+
+ENV PYVERSION=3.7
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     apt-utils\ 
@@ -86,10 +88,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     swig \
     traceroute \
     unixodbc-dev \
-    python3.9 \
-    python3.9-dev \
+    python${PYVERSION} \
+    python${PYVERSION}-dev \
     python3-pip \
-    python3.9-venv
+    python${PYVERSION}-venv
 RUN apt-get clean && \ 
     apt-get autoclean && \
     rm -rf /var/lib/apt/lists/*
@@ -117,15 +119,25 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 RUN apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
+########################
+# update environment variables 
+ENV CUDA_HOME=/usr/local/cuda
+ENV LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${CUDA_HOME}/lib64
+ENV LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/lib:/usr/local/nvidia/lib:/usr/local/nvidia/lib64
+ENV PATH=${CUDA_HOME}/bin:${PATH}
+ENV OPENCL_LIBRARIES=/usr/local/cuda/lib64
+ENV OPENCL_INCLUDE_DIR=/usr/local/cuda/include
+########################
+
 # symlink pip3
 RUN ln -s /usr/bin/pip3 /usr/bin/pip
 
 # symlink python
-RUN ln -s /usr/bin/python3.9 /usr/bin/python
+RUN ln -s /usr/bin/python${PYVERSION} /usr/bin/python
 
 # update-alternatives
 RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.6 1
-RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.9 2
+RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python${PYVERSION} 2
 
 RUN update-alternatives --config python3
 
@@ -134,8 +146,9 @@ RUN yes | pip install \
 
 # install python prerequisites
 RUN yes | pip install \
-    --upgrade numpy>=1.19.2 \
-    setuptools \
+    --upgrade numpy>=1.19.2
+RUN yes | pip install \
+    --upgrade setuptools \
     wheel
 
 # install/update latest cmake (> 3.12 required for compiling of latest xgboost)
