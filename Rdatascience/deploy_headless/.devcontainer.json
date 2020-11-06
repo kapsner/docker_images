@@ -1,7 +1,7 @@
 {
     "name": "r datascience",
     "image": "rdsc_headless:latest",
-    "forwardPorts": [3000, 3838],
+    "appPort": ["127.0.0.1:3000:3000", "127.0.0.1:3838:3838"],
     "workspaceFolder": "/home/user/",
     "extensions": [
       "ikuyadeu.r",
