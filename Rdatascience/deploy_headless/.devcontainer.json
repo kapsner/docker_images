@@ -27,7 +27,7 @@
       "TERM_PROGRAM": "vscode"
     },
     "runArgs": [
-      "-v", "source=/mount/this/folder:/home/user/development"
+      "-v", "/mount/this/folder:/home/user/development"
     ],
     //"mounts": [
     //  "source=/mount/this/folder,target=/home/user/development,type=bind,consistency=cached"
