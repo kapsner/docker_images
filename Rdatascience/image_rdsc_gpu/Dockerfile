@@ -225,7 +225,7 @@ RUN rm -rf /home/${RSESSION_USER}/.cache/pip/*
 RUN apt-get clean && apt-get autoclean && apt-get autoremove
 
 # get RStudio-Server (Preview Version): https://www.rstudio.com/products/rstudio/download/preview/
-ENV RSTUDIO_VERSION=1.3.952 \
+ENV RSTUDIO_VERSION=1.4.1013 \
     RSTUIO_URL=https://s3.amazonaws.com/rstudio-ide-build/server/bionic/amd64/
 # stable
 # ENV RSTUDIO_VERSION=1.2.5033 \
