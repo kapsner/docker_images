@@ -10,13 +10,8 @@ services:
     # https://github.com/rocker-org/rocker-versioned/blob/master/user/README.md
     environment:
     - DISPLAY=$IP:0
-    volumes:
-    - ../docker-share/R:/home/user/share
-    - ../../../git-local:/home/user/git-local
-    - ../../../_p21/:/home/user/p21
+    # volumes:
+    # - ../docker-share/R:/home/user/share
+    # - ../../../git-local:/home/user/git-local
+    # - ../../../_p21/:/home/user/p21
     tty: true
-    networks:
-      - miracum-net
-networks:
-  miracum-net:
-    external: true
