@@ -58,5 +58,12 @@
     "custom_shell_command": "~/.local/share/r-miniconda/envs/r-reticulate/bin/radian",
     "terminal_close_behavior": "never",
     "editor_theme": "Dracula",
-    "show_hidden_files": true
+    "show_hidden_files": true,
+    "initial_working_directory": "~/development/",
+    "rainbow_parentheses": true,
+    "line_ending_conversion": "posix",
+    "visual_markdown_editing_is_default": true,
+    "python_type": "conda",
+    "python_version": "3.6.11",
+    "python_path": "~/.local/share/r-miniconda/envs/r-reticulate/bin/python3.6"
 }
