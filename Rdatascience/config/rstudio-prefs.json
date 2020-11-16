@@ -46,10 +46,10 @@
     "style_diagnostics": true,
     "save_files_before_build": true,
     "cran_mirror": {
-        "name": "Germany (Erlangen) [https]",
-        "host": "Friedrich-Alexander-Universität Erlangen-Nürnberg (FAU)",
-        "url": "https://ftp.fau.de/cran/",
-        "country": "de",
+        "name": "Global (CDN)",
+        "host": "RStudio",
+        "url": "https://cran.rstudio.com/",
+        "country": "us",
         "ok": 1,
         "secondary": ""
     },
