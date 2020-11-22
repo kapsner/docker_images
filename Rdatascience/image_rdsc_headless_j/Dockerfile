@@ -40,6 +40,7 @@ ARG d="data.table \
     DiagrammeR \ 
     discretization \ 
     doParallel \ 
+    dotenv \ 
     dplyr \ 
     DT \ 
     dtplyr \ 
