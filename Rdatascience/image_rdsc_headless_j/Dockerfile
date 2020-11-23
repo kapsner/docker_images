@@ -132,6 +132,7 @@ RUN for package in $o; do \
     rm -rf /tmp/*
 
 ARG p="parallel \ 
+    parsedate \ 
     plotly \ 
     plyr \ 
     psych"
