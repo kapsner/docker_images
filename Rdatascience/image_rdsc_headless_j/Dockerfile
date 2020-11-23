@@ -37,8 +37,6 @@ ARG d="data.table \
     desc \ 
     DescTools \ 
     devtools \ 
-    DiagrammeR \ 
-    discretization \ 
     doParallel \ 
     dotenv \ 
     dplyr \ 
@@ -56,25 +54,19 @@ RUN for package in $e; do \
     done && \
     rm -rf /tmp/*
 
-ARG f="fastAdaboost \ 
-    foreach \ 
-    forecast \ 
-    foreign \ 
-    formatR"
-RUN for package in $f; do \
+ARG f="foreach \ 
+    formatR \ 
+    # DQAstats:
+    future \ 
+    # DQAstats:
+    future.apply"
+    RUN for package in $f; do \
     R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, build_manual = FALSE, quiet = TRUE, upgrade = \"always\")"; \
     done && \
     rm -rf /tmp/*
 
-ARG g="gbm \ 
-    ggfortify \ 
-    ggmap \ 
-    ggplot2 \ 
+ARG g="ggplot2 \ 
     ggpubr \ 
-    ggraph \ 
-    ggridges \ 
-    git2r \ 
-    glmnet \ 
     gplots"
 RUN for package in $g; do \
     R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, build_manual = FALSE, quiet = TRUE, upgrade = \"always\")"; \
@@ -116,12 +108,8 @@ RUN for package in $l; do \
     done && \
     rm -rf /tmp/*
 
-ARG m="maps \ 
-    maptools \ 
-    markdown \ 
+ARG m="markdown \ 
     Matrix \ 
-    MatrixModels \ 
-    mboost \ 
     microbenchmark \ 
     mlbench"
 RUN for package in $m; do \
@@ -144,29 +132,24 @@ RUN for package in $o; do \
     rm -rf /tmp/*
 
 ARG p="parallel \ 
-    PerformanceAnalytics \ 
     plotly \ 
     plyr \ 
-    polynom \ 
     psych"
 RUN for package in $p; do \
     R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, build_manual = FALSE, quiet = TRUE, upgrade = \"always\")"; \
     done && \
     rm -rf /tmp/*
 
-ARG q="qpdf \ 
-    questionr"
-RUN for package in $q; do \
-    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, build_manual = FALSE, quiet = TRUE, upgrade = \"always\")"; \
-    done && \
-    rm -rf /tmp/*
+# ARG q="qpdf \ 
+#     questionr"
+# RUN for package in $q; do \
+#     R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, build_manual = FALSE, quiet = TRUE, upgrade = \"always\")"; \
+#     done && \
+#     rm -rf /tmp/*
 
 ARG r="R.utils \ 
     R6 \ 
-    randomForest \ 
     rcmdcheck \ 
-    Rcpp \ 
-    RcppRoll \ 
     RCurl \ 
     readr \ 
     redcapAPI \ 

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 REGISTRY_PREFIX=joundso
-VERSION_TAG=0.0.1.9002
+VERSION_TAG=0.0.1.9003
 
 printf "\n\nPlease insert your login credentials to registry: $REGISTRY_PREFIX ...\n"
 docker login
