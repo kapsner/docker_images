@@ -58,5 +58,9 @@
     "custom_shell_command": "~/.local/share/r-miniconda/envs/r-reticulate/bin/radian",
     "terminal_close_behavior": "never",
     "editor_theme": "Dracula",
-    "show_hidden_files": true
+    "show_hidden_files": true,
+    "initial_working_directory": "~",
+    "rainbow_parentheses": true,
+    "server_editor_font_enabled": true,
+    "server_editor_font": "JetBrains Mono"
 }
