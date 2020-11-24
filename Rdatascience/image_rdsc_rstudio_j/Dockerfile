@@ -5,7 +5,7 @@ ENV RSESSION_USER="user"
 ENV DEBIAN_FRONTEND=noninteractive
 
 # get RStudio-Server (Preview Version): https://www.rstudio.com/products/rstudio/download/preview/
-ENV RSTUDIO_VERSION=1.4.1048 \
+ENV RSTUDIO_VERSION=1.4.1056 \
     RSTUIO_URL=https://s3.amazonaws.com/rstudio-ide-build/server/bionic/amd64/
 # stable
 # ENV RSTUDIO_VERSION=1.2.5033 \
