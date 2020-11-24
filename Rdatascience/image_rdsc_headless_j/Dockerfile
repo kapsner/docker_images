@@ -133,6 +133,7 @@ RUN for package in $o; do \
 
 ARG p="parallel \ 
     parsedate \ 
+    pheatmap \ 
     plotly \ 
     plyr \ 
     psych"
@@ -161,6 +162,7 @@ ARG r="R.utils \
     RJDBC \ 
     rlang \ 
     rmarkdown \ 
+    Rmisc \ 
     roxygen2 \ 
     RPostgres \ 
     RSQLite \ 
