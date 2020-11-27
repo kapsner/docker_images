@@ -54,7 +54,8 @@ RUN for package in $e; do \
     done && \
     rm -rf /tmp/*
 
-ARG f="foreach \ 
+ARG f="fhircrackr \ 
+    foreach \ 
     formatR \ 
     # DQAstats:
     future \ 
