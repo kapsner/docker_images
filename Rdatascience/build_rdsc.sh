@@ -1,12 +1,15 @@
 #!/bin/bash
 
-REGISTRY_PREFIX=joundso
-VERSION_TAG=0.0.1.9004
+## Get version tag and registry-prefix from .env:
+source ./.env
+
+printf "\n\n##################################\n"
+printf "Building images with version tag $VERSION_TAG"
+printf "\n##################################\n"
+
 
 printf "\n\nPlease insert your login credentials to registry: $REGISTRY_PREFIX ...\n"
 docker login
-
-printf "joundso:"
 
 ## Base image:
 IMAGE_NAME=rdsc_base_j

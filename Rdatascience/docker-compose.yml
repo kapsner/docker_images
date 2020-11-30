@@ -1,12 +1,11 @@
 version: '3'
 services:
   rdatascience:
-    image: joundso/rdsc_rstudio_j:latest
+    image: joundso/rdsc_rstudio_j:${VERSION_TAG}
     restart: unless-stopped
     ports:
-    - "8787:8787" #rstudio
-    - "3838:3838" #shiny
-    - "54321:54321" #h2o flow
+    - "${RSTUDIO_PORT}:8787" #rstudio
+    - "${SHINY_PORT}:3838" #shiny
     # https://github.com/rocker-org/rocker-versioned/blob/master/user/README.md
     environment:
     - DISPLAY=$IP:0
