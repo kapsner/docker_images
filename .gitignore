@@ -4,5 +4,14 @@
 !/.gitignore
 !/CHANGELOG.md
 !/README.md
-!/Rdatascience/
-!/rserver/
+!/config/
+!/deploy_headless/
+!/deploy_rstudio/
+!/image_rdsc_base_j/
+!/image_rdsc_headless_j/
+!/image_rdsc_rstudio_j/
+!/.env
+!/build_rdsc.sh
+!/docker-compose.yml
+!/start_rdatascience.sh
+!/stop_rdatascience.sh
