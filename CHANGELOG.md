@@ -3,6 +3,7 @@
 
 ### docs
 
+* adapted readme ([a123a92](https://github.com/joundso/docker_images/commit/a123a92749e0727ea21fc8a6b11524da0649d809))
 * adapted readme to my needs ([c7215c0](https://github.com/joundso/docker_images/commit/c7215c0a2cbf9ec4e84315ad6cb08e9288cc016a))
 * added CHANGELOG ([268a320](https://github.com/joundso/docker_images/commit/268a3200fe8fb87a24dd6cd66449581680336a40))
 
@@ -27,5 +28,6 @@
 * cleaned unneccessary imports ([5f80b16](https://github.com/joundso/docker_images/commit/5f80b16eff584f493c1e1fa181749f940d2499fe))
 * dockerfile improvements ([6238d26](https://github.com/joundso/docker_images/commit/6238d26123ee605f61c54b99519b90f093f316ef))
 * fixed .gitignore ([76e2493](https://github.com/joundso/docker_images/commit/76e24938f747768455f4e601a187006096ab6958))
+* restructuring of folder structures ([2b8e4bd](https://github.com/joundso/docker_images/commit/2b8e4bd7a7c1ffcf8d031c960eccc10936780ec1))
 
 
