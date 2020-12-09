@@ -4,6 +4,8 @@ FROM ubuntu:20.04
 ENV DEBIAN_FRONTEND=noninteractive \
     JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 
+ENV PYVERSION=3.8
+
 # set ENV-Vars
 ARG DISPLAY
 ENV DISPLAY=${DISPLAY}
@@ -52,6 +54,7 @@ ENV LANG=en_US.UTF-8
 RUN echo JAVA_HOME="${JAVA_HOME}" >> /etc/environment
 
 # install required custom system dependencies
+RUN add-apt-repository ppa:deadsnakes/ppa
 RUN apt-get update && apt-get install -y --no-install-recommends \
     imagemagick \
     # pocketsphinx
@@ -63,6 +66,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libcairo2-dev \
     libclang-dev \
     libffi-dev \
+    libgdcm-tools \
     libglu1-mesa-dev \
     libgmp3-dev \
     libgsl-dev \
@@ -87,12 +91,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     locate \
     nano \
     net-tools \
-    python3-dev \
-    python3-gdcm \ 
+    python${PYVERSION} \
+    python${PYVERSION}-dev \
     python3-pip \
-    python3-yaml \ 
     python3-h5py\ 
-    python3-venv \
     # pocketsphinx
     swig \
     traceroute \
@@ -102,10 +104,35 @@ RUN apt-get clean && \
     apt-get autoclean && \
     rm -rf /var/lib/apt/lists/*
 
-# add user + password
-# https://stackoverflow.com/questions/2150882/how-to-automatically-add-user-account-and-password-with-a-bash-script
-# workaround, to get stuff properly installed in users home dir
-# set rstudio user here
+# symlink pip3
+RUN ln -s /usr/bin/pip3 /usr/bin/pip
+
+# symlink python
+RUN ln -s /usr/bin/python${PYVERSION} /usr/bin/python
+
+# install python3-gdcm
+RUN git clone https://github.com/malaterre/GDCM
+RUN cd GDCM && \
+    mkdir build
+RUN ls -al /usr/local/lib/python${PYVERSION}
+RUN cd GDCM/build && \
+    cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_FLAGS=-fPIC -DCMAKE_CXX_FLAGS=-fPIC \
+    -DGDCM_BUILD_SHARED_LIBS:BOOL=ON \
+    -DGDCM_WRAP_PYTHON=ON PYTHON_EXECUTABLE=/usr/local/bin/python${PYVERSION} \
+    PYTHON_INCLUDE_DIR=/usr/local/lib/python${PYVERSION}/dist-packages/ \
+    GDCM_BUILD_SHARED_LIBS=ON GDCM_USE_VTK=ON /GDCM/ && \
+    cmake --build . --target install
+
+RUN cp /usr/local/lib/gdcm.py /usr/local/lib/python${PYVERSION}/dist-packages/.
+RUN cp /usr/local/lib/gdcmswig.py /usr/local/lib/python${PYVERSION}/dist-packages/.
+RUN cp /usr/local/lib/_gdcmswig.so /usr/local/lib/python${PYVERSION}/dist-packages/.
+RUN cp /usr/local/lib/libgdcm* /usr/local/lib/python${PYVERSION}/dist-packages/.
+RUN ldconfig
+
+RUN rm -rf GDCM
+
+########################
+# define python user
 ENV PYTHON_USER="user" 
 ENV USER_UID=1000
 ENV USER_GID=${USER_UID}
@@ -116,14 +143,11 @@ RUN echo ${PYTHON_USER}:password | chpasswd
 RUN echo ${PYTHON_USER} ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/${PYTHON_USER} && \
     chmod 0440 /etc/sudoers.d/${PYTHON_USER}
 
-# symlink pip3
-RUN ln -s /bin/pip3 /bin/pip
+# update pip
+RUN yes | pip install --upgrade pip
 
-# symlink python
-RUN ln -s /bin/python3 /bin/python
-
-RUN yes | pip install \
-    --upgrade pip
+# install scikit-build from source (for SimpleITK)
+RUN yes | pip install scikit-build
 
 # install python prerequisites
 RUN yes | pip install \
@@ -133,8 +157,8 @@ RUN yes | pip install \
 
 # install datascience packages
 ADD ./config/requirements*.txt /home/${PYTHON_USER}/
-RUN yes | pip install -r /home/${PYTHON_USER}/requirements_base.txt --use-feature=2020-resolver
-#RUN yes | pip install -r /home/${PYTHON_USER}/requirements_nlp.txt --use-feature=2020-resolver
-RUN yes | pip install -r /home/${PYTHON_USER}/requirements.txt --use-feature=2020-resolver
+RUN yes | pip install -r /home/${PYTHON_USER}/requirements_base.txt
+#RUN yes | pip install -r /home/${PYTHON_USER}/requirements_nlp.txt
+RUN yes | pip install -r /home/${PYTHON_USER}/requirements.txt
 
 ENV PATH=/home/${PYTHON_USER}/.local/bin:${PATH}

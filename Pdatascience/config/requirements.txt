@@ -26,3 +26,4 @@ sympy
 tabulate
 torch
 torchvision
+xlrd

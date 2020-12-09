@@ -90,8 +90,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     unixodbc-dev \
     python${PYVERSION} \
     python${PYVERSION}-dev \
-    python3-pip \
-    python${PYVERSION}-venv
+    python3-pip
 RUN apt-get clean && \ 
     apt-get autoclean && \
     rm -rf /var/lib/apt/lists/*
