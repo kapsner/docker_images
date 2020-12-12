@@ -10,4 +10,5 @@ services:
     # https://github.com/rocker-org/rocker-versioned/blob/master/rstudio/README.md
     volumes:
     - ./volume:/home/user/volume 
+    - ./rhub:/home/user/.local/share/rhub
     tty: true

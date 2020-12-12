@@ -12,3 +12,4 @@ services:
     - DISPLAY=$IP:0
     volumes:
     - ./volume:/home/user/volume
+    - ./rhub:/home/user/.local/share/rhub

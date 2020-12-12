@@ -12,5 +12,6 @@ services:
     - DISPLAY=$DISPLAY
     volumes:
     - ./volume:/home/user/volume
+    - ./rhub:/home/user/.local/share/rhub
     - /tmp/.X11-unix:/tmp/.X11-unix
     tty: true
