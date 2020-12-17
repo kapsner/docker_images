@@ -6,7 +6,7 @@ eli5
 imgaug 
 keras
 matplotlib
-monai
+monai>=0.4.0
 nibabel
 opencv-python
 pandas
