@@ -74,7 +74,8 @@ RUN for package in $g; do \
     done && \
     rm -rf /tmp/*
 
-ARG h="Hmisc \ 
+ARG h="highcharter \
+    Hmisc \ 
     httr"
 RUN for package in $h; do \
     R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, build_manual = FALSE, quiet = TRUE, upgrade = \"always\")"; \
