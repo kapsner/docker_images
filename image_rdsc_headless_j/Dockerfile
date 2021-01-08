@@ -13,6 +13,7 @@ RUN for package in $a; do \
     rm -rf /tmp/*
 
 ARG b="bigmemory \ 
+    billboarder \ 
     bookdown"
 RUN for package in $b; do \
     R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, build_manual = FALSE, quiet = TRUE, upgrade = \"always\")"; \
