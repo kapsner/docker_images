@@ -88,16 +88,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     lmodern \
     # pocketsphinx
     libpulse-dev \
-    locate \
-    nano \
-    net-tools \
     python${PYVERSION} \
     python${PYVERSION}-dev \
     python3-pip \
     python3-h5py\ 
     # pocketsphinx
     swig \
-    traceroute \
     unixodbc-dev
 
 RUN apt-get clean && \ 

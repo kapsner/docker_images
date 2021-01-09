@@ -201,22 +201,18 @@ ARG m="manipulate \
     mlbench \ 
     MLmetrics \ 
     mlr3db \ 
+    mlr3learners \
     mlr3measures \ 
     mlr3misc \ 
     mlr3proba \ 
     mlr3verse \ 
+    mlr3viz \
     mltools \ 
     muhaz"
 RUN for package in $m; do \
     R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
     done && \
     rm -rf /tmp/*
-
-#RUN R -q -e "devtools::install_github(repo = 'mlr-org/mlr3ordinal', ref = 'master')"
-RUN R -q -e "devtools::install_github(repo = 'mlr-org/mlr3survival', ref = 'master')"
-RUN R -q -e "devtools::install_github(repo = 'mlr-org/mlr3viz', ref = 'master')"
-#RUN R -q -e "devtools::install_github(repo = 'mlr3learners/mlr3learners.drat', ref = 'master')"
-RUN R -q -e "devtools::install_github(repo = 'pat-s/styler@mlr-style', ref = 'master')"
 
 ARG n="naivebayes \ 
     neuralnet \ 
@@ -380,7 +376,7 @@ RUN for package in $t; do \
     done && \
     rm -rf /tmp/*
 
-RUN R -q -e "devtools::install_github(repo = 'ropensci/tic', ref = 'master')"
+RUN R -q -e "remotes::install_github(repo = 'ropensci/tic', ref = 'master')"
 
 ARG u="ucminf \ 
     udpipe \ 
@@ -503,7 +499,7 @@ RUN R -q -e "vec <- unname(installed.packages()[,\"Package\"]); remotes::update_
     rm -rf /tmp/*
 
 # install development packages
-RUN R -q -e "devtools::install_github(repo = 'skranz/ReplaceInFiles', ref = 'master')"
+RUN R -q -e "remotes::install_github(repo = 'skranz/ReplaceInFiles', ref = 'master')"
 
 # Install lightgbm R package
 # RUN git clone --recursive https://github.com/microsoft/LightGBM
@@ -567,19 +563,19 @@ RUN R -q -e "shinytest::installDependencies()"
 USER root
 
 # install my packages
-RUN R -q -e "devtools::install_github(repo = 'kapsner/KhelpeR', ref = 'development')"
-#RUN R -q -e "devtools::install_github(repo = 'kapsner/rBiasCorrection', ref = 'latest')"
-RUN R -q -e "devtools::install_github(repo = 'kapsner/BiasCorrector', ref = 'master')"
-RUN R -q -e "devtools::install_github(repo = 'kapsner/expenditR', ref = 'master')"
-#RUN R -q -e "devtools::install_github(repo = 'kapsner/lightgbm.py', ref = 'master')"
-RUN R -q -e "devtools::install_github(repo = 'kapsner/mlr3learners.lgbpy', ref = 'master')"
-RUN R -q -e "devtools::install_github(repo = 'mlr3learners/mlr3learners.lightgbm', ref = 'development')"
+RUN R -q -e "remotes::install_github(repo = 'kapsner/KhelpeR', ref = 'development')"
+#RUN R -q -e "remotes::install_github(repo = 'kapsner/rBiasCorrection', ref = 'latest')"
+RUN R -q -e "remotes::install_github(repo = 'kapsner/BiasCorrector', ref = 'master')"
+RUN R -q -e "remotes::install_github(repo = 'kapsner/expenditR', ref = 'master')"
+#RUN R -q -e "remotes::install_github(repo = 'kapsner/lightgbm.py', ref = 'master')"
+#RUN R -q -e "remotes::install_github(repo = 'kapsner/mlr3learners.lgbpy', ref = 'master')"
+RUN R -q -e "remotes::install_github(repo = 'kapsner/mlr3learners.lightgbm', ref = 'development')"
 
 # install the stuff, where I participated
-#RUN R -q -e "devtools::install_git(url = 'https://gitlab.miracum.org/miracum/dqa/dqastats.git', ref = 'master')"
-#RUN R -q -e "devtools::install_git(url = 'https://gitlab.miracum.org/miracum/dqa/dqagui.git', ref = 'master')"
-RUN R -q -e "devtools::install_git(url = 'https://gitlab.miracum.org/miracum/dqa/miRacumdqa.git', ref = 'master')"
-RUN R -q -e "devtools::install_git(url = 'https://gitlab.miracum.org/kosmic/kosmicgui.git', ref = 'master')"
+#RUN R -q -e "remotes::install_git(url = 'https://gitlab.miracum.org/miracum/dqa/dqastats.git', ref = 'master')"
+#RUN R -q -e "remotes::install_git(url = 'https://gitlab.miracum.org/miracum/dqa/dqagui.git', ref = 'master')"
+RUN R -q -e "remotes::install_git(url = 'https://gitlab.miracum.org/miracum/dqa/miRacumdqa.git', ref = 'master')"
+RUN R -q -e "remotes::install_git(url = 'https://gitlab.miracum.org/kosmic/kosmicgui.git', ref = 'master')"
 
 # CRAN packages with my participation
 ARG pack="DIZutils"
@@ -617,4 +613,4 @@ RUN chown -R ${RSESSION_USER}:${RSESSION_USER} /home/${RSESSION_USER}/.radian_pr
 
 # add radian profile
 RUN mkdir -p /home/${RSESSION_USER}/.local/share/rhub
-RUN chown -R ${RSESSION_USER}:${RSESSION_USER} /home/${RSESSION_USER}/.local/
+RUN chown -R ${RSESSION_USER}:${RSESSION_USER} /home/${RSESSION_USER}/.local/share/rhub
