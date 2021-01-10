@@ -98,8 +98,7 @@ RUN echo "R_DATATABLE_NUM_PROCS_PERCENT=100" >> /etc/R/Renviron
 # https://lightgbm.readthedocs.io/en/latest/GPU-Tutorial.html
 RUN git clone --recursive https://github.com/microsoft/LightGBM
 RUN cd LightGBM && \
-    sed -i -e 's/use_gpu <- FALSE/use_gpu <- TRUE/g' R-package/src/install.libs.R && \
-    Rscript build_r.R
+    Rscript build_r.R --use-gpu
 
 # install xgboost GPU R package
 # xgboost branch
