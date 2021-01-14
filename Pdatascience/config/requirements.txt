@@ -13,7 +13,7 @@ pandas
 pillow
 psycopg2-binary 
 pydicom 
-pytorch-lightning>=1.1.2
+pytorch-lightning>=1.1.4
 pytorch-lightning-bolts
 scikit-build
 scikit-image 
