@@ -32,10 +32,10 @@ RUN R -q -e "BiocManager::install('SummarizedExperiment')"
 RUN R -q -e "BiocManager::install('sva')"
 
 # install the stuff, where I participated
-RUN R -q -e "devtools::install_git(url = 'https://gitlab.miracum.org/clearly/sigident.git', ref = 'master')"
-RUN R -q -e "devtools::install_git(url = 'https://gitlab.miracum.org/clearly/sigident.preproc.git', ref = 'master')"
-RUN R -q -e "devtools::install_git(url = 'https://gitlab.miracum.org/clearly/sigident.func.git', ref = 'master')"
-RUN R -q -e "devtools::install_git(url = 'https://gitlab.miracum.org/clearly/tromics.git', ref = 'master')"
+RUN R -q -e "remotes::install_git(url = 'https://gitlab.miracum.org/clearly/sigident.git', ref = 'master')"
+RUN R -q -e "remotes::install_git(url = 'https://gitlab.miracum.org/clearly/sigident.preproc.git', ref = 'master')"
+RUN R -q -e "remotes::install_git(url = 'https://gitlab.miracum.org/clearly/sigident.func.git', ref = 'master')"
+RUN R -q -e "remotes::install_git(url = 'https://gitlab.miracum.org/clearly/tromics.git', ref = 'master')"
 
 # clear caches
 RUN rm -rf /var/lib/apt/lists/* && \

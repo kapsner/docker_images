@@ -1,4 +1,4 @@
-FROM ubuntu:20.04
+FROM ubuntu:20.10
 
 # set environment variable to supress user interaction
 ENV DEBIAN_FRONTEND=noninteractive \
@@ -68,6 +68,7 @@ RUN apt-get install -y --no-install-recommends \
     libcairo2-dev \
     libclang-dev \
     libffi-dev \
+    libgit2-dev \
     libglu1-mesa-dev \
     libgmp3-dev \
     libgsl-dev \
