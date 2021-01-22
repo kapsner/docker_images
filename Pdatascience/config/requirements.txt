@@ -9,6 +9,7 @@ matplotlib
 monai>=0.4.0
 nibabel
 opencv-python
+openpyxl
 pandas
 pillow
 psycopg2-binary 
