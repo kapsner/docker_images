@@ -1,0 +1,13 @@
+version: '3'
+services:
+  pdatascience:
+    image: pdsc_jpylab:latest
+    # restart: unless-stopped
+    ports:
+      - "127.0.0.1:6006:6006" # tensorflow
+      - "127.0.0.1:8888:8888" # jupyter
+    environment:
+      - DISPLAY=$DISPLAY
+    volumes:
+      - /mount/this/folder:/home/user/development
+    tty: true

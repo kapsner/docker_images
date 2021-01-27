@@ -1,0 +1,17 @@
+{
+  "language_servers": {
+    "pyls": {
+      "languages": ["python"],
+      "serverSettings": {
+        "pyls.plugins.pydocstyle.enabled": true,
+        "pyls.plugins.pyflakes.enabled": true,
+        "pyls.plugins.flake8.enabled": true,
+        "pyls.plugins.pycodestyle.enabled": true,
+        "pyls.plugins.pylint.enabled": true,
+        "pyls.plugins.yapf.enabled": true,
+        "pyls.plugins.jedi_completion.enabled": true,
+        "pyls.plugins.rope_completion.enabled": false
+      }
+    }
+  }
+}
