@@ -44,6 +44,7 @@ ARG c="C50 \
     cluster \ 
     ClusterR \ 
     coin \ 
+    compare \
     config \ 
     corpus \ 
     corrplot \ 
@@ -124,6 +125,7 @@ ARG g="GA \
     ggridges \ 
     git2r \ 
     glmnet \ 
+    glmmTMB \
     gplots"
 RUN for package in $g; do \
     R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
