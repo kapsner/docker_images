@@ -1,0 +1,20 @@
+version: '3.8'
+services:
+  pdatascience:
+    image: pdsc_jpylab_gpu:latest
+    container_name: pdsc_jpylab_gpu
+    # restart: unless-stopped
+    ports:
+      - "127.0.0.1:6006:6006" # tensorflow
+      - "127.0.0.1:8888:8888" # jupyterlab
+    volumes:
+      - ./development:/home/user/development
+    tty: true
+    deploy:
+          resources:
+            reservations:
+              devices:
+                - capabilities:
+                  - gpu
+
+# vgl. https://github.com/docker/compose/issues/6691

@@ -2,6 +2,7 @@ version: '3'
 services:
   pdatascience:
     image: pdsc_jpylab:latest
+    container_name: pdsc_jpylab
     # restart: unless-stopped
     ports:
       - "127.0.0.1:6006:6006" # tensorflow
