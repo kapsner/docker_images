@@ -4,17 +4,27 @@ services:
     image: pdsc_jpylab_gpu:latest
     container_name: pdsc_jpylab_gpu
     # restart: unless-stopped
+    user: "1000:${GID}"
     ports:
       - "127.0.0.1:6006:6006" # tensorflow
       - "127.0.0.1:8888:8888" # jupyterlab
     volumes:
-      - ./development:/home/user/development
+      - ./development:/home/user/development:rw
     tty: true
     deploy:
-          resources:
-            reservations:
-              devices:
-                - capabilities:
-                  - gpu
+      resources:
+        reservations:
+          devices:
+            - capabilities:
+              - gpu
 
 # vgl. https://github.com/docker/compose/issues/6691
+
+# docker run --gpus=all \
+#   -v /home/lorenz/Documents/Projects/workspace:/home/user/development:rw \
+#   -v /media/veracrypt1:/home/user/data:ro \
+#   -u $(id -u):$(id -g) \
+#   -p 127.0.0.1:6006:6006 \
+#   -p 127.0.0.1:8888:8888 \
+#   -it \
+#   pdsc_jpylab_gpu:latest

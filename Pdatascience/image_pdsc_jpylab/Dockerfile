@@ -27,7 +27,6 @@ ENV JP_LSP_VIRTUAL_DIR=/home/${PYTHON_USER}/.virtual_documents/
 
 USER ${PYTHON_USER}
 
-
 # run jupyter lab from users home directory
 ENTRYPOINT cd /home/${PYTHON_USER} && \
     jupyter lab --no-browser --ip=0.0.0.0
