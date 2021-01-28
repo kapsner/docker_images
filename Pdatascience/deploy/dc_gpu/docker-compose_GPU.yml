@@ -1,15 +1,14 @@
 version: '3.8'
 services:
   pdatascience:
-    image: pdsc_jpylab_gpu:latest
-    container_name: pdsc_jpylab_gpu
+    image: pdsc_jpylab_gpu_run:latest
+    container_name: pdsc_jpylab_gpu_run
     # restart: unless-stopped
-    user: "1000:${GID}"
     ports:
       - "127.0.0.1:6006:6006" # tensorflow
       - "127.0.0.1:8888:8888" # jupyterlab
     volumes:
-      - ./development:/home/user/development:rw
+      - /mount/this/folder:/home/user/development
     tty: true
     deploy:
       resources:
@@ -21,8 +20,7 @@ services:
 # vgl. https://github.com/docker/compose/issues/6691
 
 # docker run --gpus=all \
-#   -v /home/lorenz/Documents/Projects/workspace:/home/user/development:rw \
-#   -v /media/veracrypt1:/home/user/data:ro \
+#   -v /mount/this/folder:/home/user/development \
 #   -u $(id -u):$(id -g) \
 #   -p 127.0.0.1:6006:6006 \
 #   -p 127.0.0.1:8888:8888 \
