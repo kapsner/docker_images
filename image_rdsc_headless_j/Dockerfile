@@ -372,3 +372,9 @@ RUN echo "PATH=${PATH}" >> /etc/environment
 # add radian profile
 ADD config/.radian_profile /home/${RSESSION_USER}/.radian_profile
 RUN chown -R ${RSESSION_USER}:${RSESSION_USER} /home/${RSESSION_USER}/.radian_profile
+
+# Add JDBC drivers:
+RUN mkdir -p /opt/libs
+RUN curl -SL https://repo1.maven.org/maven2/com/oracle/database/jdbc/ojdbc8/19.8.0.0/ojdbc8-19.8.0.0.jar -o /opt/libs/ojdbc8.jar
+RUN curl -SL https://repo1.maven.org/maven2/com/oracle/database/jdbc/ojdbc10/19.8.0.0/ojdbc10-19.8.0.0.jar -o /opt/libs/ojdbc10.jar
+RUN chown -R ${RSESSION_USER}:${RSESSION_USER} /opt/libs/
