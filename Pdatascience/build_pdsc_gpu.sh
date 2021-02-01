@@ -1,8 +1,11 @@
 #!/bin/bash
 
-cd ../gpu_base/
+cd ../base_image_gpu/
 ./build_gpu_base.sh
 cd ../Pdatascience/
+
+printf "\nBuild pdsc_gpu_base image\n"
+docker build --build-arg BASEIMAGE=base_image_gpu:latest -f image_pdsc_base/Dockerfile -t pdsc_gpu_base .
 
 printf "\nBuild pdsc_gpu image\n"
 docker build -f image_pdsc_gpu/Dockerfile -t pdsc_gpu .

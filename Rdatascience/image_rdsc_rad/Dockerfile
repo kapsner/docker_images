@@ -2,11 +2,7 @@ FROM rdsc_rstudio:latest
 #FROM rdsc_headless:latest
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    python3-dev \
-    python3-gdcm \ 
-    python3-pip \
     python3-yaml \ 
-    python3-h5py\ 
     python3-venv
 
 # switch user (let everything in .virtualenv/r-reticulate be installed by the user)

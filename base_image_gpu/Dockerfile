@@ -1,103 +1,4 @@
-FROM nvidia/cuda:11.0-cudnn8-devel-ubuntu18.04
-
-ENV DEBIAN_FRONTEND=noninteractive
-
-ENV PYVERSION=3.7
-
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    apt-utils\ 
-    build-essential \
-    byobu \
-    cmake \
-    curl \
-    #default-jdk \
-    #default-jre \
-    openjdk-8-jdk \
-    dialog \
-    dirmngr \
-    ffmpeg \
-    gcc-8 \
-    gdebi-core \
-    gfortran \
-    git \
-    gpg-agent \
-    htop \
-    iputils-ping \
-    less \
-    libcurl4-openssl-dev \
-    libssh-dev \
-    libssl-dev \
-    locales \
-    make \
-    nano \
-    net-tools \
-    software-properties-common \
-    ssh \
-    sudo \
-    tar \
-    traceroute \
-    unzip \
-    vim \
-    wget
-RUN apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
-
-# install required custom system dependencies
-RUN add-apt-repository ppa:deadsnakes/ppa
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    imagemagick \
-    # pocketsphinx
-    libasound2-dev \ 
-    libboost-dev \
-    libboost-system-dev \
-    libboost-filesystem-dev \
-    libbz2-dev \
-    libcairo2-dev \
-    libclang-dev \
-    libffi-dev \
-    libglu1-mesa-dev \
-    libgmp3-dev \
-    libgsl-dev \
-    # rJava dependencies
-    liblzma-dev \ 
-    libmagick++-dev \
-    libmpfr-dev \
-    libobjc-7-dev \
-    libopenblas-dev \
-    libopenmpi-dev \
-    libpq-dev \
-    libsasl2-dev \
-    libboost-dev \
-    libboost-system-dev \
-    libboost-filesystem-dev \
-    libbz2-dev \
-    # V8 dependencies
-    libxt-dev \
-    # xml2 package
-    libxml2-dev \
-    # xslt package
-    libxslt1-dev \
-    libzmq3-dev \
-    lmodern \
-    # pocketsphinx
-    libpulse-dev \
-    locate \
-    nano \
-    net-tools \
-    # pocketsphinx
-    swig \
-    traceroute \
-    unixodbc-dev \
-    python${PYVERSION} \
-    python${PYVERSION}-dev \
-    python3-pip
-RUN apt-get clean && \ 
-    apt-get autoclean && \
-    rm -rf /var/lib/apt/lists/*
-
-RUN locale-gen en_US.utf8 \
-    && /usr/sbin/update-locale LANG=en_US.UTF-8
-ENV LANG=en_US.UTF-8
+FROM gpu_base_img:latest
 
 #########################
 ARG CUDA=11.0
@@ -127,12 +28,6 @@ ENV PATH=${CUDA_HOME}/bin:${PATH}
 ENV OPENCL_LIBRARIES=/usr/local/cuda/lib64
 ENV OPENCL_INCLUDE_DIR=/usr/local/cuda/include
 ########################
-
-# symlink pip3
-RUN ln -s /usr/bin/pip3 /usr/bin/pip
-
-# symlink python
-RUN ln -s /usr/bin/python${PYVERSION} /usr/bin/python
 
 # update-alternatives
 RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.6 1
@@ -170,7 +65,8 @@ RUN ln -sf /usr/bin/gcc-8 /usr/bin/gcc && \
 # install prerequisites for lightgbm
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ocl-icd-opencl-dev
-RUN apt-get clean && \
+RUN apt-get clean && \ 
+    apt-get autoclean && \
     rm -rf /var/lib/apt/lists/*
 
 RUN mkdir -p /etc/OpenCL/vendors && \

@@ -3,12 +3,8 @@
 
 !/.gitignore
 !/base_image/
-!/base_image-light/
 !/docker-ionic/
 !/docker-JabRef/
-!/gpu_base/
+!/base_image_gpu/
 !/Pdatascience/
-!/Pdatascience_remote/
-!/Pdatascience_vscode/
 !/Rdatascience/
-!/rserver/

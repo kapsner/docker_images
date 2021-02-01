@@ -1,4 +1,11 @@
-FROM rdsc_headless:latest
+ARG BASEIMAGE
+
+# GPU: rdsc_gpu:latest
+# headless: rdsc_headless:latest
+# bio: rdsc_bio:latest
+# rad: rdsc_rad:latest
+
+FROM ${BASEIMAGE}
 
 # set rstudio user here
 ENV RSESSION_USER="user" 
@@ -14,7 +21,7 @@ ENV RSTUDIO_FILE="rstudio-server-${RSTUDIO_VERSION}-amd64.deb"
 ENV RSTUDIO_LINK=${RSTUIO_URL}${RSTUDIO_FILE}
 RUN wget ${RSTUDIO_LINK}
 RUN gdebi -n ${RSTUDIO_FILE}
-RUN rm -f ${RSTUDIO_FILE}
+RUN rm -rf ${RSTUDIO_FILE}
 
 # overwrite headless .Rprofile
 RUN echo "options(shiny.port = 3838)" > /home/${RSESSION_USER}/.Rprofile && \
@@ -26,6 +33,15 @@ RUN echo "options(shiny.port = 3838)" > /home/${RSESSION_USER}/.Rprofile && \
 ADD config/rstudio-prefs.json /home/${RSESSION_USER}/.config/rstudio/rstudio-prefs.json
 RUN chown -R ${RSESSION_USER}:${RSESSION_USER} /home/${RSESSION_USER}/.config/ && \
     chmod 644 /home/${RSESSION_USER}/.config/rstudio/rstudio-prefs.json
+
+# add PATH to a bash_profile script (workaround so that path is available in rstudio's terminal)
+# https://support.rstudio.com/hc/en-us/articles/115010737148-Using-the-RStudio-Terminal#env
+# https://docs.rstudio.com/ide/server-pro/1.2.1293-1/r-sessions.html
+RUN echo "export PATH=${PATH}" >> /home/${RSESSION_USER}/.bash_profile && chmod +x /home/${RSESSION_USER}/.bash_profile
+
+# set PATH for all users
+RUN echo "PATH=${PATH}" >> /etc/R/Renviron
+RUN echo "PATH=${PATH}" >> /etc/environment
 
 # entrypoint
 ENTRYPOINT rstudio-server start && tail -f /dev/null

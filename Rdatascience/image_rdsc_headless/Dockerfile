@@ -327,6 +327,7 @@ ARG s="SentimentAnalysis \
     sem \ 
     seriation \ 
     shiny \ 
+    shinyalert \
     shinydashboard \ 
     shinyFiles \ 
     shinyjs \ 
