@@ -100,7 +100,8 @@ RUN yes | pip install \
 # clear caches
 RUN rm -rf /var/lib/apt/lists/* && \
     rm -rf /tmp/*
-RUN rm -rf /home/${RSESSION_USER}/.cache/pip/*
+RUN rm -rf /home/${RSESSION_USER}/.cache/pip/* && \
+    rm -rf ~/.cache/pip/*
 RUN apt-get clean && apt-get autoclean && apt-get autoremove
 
 ENTRYPOINT tail -f /dev/null

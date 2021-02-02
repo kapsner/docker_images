@@ -79,3 +79,12 @@ USER root
 # environment variable for data.table
 # https://github.com/Rdatatable/data.table/pull/3435/files
 RUN echo "R_DATATABLE_NUM_PROCS_PERCENT=100" >> /etc/R/Renviron
+
+########################
+# clear caches
+RUN rm -rf /var/lib/apt/lists/* && \
+    rm -rf /tmp/*
+RUN rm -rf /home/${RSESSION_USER}/.cache/pip/*
+RUN apt-get clean && apt-get autoclean && apt-get autoremove -y
+
+########################

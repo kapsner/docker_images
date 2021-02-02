@@ -43,5 +43,12 @@ RUN echo "export PATH=${PATH}" >> /home/${RSESSION_USER}/.bash_profile && chmod 
 RUN echo "PATH=${PATH}" >> /etc/R/Renviron
 RUN echo "PATH=${PATH}" >> /etc/environment
 
+# clear caches
+RUN rm -rf /var/lib/apt/lists/* && \
+    rm -rf /tmp/*
+RUN rm -rf /home/${RSESSION_USER}/.cache/pip/* && \
+    rm -rf ~/.cache/pip/*
+RUN apt-get clean && apt-get autoclean && apt-get autoremove
+
 # entrypoint
 ENTRYPOINT rstudio-server start && tail -f /dev/null
