@@ -12,7 +12,6 @@ ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 
 ARG DISPLAY
 ENV DISPLAY=${DISPLAY}
-ENV PYVERSION=3.8
 
 # install essential packages
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -59,7 +58,6 @@ ENV LANG=en_US.UTF-8
 
 RUN echo JAVA_HOME="${JAVA_HOME}" >> /etc/environment
 
-
 RUN apt-get update && apt-get install -y --no-install-recommends \
     imagemagick \
     libasound2-dev \ 
@@ -88,21 +86,24 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libpulse-dev \
     # pocketsphinx
     swig \
-    unixodbc-dev \
-    python${PYVERSION} \
-    python${PYVERSION}-dev \
-    python3-pip \
-    python3-h5py
+    unixodbc-dev
 RUN apt-get clean && \ 
     apt-get autoclean && \
     rm -rf /var/lib/apt/lists/*
 
-RUN locale-gen en_US.utf8 \
-    && /usr/sbin/update-locale LANG=en_US.UTF-8
-ENV LANG=en_US.UTF-8
+# install python stuff
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    python3 \
+    python3-dev \
+    python3-pip \
+    python3-h5py
+
+# symlink pip3
+RUN ln -s /usr/bin/pip3 /usr/bin/pip
+RUN yes | pip install --upgrade pip
 
 # symlink python
-RUN ln -s /usr/bin/python${PYVERSION} /usr/bin/python
+RUN ln -s /usr/bin/python3 /usr/bin/python
 
 ########################
 # define image user
@@ -115,3 +116,15 @@ RUN groupadd --gid ${USER_GID} ${USER} && \
 RUN echo ${USER}:password | chpasswd 
 RUN echo ${USER} ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/${USER} && \
     chmod 0440 /etc/sudoers.d/${USER}
+
+########################
+RUN yes | pip install \
+    --upgrade pip
+
+# install python prerequisites
+RUN yes | pip install \
+    --upgrade numpy>=1.19.2
+RUN yes | pip install \
+    --upgrade setuptools \
+    wheel
+########################

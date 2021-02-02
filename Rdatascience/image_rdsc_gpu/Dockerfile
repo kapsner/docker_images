@@ -18,30 +18,6 @@ RUN mkdir -p xgboost/build && \
 RUN rm -rf xgboost
 RUN rm -rf LightGBM
 
-# lightgbm
-RUN git clone --recursive https://github.com/microsoft/LightGBM
-RUN mkdir -p LightGBM/build && \
-    cd LightGBM/build && \
-    cmake -DUSE_GPU=1 .. &&\
-    make -j$(nproc)
-RUN cd LightGBM/python-package && \
-    python setup.py install --precompile
-
-# xgboost
-# Install xgboost GPU python package
-RUN git clone --recursive https://github.com/dmlc/xgboost
-RUN mkdir -p xgboost/build && \
-    cd xgboost/build && \
-    cmake .. -DUSE_CUDA=ON -DUSE_NCCL=ON && \
-    make install -j$(nproc)
-RUN cd xgboost/python-package && \
-    python setup.py install
-
-### Finish GPU installing stuff
-# clean up
-RUN rm -rf xgboost
-RUN rm -rf LightGBM
-
 # install keras/tensorflow
 RUN R -q -e "install.packages('keras')"
 
@@ -115,8 +91,6 @@ RUN for package in $packages; do \
     rm -rf /tmp/*
 
 # install my own stuff
-RUN R -q -e "devtools::install_github(repo = 'kapsner/lightgbm.py', ref = 'master')"
-RUN R -q -e "devtools::install_github(repo = 'kapsner/mlr3learners.lgbpy', ref = 'master')"
 RUN R -q -e "devtools::install_github(repo = 'mlr3learners/mlr3learners.lightgbm', ref = 'development')"
 
 # install python stuff

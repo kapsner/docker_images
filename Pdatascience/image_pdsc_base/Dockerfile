@@ -32,17 +32,8 @@ RUN ldconfig
 
 RUN rm -rf GDCM
 
-# update pip
-RUN yes | pip install --upgrade pip
-
 # install scikit-build from source (for SimpleITK)
 RUN yes | pip install scikit-build
-
-# install python prerequisites
-RUN yes | pip install \
-    --upgrade numpy>=1.19.2 \
-    setuptools \
-    wheel
 
 # install datascience packages
 ADD ./config/requirements*.txt /home/${PYTHON_USER}/

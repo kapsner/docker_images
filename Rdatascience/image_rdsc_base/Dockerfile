@@ -69,7 +69,7 @@ RUN echo "R_LIBS_SITE=${R_LIBS_SITE}" >> /etc/R/Renviron
 # we can use pip here, since we added the virtualenv to the beginning of our PATH variable
 USER ${RSESSION_USER}
 
-# install python prerequisites
+# install python prerequisites into miniconda
 RUN yes | pip install \
     setuptools \
     wheel

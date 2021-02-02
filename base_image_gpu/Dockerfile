@@ -1,23 +1,12 @@
-FROM gpu_base_img:latest
+FROM base_image_gpu:latest
 
-#########################
-ARG CUDA=11.0
-ARG CUDNN=8.0.4.30-1
-ARG CUDNN_MAJOR_VERSION=8
-ARG LIB_DIR_PREFIX=x86_64
-ARG LIBNVINFER=7.1.3-1
-ARG LIBNVINFER_MAJOR_VERSION=7
-# https://www.tensorflow.org/install/gpu
-# Install TensorRT. Requires that libcudnn7 is installed above.
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    libnvinfer${LIBNVINFER_MAJOR_VERSION}=${LIBNVINFER}+cuda${CUDA} \
-    libnvinfer-dev=${LIBNVINFER}+cuda${CUDA} \
-    libnvinfer-plugin-dev=${LIBNVINFER}+cuda${CUDA} \
-    libnvinfer-plugin${LIBNVINFER_MAJOR_VERSION}=${LIBNVINFER}+cuda${CUDA} && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
-RUN apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+########################
+# eventually install miniconda:
+# https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+
+# install/update latest cmake (> 3.12 required for compiling of latest xgboost)
+RUN yes | pip install \
+    --upgrade cmake
 
 ########################
 # update environment variables 
@@ -27,27 +16,6 @@ ENV LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/lib:/usr/local/nvidia/lib:/usr
 ENV PATH=${CUDA_HOME}/bin:${PATH}
 ENV OPENCL_LIBRARIES=/usr/local/cuda/lib64
 ENV OPENCL_INCLUDE_DIR=/usr/local/cuda/include
-########################
-
-# update-alternatives
-RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.6 1
-RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python${PYVERSION} 2
-
-RUN update-alternatives --config python3
-
-RUN yes | pip install \
-    --upgrade pip
-
-# install python prerequisites
-RUN yes | pip install \
-    --upgrade numpy>=1.19.2
-RUN yes | pip install \
-    --upgrade setuptools \
-    wheel
-
-# install/update latest cmake (> 3.12 required for compiling of latest xgboost)
-RUN yes | pip install \
-    --upgrade cmake
 
 ########################
 # xgboost installation will work only with g++/gcc version <= 8
@@ -75,3 +43,26 @@ RUN mkdir -p /etc/OpenCL/vendors && \
 # https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/user-guide.html#dockerfiles
 ENV NVIDIA_VISIBLE_DEVICES=all
 ENV NVIDIA_DRIVER_CAPABILITIES=compute,utility
+
+# install lightgbm GPU python package
+RUN git clone --recursive https://github.com/microsoft/LightGBM
+RUN mkdir -p LightGBM/build && \
+    cd LightGBM/build && \
+    cmake -DUSE_GPU=1 .. &&\
+    make -j$(nproc)
+RUN cd LightGBM/python-package && \
+    python setup.py install --precompile
+
+# install xgboost GPU python package
+RUN git clone --recursive https://github.com/dmlc/xgboost
+RUN mkdir -p xgboost/build && \
+    cd xgboost/build && \
+    cmake .. -DUSE_CUDA=ON -DUSE_NCCL=ON && \
+    make install -j$(nproc)
+RUN cd xgboost/python-package && \
+    python setup.py install
+
+### Finish GPU installing stuff
+# clean up
+RUN rm -rf xgboost
+RUN rm -rf LightGBM
