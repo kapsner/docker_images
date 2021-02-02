@@ -99,7 +99,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     python3-h5py
 
 # symlink pip3
-RUN ln -s /usr/bin/pip3 /usr/bin/pip
+RUN ln -sf /usr/bin/pip3 /usr/bin/pip
 RUN yes | pip install --upgrade pip
 
 # symlink python
@@ -118,13 +118,11 @@ RUN echo ${USER} ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/${USER} && \
     chmod 0440 /etc/sudoers.d/${USER}
 
 ########################
-RUN yes | pip install \
-    --upgrade pip
-
 # install python prerequisites
 RUN yes | pip install \
     --upgrade numpy>=1.19.2
 RUN yes | pip install \
     --upgrade setuptools \
+    testresources \
     wheel
 ########################
