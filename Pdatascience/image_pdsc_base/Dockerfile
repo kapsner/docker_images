@@ -15,19 +15,18 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 RUN git clone https://github.com/malaterre/GDCM
 RUN cd GDCM && \
     mkdir build
-RUN ls -al /usr/local/lib/python${PYVERSION}
 RUN cd GDCM/build && \
     cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_FLAGS=-fPIC -DCMAKE_CXX_FLAGS=-fPIC \
     -DGDCM_BUILD_SHARED_LIBS:BOOL=ON \
-    -DGDCM_WRAP_PYTHON=ON PYTHON_EXECUTABLE=/usr/local/bin/python${PYVERSION} \
-    PYTHON_INCLUDE_DIR=/usr/local/lib/python${PYVERSION}/dist-packages/ \
+    -DGDCM_WRAP_PYTHON=ON PYTHON_EXECUTABLE=/usr/local/bin/python3 \
+    PYTHON_INCLUDE_DIR=/usr/local/lib/python3/dist-packages/ \
     GDCM_BUILD_SHARED_LIBS=ON GDCM_USE_VTK=ON /GDCM/ && \
     cmake --build . --target install
 
-RUN cp /usr/local/lib/gdcm.py /usr/local/lib/python${PYVERSION}/dist-packages/.
-RUN cp /usr/local/lib/gdcmswig.py /usr/local/lib/python${PYVERSION}/dist-packages/.
-RUN cp /usr/local/lib/_gdcmswig.so /usr/local/lib/python${PYVERSION}/dist-packages/.
-RUN cp /usr/local/lib/libgdcm* /usr/local/lib/python${PYVERSION}/dist-packages/.
+RUN cp /usr/local/lib/gdcm.py /usr/lib/python3/dist-packages/.
+RUN cp /usr/local/lib/gdcmswig.py /usr/lib/python3/dist-packages/.
+RUN cp /usr/local/lib/_gdcmswig.so /usr/lib/python3/dist-packages/.
+RUN cp /usr/local/lib/libgdcm* /usr/lib/python3/dist-packages/.
 RUN ldconfig
 
 RUN rm -rf GDCM

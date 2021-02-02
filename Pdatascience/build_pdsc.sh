@@ -1,8 +1,7 @@
 #!/bin/bash
 
-printf "\nBuild pdsc_base_img image\n"
 cd ../base_image
-docker build --build-arg BASEIMAGE=ubuntu:20.10 -f Dockerfile -t base_image .
+./build_base_image.sh
 cd ../Pdatascience
 
 printf "\nBuild pdsc_base image\n"
