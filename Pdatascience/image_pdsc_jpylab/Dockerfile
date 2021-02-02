@@ -25,6 +25,15 @@ RUN chown -R ${PYTHON_USER}:${PYTHON_USER} /home/${PYTHON_USER}/.jupyter/
 
 ENV JP_LSP_VIRTUAL_DIR=/home/${PYTHON_USER}/.virtual_documents/
 
+########################
+# clear caches
+RUN rm -rf /var/lib/apt/lists/* && \
+    rm -rf /tmp/*
+RUN rm -rf ~/.cache/pip/*
+RUN apt-get clean && apt-get autoclean && apt-get autoremove -y
+
+########################
+
 USER ${PYTHON_USER}
 
 # run jupyter lab from users home directory

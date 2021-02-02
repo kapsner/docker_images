@@ -66,3 +66,12 @@ RUN cd xgboost/python-package && \
 # clean up
 RUN rm -rf xgboost
 RUN rm -rf LightGBM
+
+########################
+# clear caches
+RUN rm -rf /var/lib/apt/lists/* && \
+    rm -rf /tmp/*
+RUN rm -rf ~/.cache/pip/*
+RUN apt-get clean && apt-get autoclean && apt-get autoremove -y
+
+########################
