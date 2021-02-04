@@ -18,6 +18,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     apt-utils\ 
     build-essential \
     byobu \
+    cifs-utils \
     cmake \
     curl \
     openjdk-8-jdk \
