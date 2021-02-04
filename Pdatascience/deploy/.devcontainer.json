@@ -30,7 +30,8 @@
   },
   "runArgs": [
     "--gpus=all",
-    "-v", "/mount/this/folder:/home/user/development"
+    "-v", "/mount/this/folder:/home/user/development",
+    // "--privileged" // !!! use this with caution only - e.g. when using smb mounts with mount.cifs
   ],
   //"mounts": [
   //  "source=/mount/this/folder,target=/home/user/development,type=bind,consistency=cached"
