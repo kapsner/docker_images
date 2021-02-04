@@ -68,6 +68,9 @@ RUN rm -rf xgboost
 RUN rm -rf LightGBM
 
 ########################
+# install nvtop :)
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    nvtop
 # clear caches
 RUN rm -rf /var/lib/apt/lists/* && \
     rm -rf /tmp/*
