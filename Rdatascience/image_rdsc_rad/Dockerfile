@@ -1,9 +1,5 @@
 FROM rdsc_rstudio:latest
-#FROM rdsc_headless:latest
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    python3-yaml \ 
-    python3-venv
 
 # switch user (let everything in .virtualenv/r-reticulate be installed by the user)
 # we can use pip here, since we added the virtualenv to the beginning of our PATH variable
@@ -32,12 +28,16 @@ RUN yes | pip install \
     scikit-image \ 
     SimpleITK
 
-# switch back
+########################
+# clear caches
+RUN conda clean -ya
 USER root
 
-# clear caches
 RUN rm -rf /var/lib/apt/lists/* && \
     rm -rf /tmp/*
-RUN rm -rf /home/${RSESSION_USER}/.cache/pip/* && \
-    rm -rf ~/.cache/pip/*
-RUN apt-get clean && apt-get autoclean && apt-get autoremove
+RUN rm -rf /root/.cache/pip/* && \
+    rm -rf /home/${USER}/.cache/pip/*
+RUN conda clean -ya
+RUN apt-get clean && apt-get autoclean && apt-get autoremove -y
+
+########################

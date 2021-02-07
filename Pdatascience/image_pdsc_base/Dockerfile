@@ -8,29 +8,34 @@ FROM ${BASEIMAGE}
 # set python user here
 ENV PYTHON_USER=${USER}
 
+########################
+# install python3-gdcm
 RUN apt-get update && apt-get install -y --no-install-recommends \
     libgdcm-tools
 
-# install python3-gdcm
-RUN git clone https://github.com/malaterre/GDCM
-RUN cd GDCM && \
+USER ${PYTHON_USER}
+RUN cd /home/${PYTHON_USER} && \
+    git clone https://github.com/malaterre/GDCM
+RUN cd /home/${PYTHON_USER}/GDCM && \
     mkdir build
-RUN cd GDCM/build && \
+USER root
+RUN cd /home/${PYTHON_USER}/GDCM/build && \
     cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_FLAGS=-fPIC -DCMAKE_CXX_FLAGS=-fPIC \
     -DGDCM_BUILD_SHARED_LIBS:BOOL=ON \
-    -DGDCM_WRAP_PYTHON=ON PYTHON_EXECUTABLE=/usr/local/bin/python3 \
-    PYTHON_INCLUDE_DIR=/usr/local/lib/python3/dist-packages/ \
-    GDCM_BUILD_SHARED_LIBS=ON GDCM_USE_VTK=ON /GDCM/ && \
+    -DGDCM_WRAP_PYTHON=ON PYTHON_EXECUTABLE=$(which python) \
+    PYTHON_INCLUDE_DIR=/home/${PYTHON_USER}/miniconda/lib/python3.8/site-packages \
+    GDCM_BUILD_SHARED_LIBS=ON GDCM_USE_VTK=ON /home/${PYTHON_USER}/GDCM/ && \
     cmake --build . --target install
-
-RUN cp /usr/local/lib/gdcm.py /usr/lib/python3/dist-packages/.
-RUN cp /usr/local/lib/gdcmswig.py /usr/lib/python3/dist-packages/.
-RUN cp /usr/local/lib/_gdcmswig.so /usr/lib/python3/dist-packages/.
-RUN cp /usr/local/lib/libgdcm* /usr/lib/python3/dist-packages/.
+RUN cp /usr/local/lib/gdcm.py /home/${PYTHON_USER}/miniconda/lib/python3.8/site-packages/.
+RUN cp /usr/local/lib/gdcmswig.py /home/${PYTHON_USER}/miniconda/lib/python3.8/site-packages/.
+RUN cp /usr/local/lib/_gdcmswig.so /home/${PYTHON_USER}/miniconda/lib/python3.8/site-packages/.
+RUN cp /usr/local/lib/libgdcm* /home/${PYTHON_USER}/miniconda/lib/python3.8/site-packages/.
 RUN ldconfig
 
-RUN rm -rf GDCM
+RUN rm -rf /home/${PYTHON_USER}/GDCM
+USER ${PYTHON_USER}
 
+########################
 # install scikit-build from source (for SimpleITK)
 RUN yes | pip install scikit-build
 
@@ -40,13 +45,21 @@ RUN yes | pip install -r /home/${PYTHON_USER}/requirements_base.txt
 #RUN yes | pip install -r /home/${PYTHON_USER}/requirements_nlp.txt
 RUN yes | pip install -r /home/${PYTHON_USER}/requirements.txt
 
-ENV PATH=/home/${PYTHON_USER}/.local/bin:${PATH}
-
 ########################
 # clear caches
+RUN conda clean -ya
+USER root
+
+# update path
+ENV PATH=/home/${PYTHON_USER}/.local/bin:${PATH}
+
 RUN rm -rf /var/lib/apt/lists/* && \
     rm -rf /tmp/*
-RUN rm -rf ~/.cache/pip/*
+RUN rm -rf /root/.cache/pip/* && \
+    rm -rf /home/${USER}/.cache/pip/*
+RUN conda clean -ya
 RUN apt-get clean && apt-get autoclean && apt-get autoremove -y
+
+########################
 
 ########################

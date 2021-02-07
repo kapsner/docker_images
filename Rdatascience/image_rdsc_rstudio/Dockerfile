@@ -25,7 +25,7 @@ RUN rm -rf ${RSTUDIO_FILE}
 
 # overwrite headless .Rprofile
 RUN echo "options(shiny.port = 3838)" > /home/${RSESSION_USER}/.Rprofile && \
-    echo "options(shiny.host = '0.0.0.0')" >> /home/${RSESSION_USER}/.Rprofile && \
+    echo "options(shiny.host = \"0.0.0.0\")" >> /home/${RSESSION_USER}/.Rprofile && \
     echo "options(shiny.launch.browser = FALSE)" >> /home/${RSESSION_USER}/.Rprofile && \
     chown -R ${RSESSION_USER}:${RSESSION_USER} /home/${RSESSION_USER}/.Rprofile
 
@@ -34,7 +34,7 @@ ADD config/rstudio-prefs.json /home/${RSESSION_USER}/.config/rstudio/rstudio-pre
 RUN chown -R ${RSESSION_USER}:${RSESSION_USER} /home/${RSESSION_USER}/.config/ && \
     chmod 644 /home/${RSESSION_USER}/.config/rstudio/rstudio-prefs.json
 
-# add PATH to a bash_profile script (workaround so that path is available in rstudio's terminal)
+# add PATH to a bash_profile script (workaround so that path is available in rstudio\"s terminal)
 # https://support.rstudio.com/hc/en-us/articles/115010737148-Using-the-RStudio-Terminal#env
 # https://docs.rstudio.com/ide/server-pro/1.2.1293-1/r-sessions.html
 RUN echo "export PATH=${PATH}" >> /home/${RSESSION_USER}/.bash_profile && chmod +x /home/${RSESSION_USER}/.bash_profile
@@ -43,12 +43,16 @@ RUN echo "export PATH=${PATH}" >> /home/${RSESSION_USER}/.bash_profile && chmod 
 RUN echo "PATH=${PATH}" >> /etc/R/Renviron
 RUN echo "PATH=${PATH}" >> /etc/environment
 
+########################
 # clear caches
 RUN rm -rf /var/lib/apt/lists/* && \
     rm -rf /tmp/*
-RUN rm -rf /home/${RSESSION_USER}/.cache/pip/* && \
-    rm -rf ~/.cache/pip/*
-RUN apt-get clean && apt-get autoclean && apt-get autoremove
+RUN rm -rf /root/.cache/pip/* && \
+    rm -rf /home/${USER}/.cache/pip/*
+RUN conda clean -ya
+RUN apt-get clean && apt-get autoclean && apt-get autoremove -y
+
+########################
 
 # entrypoint
 ENTRYPOINT rstudio-server start && tail -f /dev/null

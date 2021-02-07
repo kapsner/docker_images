@@ -379,7 +379,7 @@ RUN for package in $t; do \
     done && \
     rm -rf /tmp/*
 
-RUN R -q -e "remotes::install_github(repo = 'ropensci/tic', ref = 'master')"
+RUN R -q -e "remotes::install_github(repo = \"ropensci/tic\", ref = \"master\")"
 
 ARG u="ucminf \ 
     udpipe \ 
@@ -436,47 +436,47 @@ USER root
 
 ENV PATH="/home/${RSESSION_USER}/bin:/home/${RSESSION_USER}/.TinyTeX/bin/x86_64-linux:${PATH}"
 
-ARG tiny="'amsfonts', \ 
-    'amsmath', \ 
-    'atveryend', \ 
-    'babel', \ 
-    'babel-german', \ 
-    'caption', \ 
-    'colortbl', \ 
-    'dehyph-exptl', \ 
-    'ec', \ 
-    'environ', \ 
-    'epstopdf-pkg', \ 
-    'float', \ 
-    'geometry', \ 
-    'graphics', \ 
-    'graphics-def', \ 
-    'hycolor', \ 
-    'hyperref', \ 
-    'hyphen-german', \ 
-    'iftex', \ 
-    'koma-script', \ 
-    'latex-graphics-dev', \ 
-    'latexconfig', \ 
-    'lm', \ 
-    'makecell', \ 
-    'multirow', \ 
-    'oberdiek', \ 
-    'pdflscape', \ 
-    'tabu', \ 
-    'tex-gyre-math', \ 
-    'texlive-scripts', \ 
-    'threeparttable', \ 
-    'threeparttablex', \ 
-    'titling', \ 
-    'tools', \ 
-    'trimspaces', \ 
-    'ulem', \ 
-    'varwidth', \ 
-    'wrapfig', \ 
-    'ulem', \ 
-    'url', \ 
-    'xcolor'"
+ARG tiny="\"amsfonts\", \ 
+    \"amsmath\", \ 
+    \"atveryend\", \ 
+    \"babel\", \ 
+    \"babel-german\", \ 
+    \"caption\", \ 
+    \"colortbl\", \ 
+    \"dehyph-exptl\", \ 
+    \"ec\", \ 
+    \"environ\", \ 
+    \"epstopdf-pkg\", \ 
+    \"float\", \ 
+    \"geometry\", \ 
+    \"graphics\", \ 
+    \"graphics-def\", \ 
+    \"hycolor\", \ 
+    \"hyperref\", \ 
+    \"hyphen-german\", \ 
+    \"iftex\", \ 
+    \"koma-script\", \ 
+    \"latex-graphics-dev\", \ 
+    \"latexconfig\", \ 
+    \"lm\", \ 
+    \"makecell\", \ 
+    \"multirow\", \ 
+    \"oberdiek\", \ 
+    \"pdflscape\", \ 
+    \"tabu\", \ 
+    \"tex-gyre-math\", \ 
+    \"texlive-scripts\", \ 
+    \"threeparttable\", \ 
+    \"threeparttablex\", \ 
+    \"titling\", \ 
+    \"tools\", \ 
+    \"trimspaces\", \ 
+    \"ulem\", \ 
+    \"varwidth\", \ 
+    \"wrapfig\", \ 
+    \"ulem\", \ 
+    \"url\", \ 
+    \"xcolor\""
 
 RUN R -q -e "tinytex::tlmgr_conf()"
 RUN R -q -e "tinytex::tlmgr_install(pkgs = c(${tiny}))"
@@ -494,7 +494,7 @@ ARG allpackages="\"$a\" \"$b\" \"$c\" \"$d\" \"$e\" \"$f\" \"$g\" \"$h\" \
     \"$i\" \"$j\" \"$k\" \"$l\" \"$m\" \"$n\" \"$o\" \"$p\" \"$q\" \"$r\" \ 
     \"$s\" \"$t\" \"$u\" \"$v\" \"$w\" \"$x\" \"$y\" \"$z\""
 
-RUN export packages_format="$(echo $(echo ${allpackages} | sed -e 's/ /\"\, \"/g') | sed -e 's/\"\"/\"/g')" && \
+RUN export packages_format="$(echo $(echo ${allpackages} | sed -e \"s/ /\"\, \"/g\") | sed -e \"s/\"\"/\"/g\")" && \
     R -q -e "vec <- setdiff(c($packages_format), unname(installed.packages()[,\"Package\"])); print(vec); vec2 <- intersect(c(vec), unname(available.packages()[,\"Package\"])); print(vec2); install.packages(pkgs = vec2)"
 
 # update all installed packages
@@ -502,7 +502,7 @@ RUN R -q -e "vec <- unname(installed.packages()[,\"Package\"]); remotes::update_
     rm -rf /tmp/*
 
 # install development packages
-RUN R -q -e "remotes::install_github(repo = 'skranz/ReplaceInFiles', ref = 'master')"
+RUN R -q -e "remotes::install_github(repo = \"skranz/ReplaceInFiles\", ref = \"master\")"
 
 # Install lightgbm R package
 # RUN git clone --recursive https://github.com/microsoft/LightGBM
@@ -566,19 +566,19 @@ RUN R -q -e "shinytest::installDependencies()"
 USER root
 
 # install my packages
-RUN R -q -e "remotes::install_github(repo = 'kapsner/KhelpeR', ref = 'development')"
-#RUN R -q -e "remotes::install_github(repo = 'kapsner/rBiasCorrection', ref = 'latest')"
-RUN R -q -e "remotes::install_github(repo = 'kapsner/BiasCorrector', ref = 'master')"
-RUN R -q -e "remotes::install_github(repo = 'kapsner/expenditR', ref = 'master')"
-#RUN R -q -e "remotes::install_github(repo = 'kapsner/lightgbm.py', ref = 'master')"
-#RUN R -q -e "remotes::install_github(repo = 'kapsner/mlr3learners.lgbpy', ref = 'master')"
-RUN R -q -e "remotes::install_github(repo = 'kapsner/mlr3learners.lightgbm', ref = 'development')"
+RUN R -q -e "remotes::install_github(repo = \"kapsner/KhelpeR\", ref = \"development\")"
+#RUN R -q -e "remotes::install_github(repo = \"kapsner/rBiasCorrection\", ref = \"latest\")"
+RUN R -q -e "remotes::install_github(repo = \"kapsner/BiasCorrector\", ref = \"master\")"
+RUN R -q -e "remotes::install_github(repo = \"kapsner/expenditR\", ref = \"master\")"
+#RUN R -q -e "remotes::install_github(repo = \"kapsner/lightgbm.py\", ref = \"master\")"
+#RUN R -q -e "remotes::install_github(repo = \"kapsner/mlr3learners.lgbpy\", ref = \"master\")"
+RUN R -q -e "remotes::install_github(repo = \"kapsner/mlr3learners.lightgbm\", ref = \"development\")"
 
 # install the stuff, where I participated
-#RUN R -q -e "remotes::install_git(url = 'https://gitlab.miracum.org/miracum/dqa/dqastats.git', ref = 'master')"
-#RUN R -q -e "remotes::install_git(url = 'https://gitlab.miracum.org/miracum/dqa/dqagui.git', ref = 'master')"
-RUN R -q -e "remotes::install_git(url = 'https://gitlab.miracum.org/miracum/dqa/miRacumdqa.git', ref = 'master')"
-RUN R -q -e "remotes::install_git(url = 'https://gitlab.miracum.org/kosmic/kosmicgui.git', ref = 'master')"
+#RUN R -q -e "remotes::install_git(url = \"https://gitlab.miracum.org/miracum/dqa/dqastats.git\", ref = \"master\")"
+#RUN R -q -e "remotes::install_git(url = \"https://gitlab.miracum.org/miracum/dqa/dqagui.git\", ref = \"master\")"
+RUN R -q -e "remotes::install_git(url = \"https://gitlab.miracum.org/miracum/dqa/miRacumdqa.git\", ref = \"master\")"
+RUN R -q -e "remotes::install_git(url = \"https://gitlab.miracum.org/kosmic/kosmicgui.git\", ref = \"master\")"
 
 # CRAN packages with my participation
 ARG pack="DIZutils"
@@ -595,13 +595,13 @@ RUN apt-get clean && apt-get autoclean && apt-get autoremove -y
 
 # make deployed shiny app accessible via port 3838
 RUN echo "options(shiny.port = 3838)" >> /home/${RSESSION_USER}/.Rprofile && \
-    echo "options(shiny.host = '0.0.0.0')" >> /home/${RSESSION_USER}/.Rprofile && \
+    echo "options(shiny.host = \"0.0.0.0\")" >> /home/${RSESSION_USER}/.Rprofile && \
     echo "options(shiny.launch.browser = FALSE)" >> /home/${RSESSION_USER}/.Rprofile && \
     # https://github.com/Ikuyadeu/vscode-R#r-session-watcher-experimental
-    echo "source(file.path(Sys.getenv(if (.Platform\$OS.type == 'windows') 'USERPROFILE' else 'HOME'), '.vscode-R', 'init.R'))" >> /home/${RSESSION_USER}/.Rprofile && \
+    echo "source(file.path(Sys.getenv(if (.Platform\$OS.type == \"windows\") \"USERPROFILE\" else \"HOME\"), \".vscode-R\", \"init.R\"))" >> /home/${RSESSION_USER}/.Rprofile && \
     chown -R ${RSESSION_USER}:${RSESSION_USER} /home/${RSESSION_USER}/.Rprofile
 
-# add PATH to a bash_profile script (workaround so that path is available in rstudio's terminal)
+# add PATH to a bash_profile script (workaround so that path is available in rstudio\"s terminal)
 # https://support.rstudio.com/hc/en-us/articles/115010737148-Using-the-RStudio-Terminal#env
 # https://docs.rstudio.com/ide/server-pro/1.2.1293-1/r-sessions.html
 RUN echo "export PATH=${PATH}" >> /home/${RSESSION_USER}/.bash_profile && chmod +x /home/${RSESSION_USER}/.bash_profile
@@ -617,3 +617,14 @@ RUN chown -R ${RSESSION_USER}:${RSESSION_USER} /home/${RSESSION_USER}/.radian_pr
 # add radian profile
 RUN mkdir -p /home/${RSESSION_USER}/.local/share/rhub
 RUN chown -R ${RSESSION_USER}:${RSESSION_USER} /home/${RSESSION_USER}/.local/share/rhub
+
+########################
+# clear caches
+RUN rm -rf /var/lib/apt/lists/* && \
+    rm -rf /tmp/*
+RUN rm -rf /root/.cache/pip/* && \
+    rm -rf /home/${USER}/.cache/pip/*
+RUN conda clean -ya
+RUN apt-get clean && apt-get autoclean && apt-get autoremove -y
+
+########################

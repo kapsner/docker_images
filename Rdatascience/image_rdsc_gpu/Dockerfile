@@ -19,13 +19,13 @@ RUN rm -rf xgboost
 RUN rm -rf LightGBM
 
 # install keras/tensorflow
-RUN R -q -e "install.packages('keras')"
+RUN R -q -e "install.packages(\"keras\")"
 
 # switch user
 USER ${RSESSION_USER}
 
 # install keras (when pip virtualenv is already installed)
-RUN R -q -e "keras::install_keras(tensorflow = 'gpu')"
+RUN R -q -e "keras::install_keras(tensorflow = \"gpu\")"
 
 # switch back
 USER root
@@ -91,18 +91,27 @@ RUN for package in $packages; do \
     rm -rf /tmp/*
 
 # install my own stuff
-RUN R -q -e "devtools::install_github(repo = 'mlr3learners/mlr3learners.lightgbm', ref = 'development')"
+RUN R -q -e "devtools::install_github(repo = \"mlr3learners/mlr3learners.lightgbm\", ref = \"development\")"
 
+########################
+USER ${RSESSION_USER}
 # install python stuff
 RUN yes | pip install \
     scikit-learn
 
+########################
 # clear caches
+RUN conda clean -ya
+USER root
+
 RUN rm -rf /var/lib/apt/lists/* && \
     rm -rf /tmp/*
-RUN rm -rf /home/${RSESSION_USER}/.cache/pip/* && \
-    rm -rf ~/.cache/pip/*
-RUN apt-get clean && apt-get autoclean && apt-get autoremove
+RUN rm -rf /root/.cache/pip/* && \
+    rm -rf /home/${USER}/.cache/pip/*
+RUN conda clean -ya
+RUN apt-get clean && apt-get autoclean && apt-get autoremove -y
+
+########################
 
 ENTRYPOINT tail -f /dev/null
 

@@ -8,103 +8,21 @@ FROM ${BASEIMAGE}
 # set ENV-Vars
 # set environment variable to supress user interaction
 ENV DEBIAN_FRONTEND=noninteractive
-ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 
 ARG DISPLAY
 ENV DISPLAY=${DISPLAY}
 
 # install essential packages
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    apt-utils\ 
-    build-essential \
-    byobu \
-    cifs-utils \
-    cmake \
+    apt-utils \ 
+    # ca-certificates important for curl from https
+    ca-certificates \
+    # curl required to download miniconda
     curl \
-    openjdk-8-jdk \
-    dialog \
-    dirmngr \
-    ffmpeg \
-    gcc-8 \
-    gdebi-core \
-    git \
-    gfortran \
-    gpg-agent \
-    htop \
-    iputils-ping \
-    less \
-    libcurl4-openssl-dev \
-    libssh-dev \
-    libssl-dev \
-    locales \
-    locate \
-    make \
-    nano \
-    net-tools \
-    software-properties-common \
-    ssh \
-    sudo \
-    tar \
-    traceroute \
-    unzip \
-    vim \
-    wget
+    sudo
 RUN apt-get clean && \ 
     apt-get autoclean && \
     rm -rf /var/lib/apt/lists/*
-
-RUN locale-gen en_US.utf8 \
-    && /usr/sbin/update-locale LANG=en_US.UTF-8
-ENV LANG=en_US.UTF-8
-
-RUN echo JAVA_HOME="${JAVA_HOME}" >> /etc/environment
-
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    imagemagick \
-    libasound2-dev \ 
-    libboost-dev \
-    libboost-system-dev \
-    libboost-filesystem-dev \
-    libbz2-dev \
-    libcairo2-dev \
-    libclang-dev \
-    libffi-dev \
-    libglu1-mesa-dev \
-    libgmp3-dev \
-    libgsl-dev \
-    liblzma-dev \ 
-    libmagick++-dev \
-    libmpfr-dev \
-    libobjc-7-dev \
-    libopenblas-dev \
-    libopenmpi-dev \
-    libpq-dev \
-    libsasl2-dev \
-    libxt-dev \
-    libxml2-dev \
-    libxslt1-dev \
-    libzmq3-dev \
-    libpulse-dev \
-    # pocketsphinx
-    swig \
-    unixodbc-dev
-RUN apt-get clean && \ 
-    apt-get autoclean && \
-    rm -rf /var/lib/apt/lists/*
-
-# install python stuff
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    python3 \
-    python3-dev \
-    python3-pip \
-    python3-h5py
-
-# symlink pip3
-RUN ln -sf /usr/bin/pip3 /usr/bin/pip
-RUN yes | pip install --upgrade pip
-
-# symlink python
-RUN ln -s /usr/bin/python3 /usr/bin/python
 
 ########################
 # define image user
@@ -119,19 +37,110 @@ RUN echo ${USER} ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/${USER} && \
     chmod 0440 /etc/sudoers.d/${USER}
 
 ########################
-# install python prerequisites
-RUN yes | pip install \
-    --upgrade numpy>=1.19.2
-RUN yes | pip install \
-    --upgrade setuptools \
-    testresources \
+# Install Miniconda and Python 3.8
+ENV CONDA_AUTO_UPDATE_CONDA=false
+ENV PATH=/home/${USER}/miniconda/bin:$PATH
+
+# ARG PYVERSION
+# ENV PYVERSION=${PYVERSION}
+ENV PYVERSION=3.8.5
+
+USER ${USER}
+
+RUN curl -sLo ~/miniconda.sh https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh && \
+    chmod +x ~/miniconda.sh
+RUN ~/miniconda.sh -b -p ~/miniconda  && \
+    rm ~/miniconda.sh
+    
+########################
+# create and activate conda env
+RUN conda create --name ml
+SHELL ["conda", "run", "-n", "ml", "/bin/bash", "-c"]
+
+RUN conda install -y python==${PYVERSION} && \
+    conda clean -ya
+
+########################
+USER root
+# install more essential packages
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    cifs-utils \
+    dialog \
+    dirmngr \
+    gdebi-core \
+    gpg-agent \
+    htop \
+    iputils-ping \
+    locales \
+    locate \
+    nano \
+    net-tools \
+    software-properties-common \
+    tar
+RUN apt-get clean && \ 
+    apt-get autoclean && \
+    rm -rf /var/lib/apt/lists/*
+
+RUN locale-gen en_US.utf8 \
+    && /usr/sbin/update-locale LANG=en_US.UTF-8
+ENV LANG=en_US.UTF-8
+
+########################
+USER ${USER}
+
+########################
+
+# install some (python) prerequisites
+RUN conda install -y \
+    git \
+    mkl \
+    mkl-include \
+    numpy \
+    openjdk=8 \
+    pip \
+    pyyaml \
+    requests \
+    ruamel_yaml \
+    setuptools \
+    unzip \
+    wget \
     wheel
+
+RUN yes | pip install \
+    testresources
+
+########################
+# install compiler tools
+RUN conda install -y \
+    -c conda-forge \
+    conda-build \
+    cmake \
+    gcc_linux-64 \
+    gxx_linux-64 \
+    gfortran_linux-64 \
+    imagemagick \
+    libclang \
+    libffi \
+    libboost \
+    make \
+    openmpi \
+    swig
+# swig for GDCM
+# libboost for lightgbm
 
 ########################
 # clear caches
+RUN conda clean -ya
+USER root
+
 RUN rm -rf /var/lib/apt/lists/* && \
     rm -rf /tmp/*
-RUN rm -rf ~/.cache/pip/*
+RUN rm -rf /root/.cache/pip/* && \
+    rm -rf /home/${USER}/.cache/pip/*
+RUN conda clean -ya
 RUN apt-get clean && apt-get autoclean && apt-get autoremove -y
 
 ########################
+
+# update envar
+RUN echo JAVA_HOME="${JAVA_HOME}" >> /etc/environment

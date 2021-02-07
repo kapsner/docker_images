@@ -1,0 +1,11 @@
+# install datascience packages
+catboost
+imgaug 
+keras
+monai>=0.4.0
+pytorch-lightning>=1.1.4
+pytorch-lightning-bolts
+scikit-build
+scikit-image 
+scikit-learn
+scipy

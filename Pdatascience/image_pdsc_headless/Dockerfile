@@ -3,7 +3,21 @@
 #######################
 FROM pdsc_base:latest
 
-# Install packages
+########################
+# build libraries from source
+USER ${PYTHON_USER}
+
+# install torch / torchvision
+RUN yes | pip install \
+    torch \
+    torchvision
+
+########################
+# install other datascience libraries
+RUN yes | pip install -r /home/${PYTHON_USER}/requirements_datascience.txt
+
+########################
+# Install more packages
 RUN yes | pip install -f \
     https://h2o-release.s3.amazonaws.com/h2o/latest_stable_Py.html h2o
 
@@ -16,6 +30,10 @@ RUN yes | pip install \
 RUN yes | pip install \
     xgboost
 
+########################
+RUN conda clean -ya
+USER root
+
 ADD ./config/pycodestyle /home/${PYTHON_USER}/.config/pycodestyle
 RUN chown -R ${PYTHON_USER}:${PYTHON_USER} /home/${PYTHON_USER}/.config/
 
@@ -23,8 +41,12 @@ RUN chown -R ${PYTHON_USER}:${PYTHON_USER} /home/${PYTHON_USER}/.config/
 # clear caches
 RUN rm -rf /var/lib/apt/lists/* && \
     rm -rf /tmp/*
-RUN rm -rf ~/.cache/pip/*
+RUN rm -rf /root/.cache/pip/* && \
+    rm -rf /home/${USER}/.cache/pip/*
+RUN conda clean -ya
 RUN apt-get clean && apt-get autoclean && apt-get autoremove -y
+
+########################
 
 ########################
 

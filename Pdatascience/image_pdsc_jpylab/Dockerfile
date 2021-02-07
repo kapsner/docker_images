@@ -2,14 +2,16 @@ ARG BASEIMAGE
 
 FROM ${BASEIMAGE}
 
-USER root
+USER ${PYTHON_USER}
 
 # install jupyter lab
-RUN pip install \
+RUN yes | pip install \
     jupyterlab \
     jupyterlab-lsp \
     'python-language-server[all]'
 
+RUN conda clean -ya
+USER root
 
 # Add configfiles
 ENV CFG_PATH=/home/${PYTHON_USER}/.jupyter/lab/user-settings/@jupyterlab/apputils-extension/
@@ -29,7 +31,9 @@ ENV JP_LSP_VIRTUAL_DIR=/home/${PYTHON_USER}/.virtual_documents/
 # clear caches
 RUN rm -rf /var/lib/apt/lists/* && \
     rm -rf /tmp/*
-RUN rm -rf ~/.cache/pip/*
+RUN rm -rf /root/.cache/pip/* && \
+    rm -rf /home/${USER}/.cache/pip/*
+RUN conda clean -ya
 RUN apt-get clean && apt-get autoclean && apt-get autoremove -y
 
 ########################

@@ -1,12 +1,8 @@
-# install datascience packages
-catboost
+# install more packages
 colorama>=0.3.8
 dicom2nifti
 eli5
-imgaug 
-keras
 matplotlib
-monai>=0.4.0
 nibabel
 opencv-python
 openpyxl
@@ -14,17 +10,9 @@ pandas
 pillow
 psycopg2-binary 
 pydicom 
-pytorch-lightning>=1.1.4
-pytorch-lightning-bolts
-scikit-build
-scikit-image 
-scikit-learn
-scipy
 scrapy
 SimpleITK
 statsmodels
 sympy
 tabulate
-torch
-torchvision
 xlrd
