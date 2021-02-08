@@ -18,8 +18,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     # ca-certificates important for curl from https
     ca-certificates \
     # curl required to download miniconda
-    curl \
-    sudo
+    curl
 RUN apt-get clean && \ 
     apt-get autoclean && \
     rm -rf /var/lib/apt/lists/*
@@ -32,9 +31,6 @@ ENV USER_GID=${USER_UID}
 
 RUN groupadd --gid ${USER_GID} ${USER} && \
     useradd --uid ${USER_UID} --gid ${USER_GID} -m ${USER}
-RUN echo ${USER}:password | chpasswd 
-RUN echo ${USER} ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/${USER} && \
-    chmod 0440 /etc/sudoers.d/${USER}
 
 ########################
 # Install Miniconda and Python 3.8
@@ -59,13 +55,17 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     cifs-utils \
     cmake \
+    git \
     htop \
+    libjpeg-dev \
+    libpng-dev \
     locales \
     locate \
     nano \
     net-tools \
     software-properties-common \
-    tar
+    tar \
+    unzip
 RUN apt-get clean && \ 
     apt-get autoclean && \
     rm -rf /var/lib/apt/lists/*
