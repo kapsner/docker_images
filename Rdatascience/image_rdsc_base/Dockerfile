@@ -21,7 +21,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libcurl4-openssl-dev \
     libssl-dev \
     make \
-    unzip \
+    sudo \
     wget
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
