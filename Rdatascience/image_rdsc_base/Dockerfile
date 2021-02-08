@@ -10,8 +10,6 @@ ENV RSESSION_USER=${USER}
 
 # install essential packages
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    build-essential \
-    cmake \
     dirmngr \
     openjdk-8-jdk \
     ffmpeg \
@@ -23,7 +21,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libcurl4-openssl-dev \
     libssl-dev \
     make \
-    software-properties-common \
     unzip \
     wget
 

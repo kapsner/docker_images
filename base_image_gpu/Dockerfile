@@ -1,5 +1,16 @@
 FROM base_image_gpu:latest
 
+# https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/user-guide.html#dockerfiles
+ENV NVIDIA_VISIBLE_DEVICES=all
+ENV NVIDIA_DRIVER_CAPABILITIES=compute,utility
+
+ENV CUDA_HOME=/usr/local/cuda
+ENV LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${CUDA_HOME}/lib64
+ENV LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/lib:/usr/local/nvidia/lib:/usr/local/nvidia/lib64
+ENV PATH=${CUDA_HOME}/bin:/usr/local/nvidia/bin:${PATH}
+ENV OPENCL_LIBRARIES=/usr/local/cuda/lib64
+ENV OPENCL_INCLUDE_DIR=/usr/local/cuda/include
+
 ########################
 # install nvtop :)
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -15,17 +26,6 @@ RUN apt-get clean && \
 
 RUN mkdir -p /etc/OpenCL/vendors && \
     echo "libnvidia-opencl.so.1" > /etc/OpenCL/vendors/nvidia.icd
-
-USER ${PYTHON_USER}
-RUN conda install -y \
-    -c conda-forge \
-    ocl-icd-system && \
-    conda clean -ya
-USER root
-
-# https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/user-guide.html#dockerfiles
-ENV NVIDIA_VISIBLE_DEVICES=all
-ENV NVIDIA_DRIVER_CAPABILITIES=compute,utility
 
 ########################
 # clear caches

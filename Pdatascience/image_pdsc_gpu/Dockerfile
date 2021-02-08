@@ -8,6 +8,7 @@ USER ${PYTHON_USER}
 RUN cd /home/${PYTHON_USER} && \
     git clone --recursive https://github.com/microsoft/LightGBM && \
     mkdir -p /home/${PYTHON_USER}/LightGBM/build
+
 RUN cd /home/${PYTHON_USER}/LightGBM/build && \
     cmake -DUSE_GPU=1 .. &&\
     make -j$(nproc)
@@ -21,13 +22,14 @@ RUN cd /home/${PYTHON_USER} && \
     mkdir -p /home/${PYTHON_USER}/xgboost/build
 USER root
 RUN cd /home/${PYTHON_USER}/xgboost/build && \
-    cmake .. -DUSE_CUDA=ON -DUSE_NCCL=ON && \
+    cmake .. -DUSE_CUDA=ON && \
     make install -j$(nproc)
 USER ${PYTHON_USER}
 RUN cd home/${PYTHON_USER}/xgboost/python-package && \
     python setup.py install
 USER root
 RUN rm -rf /home/${PYTHON_USER}/xgboost
+RUN conda clean -ya
 USER ${PYTHON_USER}
 
 # build torch / torchvision from source
