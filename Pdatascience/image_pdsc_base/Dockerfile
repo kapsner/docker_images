@@ -51,8 +51,6 @@ RUN conda install -y \
     libboost \
     libxml2 \
     libxslt \
-    mkl \
-    mkl-include \
     openmpi \
     swig
 # swig for GDCM
