@@ -54,9 +54,30 @@ USER root
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     cmake \
+    ffmpeg \
     git \
     libjpeg-dev \
     libpng-dev \
+    imagemagick \
+    libboost-dev \
+    libboost-system-dev \
+    libboost-filesystem-dev \
+    libbz2-dev \
+    libcairo2-dev \
+    libclang-dev \
+    libffi-dev \
+    libglu1-mesa-dev \
+    libgsl-dev \
+    liblzma-dev \ 
+    libmagick++-dev \
+    libmpfr-dev \
+    libopenblas-dev \
+    libopenmpi-dev \
+    libpq-dev \
+    libsasl2-dev \
+    libxt-dev \
+    libxml2-dev \
+    libxslt1-dev \
     locales \
     nano \
     software-properties-common \
@@ -69,6 +90,22 @@ RUN apt-get clean && \
 RUN locale-gen en_US.utf8 \
     && /usr/sbin/update-locale LANG=en_US.UTF-8
 ENV LANG=en_US.UTF-8
+
+########################
+USER ${USER}
+
+# install some (python) prerequisites
+RUN conda install -y \
+    numpy \
+    pip \
+    pyyaml \
+    requests \
+    ruamel_yaml \
+    setuptools \
+    wheel
+
+RUN yes | pip install \
+    testresources
 
 ########################
 # clear caches
