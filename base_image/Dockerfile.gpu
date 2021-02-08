@@ -1,0 +1,9 @@
+FROM gpu_base:latest
+
+########################
+# install nvtop :)
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    nvtop
+RUN apt-get clean && \ 
+    apt-get autoclean && \
+    rm -rf /var/lib/apt/lists/*
