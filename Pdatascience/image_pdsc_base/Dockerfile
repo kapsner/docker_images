@@ -52,6 +52,8 @@ RUN conda install -y \
     libclang \
     libffi \
     libboost \
+    libxml2 \
+    libxslt \
     make \
     openmpi \
     swig
