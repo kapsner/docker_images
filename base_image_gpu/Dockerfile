@@ -5,15 +5,6 @@ FROM base_image_gpu:latest
 RUN apt-get update && apt-get install -y --no-install-recommends \
     nvtop
 
-########################
-# update environment variables 
-ENV CUDA_HOME=/usr/local/cuda
-ENV LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${CUDA_HOME}/lib64
-ENV LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/lib:/usr/local/nvidia/lib:/usr/local/nvidia/lib64
-ENV PATH=${CUDA_HOME}/bin:${PATH}
-ENV OPENCL_LIBRARIES=/usr/local/cuda/lib64
-ENV OPENCL_INCLUDE_DIR=/usr/local/cuda/include
-
 #########################
 # install prerequisites for lightgbm
 RUN apt-get update && apt-get install -y --no-install-recommends \

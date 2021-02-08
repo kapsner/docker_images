@@ -51,14 +51,6 @@ RUN curl -sLo ~/miniconda.sh https://repo.anaconda.com/miniconda/Miniconda3-late
     chmod +x ~/miniconda.sh
 RUN ~/miniconda.sh -b -p ~/miniconda  && \
     rm ~/miniconda.sh
-    
-########################
-# create and activate conda env
-RUN conda create --name ml
-SHELL ["conda", "run", "-n", "ml", "/bin/bash", "-c"]
-
-RUN conda install -y python==${PYVERSION} && \
-    conda clean -ya
 
 ########################
 USER root
@@ -86,49 +78,6 @@ RUN locale-gen en_US.utf8 \
 ENV LANG=en_US.UTF-8
 
 ########################
-USER ${USER}
-
-########################
-
-# install some (python) prerequisites
-RUN conda install -y \
-    git \
-    mkl \
-    mkl-include \
-    numpy \
-    openjdk=8 \
-    pip \
-    pyyaml \
-    requests \
-    ruamel_yaml \
-    setuptools \
-    unzip \
-    wget \
-    wheel
-
-RUN yes | pip install \
-    testresources
-
-########################
-# install compiler tools
-RUN conda install -y \
-    -c conda-forge \
-    conda-build \
-    cmake \
-    gcc_linux-64 \
-    gxx_linux-64 \
-    gfortran_linux-64 \
-    imagemagick \
-    libclang \
-    libffi \
-    libboost \
-    make \
-    openmpi \
-    swig
-# swig for GDCM
-# libboost for lightgbm
-
-########################
 # clear caches
 RUN conda clean -ya
 USER root
@@ -141,6 +90,3 @@ RUN conda clean -ya
 RUN apt-get clean && apt-get autoclean && apt-get autoremove -y
 
 ########################
-
-# update envar
-RUN echo JAVA_HOME="${JAVA_HOME}" >> /etc/environment

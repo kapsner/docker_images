@@ -1,9 +1,8 @@
 FROM rdsc_base:latest
 
-# set rsession user here
-ENV RSESSION_USER="user" 
-
 ENV DEBIAN_FRONTEND=noninteractive
+
+USER ${RSESSION_USER}
 
 ARG a="abind \ 
     ada \ 

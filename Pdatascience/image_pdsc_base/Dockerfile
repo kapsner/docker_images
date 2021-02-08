@@ -9,6 +9,56 @@ FROM ${BASEIMAGE}
 ENV PYTHON_USER=${USER}
 
 ########################
+USER ${PYTHON_USER}
+
+# create and activate conda env
+RUN conda create --name ml
+SHELL ["conda", "run", "-n", "ml", "/bin/bash", "-c"]
+
+RUN conda install -y python==${PYVERSION} && \
+    conda clean -ya
+
+########################
+
+# install some (python) prerequisites
+RUN conda install -y \
+    git \
+    mkl \
+    mkl-include \
+    numpy \
+    pip \
+    pyyaml \
+    requests \
+    ruamel_yaml \
+    setuptools \
+    unzip \
+    wget \
+    wheel
+
+RUN yes | pip install \
+    testresources
+
+########################
+# install some more tools
+RUN conda install -y \
+    -c conda-forge \
+    conda-build \
+    cmake \
+    ffmpeg \
+    gcc_linux-64 \
+    gxx_linux-64 \
+    gfortran_linux-64 \
+    imagemagick \
+    libclang \
+    libffi \
+    libboost \
+    make \
+    openmpi \
+    swig
+# swig for GDCM
+# libboost for lightgbm
+
+########################
 # install python3-gdcm
 RUN apt-get update && apt-get install -y --no-install-recommends \
     libgdcm-tools
@@ -59,7 +109,5 @@ RUN rm -rf /root/.cache/pip/* && \
     rm -rf /home/${USER}/.cache/pip/*
 RUN conda clean -ya
 RUN apt-get clean && apt-get autoclean && apt-get autoremove -y
-
-########################
 
 ########################
