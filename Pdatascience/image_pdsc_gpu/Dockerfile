@@ -4,6 +4,10 @@ FROM pdsc_gpu_base:latest
 # build libraries from source
 USER ${PYTHON_USER}
 
+RUN conda install -y \
+    -c conda-forge \
+    ocl-icd-system
+
 # build lightgbm GPU python package from source
 RUN cd /home/${PYTHON_USER} && \
     git clone --recursive https://github.com/microsoft/LightGBM && \
