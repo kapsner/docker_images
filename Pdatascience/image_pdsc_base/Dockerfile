@@ -19,24 +19,6 @@ RUN conda install -y python==${PYVERSION} && \
     conda clean -ya
 
 ########################
-
-# install some (python) prerequisites
-RUN conda install -y \
-    git \
-    numpy \
-    pip \
-    pyyaml \
-    requests \
-    ruamel_yaml \
-    setuptools \
-    unzip \
-    wget \
-    wheel
-
-RUN yes | pip install \
-    testresources
-
-########################
 # install some more tools
 RUN conda install -y \
     -c conda-forge \
