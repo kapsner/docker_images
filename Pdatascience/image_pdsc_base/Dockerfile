@@ -12,7 +12,8 @@ ENV PYTHON_USER=${USER}
 USER ${PYTHON_USER}
 
 # create and activate conda env
-SHELL ["conda", "run", "-n", "base", "/bin/bash", "-c"]
+RUN conda create --name ml --clone base
+SHELL ["conda", "run", "-n", "ml", "/bin/bash", "-c"]
 
 RUN conda install -y python==${PYVERSION} && \
     conda clean -ya
