@@ -1,4 +1,4 @@
-FROM gpu_base:latest
+FROM base_gpu:latest
 
 ########################
 # install nvtop :)
