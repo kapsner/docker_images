@@ -22,21 +22,9 @@ RUN conda install -y python==${PYVERSION} && \
 # install some more tools
 RUN conda install -y \
     -c conda-forge \
-    ffmpeg \
     gdcm \
-    gcc_linux-64 \
-    gxx_linux-64 \
-    gfortran_linux-64 \
-    imagemagick \
-    libclang \
-    libffi \
-    libboost \
-    libxml2 \
-    libxslt \
-    openmpi \
     swig
 # swig for GDCM
-# libboost for lightgbm
 
 ########################
 # install scikit-build from source (for SimpleITK)
