@@ -7,4 +7,5 @@ docker build --network host --build-arg BASEIMAGE=nvidia/cuda:11.0.3-cudnn8-runt
 
 printf "\nBuild base_gpu image\n"
 cd ../base_image/
-docker build --network host --build-arg BASEIMAGE=base_gpu_light -f Dockerfile -t base_gpu .
+docker build --network host --build-arg BASEIMAGE=base_gpu_light -f Dockerfile -t base_gpu_pre .
+docker build --network host -f Dockerfile.gpu -t base_gpu .
