@@ -12,40 +12,15 @@ ENV RSESSION_USER=${USER}
 RUN apt-get update && apt-get install -y --no-install-recommends \
     dirmngr \
     openjdk-8-jdk \
-    ffmpeg \
     gcc-8 \
     gdebi-core \
     gfortran \
-    git \
     gpg-agent \
     libcurl4-openssl-dev \
     libssl-dev \
-    make \
-    wget
-
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    imagemagick \
-    libboost-dev \
-    libboost-system-dev \
-    libboost-filesystem-dev \
-    libbz2-dev \
-    libcairo2-dev \
-    libclang-dev \
-    libffi-dev \
-    libglu1-mesa-dev \
-    libgsl-dev \
-    liblzma-dev \ 
-    libmagick++-dev \
-    libmpfr-dev \
     libobjc-7-dev \
-    libopenblas-dev \
-    libopenmpi-dev \
-    libpq-dev \
-    libsasl2-dev \
-    libxt-dev \
-    libxml2-dev \
-    libxslt1-dev \
     libzmq3-dev \
+    make \
     unixodbc-dev
 RUN apt-get clean && \ 
     apt-get autoclean && \
