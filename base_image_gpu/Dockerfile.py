@@ -1,10 +1,5 @@
 FROM base_image_gpu:latest
 
-########################
-# install nvtop :)
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    nvtop
-
 #########################
 # install prerequisites for lightgbm
 RUN apt-get update && apt-get install -y --no-install-recommends \
