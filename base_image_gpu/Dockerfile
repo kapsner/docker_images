@@ -31,6 +31,8 @@ RUN mkdir -p /etc/OpenCL/vendors && \
 USER ${USER}
 RUN conda install -y \
     -c conda-forge \
+    mkl \
+    mkl-include \
     ocl-icd-system
 USER root
 
