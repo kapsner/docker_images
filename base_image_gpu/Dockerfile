@@ -27,6 +27,13 @@ RUN apt-get clean && \
 RUN mkdir -p /etc/OpenCL/vendors && \
     echo "libnvidia-opencl.so.1" > /etc/OpenCL/vendors/nvidia.icd
 
+# make conda see ocl headers
+USER ${PYTHON_USER}
+RUN conda install -y \
+    -c conda-forge \
+    ocl-icd-system
+USER root
+
 ########################
 # clear caches
 RUN rm -rf /var/lib/apt/lists/* && \
