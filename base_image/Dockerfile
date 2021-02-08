@@ -57,17 +57,11 @@ USER root
 # install more essential packages
 RUN apt-get update && apt-get install -y --no-install-recommends \
     cifs-utils \
-    dialog \
-    dirmngr \
-    gdebi-core \
-    gpg-agent \
     htop \
-    iputils-ping \
     locales \
     locate \
     nano \
     net-tools \
-    software-properties-common \
     tar
 RUN apt-get clean && \ 
     apt-get autoclean && \

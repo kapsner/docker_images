@@ -12,14 +12,18 @@ ENV RSESSION_USER=${USER}
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     cmake \
+    dirmngr \
     openjdk-8-jdk \
     ffmpeg \
     gcc-8 \
-    git \
+    gdebi-core \
     gfortran \
+    git \
+    gpg-agent \
     libcurl4-openssl-dev \
     libssl-dev \
     make \
+    software-properties-common \
     unzip \
     wget
 

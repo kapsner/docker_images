@@ -59,6 +59,7 @@ RUN conda install -y \
 # libboost for lightgbm
 
 ########################
+USER root
 # install python3-gdcm
 RUN apt-get update && apt-get install -y --no-install-recommends \
     libgdcm-tools
