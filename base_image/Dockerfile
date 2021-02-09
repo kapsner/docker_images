@@ -103,7 +103,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     net-tools \
     software-properties-common \
     tar \
-    unzip
+    unzip \
+    wget
 RUN apt-get clean && \ 
     apt-get autoclean && \
     rm -rf /var/lib/apt/lists/*
