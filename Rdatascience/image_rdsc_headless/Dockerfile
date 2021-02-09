@@ -65,6 +65,7 @@ ARG d="d3r \
     desc \ 
     DescTools \ 
     devtools \ 
+    DHARMa \
     DiagrammeR \ 
     dimRed \ 
     discretization \ 

@@ -27,7 +27,7 @@ RUN apt-get clean && \
 # https://cran.r-project.org/bin/linux/ubuntu/
 RUN gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9
 RUN gpg -a --export E298A3A825C0D65DFD57CBB651716619E084DAB9 | \
-    sudo apt-key --keyring /etc/apt/trusted.gpg.d/r-software-apt-key.gpg add
+    apt-key --keyring /etc/apt/trusted.gpg.d/r-software-apt-key.gpg add
 RUN add-apt-repository "deb http://cran.r-project.org/bin/linux/ubuntu $(lsb_release -cs)-cran40/"
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
