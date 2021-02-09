@@ -12,6 +12,9 @@ RUN rm -rf /home/${PYTHON_USER}/miniconda
 # copy miniconda from build-stage with compiled libraries
 COPY --from=pdsc_build /home/${PYTHON_USER}/miniconda /home/${PYTHON_USER}/miniconda
 
+# fix permissions 
+RUN chown -R ${PYTHON_USER}:${PYTHON_USER} /home/${PYTHON_USER}/miniconda
+
 ########################
 # install nvtop :)
 RUN apt-get update && apt-get install -y --no-install-recommends \
