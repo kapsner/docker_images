@@ -12,15 +12,12 @@ ENV RSESSION_USER=${USER}
 RUN apt-get update && apt-get install -y --no-install-recommends \
     dirmngr \
     openjdk-8-jdk \
-    gcc-8 \
     gdebi-core \
-    gfortran \
     gpg-agent \
     libcurl4-openssl-dev \
     libssl-dev \
     libobjc-7-dev \
     libzmq3-dev \
-    make \
     unixodbc-dev
 RUN apt-get clean && \ 
     apt-get autoclean && \

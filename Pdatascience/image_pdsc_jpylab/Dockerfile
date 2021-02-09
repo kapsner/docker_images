@@ -30,11 +30,11 @@ ENV JP_LSP_VIRTUAL_DIR=/home/${PYTHON_USER}/.virtual_documents/
 ########################
 # clear caches
 RUN rm -rf /var/lib/apt/lists/* && \
-    rm -rf /tmp/*
-RUN rm -rf /root/.cache/pip/* && \
-    rm -rf /home/${USER}/.cache/pip/*
-RUN conda clean -ya
-RUN apt-get clean && apt-get autoclean && apt-get autoremove -y
+    rm -rf /tmp/* && \
+    rm -rf /root/.cache/pip/* && \
+    rm -rf /home/${USER}/.cache/pip/* && \
+    conda clean -ya && \
+    apt-get clean && apt-get autoclean && apt-get autoremove -y
 
 ########################
 
