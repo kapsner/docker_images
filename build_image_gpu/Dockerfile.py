@@ -1,4 +1,6 @@
-FROM base_image_gpu:latest
+FROM base_gpu_build:latest
+
+ENV PYTHON_USER=${USER}
 
 #########################
 # install prerequisites for lightgbm
@@ -13,7 +15,7 @@ RUN mkdir -p /etc/OpenCL/vendors && \
 
 # make conda see ocl headers and
 # install some dependencies for pytorch
-USER ${USER}
+USER ${PYTHON_USER}
 RUN conda install -y \
     -c conda-forge \
     mkl \
@@ -52,7 +54,7 @@ RUN cd /home/${PYTHON_USER} && \
     mkdir -p /home/${PYTHON_USER}/xgboost/build
 USER root
 RUN cd /home/${PYTHON_USER}/xgboost/build && \
-    cmake .. -DUSE_CUDA=ON && \
+    cmake .. -DUSE_CUDA=ON -DUSE_NCCL=ON&& \
     make install -j$(nproc)
 USER ${PYTHON_USER}
 RUN cd home/${PYTHON_USER}/xgboost/python-package && \
@@ -84,11 +86,16 @@ RUN rm -rf /home/${PYTHON_USER}/vision
 
 ########################
 # clear caches
-RUN rm -rf /var/lib/apt/lists/* && \
-    rm -rf /tmp/*
-RUN rm -rf /root/.cache/pip/* && \
-    rm -rf /home/${USER}/.cache/pip/*
 RUN conda clean -ya
-RUN apt-get clean && apt-get autoclean && apt-get autoremove -y
+USER root
+
+RUN rm -rf /var/lib/apt/lists/* && \
+    rm -rf /tmp/* && \
+    rm -rf /root/.cache/pip/* && \
+    rm -rf /home/${USER}/.cache/pip/* && \
+    conda clean -ya && \
+    apt-get clean && apt-get autoclean && apt-get autoremove -y
 
 ########################
+
+# copy /home/user/miniconda in multistage approach to new image

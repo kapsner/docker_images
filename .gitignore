@@ -3,6 +3,8 @@
 
 !/.gitignore
 !/base_image/
+!/base_image_light/
+!/build_image_gpu/
 !/docker-ionic/
 !/docker-JabRef/
 !/base_image_gpu/

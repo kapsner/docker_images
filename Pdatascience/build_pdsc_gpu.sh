@@ -1,13 +1,11 @@
 #!/bin/bash
 
 printf "\nBuild base_pdsc_gpu_build image\n"
-cd ../base_image_light
-#docker build --build-arg BASEIMAGE=nvidia/cuda:11.0.3-cudnn8-devel-ubuntu20.04 -f Dockerfile -t base_pdsc_gpu_build .
-docker build --network host --build-arg BASEIMAGE=nvidia/cuda:11.0.3-cudnn8-devel-ubuntu20.04 -f Dockerfile -t base_pdsc_gpu_build .
+cd ../build_image_gpu
+./build_gpu_base_light.sh
 
 printf "\nBuild pdsc_gpu_build image\n"
-cd ../base_image_gpu/
-docker build --network host --build-arg BASEIMAGE=base_pdsc_gpu_build -f Dockerfile -t pdsc_gpu_build .
+docker build --network host -f Dockerfile.py -t pdsc_gpu_build .
 
 # build base image based on nvidia/cuda runtime
 cd ../base_image
