@@ -51,6 +51,19 @@ RUN ~/miniconda.sh -b -p ~/miniconda  && \
 RUN conda install -y python==${PYVERSION} && \
     conda clean -ya
 
+# install some (python) prerequisites
+RUN conda install -y \
+    numpy \
+    pip \
+    pyyaml \
+    requests \
+    ruamel_yaml \
+    setuptools \
+    wheel
+
+RUN yes | pip install \
+    testresources
+
 ########################
 USER root
 # install more essential packages
@@ -100,25 +113,8 @@ RUN locale-gen en_US.utf8 \
 ENV LANG=en_US.UTF-8
 
 ########################
-USER ${USER}
-
-# install some (python) prerequisites
-RUN conda install -y \
-    numpy \
-    pip \
-    pyyaml \
-    requests \
-    ruamel_yaml \
-    setuptools \
-    wheel
-
-RUN yes | pip install \
-    testresources
-
-########################
 # clear caches
 RUN conda clean -ya
-USER root
 
 RUN rm -rf /var/lib/apt/lists/* && \
     rm -rf /tmp/* && \
