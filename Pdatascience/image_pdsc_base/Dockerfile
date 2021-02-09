@@ -5,6 +5,8 @@ ARG BASEIMAGE
 
 FROM ${BASEIMAGE}
 
+ENV PYTHON_USER=${USER}
+
 ########################
 USER ${PYTHON_USER}
 
