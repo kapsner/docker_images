@@ -515,7 +515,6 @@ USER ${RSESSION_USER}
 
 # install additional python packages
 RUN yes | pip install \
-    catboost \
     "colorama>=0.3.8" \
     cython
 
@@ -539,7 +538,6 @@ RUN yes | pip install \
 
 RUN yes | pip install \
     pandas \
-    pocketsphinx \
     pydub \
     pylint
 
@@ -548,8 +546,7 @@ RUN yes | pip install \
 
 RUN yes | pip install \
     scikit-learn \
-    scipy \
-    SpeechRecognition
+    scipy
 
 RUN yes | pip install \
     xgboost

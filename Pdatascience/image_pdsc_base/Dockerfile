@@ -8,11 +8,6 @@ FROM ${BASEIMAGE}
 ########################
 USER ${PYTHON_USER}
 
-# create and activate conda env
-RUN conda create --name ml --clone base
-SHELL ["conda", "run", "-n", "ml", "/bin/bash", "-c"]
-
-
 ########################
 # install some more tools
 RUN conda install -y \

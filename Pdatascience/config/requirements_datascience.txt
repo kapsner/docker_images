@@ -1,5 +1,5 @@
 # install datascience packages
-catboost
+batchgenerators
 imgaug 
 keras
 monai>=0.4.0
