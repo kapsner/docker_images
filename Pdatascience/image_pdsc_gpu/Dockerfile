@@ -1,22 +1,21 @@
 # multistage image here
 
-FROM pdsc_gpu_build:latest as pdsc_build
-
-FROM base_image_gpu:latest
-
-# delete installed miniconda env
-RUN rm -rf /home/${PYTHON_USER}/miniconda
-
-# copy miniconda from build-stage with compiled libraries
-COPY --from=pdsc_build /home/${PYTHON_USER}/miniconda /home/${PYTHON_USER}
+FROM pdsc_gpu_base:latest
 
 ########################
-# install nvtop :)
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    nvtop
-RUN apt-get clean && \ 
-    apt-get autoclean && \
-    rm -rf /var/lib/apt/lists/*
+USER ${PYTHON_USER}
+
+# install other datascience libraries
+RUN yes | pip install -r /home/${PYTHON_USER}/requirements_datascience.txt
+
+########################
+# install other GPU learning libraries
+# (currently don't need them)
+# RUN yes | pip install -f \
+#     https://h2o-release.s3.amazonaws.com/h2o/latest_stable_Py.html h2o
+
+# RUN yes | pip install \
+#     tensorflow-gpu
 
 ########################
 # clear caches
@@ -31,3 +30,16 @@ RUN rm -rf /var/lib/apt/lists/* && \
     apt-get clean && apt-get autoclean && apt-get autoremove -y
 
 ########################
+# personalize image
+ADD ./config/pycodestyle /home/${PYTHON_USER}/.config/pycodestyle
+RUN chown -R ${PYTHON_USER}:${PYTHON_USER} /home/${PYTHON_USER}/.config/
+
+########################
+
+USER ${PYTHON_USER}
+
+ENV TF_FORCE_GPU_ALLOW_GROWTH=true
+
+ENTRYPOINT tail -f /dev/null
+
+# docker run --rm --gpus all pdsc_gpu
