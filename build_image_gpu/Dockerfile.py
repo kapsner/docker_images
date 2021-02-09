@@ -84,6 +84,13 @@ RUN cd /home/${PYTHON_USER}/vision && \
     python setup.py install
 RUN rm -rf /home/${PYTHON_USER}/vision
 
+# precompiled
+# RUN conda install -y \
+#     -c pytorch \
+#     pytorch \
+#     torchvision \
+#     cudatoolkit=11.0
+
 ########################
 # clear caches
 RUN conda clean -ya

@@ -1,12 +1,9 @@
 ARG BASEIMAGE
 
-# GPU: gpu_base:latest
+# GPU: pdsc_gpu_base:latest
 # else: pdsc_base_img:latest
 
 FROM ${BASEIMAGE}
-
-# set python user here
-ENV PYTHON_USER=${USER}
 
 ########################
 USER ${PYTHON_USER}
@@ -15,8 +12,6 @@ USER ${PYTHON_USER}
 RUN conda create --name ml --clone base
 SHELL ["conda", "run", "-n", "ml", "/bin/bash", "-c"]
 
-RUN conda install -y python==${PYVERSION} && \
-    conda clean -ya
 
 ########################
 # install some more tools
@@ -45,10 +40,10 @@ USER root
 ENV PATH=/home/${PYTHON_USER}/.local/bin:${PATH}
 
 RUN rm -rf /var/lib/apt/lists/* && \
-    rm -rf /tmp/*
-RUN rm -rf /root/.cache/pip/* && \
-    rm -rf /home/${USER}/.cache/pip/*
-RUN conda clean -ya
-RUN apt-get clean && apt-get autoclean && apt-get autoremove -y
+    rm -rf /tmp/* && \
+    rm -rf /root/.cache/pip/* && \
+    rm -rf /home/${USER}/.cache/pip/* && \
+    conda clean -ya && \
+    apt-get clean && apt-get autoclean && apt-get autoremove -y
 
 ########################
