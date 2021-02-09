@@ -7,10 +7,6 @@ ARG BASEIMAGE
 
 FROM ${BASEIMAGE}
 
-RUN echo ${USER}:password | chpasswd 
-RUN echo ${USER} ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/${USER} && \
-    chmod 0440 /etc/sudoers.d/${USER}
-
 # get RStudio-Server (Preview Version): https://www.rstudio.com/products/rstudio/download/preview/
 ENV RSTUDIO_VERSION=1.4.1013 \
     RSTUIO_URL=https://s3.amazonaws.com/rstudio-ide-build/server/bionic/amd64/
@@ -50,14 +46,18 @@ RUN apt-get clean && \
     apt-get autoclean && \
     rm -rf /var/lib/apt/lists/*
 
+RUN echo ${USER}:password | chpasswd 
+RUN echo ${USER} ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/${USER} && \
+    chmod 0440 /etc/sudoers.d/${USER}
+
 ########################
 # clear caches
 RUN rm -rf /var/lib/apt/lists/* && \
-    rm -rf /tmp/*
-RUN rm -rf /root/.cache/pip/* && \
-    rm -rf /home/${USER}/.cache/pip/*
-RUN conda clean -ya
-RUN apt-get clean && apt-get autoclean && apt-get autoremove -y
+    rm -rf /tmp/* && \
+    rm -rf /root/.cache/pip/* && \
+    rm -rf /home/${USER}/.cache/pip/* && \
+    conda clean -ya && \
+    apt-get clean && apt-get autoclean && apt-get autoremove -y
 
 ########################
 
