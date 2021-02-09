@@ -2,7 +2,7 @@
 
 REBUILD_FLAG=$1
 
-if [$REBUILD_FLAG -eq 1]
+if [[ $REBUILD_FLAG -eq 1 ]]
 then
     printf "\n\nRebuilding image\n\n"
     docker build --build-arg UID=$(id -u) --build-arg GID=$(id -g) -f ./Dockerfile -t pdsc_jpylab_gpu_run .
