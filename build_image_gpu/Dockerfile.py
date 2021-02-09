@@ -79,7 +79,11 @@ RUN rm -rf /home/${PYTHON_USER}/pytorch
 
 # build torchvision from source
 RUN cd /home/${PYTHON_USER} && \
-    git clone --recursive https://github.com/pytorch/vision
+    git clone https://github.com/pytorch/vision
+RUN cd /home/${PYTHON_USER}/vision && \
+    git checkout v0.8.2 && \
+    git submodule sync && \
+    git submodule update --init --recursive
 RUN cd /home/${PYTHON_USER}/vision && \
     python setup.py install
 RUN rm -rf /home/${PYTHON_USER}/vision
