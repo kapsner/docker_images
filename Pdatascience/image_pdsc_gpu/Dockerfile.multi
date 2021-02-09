@@ -4,11 +4,16 @@ FROM pdsc_gpu_build:latest as pdsc_build
 
 FROM base_image_gpu:latest
 
+ENV PYTHON_USER=${USER}
+
 # delete installed miniconda env
 RUN rm -rf /home/${PYTHON_USER}/miniconda
 
 # copy miniconda from build-stage with compiled libraries
-COPY --from=pdsc_build /home/${PYTHON_USER}/miniconda /home/${PYTHON_USER}
+COPY --from=pdsc_build /home/${PYTHON_USER}/miniconda /home/${PYTHON_USER}/miniconda
+
+# fix permissions 
+RUN chown -R ${PYTHON_USER}:${PYTHON_USER} /home/${PYTHON_USER}/miniconda
 
 ########################
 # install nvtop :)
@@ -21,7 +26,6 @@ RUN apt-get clean && \
 ########################
 # clear caches
 RUN conda clean -ya
-USER root
 
 RUN rm -rf /var/lib/apt/lists/* && \
     rm -rf /tmp/* && \
