@@ -7,6 +7,18 @@ ARG BASEIMAGE
 
 FROM ${BASEIMAGE}
 
+# install sudo here, required for gdebi
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    sudo
+RUN apt-get clean && \ 
+    apt-get autoclean && \
+    rm -rf /var/lib/apt/lists/*
+
+# set ubuntu user here (password required for rstudio login)
+RUN echo ${USER}:password | chpasswd 
+RUN echo ${USER} ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/${USER} && \
+    chmod 0440 /etc/sudoers.d/${USER}
+
 # get RStudio-Server (Preview Version): https://www.rstudio.com/products/rstudio/download/preview/
 ENV RSTUDIO_VERSION=1.4.1013 \
     RSTUIO_URL=https://s3.amazonaws.com/rstudio-ide-build/server/bionic/amd64/
@@ -38,17 +50,6 @@ RUN echo "export PATH=${PATH}" >> /home/${RSESSION_USER}/.bash_profile && chmod 
 # set PATH for all users
 RUN echo "PATH=${PATH}" >> /etc/R/Renviron
 RUN echo "PATH=${PATH}" >> /etc/environment
-
-# set rstudio user here (password required for login)
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    sudo
-RUN apt-get clean && \ 
-    apt-get autoclean && \
-    rm -rf /var/lib/apt/lists/*
-
-RUN echo ${USER}:password | chpasswd 
-RUN echo ${USER} ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/${USER} && \
-    chmod 0440 /etc/sudoers.d/${USER}
 
 ########################
 # clear caches
