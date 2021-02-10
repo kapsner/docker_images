@@ -613,7 +613,9 @@ RUN chown -R ${RSESSION_USER}:${RSESSION_USER} /home/${RSESSION_USER}/.radian_pr
 
 # add radian profile
 RUN mkdir -p /home/${RSESSION_USER}/.local/share/rhub
-RUN chown -R ${RSESSION_USER}:${RSESSION_USER} /home/${RSESSION_USER}/.local/share/rhub
+
+# fix permissions in home folder
+RUN chown -R ${RSESSION_USER}:${RSESSION_USER} /home/${RSESSION_USER}/.local
 
 ########################
 # clear caches

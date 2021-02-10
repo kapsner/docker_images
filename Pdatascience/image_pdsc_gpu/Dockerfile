@@ -34,6 +34,9 @@ RUN rm -rf /var/lib/apt/lists/* && \
 ADD ./config/pycodestyle /home/${PYTHON_USER}/.config/pycodestyle
 RUN chown -R ${PYTHON_USER}:${PYTHON_USER} /home/${PYTHON_USER}/.config/
 
+# fix permissions in home folder
+RUN chown -R ${PYTHON_USER}:${PYTHON_USER} /home/${PYTHON_USER}/.local
+
 ########################
 
 USER ${PYTHON_USER}

@@ -38,6 +38,9 @@ RUN rm -rf /var/lib/apt/lists/* && \
 
 ########################
 
+# fix permissions in home folder
+RUN chown -R ${PYTHON_USER}:${PYTHON_USER} /home/${PYTHON_USER}/.local
+
 USER ${PYTHON_USER}
 
 # run jupyter lab from users home directory
