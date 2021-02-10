@@ -62,5 +62,9 @@ RUN rm -rf /var/lib/apt/lists/* && \
 
 ########################
 
+# fix permissions in home folder
+RUN chown -R ${RSESSION_USER}:${RSESSION_USER} /home/${RSESSION_USER}/.local
+
 # entrypoint
-ENTRYPOINT rstudio-server start && tail -f /dev/null
+# ENTRYPOINT rstudio-server start && tail -f /dev/null 
+ENTRYPOINT tail -f /dev/null 
