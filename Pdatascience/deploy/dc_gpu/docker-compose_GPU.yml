@@ -9,6 +9,7 @@ services:
       - "127.0.0.1:8888:8888" # jupyterlab
     volumes:
       - ./development:/home/user/development
+      - ./data:/home/user/data
     tty: true
     deploy:
       resources:
