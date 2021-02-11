@@ -69,7 +69,6 @@ USER root
 # install more essential packages
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
-    cifs-utils \
     cmake \
     ffmpeg \
     git \

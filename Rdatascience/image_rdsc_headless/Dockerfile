@@ -584,11 +584,21 @@ RUN for package in $pack; do \
     done && \
     rm -rf /tmp/*
 
-# clear caches
-RUN rm -rf /var/lib/apt/lists/* && \
-    rm -rf /tmp/*
-RUN rm -rf /home/${RSESSION_USER}/.cache/pip/*
-RUN apt-get clean && apt-get autoclean && apt-get autoremove -y
+########################
+# install sudo here, required for cifs-utils and mounting network drives
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    cifs-utils \
+    sudo
+RUN apt-get clean && \ 
+    apt-get autoclean && \
+    rm -rf /var/lib/apt/lists/*
+
+# set ubuntu password here (password required for rstudio login)
+RUN echo ${USER}:password | chpasswd 
+RUN echo ${USER} ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/${USER} && \
+    chmod 0440 /etc/sudoers.d/${USER}
+
+########################
 
 # make deployed shiny app accessible via port 3838
 RUN echo "options(shiny.port = 3838)" >> /home/${RSESSION_USER}/.Rprofile && \

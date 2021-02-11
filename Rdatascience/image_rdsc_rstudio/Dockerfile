@@ -7,17 +7,13 @@ ARG BASEIMAGE
 
 FROM ${BASEIMAGE}
 
-# install sudo here, required for gdebi
+# install gdebi here, required to install rstudio
+# (gdebi will fail without sudo)
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    sudo
+    gdebi-core
 RUN apt-get clean && \ 
     apt-get autoclean && \
     rm -rf /var/lib/apt/lists/*
-
-# set ubuntu password here (password required for rstudio login)
-RUN echo ${USER}:password | chpasswd 
-RUN echo ${USER} ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/${USER} && \
-    chmod 0440 /etc/sudoers.d/${USER}
 
 # get RStudio-Server (Preview Version): https://www.rstudio.com/products/rstudio/download/preview/
 ENV RSTUDIO_VERSION=1.4.1013 \

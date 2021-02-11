@@ -48,6 +48,7 @@ RUN rm -rf /var/lib/apt/lists/* && \
 
 # install sudo here, required for cifs-utils and mounting network drives
 RUN apt-get update && apt-get install -y --no-install-recommends \
+    cifs-utils \
     sudo
 RUN apt-get clean && \ 
     apt-get autoclean && \

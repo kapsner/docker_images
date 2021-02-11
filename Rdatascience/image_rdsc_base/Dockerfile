@@ -12,7 +12,6 @@ ENV RSESSION_USER=${USER}
 RUN apt-get update && apt-get install -y --no-install-recommends \
     dirmngr \
     openjdk-8-jdk \
-    gdebi-core \
     gpg-agent \
     libcurl4-openssl-dev \
     libssl-dev \
