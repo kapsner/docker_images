@@ -37,13 +37,6 @@ USER root
 ADD ./config/pycodestyle /home/${PYTHON_USER}/.config/pycodestyle
 RUN chown -R ${PYTHON_USER}:${PYTHON_USER} /home/${PYTHON_USER}/.config/
 
-RUN rm -rf /var/lib/apt/lists/* && \
-    rm -rf /tmp/* && \
-    rm -rf /root/.cache/pip/* && \
-    rm -rf /home/${USER}/.cache/pip/* && \
-    conda clean -ya && \
-    apt-get clean && apt-get autoclean && apt-get autoremove -y
-
 ########################
 
 # install sudo here, required for cifs-utils and mounting network drives
@@ -58,6 +51,15 @@ RUN apt-get clean && \
 # RUN echo ${USER}:password | chpasswd 
 RUN echo ${USER} ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/${USER} && \
     chmod 0440 /etc/sudoers.d/${USER}
+
+########################
+
+RUN rm -rf /var/lib/apt/lists/* && \
+    rm -rf /tmp/* && \
+    rm -rf /root/.cache/pip/* && \
+    rm -rf /home/${USER}/.cache/pip/* && \
+    conda clean -ya && \
+    apt-get clean && apt-get autoclean && apt-get autoremove -y
 
 ########################
 
