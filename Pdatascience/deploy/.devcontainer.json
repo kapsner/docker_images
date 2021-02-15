@@ -30,6 +30,7 @@
   },
   "runArgs": [
     "--gpus=all",
+    "--shm-size=8gb",
     "-v", "/mount/this/folder:/home/user/development",
     // "--privileged" // !!! use this with caution only - e.g. when using smb mounts with mount.cifs
   ],

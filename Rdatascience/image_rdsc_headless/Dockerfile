@@ -637,3 +637,5 @@ RUN rm -rf /var/lib/apt/lists/* && \
     apt-get clean && apt-get autoclean && apt-get autoremove -y
 
 ########################
+
+WORKDIR /home/${RSESSION_USER}

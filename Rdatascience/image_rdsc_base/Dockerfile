@@ -25,8 +25,8 @@ RUN apt-get clean && \
 # Add R apt repository for latest R
 # https://cran.r-project.org/bin/linux/ubuntu/
 RUN gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9
-RUN gpg -a --export E298A3A825C0D65DFD57CBB651716619E084DAB9 | \
-    apt-key --keyring /etc/apt/trusted.gpg.d/r-software-apt-key.gpg add
+RUN gpg --dearmor E298A3A825C0D65DFD57CBB651716619E084DAB9 | \
+    tee /etc/apt/trusted.gpg.d/r-software-apt-key.gpg
 RUN add-apt-repository "deb http://cran.r-project.org/bin/linux/ubuntu $(lsb_release -cs)-cran40/"
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -90,7 +90,7 @@ USER root
 ENV PATH="/home/${RSESSION_USER}/miniconda/bin:${PATH}"
 
 # Add RETICULATE_PYTHON variable to Renviron
-RUN echo "RETICULATE_PYTHON=/home/${RSESSION_USER}/miniconda/env/r-reticulate/bin/python" >> /etc/R/Renviron
+RUN echo "RETICULATE_PYTHON=/home/${RSESSION_USER}/miniconda/envs/r-reticulate/bin/python" >> /etc/R/Renviron
 # Since R 4.0.0, we also need to add R_LIBS_SITE to /etc/R/Renviron
 ENV R_LIBS_SITE=/usr/local/lib/R/site-library
 RUN echo "R_LIBS_SITE=${R_LIBS_SITE}" >> /etc/R/Renviron

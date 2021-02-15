@@ -3,6 +3,13 @@ services:
   pdatascience:
     image: pdsc_jpylab_gpu_run:latest
     container_name: pdsc_jpylab_gpu_run
+    runtime: nvidia
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - capabilities:
+    #           - gpu
     # restart: unless-stopped
     ports:
       - "127.0.0.1:6006:6006" # tensorboard
@@ -10,19 +17,16 @@ services:
     volumes:
       - ./development:/home/user/development
       - ./data:/home/user/data
+    shm_size: 8gb
     tty: true
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - capabilities:
-              - gpu
+    entrypoint: /bin/bash -c "cd /home/user && jupyter lab --no-browser --ip=0.0.0.0 --allow-root"
 
 # vgl. https://github.com/docker/compose/issues/6691
 
 # docker run --gpus=all \
-#   -v /mount/this/folder:/home/user/development \
-#   -u $(id -u):$(id -g) \
+
+#   -v ./development:/home/user/development \
+#   -v ./data:/home/user/data \
 #   -p 127.0.0.1:6006:6006 \
 #   -p 127.0.0.1:8888:8888 \
 #   -it \

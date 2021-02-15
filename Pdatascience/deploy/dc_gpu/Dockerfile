@@ -5,7 +5,7 @@ ARG GID=${GID}
 
 USER root 
 
-RUN usermod -u ${UID} ${PYTHON_USER}
-RUN groupmod -g ${GID} ${PYTHON_USER}
+RUN usermod -o -u ${UID} ${PYTHON_USER}
+RUN groupmod -o -g ${GID} ${PYTHON_USER}
 
 USER ${PYTHON_USER}
