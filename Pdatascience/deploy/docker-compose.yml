@@ -5,7 +5,7 @@ services:
     container_name: pdsc_jpylab
     # restart: unless-stopped
     ports:
-      - "127.0.0.1:6006:6006" # tensorflow
+      - "127.0.0.1:6006:6006" # tensorboard
       - "127.0.0.1:8888:8888" # jupyter
     environment:
       - DISPLAY=$DISPLAY
