@@ -17,7 +17,7 @@ services:
     volumes:
       - ./development:/home/user/development
       - ./data:/home/user/data
-    shm_size: 8gb
+    shm_size: 4gb
     tty: true
     entrypoint: /bin/bash -c "cd /home/user && jupyter lab --no-browser --ip=0.0.0.0 --allow-root"
 

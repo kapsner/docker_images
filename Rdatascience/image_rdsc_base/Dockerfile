@@ -11,12 +11,12 @@ ENV RSESSION_USER=${USER}
 # install essential packages
 RUN apt-get update && apt-get install -y --no-install-recommends \
     dirmngr \
-    openjdk-8-jdk \
     gpg-agent \
     libcurl4-openssl-dev \
     libssl-dev \
     libobjc-7-dev \
     libzmq3-dev \
+    openjdk-8-jdk \
     unixodbc-dev
 RUN apt-get clean && \ 
     apt-get autoclean && \
@@ -24,10 +24,12 @@ RUN apt-get clean && \
 
 # Add R apt repository for latest R
 # https://cran.r-project.org/bin/linux/ubuntu/
-RUN gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9
-RUN gpg --dearmor E298A3A825C0D65DFD57CBB651716619E084DAB9 | \
-    tee /etc/apt/trusted.gpg.d/r-software-apt-key.gpg
-RUN add-apt-repository "deb http://cran.r-project.org/bin/linux/ubuntu $(lsb_release -cs)-cran40/"
+RUN gpg --keyserver hkp://keyserver.ubuntu.com:80 \
+    --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9
+RUN mkdir -p /usr/local/share/keyrings
+RUN gpg --export E298A3A825C0D65DFD57CBB651716619E084DAB9 >  /etc/apt/trusted.gpg.d/r-software-archive-keyring.gpg
+RUN echo "deb http://cran.r-project.org/bin/linux/ubuntu $(lsb_release -cs)-cran40/" | \
+    tee -a /etc/apt/sources.list.d/r-software.list
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     lmodern \
