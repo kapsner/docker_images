@@ -5,7 +5,7 @@ ENV RSESSION_USER="user"
 ENV DEBIAN_FRONTEND=noninteractive
 
 # get RStudio-Server (Preview Version): https://www.rstudio.com/products/rstudio/download/preview/
-ENV RSTUDIO_VERSION=1.4.1103 \
+ENV RSTUDIO_VERSION=1.4.1106 \
     RSTUIO_URL=https://s3.amazonaws.com/rstudio-ide-build/server/bionic/amd64/
 # stable
 # ENV RSTUDIO_VERSION=1.2.5033 \
@@ -26,6 +26,10 @@ RUN echo "options(shiny.port = 3838)" > /home/${RSESSION_USER}/.Rprofile && \
 ADD config/rstudio-prefs.json /home/${RSESSION_USER}/.config/rstudio/rstudio-prefs.json
 RUN chown -R ${RSESSION_USER}:${RSESSION_USER} /home/${RSESSION_USER}/.config/ && \
     chmod 644 /home/${RSESSION_USER}/.config/rstudio/rstudio-prefs.json
+
+# update all installed packages
+RUN R -q -e "vec <- unname(installed.packages()[,\"Package\"]); remotes::update_packages(packages = vec, build_manual = FALSE, quiet = TRUE, upgrade = \"always\")"  && \
+    rm -rf /tmp/*
 
 # entrypoint
 ENTRYPOINT rstudio-server start && tail -f /dev/null

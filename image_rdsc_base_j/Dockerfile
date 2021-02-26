@@ -2,7 +2,8 @@ FROM ubuntu:20.04
 
 # set environment variable to supress user interaction
 ENV DEBIAN_FRONTEND=noninteractive \
-    JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+    # JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+    JAVA_HOME=/usr/lib/jvm/java-14-openjdk-amd64
 
 # set ENV-Vars
 ARG DISPLAY
@@ -14,9 +15,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends --no-install-su
     byobu \
     cmake \
     curl \
-    #default-jdk \
-    #default-jre \
-    openjdk-8-jdk \
+    # default-jre \
+    # default-jdk \
+    openjdk-14-jre-headless \
+    openjdk-14-jdk \
+    # openjdk-8-jre-headless \
+    # openjdk-8-jdk \
     dialog \
     dirmngr \
     ffmpeg \

@@ -154,6 +154,7 @@ RUN for package in $p; do \
 
 ARG r="R.utils \ 
     R6 \ 
+    rapportools \
     rcmdcheck \ 
     RCurl \ 
     readr \ 
@@ -163,6 +164,7 @@ ARG r="R.utils \
     reticulate \ 
     rJava \ 
     RJDBC \ 
+    RJSONIO \
     rlang \ 
     rmarkdown \ 
     Rmisc \ 
