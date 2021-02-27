@@ -2,7 +2,7 @@
 batchgenerators
 imgaug 
 keras
-monai>=0.4.0
+monai-weekly
 pytorch-lightning>=1.2.1
 pytorch-lightning-bolts
 scikit-build
