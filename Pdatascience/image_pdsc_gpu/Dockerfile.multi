@@ -16,12 +16,12 @@ COPY --from=pdsc_build /home/${PYTHON_USER}/miniconda /home/${PYTHON_USER}/minic
 RUN chown -R ${PYTHON_USER}:${PYTHON_USER} /home/${PYTHON_USER}/miniconda
 
 ########################
-# install nvtop :)
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    nvtop
-RUN apt-get clean && \ 
-    apt-get autoclean && \
-    rm -rf /var/lib/apt/lists/*
+# install nvtop :) seems somehow only to work with nvidia-drivers-460 and cuda 11.0
+# RUN apt-get update && apt-get install -y --no-install-recommends \
+#     nvtop
+# RUN apt-get clean && \ 
+#     apt-get autoclean && \
+#     rm -rf /var/lib/apt/lists/*
 
 ########################
 # clear caches
