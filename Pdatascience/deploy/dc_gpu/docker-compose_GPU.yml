@@ -3,13 +3,15 @@ services:
   pdatascience:
     image: pdsc_jpylab_gpu_run:latest
     container_name: pdsc_jpylab_gpu_run
-    runtime: nvidia
-    # deploy:
-    #   resources:
-    #     reservations:
-    #       devices:
-    #         - capabilities:
-    #           - gpu
+    # https://docs.docker.com/compose/gpu-support/
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              # device_ids: ["0", "1"]
+              capabilities: [gpu, utility]
     # restart: unless-stopped
     ports:
       - "127.0.0.1:6006:6006" # tensorboard
