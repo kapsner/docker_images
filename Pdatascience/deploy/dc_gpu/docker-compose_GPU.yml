@@ -4,14 +4,15 @@ services:
     image: pdsc_jpylab_gpu_run:latest
     container_name: pdsc_jpylab_gpu_run
     # https://docs.docker.com/compose/gpu-support/
+    # runtime: nvidia # legacy
     deploy:
       resources:
         reservations:
           devices:
-            - driver: nvidia
-              count: all
-              # device_ids: ["0", "1"]
-              capabilities: [gpu, utility]
+          - driver: nvidia
+            count: all
+            # device_ids: ["0", "1"]
+            capabilities: [gpu, utility]
     # restart: unless-stopped
     ports:
       - "127.0.0.1:6006:6006" # tensorboard
@@ -19,17 +20,17 @@ services:
     volumes:
       - ./development:/home/user/development
       - ./data:/home/user/data
-    shm_size: 4gb # this is very important for pytorch; default value is 64MB
+    shm_size: 2gb # this is very important for pytorch; default value is 64MB
     tty: true
     entrypoint: /bin/bash -c "cd /home/user && jupyter lab --no-browser --ip=0.0.0.0 --allow-root"
 
 # vgl. https://github.com/docker/compose/issues/6691
 
 # docker run --gpus=all \
-
-#   -v ./development:/home/user/development \
-#   -v ./data:/home/user/data \
+#   -v $pwd/development:/home/user/development \
+#   -v $pwd/data:/home/user/data \
 #   -p 127.0.0.1:6006:6006 \
 #   -p 127.0.0.1:8888:8888 \
+#   --shm-size=2gb \
 #   -it \
 #   pdsc_jpylab_gpu:latest
