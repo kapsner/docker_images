@@ -34,3 +34,8 @@ services:
 #   --shm-size=2gb \
 #   -it \
 #   pdsc_jpylab_gpu:latest
+
+# docker run --gpus=all \
+#   --shm-size=2gb \
+#   -it \
+#   pdsc_gpu:latest bash
