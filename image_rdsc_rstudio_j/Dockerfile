@@ -31,5 +31,8 @@ RUN chown -R ${RSESSION_USER}:${RSESSION_USER} /home/${RSESSION_USER}/.config/ &
 RUN R -q -e "vec <- unname(installed.packages()[,\"Package\"]); remotes::update_packages(packages = vec, build_manual = FALSE, quiet = TRUE, upgrade = \"always\")"  && \
     rm -rf /tmp/*
 
+## Change rights to access packages as user 'user':
+RUN chown -R ${RSESSION_USER}:${RSESSION_USER} /usr/local/lib/R/site-library
+
 # entrypoint
 ENTRYPOINT rstudio-server start && tail -f /dev/null

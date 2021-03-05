@@ -348,6 +348,9 @@ RUN for package in $pack; do \
     done && \
     rm -rf /tmp/*
 
+## Change rights to access packages as user 'user':
+RUN chown -R ${RSESSION_USER}:${RSESSION_USER} /usr/local/lib/R/site-library
+
 # clear caches
 RUN rm -rf /var/lib/apt/lists/* && \
     rm -rf /tmp/*
