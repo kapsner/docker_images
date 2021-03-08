@@ -113,7 +113,10 @@ RUN apt-get install -y --no-install-recommends --no-install-suggests \
     texinfo \
     tk8.6-dev \
     traceroute \
-    unixodbc-dev
+    unixodbc-dev \
+    # Ghostscript for LaTeX:
+    ghostscript
+    # texlive-extra-utils
 
 RUN apt-get clean && \ 
     apt-get autoclean && \

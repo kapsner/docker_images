@@ -5,8 +5,7 @@ ENV RSESSION_USER="user"
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-ARG a="abind \ 
-    adabag"
+ARG a="abind"
 RUN for package in $a; do \
     R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, build_manual = FALSE, quiet = TRUE, upgrade = \"always\")"; \
     done && \
@@ -283,6 +282,7 @@ ARG tiny="'amsfonts', \
     'makecell', \ 
     'multirow', \ 
     'oberdiek', \ 
+    'pdfcrop', \ 
     'pdflscape', \ 
     'tabu', \ 
     'tex-gyre-math', \ 
