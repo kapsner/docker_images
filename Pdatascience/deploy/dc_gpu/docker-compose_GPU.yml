@@ -20,7 +20,7 @@ services:
     volumes:
       - ./development:/home/user/development
       - ./data:/home/user/data
-    shm_size: 1gb # this is very important for pytorch; default value is 64MB
+    shm_size: 4gb # this is very important for pytorch; default value is 64MB
     tty: true
     entrypoint: /bin/bash -c "cd /home/user && jupyter lab --no-browser --ip=0.0.0.0 --allow-root"
 
