@@ -127,7 +127,7 @@ RUN apt-get clean && \
 # workaround, to get stuff properly installed in users home dir
 # set rstudio user here
 ENV RSESSION_USER="user" 
-ENV USER_UID=1000
+ENV USER_UID=10001
 ENV USER_GID=${USER_UID}
 
 RUN groupadd --gid ${USER_GID} ${RSESSION_USER} && \
