@@ -22,7 +22,6 @@ services:
       - ./data:/home/user/data
     shm_size: 4gb # this is very important for pytorch; default value is 64MB
     tty: true
-    entrypoint: /bin/bash -c "cd /home/user && jupyter lab --no-browser --ip=0.0.0.0 --allow-root"
 
 # vgl. https://github.com/docker/compose/issues/6691
 
@@ -34,8 +33,3 @@ services:
 #   --shm-size=2gb \
 #   -it \
 #   pdsc_jpylab_gpu:latest
-
-# docker run --gpus=all \
-#   --shm-size=2gb \
-#   -it \
-#   pdsc_gpu:latest bash

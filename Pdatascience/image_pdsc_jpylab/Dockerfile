@@ -38,6 +38,7 @@ RUN rm -rf /var/lib/apt/lists/* && \
 
 ########################
 
+WORKDIR /home/${PYTHON_USER}
 USER ${PYTHON_USER}
 
 # run jupyter lab from users home directory
