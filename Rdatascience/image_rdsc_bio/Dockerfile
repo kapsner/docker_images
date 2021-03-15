@@ -1,6 +1,8 @@
 FROM rdsc_rstudio:latest
 #FROM rdsc_headless:latest
 
+USER ${RSESSION_USER}
+
 ARG packages="BiocManager" 
 RUN for package in $packages; do \
     R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
@@ -36,6 +38,8 @@ RUN R -q -e "remotes::install_git(url = \"https://gitlab.miracum.org/clearly/sig
 RUN R -q -e "remotes::install_git(url = \"https://gitlab.miracum.org/clearly/sigident.preproc.git\", ref = \"master\")"
 RUN R -q -e "remotes::install_git(url = \"https://gitlab.miracum.org/clearly/sigident.func.git\", ref = \"master\")"
 RUN R -q -e "remotes::install_git(url = \"https://gitlab.miracum.org/clearly/tromics.git\", ref = \"master\")"
+
+USER root
 
 ########################
 # clear caches

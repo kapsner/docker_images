@@ -559,9 +559,6 @@ RUN R -q -e "webshot::install_phantomjs()"
 # install shinytest dependencies (= phantomjs)
 RUN R -q -e "shinytest::installDependencies()"
 
-# switch back
-USER root
-
 # install my packages
 RUN R -q -e "remotes::install_github(repo = \"kapsner/KhelpeR\", ref = \"development\")"
 #RUN R -q -e "remotes::install_github(repo = \"kapsner/rBiasCorrection\", ref = \"latest\")"
@@ -583,6 +580,9 @@ RUN for package in $pack; do \
     R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
     done && \
     rm -rf /tmp/*
+
+# switch back
+USER root
 
 ########################
 # install sudo here, required for cifs-utils and mounting network drives
