@@ -11,6 +11,7 @@ ENV RSESSION_USER=${USER}
 # install essential packages
 RUN apt-get update && apt-get install -y --no-install-recommends \
     dirmngr \
+    ghostscript \
     gpg-agent \
     libcurl4-openssl-dev \
     libssl-dev \
@@ -71,6 +72,7 @@ RUN echo JAVA_HOME="${JAVA_HOME}" >> /etc/environment
 RUN R CMD javareconf
 
 # first, make sure, that package "remotes" is installed, so we can make use
+USER ${RSESSION_USER}
 # of its function remotes::update_packages 
 # https://rdrr.io/cran/remotes/man/update_packages.html
 RUN R -q -e "install.packages(\"docopt\")"
@@ -82,7 +84,6 @@ RUN install2.r --error \
     data.table
 
 # install miniconda via reticulate and configure python
-USER ${RSESSION_USER}
 RUN R -q -e "reticulate::py_config()"
 RUN conda clean -ya
 
