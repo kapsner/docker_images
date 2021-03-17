@@ -146,13 +146,14 @@ RUN echo "options('repos' = 'https://cloud.r-project.org/')" >> /etc/R/Rprofile.
 # Update where R expects to find various Java files
 RUN R CMD javareconf
 
+# switch user
+USER ${RSESSION_USER}
+
 # first, make sure, that package "remotes" is installed, so we can make use
 # of its function remotes::update_packages 
 # https://rdrr.io/cran/remotes/man/update_packages.html
 RUN R -q -e "install.packages(c('remotes', 'devtools', 'reticulate', 'data.table'), quiet = T)"
 
-# switch user
-USER ${RSESSION_USER}
 
 # # install miniconda via reticulate and configure python
 # RUN R -q -e "reticulate::install_miniconda(); reticulate::py_config()"

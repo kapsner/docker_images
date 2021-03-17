@@ -1,7 +1,9 @@
 FROM joundso/rdsc_headless_j:latest
 
+USER root
+
 # set rstudio user here
-ENV RSESSION_USER="user" 
+ENV RSESSION_USER="user"
 ENV DEBIAN_FRONTEND=noninteractive
 
 # get RStudio-Server (Preview Version): https://www.rstudio.com/products/rstudio/download/preview/

@@ -33,6 +33,7 @@ RUN for package in $c; do \
     rm -rf /tmp/*
 
 ARG d="data.table \ 
+    daterangepicker \
     DBI \ 
     desc \ 
     DescTools \ 
@@ -248,11 +249,9 @@ RUN for package in $z; do \
     done && \
     rm -rf /tmp/*
 
-# switch user
-USER ${RSESSION_USER}
+
 # install required LaTeX-Packages
 RUN R -q -e "tinytex::install_tinytex()"
-USER root
 
 ENV PATH="/home/${RSESSION_USER}/bin:/home/${RSESSION_USER}/.TinyTeX/bin/x86_64-linux:${PATH}"
 
@@ -303,9 +302,13 @@ RUN R -q -e "tinytex::tlmgr_conf()"
 RUN R -q -e "tinytex::tlmgr_install(pkgs = c(${tiny}))"
 RUN R -q -e "tinytex::tlmgr_update()"
 
-RUN chown -R ${RSESSION_USER}:${RSESSION_USER} /home/${RSESSION_USER}/.TinyTeX && \
-    chmod -R g+w /home/${RSESSION_USER}/.TinyTeX && \
-    chmod -R g+wx /home/${RSESSION_USER}/bin
+# USER root
+
+# RUN chown -R ${RSESSION_USER}:${RSESSION_USER} /home/${RSESSION_USER}/.TinyTeX && \
+#     chmod -R g+w /home/${RSESSION_USER}/.TinyTeX && \
+#     chmod -R g+wx /home/${RSESSION_USER}/bin
+
+# USER ${RSESSION_USER}
 
 # safety-check at the end: 
 # 1) look if everything is installed correctely (if not, you might add system-dependencies in the base_image)
@@ -322,19 +325,12 @@ RUN export packages_format="$(echo $(echo ${allpackages} | sed -e 's/ /\"\, \"/g
 RUN R -q -e "vec <- unname(installed.packages()[,\"Package\"]); remotes::update_packages(packages = vec, build_manual = FALSE, quiet = TRUE, upgrade = \"always\")"  && \
     rm -rf /tmp/*
 
-# switch user (let everything in .virtualenv/r-reticulate be installed by the user)
-# we can use pip here, since we added the virtualenv to the beginning of our PATH variable
-USER ${RSESSION_USER}
-
 # configure the other r packages
 # install phantomjs
 RUN R -q -e "webshot::install_phantomjs()"
 
 # install shinytest dependencies (= phantomjs)
 RUN R -q -e "shinytest::installDependencies()"
-
-# switch back
-USER root
 
 # install the stuff, where I participate
 #RUN R -q -e "devtools::install_git(url = 'https://gitlab.miracum.org/miracum/dqa/dqastats.git', ref = 'master')"
@@ -348,8 +344,10 @@ RUN for package in $pack; do \
     done && \
     rm -rf /tmp/*
 
+USER root
 ## Change rights to access packages as user 'user':
 RUN chown -R ${RSESSION_USER}:${RSESSION_USER} /usr/local/lib/R/site-library
+
 
 # clear caches
 RUN rm -rf /var/lib/apt/lists/* && \
@@ -383,3 +381,5 @@ RUN mkdir -p /opt/libs
 RUN curl -SL https://repo1.maven.org/maven2/com/oracle/database/jdbc/ojdbc8/19.8.0.0/ojdbc8-19.8.0.0.jar -o /opt/libs/ojdbc8.jar
 RUN curl -SL https://repo1.maven.org/maven2/com/oracle/database/jdbc/ojdbc10/19.8.0.0/ojdbc10-19.8.0.0.jar -o /opt/libs/ojdbc10.jar
 RUN chown -R ${RSESSION_USER}:${RSESSION_USER} /opt/libs/
+
+USER ${RSESSION_USER}
