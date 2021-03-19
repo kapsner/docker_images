@@ -428,11 +428,8 @@ RUN for package in $z; do \
     done && \
     rm -rf /tmp/*
 
-# switch user
-USER ${RSESSION_USER}
 # install required LaTeX-Packages
 RUN R -q -e "tinytex::install_tinytex()"
-USER root
 
 ENV PATH="/home/${RSESSION_USER}/bin:/home/${RSESSION_USER}/.TinyTeX/bin/x86_64-linux:${PATH}"
 
@@ -462,6 +459,7 @@ ARG tiny="\"amsfonts\", \
     \"makecell\", \ 
     \"multirow\", \ 
     \"oberdiek\", \ 
+    \"pdfcrop\", \
     \"pdflscape\", \ 
     \"tabu\", \ 
     \"tex-gyre-math\", \ 
@@ -482,9 +480,14 @@ RUN R -q -e "tinytex::tlmgr_conf()"
 RUN R -q -e "tinytex::tlmgr_install(pkgs = c(${tiny}))"
 RUN R -q -e "tinytex::tlmgr_update()"
 
+
+USER root
+
 RUN chown -R ${RSESSION_USER}:${RSESSION_USER} /home/${RSESSION_USER}/.TinyTeX && \
     chmod -R g+w /home/${RSESSION_USER}/.TinyTeX && \
     chmod -R g+wx /home/${RSESSION_USER}/bin
+
+USER ${RSESSION_USER}
 
 # safety-check at the end: 
 # 1) look if everything is installed correctely (if not, you might add system-dependencies in the base_image)
@@ -510,10 +513,9 @@ RUN R -q -e "remotes::install_github(repo = \"skranz/ReplaceInFiles\", ref = \"m
 #     Rscript build_r.R
 # RUN rm -rf LightGBM
 
-# switch user (let everything in .virtualenv/r-reticulate be installed by the user)
-# we can use pip here, since we added the virtualenv to the beginning of our PATH variable
-USER ${RSESSION_USER}
 
+# stay with user here (let everything in .virtualenv/r-reticulate be installed by the user)
+# we can use pip here, since we added the virtualenv to the beginning of our PATH variable
 # install additional python packages
 RUN yes | pip install \
     "colorama>=0.3.8" \
@@ -559,9 +561,6 @@ RUN R -q -e "webshot::install_phantomjs()"
 # install shinytest dependencies (= phantomjs)
 RUN R -q -e "shinytest::installDependencies()"
 
-# switch back
-USER root
-
 # install my packages
 RUN R -q -e "remotes::install_github(repo = \"kapsner/KhelpeR\", ref = \"development\")"
 #RUN R -q -e "remotes::install_github(repo = \"kapsner/rBiasCorrection\", ref = \"latest\")"
@@ -583,6 +582,9 @@ RUN for package in $pack; do \
     R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
     done && \
     rm -rf /tmp/*
+
+# switch back
+USER root
 
 ########################
 # install sudo here, required for cifs-utils and mounting network drives
