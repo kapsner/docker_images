@@ -1,25 +1,30 @@
-version: '3.8'
+version: '3.9'
 services:
   pdatascience:
     image: pdsc_jpylab_gpu_run:latest
     container_name: pdsc_jpylab_gpu_run
+    # restart: unless-stopped
     # https://docs.docker.com/compose/gpu-support/
-    # runtime: nvidia # legacy
     deploy:
       resources:
+        limits:
+          cpus: "0.45"
+          memory: 100g
         reservations:
-          devices:
-          - driver: nvidia
-            count: all
-            # device_ids: ["0", "1"]
-            capabilities: [gpu, utility]
-    # restart: unless-stopped
+          memory: 12g
+          # devices:
+          # - driver: nvidia
+          #   device_ids: ["0", "1"]
+          #   capabilities: ["gpu", "utility"]
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=0,1
+    runtime: nvidia # legacy
     ports:
       - "127.0.0.1:6006-6016:6006-6016" # tensorboard
       - "127.0.0.1:8888:8888" # jupyterlab
     volumes:
-      - ./development:/home/user/development
-      - ./data:/home/user/data
+      - ./development:/home/user/development:rw
+      - ./data:/home/user/data:rw
     shm_size: 4gb # this is very important for pytorch; default value is 64MB
     tty: true
 
