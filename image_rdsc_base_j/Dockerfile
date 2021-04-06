@@ -101,9 +101,9 @@ RUN apt-get install -y --no-install-recommends --no-install-suggests \
     pandoc-citeproc \
     # rstudio dependency
     psmisc \
-    python3-dev \
-    python3-pip \
-    python3-venv \
+    # python3-dev \
+    # python3-pip \
+    # python3-venv \
     qpdf \
     r-base-dev \
     # pocketsphinx
