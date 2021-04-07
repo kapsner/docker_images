@@ -1,4 +1,4 @@
-version: '3'
+version: "3.9" # optional since v1.27.0
 services:
   rdatascience:
     image: joundso/rdsc_rstudio_j:${VERSION_TAG}
@@ -18,3 +18,4 @@ services:
     # - /k/Docker/docker-share/R:/home/user/share
     # - /d/git-local:/home/user/git-local
     tty: true
+    privileged: true
