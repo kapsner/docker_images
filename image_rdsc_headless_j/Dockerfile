@@ -157,6 +157,7 @@ ARG r="R.utils \
     rapportools \
     rcmdcheck \ 
     RCurl \ 
+    reactable \
     readr \ 
     redcapAPI \ 
     remotes \ 
