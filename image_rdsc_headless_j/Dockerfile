@@ -134,7 +134,8 @@ RUN for package in $o; do \
     done && \
     rm -rf /tmp/*
 
-ARG p="parallel \ 
+ARG p="pagedown \
+    parallel \ 
     parsedate \ 
     pheatmap \ 
     plotly \ 
