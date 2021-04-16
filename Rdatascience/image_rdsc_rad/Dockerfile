@@ -7,24 +7,12 @@ USER ${RSESSION_USER}
 
 # install additional python packages
 RUN yes | pip install \
-    dicom2nifti
-
-RUN yes | pip install \
-    imgaug
-
-RUN yes | pip install \
-    nibabel
-
-RUN yes | pip install \
-    opencv-python
-
-RUN yes | pip install \
-    pydicom 
-
-RUN yes | pip install \
-    requests
-
-RUN yes | pip install \
+    dicom2nifti \
+    imgaug \
+    nibabel \
+    opencv-python \
+    pydicom \
+    requests \
     scikit-image \ 
     SimpleITK
 
