@@ -55,7 +55,7 @@
     },
     "use_tinytex": true,
     "posix_terminal_shell": "custom",
-    "custom_shell_command": "~/.local/share/r-miniconda/envs/r-reticulate/bin/radian",
+    "custom_shell_command": "~/miniconda/bin/radian",
     "terminal_close_behavior": "never",
     "show_hidden_files": true,
     "initial_working_directory": "~/development/",
