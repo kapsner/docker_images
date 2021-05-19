@@ -27,7 +27,7 @@ RUN apt-get clean && \
 # define image user
 ENV USER="user"
 ARG UID
-ENV USER_UID=UID
+ENV USER_UID=${UID}
 ARG GID
 ENV USER_GID=${GID}
 
