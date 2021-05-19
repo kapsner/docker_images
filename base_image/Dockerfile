@@ -25,9 +25,11 @@ RUN apt-get clean && \
 
 ########################
 # define image user
-ENV USER="user" 
-ENV USER_UID=1000
-ENV USER_GID=${USER_UID}
+ENV USER="user"
+ARG UID
+ENV USER_UID=UID
+ARG GID
+ENV USER_GID=${GID}
 
 RUN groupadd --gid ${USER_GID} ${USER} && \
     useradd --uid ${USER_UID} --gid ${USER_GID} -m ${USER}
