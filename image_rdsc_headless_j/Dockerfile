@@ -304,13 +304,13 @@ RUN R -q -e "tinytex::tlmgr_conf()"
 RUN R -q -e "tinytex::tlmgr_install(pkgs = c(${tiny}))"
 RUN R -q -e "tinytex::tlmgr_update()"
 
-# USER root
+USER root
 
-# RUN chown -R ${RSESSION_USER}:${RSESSION_USER} /home/${RSESSION_USER}/.TinyTeX && \
-#     chmod -R g+w /home/${RSESSION_USER}/.TinyTeX && \
-#     chmod -R g+wx /home/${RSESSION_USER}/bin
+RUN chown -R ${RSESSION_USER}:${RSESSION_USER} /home/${RSESSION_USER}/.TinyTeX && \
+    chmod -R g+w /home/${RSESSION_USER}/.TinyTeX && \
+    chmod -R g+wx /home/${RSESSION_USER}/bin
 
-# USER ${RSESSION_USER}
+USER ${RSESSION_USER}
 
 # safety-check at the end: 
 # 1) look if everything is installed correctely (if not, you might add system-dependencies in the base_image)
@@ -338,6 +338,7 @@ RUN R -q -e "shinytest::installDependencies()"
 #RUN R -q -e "devtools::install_git(url = 'https://gitlab.miracum.org/miracum/dqa/dqastats.git', ref = 'master')"
 #RUN R -q -e "devtools::install_git(url = 'https://gitlab.miracum.org/miracum/dqa/dqagui.git', ref = 'master')"
 RUN R -q -e "devtools::install_git(url = 'https://gitlab.miracum.org/miracum/dqa/miRacumdqa.git', ref = 'master')"
+RUN R -q -e "devtools::install_github('joundso/mainzelliste-connector', ref = 'development')"
 
 # CRAN packages with my participation
 ARG pack="DIZutils"
