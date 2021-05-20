@@ -1,9 +1,8 @@
 FROM joundso/rdsc_base_j:latest
 
-# set rsession user here
-ENV RSESSION_USER="user" 
-
 ENV DEBIAN_FRONTEND=noninteractive
+
+USER ${RSESSION_USER}
 
 ARG a="abind"
 RUN for package in $a; do \
@@ -349,7 +348,7 @@ RUN for package in $pack; do \
 
 USER root
 ## Change rights to access packages as user 'user':
-RUN chown -R ${RSESSION_USER}:${RSESSION_USER} /usr/local/lib/R/site-library
+# RUN chown -R ${RSESSION_USER}:${RSESSION_USER} /usr/local/lib/R/site-library
 
 
 # clear caches
@@ -362,6 +361,8 @@ RUN apt-get clean && apt-get autoclean && apt-get autoremove -y
 RUN echo "options(shiny.port = 3838)" >> /home/${RSESSION_USER}/.Rprofile && \
     echo "options(shiny.host = '0.0.0.0')" >> /home/${RSESSION_USER}/.Rprofile && \
     echo "options(shiny.launch.browser = FALSE)" >> /home/${RSESSION_USER}/.Rprofile && \
+    echo "options(shiny.error = browser)" >> /home/${RSESSION_USER}/.Rprofile && \
+    echo "options(shiny.fullstacktrace = TRUE)" >> /home/${RSESSION_USER}/.Rprofile && \
     # https://github.com/Ikuyadeu/vscode-R#r-session-watcher-experimental
     echo "source(file.path(Sys.getenv(if (.Platform\$OS.type == 'windows') 'USERPROFILE' else 'HOME'), '.vscode-R', 'init.R'))" >> /home/${RSESSION_USER}/.Rprofile && \
     chown -R ${RSESSION_USER}:${RSESSION_USER} /home/${RSESSION_USER}/.Rprofile
@@ -379,10 +380,20 @@ RUN echo "PATH=${PATH}" >> /etc/environment
 ADD config/.radian_profile /home/${RSESSION_USER}/.radian_profile
 RUN chown -R ${RSESSION_USER}:${RSESSION_USER} /home/${RSESSION_USER}/.radian_profile
 
+# fix permissions in home folder
+# RUN chown -R ${RSESSION_USER}:${RSESSION_USER} /home/${RSESSION_USER}/.local
+
 # Add JDBC drivers:
 RUN mkdir -p /opt/libs
 RUN curl -SL https://repo1.maven.org/maven2/com/oracle/database/jdbc/ojdbc8/19.8.0.0/ojdbc8-19.8.0.0.jar -o /opt/libs/ojdbc8.jar
 RUN curl -SL https://repo1.maven.org/maven2/com/oracle/database/jdbc/ojdbc10/19.8.0.0/ojdbc10-19.8.0.0.jar -o /opt/libs/ojdbc10.jar
 RUN chown -R ${RSESSION_USER}:${RSESSION_USER} /opt/libs/
 
-USER ${RSESSION_USER}
+# clear caches
+RUN rm -rf /var/lib/apt/lists/* && \
+    rm -rf /tmp/* && \
+    rm -rf /root/.cache/pip/* && \
+    rm -rf /home/${USER}/.cache/pip/* && \
+    apt-get clean && apt-get autoclean && apt-get autoremove -y
+
+WORKDIR /home/${RSESSION_USER}
