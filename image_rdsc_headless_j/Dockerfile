@@ -350,12 +350,23 @@ USER root
 ## Change rights to access packages as user 'user':
 # RUN chown -R ${RSESSION_USER}:${RSESSION_USER} /usr/local/lib/R/site-library
 
+# install sudo here, required for rstudio:
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    sudo
+RUN apt-get clean && \ 
+    apt-get autoclean && \
+    rm -rf /var/lib/apt/lists/*
 
 # clear caches
 RUN rm -rf /var/lib/apt/lists/* && \
     rm -rf /tmp/*
 RUN rm -rf /home/${RSESSION_USER}/.cache/pip/*
 RUN apt-get clean && apt-get autoclean && apt-get autoremove -y
+
+# set ubuntu password here (password required for rstudio login)
+RUN echo ${USER}:password | chpasswd 
+RUN echo ${USER} ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/${USER} && \
+    chmod 0440 /etc/sudoers.d/${USER}
 
 # make deployed shiny app accessible via port 3838
 RUN echo "options(shiny.port = 3838)" >> /home/${RSESSION_USER}/.Rprofile && \

@@ -9,7 +9,7 @@ FROM joundso/rdsc_headless_j:latest
 # USER root
 
 # get RStudio-Server (Preview Version): https://www.rstudio.com/products/rstudio/download/preview/
-ENV RSTUDIO_VERSION=1.4.1713 \
+ENV RSTUDIO_VERSION=1.4.1716 \
     RSTUIO_URL=https://s3.amazonaws.com/rstudio-ide-build/server/bionic/amd64/
 # stable
 # ENV RSTUDIO_VERSION=1.2.5033 \
@@ -26,12 +26,6 @@ ENV RSTUDIO_LINK=${RSTUIO_URL}${RSTUDIO_FILE}
 #     apt-get autoclean && \
 #     rm -rf /var/lib/apt/lists/*
 
-# install sudo here, required for dpkg
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    sudo
-RUN apt-get clean && \ 
-    apt-get autoclean && \
-    rm -rf /var/lib/apt/lists/*
 
 RUN wget ${RSTUDIO_LINK}
 # RUN gdebi -n ${RSTUDIO_FILE}
