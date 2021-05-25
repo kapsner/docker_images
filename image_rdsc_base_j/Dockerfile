@@ -130,7 +130,7 @@ RUN echo "options(\"repos\" = \"https://cloud.r-project.org/\")" >> /etc/R/Rprof
 # Update where R expects to find various Java files
 
 # update envar
-ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+ENV JAVA_HOME=/usr/lib/jvm/java-14-openjdk-amd64
 RUN echo JAVA_HOME="${JAVA_HOME}" >> /etc/environment
 RUN R CMD javareconf
 
