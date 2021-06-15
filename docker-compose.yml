@@ -19,3 +19,4 @@ services:
     # - /d/git-local:/home/user/git-local
     tty: true
     privileged: true
+    hostname: docker-rdsc
