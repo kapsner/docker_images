@@ -4,7 +4,7 @@ This repo holds several files for my personal dockerized R environment for data 
 
 ## Usage
 
-:bulb: If you want to mount folders from your host system to with the container, make sure they are correctly described in the `docker-compose.yml` file. If you don't want to mount anything, ignore this.
+:bulb: If you want to mount folders from your host system to with the container, make sure they are correctly described in the [`docker-compose.yml`](./docker-compose.yml) file. If you don't want to mount anything, ignore this.
 
 ```bash
 git clone https://github.com/joundso/docker_images.git Rdatascience
@@ -12,9 +12,9 @@ cd Rdatascience
 docker-compose up -d
 ```
 
-- On your host-machine, you can now open a webbrowser and go to page `localhost:8787` to see RStudio server. Login with the user-password-combination specified in the docker-base_image Dockerfile and start working. Default username is `user`, default password is `password`.
+- On your host-machine, you can now open a webbrowser and go to page [`localhost:8787`](http://localhost:8787) to see RStudio server. Login with the user-password-combination specified in the docker-base_image Dockerfile and start working. Default username is `user`, default password is `password`.
 
-- When you deploy a shiny app, it will be accessible via `localhost:3838`
+- When you deploy a shiny app, it will be accessible via [`localhost:3838`](http://localhost:3838).
 
 ## More Infos
 
