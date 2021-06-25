@@ -338,6 +338,9 @@ RUN R -q -e "shinytest::installDependencies()"
 #RUN R -q -e "devtools::install_git(url = 'https://gitlab.miracum.org/miracum/dqa/dqagui.git', ref = 'master')"
 RUN R -q -e "devtools::install_git(url = 'https://gitlab.miracum.org/miracum/dqa/miRacumdqa.git', ref = 'master')"
 RUN R -q -e "devtools::install_github('joundso/mainzelliste-connector', ref = 'development')"
+RUN R -q -e "devtools::install_github('joundso/rkafka', ref = 'development')"
+RUN R -q -e "devtools::install_github('joundso/gpas_connector', ref = 'development')"
+RUN R -q -e "devtools::install_github('joundso/requirements', ref = 'development')"
 
 # CRAN packages with my participation
 ARG pack="DIZutils"
