@@ -13,7 +13,6 @@ services:
     ## work:
     - /d/Docker/container/docker-share/R:/home/user/share
     - /d/git-local:/home/user/git-local
-    - /d/_p21/:/home/user/p21
     ## home:
     # - /k/Docker/docker-share/R:/home/user/share
     # - /d/git-local:/home/user/git-local
