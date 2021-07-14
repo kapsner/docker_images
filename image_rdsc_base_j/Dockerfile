@@ -44,6 +44,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libpq-dev \
     libsasl2-dev \
     libssl-dev \
+    libudunits2-dev \
     libxml2-dev \
     libxslt1-dev \
     libxt-dev \
