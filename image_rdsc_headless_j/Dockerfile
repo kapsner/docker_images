@@ -37,6 +37,7 @@ ARG d="data.table \
     desc \ 
     DescTools \ 
     devtools \ 
+    distill \
     doParallel \ 
     dotenv \ 
     dplyr \ 
@@ -68,6 +69,7 @@ ARG f="fhircrackr \
 
 ARG g="ggplot2 \ 
     ggpubr \ 
+    gtsummary \
     gplots"
 RUN for package in $g; do \
     R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, build_manual = FALSE, quiet = TRUE, upgrade = \"always\")"; \
