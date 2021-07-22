@@ -15,3 +15,7 @@
 !/docker-compose.yml
 !/start_rdatascience.sh
 !/stop_rdatascience.sh
+
+
+## Ignore all log-related files:
+/*log*

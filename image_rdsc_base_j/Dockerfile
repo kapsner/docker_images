@@ -118,7 +118,7 @@ RUN apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
 ## For Rattle:
-RUN wajig install libgtk2.0-dev -y
+RUN wajig install -y libgtk2.0-dev
 
 # make R site-library default package installation folder writeable
 RUN mkdir -p /usr/local/lib/R/site-library
