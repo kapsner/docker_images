@@ -379,7 +379,7 @@ RUN for package in $t; do \
     done && \
     rm -rf /tmp/*
 
-RUN R -q -e "remotes::install_github(repo = \"ropensci/tic\", ref = \"master\")"
+RUN R -q -e "remotes::install_github(repo = \"ropensci/tic\", ref = \"main\")"
 
 ARG u="ucminf \ 
     udpipe \ 
