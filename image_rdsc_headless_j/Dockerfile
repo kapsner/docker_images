@@ -157,6 +157,7 @@ RUN for package in $p; do \
 ARG r="R.utils \ 
     R6 \ 
     rapportools \
+    rattle \
     rcmdcheck \ 
     RCurl \ 
     reactable \
@@ -165,6 +166,7 @@ ARG r="R.utils \
     remotes \ 
     reshape2 \ 
     reticulate \ 
+    RGtk2 \
     rJava \ 
     RJDBC \ 
     RJSONIO \

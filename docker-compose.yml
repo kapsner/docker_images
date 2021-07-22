@@ -8,7 +8,7 @@ services:
     - "${SHINY_PORT}:3838" #shiny
     # https://github.com/rocker-org/rocker-versioned/blob/master/user/README.md
     environment:
-    - DISPLAY=$IP:0
+    - DISPLAY=host.docker.internal:0.0
     volumes:
     ## work:
     - /d/Docker/container/docker-share/R:/home/user/share
