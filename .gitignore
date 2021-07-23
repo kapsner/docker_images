@@ -18,4 +18,5 @@
 
 
 ## Ignore all log-related files:
-/*log*
+**/*[Ll]og*
+**/*.log

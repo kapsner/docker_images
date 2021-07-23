@@ -113,12 +113,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     texinfo \
     tk8.6-dev \
     wajig
+## For Rattle:
+RUN wajig install -y libgtk2.0-dev
 RUN apt-get clean && \ 
     apt-get autoclean && \
     rm -rf /var/lib/apt/lists/*
 
-## For Rattle:
-RUN wajig install -y libgtk2.0-dev
 
 # make R site-library default package installation folder writeable
 RUN mkdir -p /usr/local/lib/R/site-library
