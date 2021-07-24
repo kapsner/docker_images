@@ -562,9 +562,20 @@ RUN R -q -e "webshot::install_phantomjs()"
 RUN R -q -e "shinytest::installDependencies()"
 
 # install my packages
+
+# CRAN packages with my participation
+ARG pack="rBiasCorrection \
+    BiasCorrector \
+    DIZutils"
+RUN for package in $pack; do \   
+    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
+    done && \
+    rm -rf /tmp/*
+
+
 RUN R -q -e "remotes::install_github(repo = \"kapsner/KhelpeR\", ref = \"development\")"
 #RUN R -q -e "remotes::install_github(repo = \"kapsner/rBiasCorrection\", ref = \"latest\")"
-RUN R -q -e "remotes::install_github(repo = \"kapsner/BiasCorrector\", ref = \"master\")"
+#RUN R -q -e "remotes::install_github(repo = \"kapsner/BiasCorrector\", ref = \"master\")"
 RUN R -q -e "remotes::install_github(repo = \"kapsner/expenditR\", ref = \"master\")"
 #RUN R -q -e "remotes::install_github(repo = \"kapsner/lightgbm.py\", ref = \"master\")"
 #RUN R -q -e "remotes::install_github(repo = \"kapsner/mlr3learners.lgbpy\", ref = \"master\")"
@@ -575,13 +586,6 @@ RUN R -q -e "remotes::install_github(repo = \"kapsner/mlr3learners.lightgbm\", r
 #RUN R -q -e "remotes::install_git(url = \"https://gitlab.miracum.org/miracum/dqa/dqagui.git\", ref = \"master\")"
 RUN R -q -e "remotes::install_git(url = \"https://gitlab.miracum.org/miracum/dqa/miRacumdqa.git\", ref = \"master\")"
 RUN R -q -e "remotes::install_git(url = \"https://gitlab.miracum.org/kosmic/kosmicgui.git\", ref = \"master\")"
-
-# CRAN packages with my participation
-ARG pack="DIZutils"
-RUN for package in $pack; do \   
-    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
-    done && \
-    rm -rf /tmp/*
 
 # switch back
 USER root
