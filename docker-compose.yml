@@ -6,9 +6,10 @@ services:
     ports:
     - "${RSTUDIO_PORT}:8787" #rstudio
     - "${SHINY_PORT}:3838" #shiny
-    # https://github.com/rocker-org/rocker-versioned/blob/master/user/README.md
-    environment:
-    - DISPLAY=host.docker.internal:0.0
+    ## The environment does not work properly,
+    ## see <https://github.com/rstudio/renv/issues/446>
+    # environment:
+    # - DISPLAY=192.168.0.1:0
     volumes:
     ## work:
     - /d/Docker/container/docker-share/R:/home/user/share

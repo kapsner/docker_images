@@ -21,7 +21,7 @@ printf "\nPulling cached $IMAGE_NAME image\n"
 docker pull $REGISTRY_PREFIX/$IMAGE_NAME
 # build new image (latest):
 printf "\n\nBuilding $IMAGE_NAME image\n"
-docker build --progress=plain -f image_$IMAGE_NAME/Dockerfile -t $REGISTRY_PREFIX/$IMAGE_NAME . 2>&1 | tee ./log_$IMAGE_NAME.log
+docker build --progress=plain -f ./Dockerfiles/$IMAGE_NAME.dockerfile -t $REGISTRY_PREFIX/$IMAGE_NAME . 2>&1 | tee ./log_$IMAGE_NAME.log
 printf "\n\nPushing $IMAGE_NAME image (latest)\n"
 # push new image as new 'latest':
 docker push "$REGISTRY_PREFIX/$IMAGE_NAME"
@@ -42,7 +42,7 @@ printf "\nPulling cached $IMAGE_NAME image\n"
 docker pull $REGISTRY_PREFIX/$IMAGE_NAME
 # build new image (latest):
 printf "\n\nBuilding $IMAGE_NAME image\n"
-docker build --progress=plain -f image_$IMAGE_NAME/Dockerfile -t $REGISTRY_PREFIX/$IMAGE_NAME . 2>&1 | tee ./log_$IMAGE_NAME.log
+docker build --progress=plain -f ./Dockerfiles/$IMAGE_NAME.dockerfile -t $REGISTRY_PREFIX/$IMAGE_NAME . 2>&1 | tee ./log_$IMAGE_NAME.log
 printf "\n\nPushing $IMAGE_NAME image (latest)\n"
 # push new image as new 'latest':
 docker push "$REGISTRY_PREFIX/$IMAGE_NAME"
@@ -63,7 +63,7 @@ printf "\nPulling cached $IMAGE_NAME image\n"
 docker pull $REGISTRY_PREFIX/$IMAGE_NAME
 # build new image (latest):
 printf "\n\nBuilding $IMAGE_NAME image\n"
-docker build -f image_$IMAGE_NAME/Dockerfile -t $REGISTRY_PREFIX/$IMAGE_NAME --no-cache . 2>&1 | tee ./log_$IMAGE_NAME.log
+docker build -f ./Dockerfiles/$IMAGE_NAME.dockerfile -t $REGISTRY_PREFIX/$IMAGE_NAME --no-cache . 2>&1 | tee ./log_$IMAGE_NAME.log
 printf "\n\nPushing $IMAGE_NAME image (latest)\n"
 # push new image as new 'latest':
 docker push "$REGISTRY_PREFIX/$IMAGE_NAME"
@@ -72,3 +72,22 @@ docker tag $REGISTRY_PREFIX/$IMAGE_NAME $REGISTRY_PREFIX/$IMAGE_NAME:$VERSION_TA
 # and also push this (tagged) image:
 printf "\n\nPushing $IMAGE_NAME image ($VERSION_TAG)\n"
 docker push "$REGISTRY_PREFIX/$IMAGE_NAME:$VERSION_TAG"
+
+
+## Environment variables:
+## Since handing over the environement variables over docker-compose is broken
+## see <https://github.com/rstudio/renv/issues/446>.
+IMAGE_NAME=rdsc_final_j
+printf "\n\n##################################\n"
+printf "$IMAGE_NAME"
+printf "\n##################################\n"
+printf "\nPulling cached $IMAGE_NAME image\n"
+# build new image (latest):
+printf "\n\nBuilding $IMAGE_NAME image\n"
+docker build \
+    -f ./Dockerfiles/$IMAGE_NAME.dockerfile \
+    -t $REGISTRY_PREFIX/rdsc_rstudio_j \
+    --build-arg DISPLAY=${DISPLAY} \
+    --no-cache . 2>&1 | tee ./log_$IMAGE_NAME.log
+docker tag $REGISTRY_PREFIX/rdsc_rstudio_j $REGISTRY_PREFIX/rdsc_rstudio_j:$VERSION_TAG
+## Don't push this image! It contains the potential sensitive env vars!

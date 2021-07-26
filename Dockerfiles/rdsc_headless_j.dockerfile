@@ -18,7 +18,8 @@ RUN for package in $b; do \
     done && \
     rm -rf /tmp/*
 
-ARG c="citr \
+ARG c="cairoDevice \
+    citr \
     class \ 
     cluster \ 
     ClusterR \ 

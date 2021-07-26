@@ -7,9 +7,14 @@
 !/config/
 !/deploy_headless/
 !/deploy_rstudio/
-!/image_rdsc_base_j/
-!/image_rdsc_headless_j/
-!/image_rdsc_rstudio_j/
+
+!/Dockerfiles/
+/Dockerfiles/*
+!/Dockerfiles/rdsc_base_j.dockerfile
+!/Dockerfiles/rdsc_headless_j.dockerfile
+!/Dockerfiles/rdsc_rstudio_j.dockerfile
+!/Dockerfiles/rdsc_final_j.dockerfile
+
 !/.env
 !/build_rdsc.sh
 !/docker-compose.yml
