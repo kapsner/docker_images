@@ -24,8 +24,10 @@ ARG a="affy \
     clusterProfiler \ 
     DESeq2 \ 
     EnhancedVolcano \ 
+    flowCore \
     gcrma \
     GEOquery \
+    ggcyto \
     GO.db \
     gPCA \
     hgu133plus2cdf \
