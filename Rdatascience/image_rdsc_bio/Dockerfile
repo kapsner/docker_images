@@ -25,6 +25,7 @@ ARG a="affy \
     DESeq2 \ 
     EnhancedVolcano \ 
     flowCore \
+    flowStats \
     gcrma \
     GEOquery \
     ggcyto \
