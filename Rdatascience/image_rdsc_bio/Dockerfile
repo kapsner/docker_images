@@ -35,6 +35,7 @@ ARG a="affy \
     hgu133plus2probe \
     impute \
     org.Hs.eg.db \
+    openCyto \
     pathfindR \
     pathview \
     pheatmap \
