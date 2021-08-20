@@ -10,3 +10,4 @@ scikit-image
 scikit-learn
 scipy
 torchmetrics>=0.3.1
+xnat
