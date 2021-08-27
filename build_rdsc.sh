@@ -21,7 +21,7 @@ printf "\nPulling cached $IMAGE_NAME image\n"
 docker pull $REGISTRY_PREFIX/$IMAGE_NAME
 # build new image (latest):
 printf "\n\nBuilding $IMAGE_NAME image\n"
-docker build --progress=plain -f ./Dockerfiles/$IMAGE_NAME.dockerfile -t $REGISTRY_PREFIX/$IMAGE_NAME . 2>&1 | tee ./log_$IMAGE_NAME.log
+docker build --no-cache --progress=plain -f ./Dockerfiles/$IMAGE_NAME.dockerfile -t $REGISTRY_PREFIX/$IMAGE_NAME . 2>&1 | tee ./log_$IMAGE_NAME.log
 printf "\n\nPushing $IMAGE_NAME image (latest)\n"
 # push new image as new 'latest':
 docker push "$REGISTRY_PREFIX/$IMAGE_NAME"

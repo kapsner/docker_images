@@ -9,14 +9,15 @@ FROM joundso/rdsc_headless_j:latest
 # USER root
 
 # get RStudio-Server (Preview Version): https://www.rstudio.com/products/rstudio/download/preview/
-ENV RSTUDIO_VERSION=1.4.1725 \
-    RSTUIO_URL=https://s3.amazonaws.com/rstudio-ide-build/server/bionic/amd64/
-# stable
-# ENV RSTUDIO_VERSION=1.2.5033 \
-#     RSTUIO_URL=https://download2.rstudio.org/server/bionic/amd64/
-ENV RSTUDIO_FILE="rstudio-server-${RSTUDIO_VERSION}-amd64.deb"
+# ENV RSTUDIO_VERSION=1.4.1725 \
+ENV RSTUDIO_VERSION=2021.09.0 \
+    RSTUDIO_VERSION_PREVIEW=338 \
+    RSTUIO_URL=https://s3.amazonaws.com/rstudio-ide-build/server/bionic/amd64/ \
+    PLUS_SIGN=%2B
+## The filename is something like 'rstudio-server-2021.09.0-preview+338-amd64.deb' with a '+' sign in it.
+## The plus sign is replaced by '%2B' here to be able to download the file.
+ENV RSTUDIO_FILE="rstudio-server-${RSTUDIO_VERSION}-preview${PLUS_SIGN}${RSTUDIO_VERSION_PREVIEW}-amd64.deb"
 ENV RSTUDIO_LINK=${RSTUIO_URL}${RSTUDIO_FILE}
-
 
 ## install gdebi here, required to install rstudio
 ## (gdebi will fail without sudo)
@@ -26,11 +27,11 @@ ENV RSTUDIO_LINK=${RSTUIO_URL}${RSTUDIO_FILE}
 #     apt-get autoclean && \
 #     rm -rf /var/lib/apt/lists/*
 
+RUN wget -O rstudio_installer.deb -q ${RSTUDIO_LINK}
 
-RUN wget ${RSTUDIO_LINK}
 # RUN gdebi -n ${RSTUDIO_FILE}
-RUN dpkg -i ${RSTUDIO_FILE}
-RUN rm -f ${RSTUDIO_FILE}
+RUN dpkg -i rstudio_installer.deb
+RUN rm -f rstudio_installer.deb
 
 # overwrite headless .Rprofile
 RUN echo "options(shiny.port = 3838)" > /home/${RSESSION_USER}/.Rprofile && \
