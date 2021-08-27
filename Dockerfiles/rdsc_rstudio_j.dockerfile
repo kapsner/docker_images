@@ -78,3 +78,4 @@ RUN rm -rf /var/lib/apt/lists/* && \
 
 # entrypoint
 ENTRYPOINT rstudio-server start && tail -f /dev/null
+# CMD ["/usr/lib/rstudio-server/bin/rserver","--server-daemonize=0","--auth-none=1"]

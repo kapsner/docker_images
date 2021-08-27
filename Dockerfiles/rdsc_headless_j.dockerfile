@@ -164,6 +164,7 @@ ARG r="R.utils \
     reactable \
     readr \ 
     redcapAPI \ 
+    REDCapR \
     remotes \ 
     reshape2 \ 
     reticulate \ 
