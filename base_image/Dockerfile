@@ -31,7 +31,7 @@ ENV USER_UID=${UID}
 ARG GID
 ENV USER_GID=${GID}
 
-RUN groupadd --gid ${USER_GID} ${USER} && \
+RUN groupadd -f --gid ${USER_GID} ${USER} && \
     useradd --uid ${USER_UID} --gid ${USER_GID} -m ${USER}
 
 ########################
