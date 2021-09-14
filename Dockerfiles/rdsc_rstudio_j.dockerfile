@@ -11,7 +11,7 @@ FROM joundso/rdsc_headless_j:latest
 # get RStudio-Server (Preview Version): https://www.rstudio.com/products/rstudio/download/preview/
 # ENV RSTUDIO_VERSION=1.4.1725 \
 ENV RSTUDIO_VERSION=2021.09.0 \
-    RSTUDIO_VERSION_PREVIEW=338 \
+    RSTUDIO_VERSION_PREVIEW=341 \
     RSTUIO_URL=https://s3.amazonaws.com/rstudio-ide-build/server/bionic/amd64/ \
     PLUS_SIGN=%2B
 ## The filename is something like 'rstudio-server-2021.09.0-preview+338-amd64.deb' with a '+' sign in it.
