@@ -7,7 +7,6 @@ printf "\n\n##################################\n"
 printf "Building images with version tag $VERSION_TAG"
 printf "\n##################################\n"
 
-
 printf "\n\nPlease insert your login credentials to registry: $REGISTRY_PREFIX ...\n"
 docker login
 
@@ -31,7 +30,6 @@ docker tag $REGISTRY_PREFIX/$IMAGE_NAME $REGISTRY_PREFIX/$IMAGE_NAME:$VERSION_TA
 printf "\n\nPushing $IMAGE_NAME image ($VERSION_TAG)\n"
 docker push "$REGISTRY_PREFIX/$IMAGE_NAME:$VERSION_TAG"
 
-
 ## Headless image:
 IMAGE_NAME=rdsc_headless_j
 printf "\n\n##################################\n"
@@ -52,7 +50,6 @@ docker tag $REGISTRY_PREFIX/$IMAGE_NAME $REGISTRY_PREFIX/$IMAGE_NAME:$VERSION_TA
 printf "\n\nPushing $IMAGE_NAME image ($VERSION_TAG)\n"
 docker push "$REGISTRY_PREFIX/$IMAGE_NAME:$VERSION_TAG"
 
-
 ## Rstudio image:
 IMAGE_NAME=rdsc_rstudio_j
 printf "\n\n##################################\n"
@@ -72,7 +69,6 @@ docker tag $REGISTRY_PREFIX/$IMAGE_NAME $REGISTRY_PREFIX/$IMAGE_NAME:$VERSION_TA
 # and also push this (tagged) image:
 printf "\n\nPushing $IMAGE_NAME image ($VERSION_TAG)\n"
 docker push "$REGISTRY_PREFIX/$IMAGE_NAME:$VERSION_TAG"
-
 
 ## Environment variables:
 ## Since handing over the environement variables over docker-compose is broken

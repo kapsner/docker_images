@@ -20,7 +20,7 @@ docker-compose up -d
 
 - About RStudio Server: <https://www.rstudio.com/products/rstudio/download-server/>
 - About Shiny: <https://www.rstudio.com/products/shiny/>
-- RStudio and Shiny are trademarks of RStudio, Inc.  
+- RStudio and Shiny are trademarks of RStudio, Inc.
 
 ## Contributions
 

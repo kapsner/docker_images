@@ -4,16 +4,16 @@ services:
     image: joundso/rdsc_rstudio_j:${VERSION_TAG}
     restart: unless-stopped
     ports:
-    - "${RSTUDIO_PORT}:8787" #rstudio
-    - "${SHINY_PORT}:3838" #shiny
+      - "${RSTUDIO_PORT}:8787" #rstudio
+      - "${SHINY_PORT}:3838" #shiny
     ## The environment does not work properly,
     ## see <https://github.com/rstudio/renv/issues/446>
     # environment:
     # - DISPLAY=192.168.0.1:0
     volumes:
-    ## work:
-    - /d/Docker/container/docker-share/R:/home/user/share
-    - /d/git-local:/home/user/git-local
+      ## work:
+      - /d/Docker/container/docker-share/R:/home/user/share
+      - /d/git-local:/home/user/git-local
     ## home:
     # - /k/Docker/docker-share/R:/home/user/share
     # - /d/git-local:/home/user/git-local

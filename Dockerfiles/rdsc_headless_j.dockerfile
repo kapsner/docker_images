@@ -63,7 +63,7 @@ ARG f="fhircrackr \
     future \ 
     # DQAstats:
     future.apply"
-    RUN for package in $f; do \
+RUN for package in $f; do \
     R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, build_manual = FALSE, quiet = TRUE, upgrade = \"always\")"; \
     done && \
     rm -rf /tmp/*
@@ -166,6 +166,8 @@ ARG r="R.utils \
     redcapAPI \ 
     REDCapR \
     remotes \ 
+    ## Reproducible Examples:
+    reprex \
     reshape2 \ 
     reticulate \ 
     RGtk2 \
