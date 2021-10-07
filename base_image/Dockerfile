@@ -32,7 +32,7 @@ ARG GID
 ENV USER_GID=${GID}
 
 RUN groupadd -f --gid ${USER_GID} ${USER} && \
-    useradd --uid ${USER_UID} --gid ${USER_GID} -m ${USER}
+    useradd -o --uid ${USER_UID} --gid ${USER_GID} -m ${USER}
 
 ########################
 # Install Miniconda and Python 3.8
