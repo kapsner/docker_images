@@ -26,13 +26,7 @@ RUN apt-get clean && \
 ########################
 # define image user
 ENV USER="user"
-ARG UID
-ENV USER_UID=${UID}
-ARG GID
-ENV USER_GID=${GID}
-
-RUN groupadd -f --gid ${USER_GID} ${USER} && \
-    useradd -o --uid ${USER_UID} --gid ${USER_GID} -m ${USER}
+RUN useradd -ms /bin/bash ${USER}
 
 ########################
 # Install Miniconda and Python 3.8
