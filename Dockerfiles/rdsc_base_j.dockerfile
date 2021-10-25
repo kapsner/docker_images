@@ -1,4 +1,4 @@
-FROM ubuntu:20.10
+FROM ubuntu:20.04
 
 # set ENV-Vars
 # set environment variable to supress user interaction
@@ -53,7 +53,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     locate \
     nano \
     net-tools \
-    openjdk-14-jdk \
+    openjdk-17-jdk \
     software-properties-common \
     tar \
     unixodbc-dev \
@@ -139,7 +139,7 @@ RUN echo "options(\"repos\" = \"https://cloud.r-project.org/\")" >> /etc/R/Rprof
 # Update where R expects to find various Java files
 
 # update envar
-ENV JAVA_HOME=/usr/lib/jvm/java-14-openjdk-amd64
+ENV JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
 RUN echo JAVA_HOME="${JAVA_HOME}" >> /etc/environment
 RUN R CMD javareconf
 

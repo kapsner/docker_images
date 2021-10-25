@@ -27,6 +27,8 @@ ENV RSTUDIO_LINK=${RSTUIO_URL}${RSTUDIO_FILE}
 #     apt-get autoclean && \
 #     rm -rf /var/lib/apt/lists/*
 
+RUN echo ${RSTUDIO_LINK}
+
 RUN wget -O rstudio_installer.deb -q ${RSTUDIO_LINK}
 
 # RUN gdebi -n ${RSTUDIO_FILE}
