@@ -16,7 +16,7 @@ ENV RSTUDIO_VERSION=2021.09.0 \
     PLUS_SIGN=%2B
 ## The filename is something like 'rstudio-server-2021.09.0-preview+338-amd64.deb' with a '+' sign in it.
 ## The plus sign is replaced by '%2B' here to be able to download the file.
-ENV RSTUDIO_FILE="rstudio-server-${RSTUDIO_VERSION}-preview${PLUS_SIGN}${RSTUDIO_VERSION_PREVIEW}-amd64.deb"
+ENV RSTUDIO_FILE="rstudio-server-${RSTUDIO_VERSION}${PLUS_SIGN}${RSTUDIO_VERSION_PREVIEW}-amd64.deb"
 ENV RSTUDIO_LINK=${RSTUIO_URL}${RSTUDIO_FILE}
 
 ## install gdebi here, required to install rstudio
