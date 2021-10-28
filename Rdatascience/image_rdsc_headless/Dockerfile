@@ -509,6 +509,7 @@ RUN R -q -e "vec <- unname(installed.packages()[,\"Package\"]); remotes::update_
 
 # install development packages
 RUN R -q -e "remotes::install_github(repo = \"skranz/ReplaceInFiles\", ref = \"master\")"
+RUN R -q -e "remotes::install_github(repo = \"crsh/citr\", ref = \"master\")"
 
 # Install lightgbm R package
 # RUN git clone --recursive https://github.com/microsoft/LightGBM
