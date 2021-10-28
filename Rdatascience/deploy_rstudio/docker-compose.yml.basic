@@ -7,7 +7,7 @@ services:
     - "127.0.0.1:8787:8787" #rstudio
     - "127.0.0.1:3838:3838" #shiny
     # https://github.com/rocker-org/rocker-versioned/blob/master/rstudio/README.md
-    network_mode: "host"
+    network_mode: "host" # required for zotero/citr connection
     volumes:
     - ./volume:/home/user/volume 
     - ./rhub:/home/user/.local/share/rhub
