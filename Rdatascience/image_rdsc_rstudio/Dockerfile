@@ -16,8 +16,8 @@ RUN apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
 # get RStudio-Server (Preview Version): https://www.rstudio.com/products/rstudio/download/preview/
-ENV RSTUDIO_VERSION=1.4.1714 \
-    RSTUIO_URL=https://s3.amazonaws.com/rstudio-ide-build/server/bionic/amd64/
+ENV RSTUDIO_VERSION=2021.09.0-351 \
+    RSTUIO_URL=https://download2.rstudio.org/server/bionic/amd64/
 # stable
 # ENV RSTUDIO_VERSION=1.2.5033 \
 #     RSTUIO_URL=https://download2.rstudio.org/server/bionic/amd64/
