@@ -243,7 +243,8 @@ RUN for package in $o; do \
     done && \
     rm -rf /tmp/*
 
-ARG p="parallel \ 
+ARG p="pagedown \
+    parallel \ 
     party \ 
     partykit \ 
     pbkrtest \ 
@@ -313,6 +314,7 @@ ARG r="R.utils \
     rstan \ 
     rstantools \ 
     rstudioapi \ 
+    rticles \
     rts \ 
     RVAideMemoire \ 
     rversions \ 
