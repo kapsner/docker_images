@@ -370,6 +370,7 @@ ARG t="tau \
     tidymodels \ 
     tidyselect \ 
     tidyverse \ 
+    tiff \
     timeDate \ 
     tm \ 
     tinytex \ 
