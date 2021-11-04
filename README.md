@@ -12,7 +12,7 @@ cd Rdatascience
 docker-compose up -d
 ```
 
-- On your host-machine, you can now open a webbrowser and go to page [`localhost:8787`](http://localhost:8787) to see RStudio server. Login with the user-password-combination specified in the docker-base_image Dockerfile and start working. Default username is `user`, default password is `password`.
+- On your host-machine, you can now open a webbrowser and go to page [`localhost:8787`](http://localhost:8787) to see RStudio server. Login with the user-password-combination specified in [`Dockerfiles/rdsc_base_j.dockerfile`](./Dockerfiles/rdsc_base_j.dockerfile) and start working. Default username is `user`, default password is `password`.
 
 - When you deploy a shiny app, it will be accessible via [`localhost:3838`](http://localhost:3838).
 
