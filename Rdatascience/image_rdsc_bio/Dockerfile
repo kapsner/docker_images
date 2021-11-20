@@ -2,7 +2,7 @@ FROM rdsc_rstudio:latest
 #FROM rdsc_headless:latest
 
 # install some dependencies for enhancedvolcano
-RUN apt update && apt install -y --no-install-recommends \
+RUN apt-get update && apt-get install -y --no-install-recommends \
     libharfbuzz-dev \
     libfribidi-dev \
     libproj-dev
