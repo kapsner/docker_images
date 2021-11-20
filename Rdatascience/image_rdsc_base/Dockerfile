@@ -24,13 +24,10 @@ RUN apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
 # Add R apt repository for latest R
-# https://cran.r-project.org/bin/linux/ubuntu/
-RUN gpg --keyserver hkp://keyserver.ubuntu.com:80 \
-    --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9
-RUN mkdir -p /usr/local/share/keyrings
-RUN gpg --export E298A3A825C0D65DFD57CBB651716619E084DAB9 >  /etc/apt/trusted.gpg.d/r-software-archive-keyring.gpg
-RUN echo "deb http://cran.r-project.org/bin/linux/ubuntu $(lsb_release -cs)-cran40/" | \
-    tee -a /etc/apt/sources.list.d/r-software.list
+RUN wget -qO- https://cloud.r-project.org/bin/linux/ubuntu/marutter_pubkey.asc | \
+    tee -a /etc/apt/trusted.gpg.d/cran_ubuntu_key.asc
+# add the R 4.0 repo from CRAN -- adjust 'focal' to 'groovy' or 'bionic' as needed
+RUN add-apt-repository "deb https://cloud.r-project.org/bin/linux/ubuntu $(lsb_release -cs)-cran40/"
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     lmodern \
