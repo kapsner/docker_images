@@ -21,6 +21,8 @@ ARG b="bench \
     bigmemory \ 
     blme \ 
     bookdown \ 
+    boot \
+    bootstrap \
     brms \ 
     brnn \ 
     bst"
