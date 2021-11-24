@@ -20,8 +20,15 @@ printf "\nPulling cached $IMAGE_NAME image\n"
 docker pull $REGISTRY_PREFIX/$IMAGE_NAME
 # build new image (latest):
 printf "\n\nBuilding $IMAGE_NAME image\n"
-# docker build --progress=plain -f ./Dockerfiles/$IMAGE_NAME.dockerfile -t $REGISTRY_PREFIX/$IMAGE_NAME . 2>&1 | tee ./log_$IMAGE_NAME.log
-docker build --no-cache --progress=plain -f ./Dockerfiles/$IMAGE_NAME.dockerfile -t $REGISTRY_PREFIX/$IMAGE_NAME . 2>&1 | tee ./log_$IMAGE_NAME.log
+docker build \
+    --progress=plain \
+    --no-cache=true \
+    --label "org.label-schema.name=joundso/$IMAGE_NAME" \
+    --label "org.label-schema.vsc-url=https://github.com/joundso/r_datascience/blob/master/Dockerfiles/$IMAGE_NAME.dockerfile" \
+    --label "org.label-schema.vcs-ref=$(git rev-parse HEAD)" \
+    --label "org.label-schema.version=$(date -u +'%Y-%m-%dT%H:%M:%SZ')" \
+    -f ./Dockerfiles/$IMAGE_NAME.dockerfile \
+    -t $REGISTRY_PREFIX/$IMAGE_NAME . 2>&1 | tee ./log_$IMAGE_NAME.log
 printf "\n\nPushing $IMAGE_NAME image (latest)\n"
 # push new image as new 'latest':
 docker push "$REGISTRY_PREFIX/$IMAGE_NAME"
@@ -41,7 +48,15 @@ printf "\nPulling cached $IMAGE_NAME image\n"
 docker pull $REGISTRY_PREFIX/$IMAGE_NAME
 # build new image (latest):
 printf "\n\nBuilding $IMAGE_NAME image\n"
-docker build --progress=plain -f ./Dockerfiles/$IMAGE_NAME.dockerfile -t $REGISTRY_PREFIX/$IMAGE_NAME . 2>&1 | tee ./log_$IMAGE_NAME.log
+docker build \
+    --progress=plain \
+    --no-cache=true \
+    --label "org.label-schema.name=joundso/$IMAGE_NAME" \
+    --label "org.label-schema.vsc-url=https://github.com/joundso/r_datascience/blob/master/Dockerfiles/$IMAGE_NAME.dockerfile" \
+    --label "org.label-schema.vcs-ref=$(git rev-parse HEAD)" \
+    --label "org.label-schema.version=$(date -u +'%Y-%m-%dT%H:%M:%SZ')" \
+    -f ./Dockerfiles/$IMAGE_NAME.dockerfile \
+    -t $REGISTRY_PREFIX/$IMAGE_NAME . 2>&1 | tee ./log_$IMAGE_NAME.log
 printf "\n\nPushing $IMAGE_NAME image (latest)\n"
 # push new image as new 'latest':
 docker push "$REGISTRY_PREFIX/$IMAGE_NAME"
@@ -61,7 +76,15 @@ printf "\nPulling cached $IMAGE_NAME image\n"
 docker pull $REGISTRY_PREFIX/$IMAGE_NAME
 # build new image (latest):
 printf "\n\nBuilding $IMAGE_NAME image\n"
-docker build -f ./Dockerfiles/$IMAGE_NAME.dockerfile -t $REGISTRY_PREFIX/$IMAGE_NAME --no-cache . 2>&1 | tee ./log_$IMAGE_NAME.log
+docker build \
+    --progress=plain \
+    --no-cache=true \
+    --label "org.label-schema.name=joundso/$IMAGE_NAME" \
+    --label "org.label-schema.vsc-url=https://github.com/joundso/r_datascience/blob/master/Dockerfiles/$IMAGE_NAME.dockerfile" \
+    --label "org.label-schema.vcs-ref=$(git rev-parse HEAD)" \
+    --label "org.label-schema.version=$(date -u +'%Y-%m-%dT%H:%M:%SZ')" \
+    -f ./Dockerfiles/$IMAGE_NAME.dockerfile \
+    -t $REGISTRY_PREFIX/$IMAGE_NAME . 2>&1 | tee ./log_$IMAGE_NAME.log
 printf "\n\nPushing $IMAGE_NAME image (latest)\n"
 # push new image as new 'latest':
 docker push "$REGISTRY_PREFIX/$IMAGE_NAME"
@@ -81,10 +104,16 @@ printf "\n##################################\n"
 printf "\nPulling cached $IMAGE_NAME image\n"
 # build new image (latest):
 printf "\n\nBuilding $IMAGE_NAME image\n"
+
 docker build \
-    -f ./Dockerfiles/$IMAGE_NAME.dockerfile \
-    -t $REGISTRY_PREFIX/rdsc_rstudio_j \
+    --progress=plain \
+    --no-cache=true \
+    --label "org.label-schema.name=joundso/$IMAGE_NAME" \
+    --label "org.label-schema.vsc-url=https://github.com/joundso/r_datascience/blob/master/Dockerfiles/$IMAGE_NAME.dockerfile" \
+    --label "org.label-schema.vcs-ref=$(git rev-parse HEAD)" \
+    --label "org.label-schema.version=$(date -u +'%Y-%m-%dT%H:%M:%SZ')" \
     --build-arg DISPLAY=${DISPLAY} \
-    --no-cache . 2>&1 | tee ./log_$IMAGE_NAME.log
+    -f ./Dockerfiles/$IMAGE_NAME.dockerfile \
+    -t $REGISTRY_PREFIX/rdsc_rstudio_j . 2>&1 | tee ./log_$IMAGE_NAME.log
 docker tag $REGISTRY_PREFIX/rdsc_rstudio_j $REGISTRY_PREFIX/rdsc_rstudio_j:$VERSION_TAG
 ## Don't push this image! It contains the potential sensitive env vars!

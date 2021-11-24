@@ -1,5 +1,8 @@
 FROM joundso/rdsc_base_j:latest
 
+LABEL org.label-schema.schema-version="1.0" \
+    org.label-schema.url="https://github.com/joundso/r_datascience"
+
 ENV DEBIAN_FRONTEND=noninteractive
 
 USER ${RSESSION_USER}

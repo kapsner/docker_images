@@ -1,5 +1,8 @@
 FROM joundso/rdsc_headless_j:latest
 
+LABEL org.label-schema.schema-version="1.0" \
+    org.label-schema.url="https://github.com/joundso/r_datascience"
+
 # USER ${RSESSION_USER}
 
 # # update all installed packages

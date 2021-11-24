@@ -1,5 +1,8 @@
 FROM ubuntu:20.04
 
+LABEL org.label-schema.schema-version="1.0" \
+    org.label-schema.url="https://github.com/joundso/r_datascience"
+
 # set ENV-Vars
 # set environment variable to supress user interaction
 ENV DEBIAN_FRONTEND=noninteractive
