@@ -1,12 +1,12 @@
-# R Datascience
+# R for datascience
 
 This repo holds several files for my personal dockerized R environment including:
 
-* RStudio ([Further information about RStudio](https://www.rstudio.com/))
-* Shiny ([Further information about Shiny](https://shiny.rstudio.com/))
-* Lots of usefull packages pre-installed (See a list of all installed packages [here](./Dockerfiles/rdsc_headless_j.dockerfile))
+* **RStudio** ([Further information about RStudio](https://www.rstudio.com/))
+* **Shiny** ([Further information about Shiny](https://shiny.rstudio.com/))
+* Lots of usefull **pre-installed packages** (See a list of all installed packages [here](./Dockerfiles/rdsc_headless_j.dockerfile))
 
-It is not maintained and from time to time adjusted to my needs.
+It is roughly maintained and from time to time adjusted to my needs.
 
 ## Usage
 
