@@ -301,6 +301,8 @@ ARG r="R.utils \
     rgenoud \
     rgl \  
     rhub \ 
+    R2jags \
+    rjags \
     rJava \ 
     RJDBC \ 
     rlang \ 
