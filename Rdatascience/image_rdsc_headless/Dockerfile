@@ -44,6 +44,7 @@ ARG c="C50 \
     clipr \ 
     cluster \ 
     ClusterR \ 
+    coda \
     coin \ 
     compare \
     config \ 
