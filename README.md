@@ -2,9 +2,9 @@
 
 This repo holds several files for my personal dockerized R environment including:
 
-* **RStudio** ([Further information about RStudio](https://www.rstudio.com/))
-* **Shiny** ([Further information about Shiny](https://shiny.rstudio.com/))
-* Lots of usefull **pre-installed packages** (See a list of all installed packages [here](./Dockerfiles/rdsc_headless_j.dockerfile))
+- **RStudio** ([Further information about RStudio](https://www.rstudio.com/))
+- **Shiny** ([Further information about Shiny](https://shiny.rstudio.com/))
+- Lots of usefull **pre-installed packages** (See a list of all installed packages [here](./Dockerfiles/rdsc_headless_j.dockerfile))
 
 It is roughly maintained and from time to time adjusted to my needs.
 
@@ -24,6 +24,17 @@ docker-compose up -d
 
 - The [tag of the images](https://hub.docker.com/repository/docker/joundso/rdsc_rstudio_j/tags?page=1&ordering=last_updated) corresponds to the current R version. The R version in an image with the tag `4.1.2` is (of course) `R 4.1.2`. This also holds for sub-tags like `4.1.2.9001` where some changes in the image like different installed R packages might be the reason for the sub tag but the R version is still `4.1.2`. (Hint: All tags starting with `0.*.*` do not match this criteria. These images were built before this convention came up.)
 
+- If you want to run two (or more) instances of the image,
+  1. run `bash ./start_rdatascience.sh` to spin up the first container,
+  2. open the [`.env`](./.env) file and uncomment the section for the ports for the second instance,
+  3. comment out the ports for the first instance
+  4. run `bash ./start_rdatascience.sh` again to spin up the second instance (run `docker ps -a` to see if both containers are running).
+
+- To shut down the container(s),
+  1. run `bash ./stop_rdatascience.sh` to spin down the container with the currently enabled ports in the `.env` file
+  2. if multiple instances are running, open the [`.env`](./.env) file and uncomment the section for the ports of the second instance and comment out the ports of the last instance which is already shut down. Repeat these steps until all containers are shut down.
+  3. Run `docker ps -a` to see if all containers are shut down correctly.
+
 ## More Infos
 
 - About RStudio Server: <https://www.rstudio.com/products/rstudio/download-server/>
@@ -32,4 +43,4 @@ docker-compose up -d
 
 ## Contributions
 
-Big thanks to the [inspiration of this fork](https://github.com/kapsner)!
+Big thanks to the inspiration of this fork: <https://github.com/kapsner>!
