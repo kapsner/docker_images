@@ -10,10 +10,10 @@ services:
     ## see <https://github.com/rstudio/renv/issues/446>
     # environment:
     # - DISPLAY=192.168.0.1:0
-    volumes:
+    # volumes:
       ## work:
-      - /d/Docker/container/docker-share/R:/home/user/share
-      - /d/git-local:/home/user/git-local
+      # - /d/Docker/container/docker-share/R:/home/user/share
+      # - /d/git-local:/home/user/git-local
     ## home:
     # - /k/Docker/docker-share/R:/home/user/share
     # - /d/git-local:/home/user/git-local
