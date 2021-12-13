@@ -55,6 +55,7 @@ ARG c="C50 \
     CPE \ 
     cramer \ 
     curl \ 
+    cutpointr \
     CVST"
 RUN for package in $c; do \
     R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
@@ -76,6 +77,7 @@ ARG d="d3r \
     doBy \ 
     doMC \ 
     doParallel \ 
+    doRNG \
     dplyr \ 
     DT \ 
     dtplyr \ 
