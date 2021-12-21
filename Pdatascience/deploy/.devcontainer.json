@@ -1,6 +1,6 @@
 {
   "name": "p datascience",
-  "image": "pdsc_gpu:latest",
+  "image": "pdsc_headless:latest",
   "appPort": ["127.0.0.1:3000:3000", "127.0.0.1:6006:6006", "127.0.0.1:8888:8888"],
   "workspaceFolder": "/home/user/development",
   "extensions": [
@@ -9,7 +9,7 @@
     "ms-python.vscode-pylance"
   ],
   "settings": {
-    "terminal.integrated.shell.linux": "/bin/bash",
+    "terminal.integrated.defaultProfile.linux": "bash",
     "python.disableInstallationCheck": true,
     "terminal.integrated.inheritEnv": false,
     "python.pythonPath": "/home/user/miniconda/bin/python",
@@ -29,8 +29,8 @@
     "TERM_PROGRAM": "vscode"
   },
   "runArgs": [
-    "--gpus=all",
-    "--shm-size=4gb",
+    //"--gpus=all",
+    "--shm-size=1gb",
     "-v", "/mount/this/folder:/home/user/development",
     // "--privileged" // !!! use this with caution only - e.g. when using smb mounts with mount.cifs
   ],

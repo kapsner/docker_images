@@ -1,12 +1,29 @@
 # docker-Rdatascience
 
-- this is a container for R-Datascience-development  
+Dockerfiles for data science in R.
 
-## Installation
+## Install CPU-version
 
+```bash
+./build_rdsc.sh
 ```
-git clone https://github.com/kapsner/docker_images Rdatascience
-cd Rdatascience
+
+## Install GPU-version (compiles pytorch)
+
+```bash
+./build_rdsc_gpu.sh
+```
+
+## Install Bioinformatics CPU-version
+
+```bash
+./build_rdsc_bio.sh
+```
+
+## Install Radiology CPU-version
+
+```bash
+./build_rdsc_rad.sh
 ```
 
 Build scripts are available in the respective sub folders. 
