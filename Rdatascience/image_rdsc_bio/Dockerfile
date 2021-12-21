@@ -47,10 +47,16 @@ RUN for package in $a; do \
     rm -rf /tmp/*
 
 # install the stuff, where I participated
-RUN R -q -e "remotes::install_git(url = \"https://gitlab.miracum.org/clearly/sigident.preproc.git\", ref = \"master\")"
-RUN R -q -e "remotes::install_git(url = \"https://gitlab.miracum.org/clearly/sigident.func.git\", ref = \"master\")"
-RUN R -q -e "remotes::install_git(url = \"https://gitlab.miracum.org/clearly/sigident.git\", ref = \"master\")"
-RUN R -q -e "remotes::install_git(url = \"https://gitlab.miracum.org/clearly/tromics.git\", ref = \"master\")"
+ARG gitlab_array="\
+    https://gitlab.miracum.org/clearly/sigident.preproc.git,master \
+    https://gitlab.miracum.org/clearly/sigident.func.git,master \
+    https://gitlab.miracum.org/clearly/sigident.git,master \
+    https://gitlab.miracum.org/clearly/tromics.git,master"
+RUN for repo in ${gitlab_array}; do IFS=",";\ 
+    set -- $repo; \
+    R -q -e "p <- \"$1\"; remotes::install_git(url = p, ref = \"$2\", upgrade = \"always\")"; \
+    done && \
+    rm -rf /tmp/*
 
 USER root
 

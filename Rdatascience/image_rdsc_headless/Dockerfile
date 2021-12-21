@@ -515,55 +515,21 @@ RUN R -q -e "vec <- unname(installed.packages()[,\"Package\"]); remotes::update_
     rm -rf /tmp/*
 
 # install development packages
-RUN R -q -e "remotes::install_github(repo = \"skranz/ReplaceInFiles\", ref = \"master\")"
-RUN R -q -e "remotes::install_github(repo = \"crsh/citr\", ref = \"master\")"
-
-# Install lightgbm R package
-# RUN git clone --recursive https://github.com/microsoft/LightGBM
-# RUN cd LightGBM && \
-#     Rscript build_r.R
-# RUN rm -rf LightGBM
-
+ARG github_array="\
+    skranz/ReplaceInFiles,master \
+    crsh/citr,master"
+RUN for repo in ${github_array}; do IFS=",";\ 
+    set -- $repo; \
+    R -q -e "p <- \"$1\"; remotes::install_github(repo = p, ref = \"$2\", upgrade = \"always\")"; \
+    done && \
+    rm -rf /tmp/*
 
 # stay with user here (let everything in .virtualenv/r-reticulate be installed by the user)
 # we can use pip here, since we added the virtualenv to the beginning of our PATH variable
 # install additional python packages
-RUN yes | pip install \
-    "colorama>=0.3.8" \
-    cython
-
-RUN yes | pip install \
-    fhirclient
-
-RUN yes | pip install \
-    jedi \
-    jinja2
-
-RUN yes | pip install \
-    lightgbm
-
-RUN yes | pip install \
-    matplotlib
-
-RUN yes | pip install \
-    nltk \
-    nose \
-    numpy
-
-RUN yes | pip install \
-    pandas \
-    pydub \
-    pylint
-
-RUN yes | pip install \
-    radian
-
-RUN yes | pip install \
-    scikit-learn \
-    scipy
-
-RUN yes | pip install \
-    xgboost
+# install datascience packages
+ADD ./config/requirements.txt /home/${RSESSION_USER}/
+RUN yes | pip install -r /home/${RSESSION_USER}/requirements.txt
 
 # configure the other r packages
 # install phantomjs
@@ -584,19 +550,25 @@ RUN for package in $pack; do \
     rm -rf /tmp/*
 
 
-RUN R -q -e "remotes::install_github(repo = \"kapsner/KhelpeR\", ref = \"development\")"
-#RUN R -q -e "remotes::install_github(repo = \"kapsner/rBiasCorrection\", ref = \"latest\")"
-#RUN R -q -e "remotes::install_github(repo = \"kapsner/BiasCorrector\", ref = \"master\")"
-RUN R -q -e "remotes::install_github(repo = \"kapsner/expenditR\", ref = \"master\")"
-#RUN R -q -e "remotes::install_github(repo = \"kapsner/lightgbm.py\", ref = \"master\")"
-#RUN R -q -e "remotes::install_github(repo = \"kapsner/mlr3learners.lgbpy\", ref = \"master\")"
-RUN R -q -e "remotes::install_github(repo = \"kapsner/mlr3learners.lightgbm\", ref = \"development\")"
+# declare arrays to install dev-packages
+ARG github_array="\
+    kapsner/KhelpeR,development \
+    kapsner/mlr3learners.lightgbm,development \
+    kapsner/sjtable2df,main"
+RUN for repo in ${github_array}; do IFS=",";\ 
+    set -- $repo; \
+    R -q -e "p <- \"$1\"; remotes::install_github(repo = p, ref = \"$2\", upgrade = \"always\")"; \
+    done && \
+    rm -rf /tmp/*
 
-# install the stuff, where I participated
-#RUN R -q -e "remotes::install_git(url = \"https://gitlab.miracum.org/miracum/dqa/dqastats.git\", ref = \"master\")"
-#RUN R -q -e "remotes::install_git(url = \"https://gitlab.miracum.org/miracum/dqa/dqagui.git\", ref = \"master\")"
-RUN R -q -e "remotes::install_git(url = \"https://gitlab.miracum.org/miracum/dqa/miRacumdqa.git\", ref = \"master\")"
-RUN R -q -e "remotes::install_git(url = \"https://gitlab.miracum.org/kosmic/kosmicgui.git\", ref = \"master\")"
+ARG gitlab_array="\
+    https://gitlab.miracum.org/miracum/dqa/miRacumdqa.git,master \
+    https://gitlab.miracum.org/kosmic/kosmicgui.git,master"
+RUN for repo in ${gitlab_array}; do IFS=",";\ 
+    set -- $repo; \
+    R -q -e "p <- \"$1\"; remotes::install_git(url = p, ref = \"$2\", upgrade = \"always\")"; \
+    done && \
+    rm -rf /tmp/*
 
 # switch back
 USER root
@@ -611,9 +583,9 @@ RUN apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
 # set ubuntu password here (password required for rstudio login)
-RUN echo ${USER}:password | chpasswd 
-RUN echo ${USER} ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/${USER} && \
-    chmod 0440 /etc/sudoers.d/${USER}
+RUN echo ${RSESSION_USER}:password | chpasswd 
+RUN echo ${RSESSION_USER} ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/${RSESSION_USER} && \
+    chmod 0440 /etc/sudoers.d/${RSESSION_USER}
 
 ########################
 

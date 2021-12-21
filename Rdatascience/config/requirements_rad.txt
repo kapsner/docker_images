@@ -1,0 +1,8 @@
+dicom2nifti 
+imgaug 
+nibabel 
+opencv-python 
+pydicom 
+requests 
+scikit-image  
+SimpleITK

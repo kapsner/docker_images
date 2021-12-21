@@ -6,15 +6,8 @@ FROM rdsc_rstudio:latest
 USER ${RSESSION_USER}
 
 # install additional python packages
-RUN yes | pip install \
-    dicom2nifti \
-    imgaug \
-    nibabel \
-    opencv-python \
-    pydicom \
-    requests \
-    scikit-image \ 
-    SimpleITK
+ADD ./config/requirements_rad.txt /home/${RSESSION_USER}/
+RUN yes | pip install -r /home/${RSESSION_USER}/requirements_rad.txt
 
 ########################
 # clear caches
