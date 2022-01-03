@@ -58,6 +58,7 @@ RUN conda install -y \
     wheel
 
 RUN yes | pip install \
+    auto-changelog \
     testresources
 
 ########################
