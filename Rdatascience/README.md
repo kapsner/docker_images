@@ -2,27 +2,36 @@
 
 Dockerfiles for data science in R.
 
+```bash
+git clone https://github.com/kapsner/docker_images
+cd docker_images/Rdatascience
+```
+
 ## Install CPU-version
 
 ```bash
+chmod +x build_rdsc.sh
 ./build_rdsc.sh
 ```
 
 ## Install GPU-version (compiles pytorch)
 
 ```bash
+chmod +x build_rdsc_gpu.sh
 ./build_rdsc_gpu.sh
 ```
 
 ## Install Bioinformatics CPU-version
 
 ```bash
+chmod +x build_rdsc_bio.sh
 ./build_rdsc_bio.sh
 ```
 
 ## Install Radiology CPU-version
 
 ```bash
+chmod +x build_rdsc_rad.sh
 ./build_rdsc_rad.sh
 ```
 

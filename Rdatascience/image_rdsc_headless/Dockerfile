@@ -612,7 +612,7 @@ RUN echo "PATH=${PATH}" >> /etc/environment
 ADD config/.radian_profile /home/${RSESSION_USER}/.radian_profile
 RUN chown -R ${RSESSION_USER}:${RSESSION_USER} /home/${RSESSION_USER}/.radian_profile
 
-# add radian profile
+# add rhub profile
 RUN mkdir -p /home/${RSESSION_USER}/.local/share/rhub
 
 # fix permissions in home folder

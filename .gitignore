@@ -3,11 +3,10 @@
 
 !/.gitignore
 !/base_image/
-!/base_image_light/
 !/build_image_gpu/
-!/docker-ionic/
-!/docker-JabRef/
+!/misc/
+!/misc/docker-ionic/
+!/misc/docker-JabRef/
 !/base_image_gpu/
 !/Pdatascience/
 !/Rdatascience/
-
