@@ -20,3 +20,5 @@ chmod +x build_pdsc.sh
 chmod +x build_pdsc_gpu.sh
 ./build_pdsc_gpu.sh
 ```
+
+Deployment scripts are available in the [./deploy](./deploy) folder. Please adapt them to your needs. 

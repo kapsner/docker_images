@@ -13,3 +13,9 @@ cd docker_images/Rdatascience/rdsc_bayesian
 chmod +x build_rdsc_bayesian.sh
 ./build_rdsc_bayesian.sh
 ```
+
+## Start Container
+
+```bash
+docker-compose up -d
+```

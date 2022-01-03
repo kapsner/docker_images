@@ -36,9 +36,10 @@ chmod +x build_rdsc_rad.sh
 ```
 
 Build scripts are available in the respective sub folders. 
-Deployment scripts are available in the deploy folders. 
+Deployment scripts are available in the [./deploy_rstudio](./deploy_rstudio) folder. Please adapt them to your needs. 
 
-- on your host-machine, you can open a webbrowser and go to page "localhost:8787" to see RStudio server. Login with the user-password-combination specified in the docker-base_image Dockerfile and start working.  
+- on your host-machine, you can open a webbrowser and go to page "localhost:8787" to see RStudio server.
+Login with the user-password-combination specified in the Dockerfiles and start working.  
 
 - when you deploy a shiny app, it will be accessible via "localhost:3838"
 
