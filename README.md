@@ -43,4 +43,4 @@ docker-compose up -d
 
 ## Contributions
 
-Big thanks to [@kapsner](@kapsner) for the inspiration of this fork: <https://github.com/kapsner>!
+Big thanks to [@kapsner](https://github.com/kapsner) for the inspiration of this fork: <https://github.com/kapsner/docker_images>!
