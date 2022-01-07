@@ -22,7 +22,7 @@ docker pull $REGISTRY_PREFIX/$IMAGE_NAME
 printf "\n\nBuilding $IMAGE_NAME image\n"
 docker build \
     --progress=plain \
-    --no-cache=true \
+    --no-cache=false \
     --label "org.label-schema.name=joundso/$IMAGE_NAME" \
     --label "org.label-schema.vsc-url=https://github.com/joundso/r_datascience/blob/master/Dockerfiles/$IMAGE_NAME.dockerfile" \
     --label "org.label-schema.vcs-ref=$(git rev-parse HEAD)" \
@@ -50,7 +50,7 @@ docker pull $REGISTRY_PREFIX/$IMAGE_NAME
 printf "\n\nBuilding $IMAGE_NAME image\n"
 docker build \
     --progress=plain \
-    --no-cache=true \
+    --no-cache=false \
     --label "org.label-schema.name=joundso/$IMAGE_NAME" \
     --label "org.label-schema.vsc-url=https://github.com/joundso/r_datascience/blob/master/Dockerfiles/$IMAGE_NAME.dockerfile" \
     --label "org.label-schema.vcs-ref=$(git rev-parse HEAD)" \
@@ -78,7 +78,7 @@ docker pull $REGISTRY_PREFIX/$IMAGE_NAME
 printf "\n\nBuilding $IMAGE_NAME image\n"
 docker build \
     --progress=plain \
-    --no-cache=true \
+    --no-cache=false \
     --label "org.label-schema.name=joundso/$IMAGE_NAME" \
     --label "org.label-schema.vsc-url=https://github.com/joundso/r_datascience/blob/master/Dockerfiles/$IMAGE_NAME.dockerfile" \
     --label "org.label-schema.vcs-ref=$(git rev-parse HEAD)" \

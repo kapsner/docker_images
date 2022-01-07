@@ -89,6 +89,42 @@ RUN locale-gen en_US.utf8 \
 ENV LANG=en_US.UTF-8
 
 ########################
+# Install Miniconda and Python 3.8
+ENV CONDA_AUTO_UPDATE_CONDA=false
+ENV PATH=/home/${USER}/miniconda/bin:$PATH
+
+# ARG PYVERSION
+# ENV PYVERSION=${PYVERSION}
+ENV PYVERSION=3.8.5
+
+USER ${USER}
+
+RUN curl -sLo ~/miniconda.sh https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh && \
+    chmod +x ~/miniconda.sh
+RUN ~/miniconda.sh -b -p ~/miniconda  && \
+    rm ~/miniconda.sh
+
+RUN conda install -y python==${PYVERSION} && \
+    conda clean -ya
+
+# install some (python) prerequisites
+RUN conda install -y \
+    numpy \
+    pip \
+    pyyaml \
+    requests \
+    ruamel_yaml \
+    setuptools \
+    wheel
+
+RUN yes | pip install \
+    auto-changelog \
+    testresources
+
+USER root
+
+
+########################
 
 # Add R apt repository for latest R
 # https://cran.r-project.org/bin/linux/ubuntu/
@@ -177,6 +213,7 @@ RUN rm -rf /var/lib/apt/lists/* && \
     rm -rf /tmp/* && \
     rm -rf /root/.cache/pip/* && \
     rm -rf /home/${USER}/.cache/pip/* && \
+    conda clean -ya && \
     apt-get clean && apt-get autoclean && apt-get autoremove -y
 
 ########################
