@@ -354,7 +354,14 @@ RUN R -q -e "devtools::install_github('joundso/gpas_connector', ref = 'developme
 RUN R -q -e "devtools::install_github('joundso/requirements', ref = 'development')"
 RUN R -q -e "devtools::install_github('joundso/usRbility', ref = 'dev')"
 
-# CRAN packages with my participation
+## Other stuff:
+## Formatting comments and RMarkdown tables:
+RUN R -q -e "devtools::install_github('mwip/beautifyR')"
+
+## Explore data and create ggplots:
+RUN R -q -e "remotes::install_github('dreamRs/esquisse')"
+
+## CRAN packages with my participation:
 ARG pack="DIZutils"
 RUN for package in $pack; do \   
     R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, build_manual = FALSE, quiet = TRUE, upgrade = \"always\")"; \
