@@ -35,6 +35,8 @@ docker-compose up -d
   2. if multiple instances are running, open the [`.env`](./.env) file and uncomment the section for the ports of the second instance and comment out the ports of the last instance which is already shut down. Repeat these steps until all containers are shut down.
   3. Run `docker ps -a` to see if all containers are shut down correctly.
 
+:bulb: If you want to use a custom docker-compose file, create it and assign the path to your custom dc-file in the [`.env`](./.env) file to the variable `CUSTOM_DOCKER_COMPOSE_FILE`. Then run the custom deplyment by running `bash ./start_rdatascience.sh`.
+
 ## More Infos
 
 - About RStudio Server: <https://www.rstudio.com/products/rstudio/download-server/>
