@@ -210,7 +210,8 @@ ARG t="testthat \
     tidyr \ 
     tidyverse \ 
     timeDate \ 
-    tinytex \ 
+    tinytex \
+    tiff \ 
     treemap"
 RUN for package in $t; do \
     R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, build_manual = FALSE, quiet = TRUE, upgrade = \"always\")"; \
