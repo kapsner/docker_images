@@ -215,6 +215,7 @@ ARG m="manipulate \
     mlr3verse \ 
     mlr3viz \
     mltools \ 
+    mgcv \
     muhaz"
 RUN for package in $m; do \
     R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
@@ -352,6 +353,7 @@ ARG s="SentimentAnalysis \
     smbinning \ 
     sparklyr \ 
     SparseM \ 
+    splines \
     sqldf \  
     stargazer \ 
     styler \ 
