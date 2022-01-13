@@ -4,7 +4,7 @@ services:
     image: rdsc_bayesian:latest
     # restart: unless-stopped
     ports:
-    - "127.0.0.1:8786:8787" #rstudio
+    - "127.0.0.1:8787:8787" #rstudio
     # https://github.com/rocker-org/rocker-versioned/blob/master/rstudio/README.md
     volumes:
     - ./volume:/home/rstudio/volume
