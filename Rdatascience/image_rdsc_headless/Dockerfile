@@ -16,7 +16,8 @@ RUN for package in $a; do \
     done && \
     rm -rf /tmp/*
 
-ARG b="bench \ 
+ARG b="bayestestR \
+    bench \ 
     BH \ 
     bigmemory \ 
     blme \ 
@@ -49,6 +50,7 @@ ARG c="C50 \
     compare \
     config \ 
     corpus \ 
+    correlation \
     corrplot \ 
     covr \ 
     cowplot \ 
@@ -90,7 +92,9 @@ RUN for package in $d; do \
 
 ARG e="e1071 \ 
     earth \ 
+    easystats \
     effects \ 
+    effectsize \
     effsize \ 
     epitools \ 
     exactRankTests"
@@ -205,6 +209,7 @@ ARG m="manipulate \
     MCMCpack \ 
     merTools \ 
     microbenchmark \ 
+    mgcv \
     mlbench \ 
     MLmetrics \ 
     mlr3db \ 
@@ -215,7 +220,7 @@ ARG m="manipulate \
     mlr3verse \ 
     mlr3viz \
     mltools \ 
-    mgcv \
+    modelbased \
     muhaz"
 RUN for package in $m; do \
     R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
@@ -251,9 +256,11 @@ RUN for package in $o; do \
 
 ARG p="pagedown \
     parallel \ 
+    parameters \
     party \ 
     partykit \ 
     pbkrtest \ 
+    performance \
     PerformanceAnalytics \ 
     plotly \ 
     pls \ 
@@ -333,7 +340,8 @@ RUN for package in $r; do \
     done && \
     rm -rf /tmp/*
 
-ARG s="SentimentAnalysis \ 
+ARG s="see \
+    SentimentAnalysis \ 
     sem \ 
     seriation \ 
     shiny \ 
