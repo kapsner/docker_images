@@ -553,7 +553,8 @@ RUN R -q -e "shinytest::installDependencies()"
 # CRAN packages with my participation
 ARG pack="rBiasCorrection \
     BiasCorrector \
-    DIZutils"
+    DIZutils \
+    DQAstats"
 RUN for package in $pack; do \   
     R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
     done && \
@@ -567,7 +568,8 @@ ARG github_array="\
     kapsner/sjtable2df,main"
 RUN for repo in ${github_array}; do IFS=",";\ 
     set -- $repo; \
-    R -q -e "p <- \"$1\"; remotes::install_github(repo = p, ref = \"$2\", upgrade = \"always\")"; \
+    R -q -e "p <- \"$1\"; \
+        tryCatch({remotes::install_github(repo = p, ref = \"$2\", upgrade = \"always\")}, error = function(e) {print(e)})"; \
     done && \
     rm -rf /tmp/*
 
@@ -576,7 +578,8 @@ ARG gitlab_array="\
     https://gitlab.miracum.org/kosmic/kosmicgui.git,master"
 RUN for repo in ${gitlab_array}; do IFS=",";\ 
     set -- $repo; \
-    R -q -e "p <- \"$1\"; remotes::install_git(url = p, ref = \"$2\", upgrade = \"always\")"; \
+    R -q -e "p <- \"$1\"; \
+        tryCatch({remotes::install_git(url = p, ref = \"$2\", upgrade = \"always\")}, error = function(e) {print(e)})"; \
     done && \
     rm -rf /tmp/*
 

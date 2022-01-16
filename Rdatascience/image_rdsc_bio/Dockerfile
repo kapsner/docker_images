@@ -54,7 +54,8 @@ ARG gitlab_array="\
     https://gitlab.miracum.org/clearly/tromics.git,master"
 RUN for repo in ${gitlab_array}; do IFS=",";\ 
     set -- $repo; \
-    R -q -e "p <- \"$1\"; remotes::install_git(url = p, ref = \"$2\", upgrade = \"always\")"; \
+    R -q -e "p <- \"$1\"; \
+        tryCatch({remotes::install_git(url = p, ref = \"$2\", upgrade = \"always\")}, error = function(e) {print(e)})"; \
     done && \
     rm -rf /tmp/*
 
