@@ -62,9 +62,10 @@
     "rainbow_parentheses": true,
     "line_ending_conversion": "posix",
     "visual_markdown_editing_is_default": true,
-    "python_type": "conda",
-    "python_version": "3.6.11",
-    "python_path": "~/.local/share/r-miniconda/envs/r-reticulate/bin/python3.6",
     "editor_theme": "Dracula",
-    "show_doc_outline_rmd": true
+    "show_doc_outline_rmd": true,
+    "insert_native_pipe_operator": true,
+    "python_type": "conda",
+    "python_version": "3.8.5",
+    "python_path": "~/miniconda/bin/python3.8"
 }
