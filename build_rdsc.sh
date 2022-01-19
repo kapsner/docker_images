@@ -3,6 +3,9 @@
 ## Get version tag and registry-prefix from .env:
 source ./.env
 
+## Should the docker building process build without caching? (true/false)
+docker_build_no_cache=true
+
 printf "\n\n##################################\n"
 printf "Building images with version tag $VERSION_TAG"
 printf "\n##################################\n"
@@ -22,7 +25,7 @@ docker pull $REGISTRY_PREFIX/$IMAGE_NAME
 printf "\n\nBuilding $IMAGE_NAME image\n"
 docker build \
     --progress=plain \
-    --no-cache=true \
+    --no-cache=${docker_build_no_cache} \
     --label "org.label-schema.name=joundso/$IMAGE_NAME" \
     --label "org.label-schema.vsc-url=https://github.com/joundso/r_datascience/blob/master/Dockerfiles/$IMAGE_NAME.dockerfile" \
     --label "org.label-schema.vcs-ref=$(git rev-parse HEAD)" \
@@ -50,7 +53,7 @@ docker pull $REGISTRY_PREFIX/$IMAGE_NAME
 printf "\n\nBuilding $IMAGE_NAME image\n"
 docker build \
     --progress=plain \
-    --no-cache=true \
+    --no-cache=${docker_build_no_cache} \
     --label "org.label-schema.name=joundso/$IMAGE_NAME" \
     --label "org.label-schema.vsc-url=https://github.com/joundso/r_datascience/blob/master/Dockerfiles/$IMAGE_NAME.dockerfile" \
     --label "org.label-schema.vcs-ref=$(git rev-parse HEAD)" \
@@ -78,7 +81,7 @@ docker pull $REGISTRY_PREFIX/$IMAGE_NAME
 printf "\n\nBuilding $IMAGE_NAME image\n"
 docker build \
     --progress=plain \
-    --no-cache=true \
+    --no-cache=${docker_build_no_cache} \
     --label "org.label-schema.name=joundso/$IMAGE_NAME" \
     --label "org.label-schema.vsc-url=https://github.com/joundso/r_datascience/blob/master/Dockerfiles/$IMAGE_NAME.dockerfile" \
     --label "org.label-schema.vcs-ref=$(git rev-parse HEAD)" \
@@ -107,7 +110,7 @@ printf "\n\nBuilding $IMAGE_NAME image\n"
 
 docker build \
     --progress=plain \
-    --no-cache=true \
+    --no-cache=${docker_build_no_cache} \
     --label "org.label-schema.name=joundso/$IMAGE_NAME" \
     --label "org.label-schema.vsc-url=https://github.com/joundso/r_datascience/blob/master/Dockerfiles/$IMAGE_NAME.dockerfile" \
     --label "org.label-schema.vcs-ref=$(git rev-parse HEAD)" \
