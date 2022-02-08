@@ -1,5 +1,9 @@
 # R for datascience
 
+<!-- badges: start -->
+[![autochangelog](https://github.com/joundso/r_datascience/actions/workflows/generare-news.yml/badge.svg)](https://github.com/joundso/r_datascience/actions/workflows/generare-news.yml)
+<!-- badges: end -->
+
 This repo holds several files for my personal dockerized R environment including:
 
 - **RStudio** ([Further information about RStudio](https://www.rstudio.com/))
