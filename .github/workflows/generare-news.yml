@@ -1,2 +1,10 @@
-- name: Auto Changelog
-  uses: ardalanamini/auto-changelog@v1.1.0
+name: autochangelog
+on: [push]
+jobs:
+  generate-changelog:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: ardalanamini/auto-changelog@v1.1.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          exclude: 'perf,other,breaking'
