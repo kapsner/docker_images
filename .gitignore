@@ -8,6 +8,12 @@
 !/deploy_headless/
 !/deploy_rstudio/
 
+!/.github
+/.github/*
+!/.github/workflows/
+/.github/workflows/*
+!/.github/workflows/*.yml
+
 !/Dockerfiles/
 /Dockerfiles/*
 !/Dockerfiles/rdsc_base_j.dockerfile
