@@ -110,6 +110,7 @@ RUN for package in $k; do \
 
 ARG l="languageserver \
     lintr \ 
+    logger \
     lubridate"
 RUN for package in $l; do \
     R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, build_manual = FALSE, quiet = TRUE, upgrade = \"always\")"; \
@@ -349,6 +350,7 @@ RUN R -q -e "shinytest::installDependencies()"
 #RUN R -q -e "devtools::install_git(url = 'https://gitlab.miracum.org/miracum/dqa/dqastats.git', ref = 'master')"
 #RUN R -q -e "devtools::install_git(url = 'https://gitlab.miracum.org/miracum/dqa/dqagui.git', ref = 'master')"
 RUN R -q -e "devtools::install_git(url = 'https://gitlab.miracum.org/miracum/dqa/miRacumdqa.git', ref = 'master')"
+RUN R -q -e "devtools::install_github('miracum/misc-diztools', ref = 'dev')"
 RUN R -q -e "devtools::install_github('joundso/mainzelliste-connector', ref = 'development')"
 RUN R -q -e "devtools::install_github('joundso/rkafka', ref = 'development')"
 RUN R -q -e "devtools::install_github('joundso/gpas_connector', ref = 'development')"
@@ -358,6 +360,9 @@ RUN R -q -e "devtools::install_github('joundso/usRbility', ref = 'dev')"
 ## Other stuff:
 ## Formatting comments and RMarkdown tables:
 RUN R -q -e "devtools::install_github('mwip/beautifyR')"
+
+## Addin to easy insert roxygen formatting options:
+RUN R -q -e "remotes::install_github('matt-dray/snorkel')"
 
 ## Explore data and create ggplots:
 RUN R -q -e "remotes::install_github('dreamRs/esquisse')"

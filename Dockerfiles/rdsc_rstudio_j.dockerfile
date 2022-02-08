@@ -13,8 +13,8 @@ LABEL org.label-schema.schema-version="1.0" \
 
 # get RStudio-Server (Preview Version): https://www.rstudio.com/products/rstudio/download/preview/
 # ENV RSTUDIO_VERSION=1.4.1725 \
-ENV RSTUDIO_VERSION=2021.09.2 \
-    RSTUDIO_VERSION_PREVIEW=382 \
+ENV RSTUDIO_VERSION=2022.02.0-preview \
+    RSTUDIO_VERSION_PREVIEW=392 \
     RSTUIO_URL=https://s3.amazonaws.com/rstudio-ide-build/server/bionic/amd64/
 ENV RSTUDIO_FILE="rstudio-server-${RSTUDIO_VERSION}-${RSTUDIO_VERSION_PREVIEW}-amd64.deb"
 ENV RSTUDIO_LINK=${RSTUIO_URL}${RSTUDIO_FILE}

@@ -57,6 +57,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     nano \
     net-tools \
     openjdk-17-jdk \
+    python \
+    python3-pip \
     software-properties-common \
     tar \
     unixodbc-dev \
@@ -99,25 +101,46 @@ ENV PYVERSION=3.8.5
 
 USER ${USER}
 
-RUN curl -sLo ~/miniconda.sh https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh && \
-    chmod +x ~/miniconda.sh
-RUN ~/miniconda.sh -b -p ~/miniconda  && \
-    rm ~/miniconda.sh
+ARG TARGETPLATFORM 
+ENV TARGETPLATFORM=${TARGETPLATFORM}
+ENV ARM_LABEL="linux/arm64"
+ENV AMD_LABEL="linux/amd64"
 
-RUN conda install -y python==${PYVERSION} && \
-    conda clean -ya
+# RUN echo "Current architecture: ${TARGETPLATFORM}"
 
-# install some (python) prerequisites
-RUN conda install -y \
-    numpy \
-    pip \
-    pyyaml \
-    requests \
-    ruamel_yaml \
-    setuptools \
-    wheel
+# ## ARM:
+# RUN if [ "$TARGETPLATFORM" = "$ARM_LABEL" ] ; \
+#     then echo '!ARM!' && \
+#     curl -sLo ~/miniconda.sh https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-aarch64.sh && \
+#     chmod +x ~/miniconda.sh ; \
+#     fi
 
-RUN yes | pip install \
+# ## AMD:
+# RUN if [ "$TARGETPLATFORM" = "$AMD_LABEL" ] ; \
+#     then echo '!AMD!' && \
+#     curl -sLo ~/miniconda.sh https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh && \
+#     chmod +x ~/miniconda.sh ; \
+#     fi
+
+# # RUN curl -sLo ~/miniconda.sh https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh && \
+# #     chmod +x ~/miniconda.sh
+# RUN ~/miniconda.sh -b -p ~/miniconda  && \
+#     rm ~/miniconda.sh
+
+# RUN conda install -y python==${PYVERSION} && \
+#     conda clean -ya
+
+# # install some (python) prerequisites
+# RUN conda install -y \
+#     numpy \
+#     pip \
+#     pyyaml \
+#     requests \
+#     ruamel_yaml \
+#     setuptools \
+#     wheel
+
+RUN yes | pip install --no-cache-dir \
     auto-changelog \
     testresources
 
@@ -138,6 +161,31 @@ USER root
 RUN wget -qO- https://cloud.r-project.org/bin/linux/ubuntu/marutter_pubkey.asc | tee -a /etc/apt/trusted.gpg.d/cran_ubuntu_key.asc
 # add the R 4.0 repo from CRAN -- adjust 'focal' to 'groovy' or 'bionic' as needed
 RUN add-apt-repository "deb https://cloud.r-project.org/bin/linux/ubuntu $(lsb_release -cs)-cran40/"
+
+## ARM only:
+RUN if [ "$TARGETPLATFORM" = "$ARM_LABEL" ] ; \
+    then echo '!ARM!' && \
+    apt-get update && apt-get install -y --no-install-recommends \
+    gfortran \
+    libreadline6-dev \
+    libx11-dev \
+    libxt-dev \
+    libpng-dev \
+    libjpeg-dev \
+    libcairo2-dev \
+    xvfb \
+    libzstd-dev \
+    texinfo \
+    texlive \
+    texlive-fonts-extra \
+    screen \
+    wget \
+    zlib1g-dev \
+    libbz2-dev \
+    liblzma-dev \
+    libpcre2-dev \
+    libcurl4-openssl-dev; \
+    fi
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     lmodern \
@@ -213,7 +261,6 @@ RUN rm -rf /var/lib/apt/lists/* && \
     rm -rf /tmp/* && \
     rm -rf /root/.cache/pip/* && \
     rm -rf /home/${USER}/.cache/pip/* && \
-    conda clean -ya && \
     apt-get clean && apt-get autoclean && apt-get autoremove -y
 
 ########################

@@ -37,6 +37,19 @@ docker-compose up -d
 
 :bulb: If you want to use a custom docker-compose file, create it and assign the path to your custom dc-file in the [`.env`](./.env) file to the variable `CUSTOM_DOCKER_COMPOSE_FILE`. Then run the custom deplyment by running `bash ./start_rdatascience.sh`.
 
+## Build a new version of the image(s)
+
+To build all images new, run
+
+```sh
+## Create a new multi-architecture builder (if you have no one yet):
+docker buildx create --name mybuilder
+docker buildx use mybuilder
+
+## Run the script to build the image(s):
+sudo bash ./build_rdsc.sh
+```
+
 ## More Infos
 
 - About RStudio Server: <https://www.rstudio.com/products/rstudio/download-server/>
