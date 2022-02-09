@@ -420,8 +420,6 @@ RUN export pkg="\"$(echo ${t} | sed -e 's/ /\"\, \"/g')"\" && \
     system(paste0(\"install2.r --error --ncpus -1 \", paste0(vec2, collapse = \" \")))" && \
     rm -rf /tmp/*
 
-RUN R -q -e "remotes::install_github(repo = \"ropensci/tic\", ref = \"main\")"
-
 ARG u="ucminf \ 
     udpipe \ 
     urltools \ 
@@ -556,7 +554,9 @@ RUN R -q -e "vec <- unname(installed.packages()[,\"Package\"]); remotes::update_
 # install development packages
 ARG github_array="\
     skranz/ReplaceInFiles,master \
-    crsh/citr,master"
+    crsh/citr,master \
+    ropensci/tic,main"
+    
 RUN for repo in ${github_array}; do IFS=",";\ 
     set -- $repo; \
     R -q -e "p <- \"$1\"; remotes::install_github(repo = p, ref = \"$2\", upgrade = \"always\")"; \
