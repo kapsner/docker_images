@@ -11,9 +11,10 @@ ARG a="abind \
     arm \ 
     arules \ 
     arulesViz"
-RUN for package in $a; do \
-    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
-    done && \
+RUN export pkg="\"$(echo ${a} | sed -e 's/ /\"\, \"/g')"\" && \
+    R -q -e "vec <- setdiff(c($pkg), unname(installed.packages()[,\"Package\"])); print(vec); \
+    vec2 <- intersect(c(vec), unname(available.packages()[,\"Package\"])); print(vec2); \
+    system(paste0(\"install2.r --error --ncpus -1 \", paste0(vec2, collapse = \" \")))" && \
     rm -rf /tmp/*
 
 ARG b="bayestestR \
@@ -27,9 +28,10 @@ ARG b="bayestestR \
     brms \ 
     brnn \ 
     bst"
-RUN for package in $b; do \
-    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
-    done && \
+RUN export pkg="\"$(echo ${b} | sed -e 's/ /\"\, \"/g')"\" && \
+    R -q -e "vec <- setdiff(c($pkg), unname(installed.packages()[,\"Package\"])); print(vec); \
+    vec2 <- intersect(c(vec), unname(available.packages()[,\"Package\"])); print(vec2); \
+    system(paste0(\"install2.r --error --ncpus -1 \", paste0(vec2, collapse = \" \")))" && \
     rm -rf /tmp/*
 
 ARG c="C50 \ 
@@ -59,9 +61,10 @@ ARG c="C50 \
     curl \ 
     cutpointr \
     CVST"
-RUN for package in $c; do \
-    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
-    done && \
+RUN export pkg="\"$(echo ${c} | sed -e 's/ /\"\, \"/g')"\" && \
+    R -q -e "vec <- setdiff(c($pkg), unname(installed.packages()[,\"Package\"])); print(vec); \
+    vec2 <- intersect(c(vec), unname(available.packages()[,\"Package\"])); print(vec2); \
+    system(paste0(\"install2.r --error --ncpus -1 \", paste0(vec2, collapse = \" \")))" && \
     rm -rf /tmp/*
 
 ARG d="d3r \ 
@@ -85,9 +88,10 @@ ARG d="d3r \
     dtplyr \ 
     dunn.test \ 
     dygraphs"
-RUN for package in $d; do \
-    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
-    done && \
+RUN export pkg="\"$(echo ${d} | sed -e 's/ /\"\, \"/g')"\" && \
+    R -q -e "vec <- setdiff(c($pkg), unname(installed.packages()[,\"Package\"])); print(vec); \
+    vec2 <- intersect(c(vec), unname(available.packages()[,\"Package\"])); print(vec2); \
+    system(paste0(\"install2.r --error --ncpus -1 \", paste0(vec2, collapse = \" \")))" && \
     rm -rf /tmp/*
 
 ARG e="e1071 \ 
@@ -98,9 +102,10 @@ ARG e="e1071 \
     effsize \ 
     epitools \ 
     exactRankTests"
-RUN for package in $e; do \
-    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
-    done && \
+RUN export pkg="\"$(echo ${e} | sed -e 's/ /\"\, \"/g')"\" && \
+    R -q -e "vec <- setdiff(c($pkg), unname(installed.packages()[,\"Package\"])); print(vec); \
+    vec2 <- intersect(c(vec), unname(available.packages()[,\"Package\"])); print(vec2); \
+    system(paste0(\"install2.r --error --ncpus -1 \", paste0(vec2, collapse = \" \")))" && \
     rm -rf /tmp/*
 
 ARG f="factoextra \ 
@@ -116,9 +121,10 @@ ARG f="factoextra \
     fpc \ 
     future \ 
     future.apply"
-RUN for package in $f; do \
-    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
-    done && \
+RUN export pkg="\"$(echo ${f} | sed -e 's/ /\"\, \"/g')"\" && \
+    R -q -e "vec <- setdiff(c($pkg), unname(installed.packages()[,\"Package\"])); print(vec); \
+    vec2 <- intersect(c(vec), unname(available.packages()[,\"Package\"])); print(vec2); \
+    system(paste0(\"install2.r --error --ncpus -1 \", paste0(vec2, collapse = \" \")))" && \
     rm -rf /tmp/*
 
 ARG g="GA \
@@ -136,9 +142,10 @@ ARG g="GA \
     glmnet \ 
     glmmTMB \
     gplots"
-RUN for package in $g; do \
-    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
-    done && \
+RUN export pkg="\"$(echo ${g} | sed -e 's/ /\"\, \"/g')"\" && \
+    R -q -e "vec <- setdiff(c($pkg), unname(installed.packages()[,\"Package\"])); print(vec); \
+    vec2 <- intersect(c(vec), unname(available.packages()[,\"Package\"])); print(vec2); \
+    system(paste0(\"install2.r --error --ncpus -1 \", paste0(vec2, collapse = \" \")))" && \
     rm -rf /tmp/*
 
 ARG h="haplo.stats \ 
@@ -146,9 +153,10 @@ ARG h="haplo.stats \
     Hmisc \ 
     httr \ 
     hunspell"
-RUN for package in $h; do \
-    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
-    done && \
+RUN export pkg="\"$(echo ${h} | sed -e 's/ /\"\, \"/g')"\" && \
+    R -q -e "vec <- setdiff(c($pkg), unname(installed.packages()[,\"Package\"])); print(vec); \
+    vec2 <- intersect(c(vec), unname(available.packages()[,\"Package\"])); print(vec2); \
+    system(paste0(\"install2.r --error --ncpus -1 \", paste0(vec2, collapse = \" \")))" && \
     rm -rf /tmp/*
 
 ARG i="igraph \ 
@@ -157,25 +165,28 @@ ARG i="igraph \
     ipred \ 
     irlba \ 
     irr"
-RUN for package in $i; do \
-    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
-    done && \
+RUN export pkg="\"$(echo ${i} | sed -e 's/ /\"\, \"/g')"\" && \
+    R -q -e "vec <- setdiff(c($pkg), unname(installed.packages()[,\"Package\"])); print(vec); \
+    vec2 <- intersect(c(vec), unname(available.packages()[,\"Package\"])); print(vec2); \
+    system(paste0(\"install2.r --error --ncpus -1 \", paste0(vec2, collapse = \" \")))" && \
     rm -rf /tmp/*
 
 ARG j="jpeg \ 
     jsonlite"
-RUN for package in $j; do \
-    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
-    done && \
+RUN export pkg="\"$(echo ${j} | sed -e 's/ /\"\, \"/g')"\" && \
+    R -q -e "vec <- setdiff(c($pkg), unname(installed.packages()[,\"Package\"])); print(vec); \
+    vec2 <- intersect(c(vec), unname(available.packages()[,\"Package\"])); print(vec2); \
+    system(paste0(\"install2.r --error --ncpus -1 \", paste0(vec2, collapse = \" \")))" && \
     rm -rf /tmp/*
 
 ARG k="kableExtra \ 
     kernlab \ 
     kknn \ 
     knitr"
-RUN for package in $k; do \
-    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
-    done && \
+RUN export pkg="\"$(echo ${k} | sed -e 's/ /\"\, \"/g')"\" && \
+    R -q -e "vec <- setdiff(c($pkg), unname(installed.packages()[,\"Package\"])); print(vec); \
+    vec2 <- intersect(c(vec), unname(available.packages()[,\"Package\"])); print(vec2); \
+    system(paste0(\"install2.r --error --ncpus -1 \", paste0(vec2, collapse = \" \")))" && \
     rm -rf /tmp/*
 
 ARG l="languageserver \
@@ -192,9 +203,10 @@ ARG l="languageserver \
     lmtest \ 
     lsa \ 
     lubridate"
-RUN for package in $l; do \
-    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
-    done && \
+RUN export pkg="\"$(echo ${l} | sed -e 's/ /\"\, \"/g')"\" && \
+    R -q -e "vec <- setdiff(c($pkg), unname(installed.packages()[,\"Package\"])); print(vec); \
+    vec2 <- intersect(c(vec), unname(available.packages()[,\"Package\"])); print(vec2); \
+    system(paste0(\"install2.r --error --ncpus -1 \", paste0(vec2, collapse = \" \")))" && \
     rm -rf /tmp/*
 
 ARG m="manipulate \ 
@@ -222,9 +234,10 @@ ARG m="manipulate \
     mltools \ 
     modelbased \
     muhaz"
-RUN for package in $m; do \
-    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
-    done && \
+RUN export pkg="\"$(echo ${m} | sed -e 's/ /\"\, \"/g')"\" && \
+    R -q -e "vec <- setdiff(c($pkg), unname(installed.packages()[,\"Package\"])); print(vec); \
+    vec2 <- intersect(c(vec), unname(available.packages()[,\"Package\"])); print(vec2); \
+    system(paste0(\"install2.r --error --ncpus -1 \", paste0(vec2, collapse = \" \")))" && \
     rm -rf /tmp/*
 
 ARG n="naivebayes \ 
@@ -236,9 +249,10 @@ ARG n="naivebayes \
     nnet \ 
     nnls \ 
     nortest"
-RUN for package in $n; do \
-    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
-    done && \
+RUN export pkg="\"$(echo ${n} | sed -e 's/ /\"\, \"/g')"\" && \
+    R -q -e "vec <- setdiff(c($pkg), unname(installed.packages()[,\"Package\"])); print(vec); \
+    vec2 <- intersect(c(vec), unname(available.packages()[,\"Package\"])); print(vec2); \
+    system(paste0(\"install2.r --error --ncpus -1 \", paste0(vec2, collapse = \" \")))" && \
     rm -rf /tmp/*
 
 ARG o="odbc \ 
@@ -249,9 +263,10 @@ ARG o="odbc \
     openxlsx \ 
     optparse \
     ordinal"
-RUN for package in $o; do \
-    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
-    done && \
+RUN export pkg="\"$(echo ${o} | sed -e 's/ /\"\, \"/g')"\" && \
+    R -q -e "vec <- setdiff(c($pkg), unname(installed.packages()[,\"Package\"])); print(vec); \
+    vec2 <- intersect(c(vec), unname(available.packages()[,\"Package\"])); print(vec2); \
+    system(paste0(\"install2.r --error --ncpus -1 \", paste0(vec2, collapse = \" \")))" && \
     rm -rf /tmp/*
 
 ARG p="pagedown \
@@ -273,9 +288,10 @@ ARG p="pagedown \
     PRROC \ 
     pspearman \ 
     psych"
-RUN for package in $p; do \
-    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
-    done && \
+RUN export pkg="\"$(echo ${p} | sed -e 's/ /\"\, \"/g')"\" && \
+    R -q -e "vec <- setdiff(c($pkg), unname(installed.packages()[,\"Package\"])); print(vec); \
+    vec2 <- intersect(c(vec), unname(available.packages()[,\"Package\"])); print(vec2); \
+    system(paste0(\"install2.r --error --ncpus -1 \", paste0(vec2, collapse = \" \")))" && \
     rm -rf /tmp/*
 
 ARG q="qdap \ 
@@ -283,9 +299,10 @@ ARG q="qdap \
     quantreg \ 
     quantregForest \
     questionr"
-RUN for package in $q; do \
-    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
-    done && \
+RUN export pkg="\"$(echo ${q} | sed -e 's/ /\"\, \"/g')"\" && \
+    R -q -e "vec <- setdiff(c($pkg), unname(installed.packages()[,\"Package\"])); print(vec); \
+    vec2 <- intersect(c(vec), unname(available.packages()[,\"Package\"])); print(vec2); \
+    system(paste0(\"install2.r --error --ncpus -1 \", paste0(vec2, collapse = \" \")))" && \
     rm -rf /tmp/*
 
 ARG r="R.utils \ 
@@ -335,9 +352,10 @@ ARG r="R.utils \
     rversions \ 
     rvest \ 
     rvg"
-RUN for package in $r; do \
-    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
-    done && \
+RUN export pkg="\"$(echo ${r} | sed -e 's/ /\"\, \"/g')"\" && \
+    R -q -e "vec <- setdiff(c($pkg), unname(installed.packages()[,\"Package\"])); print(vec); \
+    vec2 <- intersect(c(vec), unname(available.packages()[,\"Package\"])); print(vec2); \
+    system(paste0(\"install2.r --error --ncpus -1 \", paste0(vec2, collapse = \" \")))" && \
     rm -rf /tmp/*
 
 ARG s="see \
@@ -372,9 +390,10 @@ ARG s="see \
     survminer \ 
     synthpop \ 
     syuzhet"
-RUN for package in $s; do \
-    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
-    done && \
+RUN export pkg="\"$(echo ${s} | sed -e 's/ /\"\, \"/g')"\" && \
+    R -q -e "vec <- setdiff(c($pkg), unname(installed.packages()[,\"Package\"])); print(vec); \
+    vec2 <- intersect(c(vec), unname(available.packages()[,\"Package\"])); print(vec2); \
+    system(paste0(\"install2.r --error --ncpus -1 \", paste0(vec2, collapse = \" \")))" && \
     rm -rf /tmp/*
 
 ARG t="tau \ 
@@ -395,9 +414,10 @@ ARG t="tau \
     topicmodels \ 
     tseries \ 
     twitteR"
-RUN for package in $t; do \
-    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
-    done && \
+RUN export pkg="\"$(echo ${t} | sed -e 's/ /\"\, \"/g')"\" && \
+    R -q -e "vec <- setdiff(c($pkg), unname(installed.packages()[,\"Package\"])); print(vec); \
+    vec2 <- intersect(c(vec), unname(available.packages()[,\"Package\"])); print(vec2); \
+    system(paste0(\"install2.r --error --ncpus -1 \", paste0(vec2, collapse = \" \")))" && \
     rm -rf /tmp/*
 
 RUN R -q -e "remotes::install_github(repo = \"ropensci/tic\", ref = \"main\")"
@@ -407,46 +427,52 @@ ARG u="ucminf \
     urltools \ 
     usethis \ 
     utf8"
-RUN for package in $u; do \
-    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
-    done && \
+RUN export pkg="\"$(echo ${u} | sed -e 's/ /\"\, \"/g')"\" && \
+    R -q -e "vec <- setdiff(c($pkg), unname(installed.packages()[,\"Package\"])); print(vec); \
+    vec2 <- intersect(c(vec), unname(available.packages()[,\"Package\"])); print(vec2); \
+    system(paste0(\"install2.r --error --ncpus -1 \", paste0(vec2, collapse = \" \")))" && \
     rm -rf /tmp/*
 
 ARG v="vegan \ 
     vroom"
-RUN for package in $v; do \
-    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
-    done && \
+RUN export pkg="\"$(echo ${v} | sed -e 's/ /\"\, \"/g')"\" && \
+    R -q -e "vec <- setdiff(c($pkg), unname(installed.packages()[,\"Package\"])); print(vec); \
+    vec2 <- intersect(c(vec), unname(available.packages()[,\"Package\"])); print(vec2); \
+    system(paste0(\"install2.r --error --ncpus -1 \", paste0(vec2, collapse = \" \")))" && \
     rm -rf /tmp/*
 
 ARG w="wesanderson \ 
     wordcloud \ 
     wordcloud2"
-RUN for package in $w; do \
-    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
-    done && \
+RUN export pkg="\"$(echo ${w} | sed -e 's/ /\"\, \"/g')"\" && \
+    R -q -e "vec <- setdiff(c($pkg), unname(installed.packages()[,\"Package\"])); print(vec); \
+    vec2 <- intersect(c(vec), unname(available.packages()[,\"Package\"])); print(vec2); \
+    system(paste0(\"install2.r --error --ncpus -1 \", paste0(vec2, collapse = \" \")))" && \
     rm -rf /tmp/*
 
 ARG x="xfun \ 
     xgboost \
     XML \ 
     xml2"
-RUN for package in $x; do \
-    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
-    done && \
+RUN export pkg="\"$(echo ${x} | sed -e 's/ /\"\, \"/g')"\" && \
+    R -q -e "vec <- setdiff(c($pkg), unname(installed.packages()[,\"Package\"])); print(vec); \
+    vec2 <- intersect(c(vec), unname(available.packages()[,\"Package\"])); print(vec2); \
+    system(paste0(\"install2.r --error --ncpus -1 \", paste0(vec2, collapse = \" \")))" && \
     rm -rf /tmp/*
 
 ARG y="yaml"
-RUN for package in $y; do \
-    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
-    done && \
+RUN export pkg="\"$(echo ${y} | sed -e 's/ /\"\, \"/g')"\" && \
+    R -q -e "vec <- setdiff(c($pkg), unname(installed.packages()[,\"Package\"])); print(vec); \
+    vec2 <- intersect(c(vec), unname(available.packages()[,\"Package\"])); print(vec2); \
+    system(paste0(\"install2.r --error --ncpus -1 \", paste0(vec2, collapse = \" \")))" && \
     rm -rf /tmp/*
 
 ARG z="zip \ 
     zoo"
-RUN for package in $z; do \   
-    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
-    done && \
+RUN export pkg="\"$(echo ${z} | sed -e 's/ /\"\, \"/g')"\" && \
+    R -q -e "vec <- setdiff(c($pkg), unname(installed.packages()[,\"Package\"])); print(vec); \
+    vec2 <- intersect(c(vec), unname(available.packages()[,\"Package\"])); print(vec2); \
+    system(paste0(\"install2.r --error --ncpus -1 \", paste0(vec2, collapse = \" \")))" && \
     rm -rf /tmp/*
 
 # install required LaTeX-Packages
@@ -519,7 +545,9 @@ ARG allpackages="\"$a\" \"$b\" \"$c\" \"$d\" \"$e\" \"$f\" \"$g\" \"$h\" \
     \"$s\" \"$t\" \"$u\" \"$v\" \"$w\" \"$x\" \"$y\" \"$z\""
 
 RUN export packages_format="$(echo $(echo ${allpackages} | sed -e \"s/ /\"\, \"/g\") | sed -e \"s/\"\"/\"/g\")" && \
-    R -q -e "vec <- setdiff(c($packages_format), unname(installed.packages()[,\"Package\"])); print(vec); vec2 <- intersect(c(vec), unname(available.packages()[,\"Package\"])); print(vec2); install.packages(pkgs = vec2)"
+    R -q -e "vec <- setdiff(c($packages_format), unname(installed.packages()[,\"Package\"])); print(vec); \
+    vec2 <- intersect(c(vec), unname(available.packages()[,\"Package\"])); print(vec2); \
+    install.packages(pkgs = vec2)"
 
 # update all installed packages
 RUN R -q -e "vec <- unname(installed.packages()[,\"Package\"]); remotes::update_packages(packages = vec, upgrade = \"always\")"  && \

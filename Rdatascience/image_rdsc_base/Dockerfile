@@ -15,7 +15,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     gpg-agent \
     libcurl4-openssl-dev \
     libssl-dev \
-    libobjc-7-dev \
+    libobjc-8-dev \
     libzmq3-dev \
     openjdk-8-jdk \
     unixodbc-dev
@@ -74,8 +74,9 @@ USER ${RSESSION_USER}
 # of its function remotes::update_packages 
 # https://rdrr.io/cran/remotes/man/update_packages.html
 RUN R -q -e "install.packages(\"docopt\")"
-RUN R -q -e "install.packages(\"stringi\", configure.args=\"--disable-pkg-config\")"
-RUN install2.r --error \
+RUN install2.r --error --ncpus -1 stringi
+#RUN R -q -e "install.packages(\"stringi\", configure.args=\"--disable-pkg-config\")"
+RUN install2.r --error --ncpus -1 \
     remotes \
     devtools \
     reticulate \
@@ -91,7 +92,7 @@ USER root
 ENV PATH="/home/${RSESSION_USER}/miniconda/bin:${PATH}"
 
 # Add RETICULATE_PYTHON variable to Renviron
-RUN echo "RETICULATE_PYTHON=/home/${RSESSION_USER}/miniconda/envs/r-reticulate/bin/python" >> /etc/R/Renviron
+RUN echo "RETICULATE_PYTHON=/home/${RSESSION_USER}/miniconda/bin/python" >> /etc/R/Renviron
 # Since R 4.0.0, we also need to add R_LIBS_SITE to /etc/R/Renviron
 ENV R_LIBS_SITE=/usr/local/lib/R/site-library
 RUN echo "R_LIBS_SITE=${R_LIBS_SITE}" >> /etc/R/Renviron

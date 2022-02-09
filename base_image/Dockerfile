@@ -29,13 +29,13 @@ ENV USER="user"
 RUN useradd -ms /bin/bash ${USER}
 
 ########################
-# Install Miniconda and Python 3.8
+# Install Miniconda and Python 3.10
 ENV CONDA_AUTO_UPDATE_CONDA=false
 ENV PATH=/home/${USER}/miniconda/bin:$PATH
 
 # ARG PYVERSION
 # ENV PYVERSION=${PYVERSION}
-ENV PYVERSION=3.10
+ENV PYVERSION=3.9
 
 USER ${USER}
 
