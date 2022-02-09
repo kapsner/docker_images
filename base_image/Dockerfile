@@ -35,7 +35,7 @@ ENV PATH=/home/${USER}/miniconda/bin:$PATH
 
 # ARG PYVERSION
 # ENV PYVERSION=${PYVERSION}
-ENV PYVERSION=3.10.2
+ENV PYVERSION=3.10
 
 USER ${USER}
 
@@ -48,18 +48,17 @@ RUN conda install -y python==${PYVERSION} && \
     conda clean -ya
 
 # install some (python) prerequisites
-RUN conda install -y \
+RUN yes | pip install \
+    auto-changelog \
     numpy \
-    pip \
     pyyaml \
     requests \
     ruamel_yaml \
     setuptools \
+    six \
+    testresources \
+    tqdm \
     wheel
-
-RUN yes | pip install \
-    auto-changelog \
-    testresources
 
 ########################
 USER root
