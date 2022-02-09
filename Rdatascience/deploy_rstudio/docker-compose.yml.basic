@@ -12,3 +12,4 @@ services:
     - ./volume:/home/user/volume 
     - ./rhub:/home/user/.local/share/rhub
     tty: true
+    # privileged: true

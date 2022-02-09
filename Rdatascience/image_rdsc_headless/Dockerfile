@@ -361,6 +361,7 @@ ARG s="see \
     smbinning \ 
     sparklyr \ 
     SparseM \ 
+    spelling \
     splines \
     sqldf \  
     stargazer \ 
@@ -553,6 +554,7 @@ RUN R -q -e "shinytest::installDependencies()"
 # CRAN packages with my participation
 ARG pack="rBiasCorrection \
     BiasCorrector \
+    DIZtools \
     DIZutils \
     DQAstats"
 RUN for package in $pack; do \   
