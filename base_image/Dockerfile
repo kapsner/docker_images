@@ -47,6 +47,10 @@ RUN ~/miniconda.sh -b -p ~/miniconda  && \
 RUN conda install -y python==${PYVERSION} && \
     conda clean -ya
 
+# trying to make pip faster
+# https://stackoverflow.com/questions/26669244/how-to-install-compile-pip-requirements-in-parallel-make-j-equivalent
+ENV MAKEFLAGS="-j$(nproc)"
+
 # install some (python) prerequisites
 RUN yes | pip install \
     auto-changelog \
@@ -58,6 +62,7 @@ RUN yes | pip install \
     six \
     testresources \
     tqdm \
+    virtualenv \
     wheel
 
 ########################

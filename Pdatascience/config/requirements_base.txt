@@ -1,18 +1,11 @@
 # install datascience packages
 autopep8
-cython
-future
 ipython
 jedi
-jinja2
 jupyter
-notebook 
 numpy>=1.19.2
 pdoc3
 pipreqs
 pycodestyle
 pylint
 pytest
-requests
-tqdm
-virtualenv
