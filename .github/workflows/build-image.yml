@@ -9,7 +9,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Docker meta
+      - name: Docker meta Base
         id: meta
         uses: docker/metadata-action@v3
         with:
@@ -28,11 +28,50 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: Build and push
+      - name: Build and push base image
         uses: docker/build-push-action@v2
         with:
-          # context: ./Dockerfiles
           file: ./Dockerfiles/rdsc_base_j.dockerfile
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+      - name: Docker meta Headless
+        id: meta
+        uses: docker/metadata-action@v3
+        with:
+          images: joundso/rdsc_headless_j
+          tags: |
+            latest
+            type=semver,pattern={{version}}
+          labels: |
+            org.opencontainers.image.title=rdsc_headless_j
+            org.opencontainers.image.description=Image with a lot of pre-installed packages for R Datascience
+            org.label-schema.url=https://github.com/joundso/r_datascience
+            org.label-schema.vsc-url=https://github.com/joundso/r_datascience
+      - name: Build and push headless image
+        uses: docker/build-push-action@v2
+        with:
+          file: ./Dockerfiles/rdsc_headless_j.dockerfile
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+      - name: Docker meta RStudio
+        id: meta
+        uses: docker/metadata-action@v3
+        with:
+          images: joundso/rdsc_rstudio_j
+          tags: |
+            latest
+            type=semver,pattern={{version}}
+          labels: |
+            org.opencontainers.image.title=rdsc_rstudio_j
+            org.opencontainers.image.description=Image with a lot of pre-installed packages for R Datascience
+            org.label-schema.url=https://github.com/joundso/r_datascience
+            org.label-schema.vsc-url=https://github.com/joundso/r_datascience
+      - name: Build and push headless image
+        uses: docker/build-push-action@v2
+        with:
+          file: ./Dockerfiles/rdsc_rstudio_j.dockerfile
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
