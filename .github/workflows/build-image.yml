@@ -35,6 +35,7 @@ jobs:
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta-base.outputs.tags }}
           labels: ${{ steps.meta-base.outputs.labels }}
+          cache-from: joundso/rdsc_base_j:latest
       - name: Docker meta Headless
         id: meta-headless
         uses: docker/metadata-action@v3
@@ -55,6 +56,7 @@ jobs:
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta-headless.outputs.tags }}
           labels: ${{ steps.meta-headless.outputs.labels }}
+          cache-from: joundso/rdsc_headless_j:latest
       - name: Docker meta RStudio
         id: meta-rstudio
         uses: docker/metadata-action@v3
@@ -75,3 +77,4 @@ jobs:
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta-rstudio.outputs.tags }}
           labels: ${{ steps.meta-rstudio.outputs.labels }}
+          cache-from: joundso/rdsc_rstudio_j:latest
