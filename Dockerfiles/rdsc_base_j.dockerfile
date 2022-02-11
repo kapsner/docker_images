@@ -226,8 +226,8 @@ RUN wajig install -y libgtk2.0-dev && \
 
 
 # make R site-library default package installation folder writeable
-RUN mkdir -p /usr/local/lib/R/site-library
-RUN chown -R ${RSESSION_USER}:${RSESSION_USER} /usr/local/lib/R/site-library
+RUN mkdir -p /usr/local/lib/R/site-library && \
+    chown -R ${RSESSION_USER}:${RSESSION_USER} /usr/local/lib/R/site-library
 
 RUN ln -s /usr/lib/R/site-library/littler/examples/install.r /usr/local/bin/install.r && \
     ln -s /usr/lib/R/site-library/littler/examples/install2.r /usr/local/bin/install2.r && \
@@ -235,14 +235,14 @@ RUN ln -s /usr/lib/R/site-library/littler/examples/install.r /usr/local/bin/inst
     ln -s /usr/lib/R/site-library/littler/examples/testInstalled.r /usr/local/bin/testInstalled.r
 
 # set cran repo
-RUN echo "options(\"repos\" = \"https://cloud.r-project.org/\")" >> /etc/R/Rprofile.site
+RUN echo "options('repos' = 'https://cloud.r-project.org/')" >> /etc/R/Rprofile.site
 
 # Update where R expects to find various Java files
-
 # update envar
 ENV JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
-RUN echo JAVA_HOME="${JAVA_HOME}" >> /etc/environment
-RUN R CMD javareconf
+
+RUN echo JAVA_HOME="${JAVA_HOME}" >> /etc/environment && \
+    R CMD javareconf
 
 
 USER ${RSESSION_USER}
@@ -264,11 +264,9 @@ ENV PATH="/home/${RSESSION_USER}/miniconda/bin:${PATH}"
 
 # Since R 4.0.0, we also need to add R_LIBS_SITE to /etc/R/Renviron
 ENV R_LIBS_SITE=/usr/local/lib/R/site-library
-RUN echo "R_LIBS_SITE=${R_LIBS_SITE}" >> /etc/R/Renviron
 
-# environment variable for data.table
-# https://github.com/Rdatatable/data.table/pull/3435/files
-RUN echo "R_DATATABLE_NUM_PROCS_PERCENT=100" >> /etc/R/Renviron
+RUN echo "R_LIBS_SITE=${R_LIBS_SITE}" >> /etc/R/Renviron && \
+    echo "R_DATATABLE_NUM_PROCS_PERCENT=100" >> /etc/R/Renviron
 
 ########################
 # clear caches

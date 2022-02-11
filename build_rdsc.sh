@@ -30,20 +30,19 @@ printf "\n\nBuilding $REGISTRY_PREFIX/$IMAGE_NAME image (latest):\n"
 # --platform linux/amd64,linux/arm64 \
 # --progress=plain \
 # docker buildx build \
-docker buildx build \
-    --platform linux/amd64 \
+docker build \
+    --progress=plain \
     --no-cache=${docker_build_no_cache} \
     --label "org.label-schema.name=joundso/$IMAGE_NAME" \
     --label "org.label-schema.vsc-url=https://github.com/joundso/r_datascience/blob/master/Dockerfiles/$IMAGE_NAME.dockerfile" \
     --label "org.label-schema.vcs-ref=$(git rev-parse HEAD)" \
     --label "org.label-schema.version=$(date -u +'%Y-%m-%dT%H:%M:%SZ')" \
     -f ./Dockerfiles/$IMAGE_NAME.dockerfile \
-    --push \
     -t $REGISTRY_PREFIX/$IMAGE_NAME . 2>&1 | tee ./log_$IMAGE_NAME.log
 
-# printf "\n\nPushing $IMAGE_NAME image (latest)\n"
-## Push new image as new 'latest':
-# docker push "$REGISTRY_PREFIX/$IMAGE_NAME"
+printf "\n\nPushing $IMAGE_NAME image (latest)\n"
+# Push new image as new 'latest':
+docker push "$REGISTRY_PREFIX/$IMAGE_NAME"
 
 # also tag it with the new tag:
 docker tag $REGISTRY_PREFIX/$IMAGE_NAME $REGISTRY_PREFIX/$IMAGE_NAME:$VERSION_TAG

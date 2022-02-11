@@ -36,22 +36,22 @@ RUN install2.r --error --deps TRUE --skipinstalled -n $NCPUS \
     && rm -rf /tmp/downloaded_packages \
     && rm -rf /var/lib/apt/lists/*
 
-RUN install2.r --error --deps TRUE --skipinstalled -n $NCPUS \
-    data.table \ 
-    daterangepicker \
-    DBI \ 
-    desc \ 
-    DescTools \ 
-    devtools \ 
-    distill \
-    doParallel \ 
-    dotenv \ 
-    dplyr \ 
-    DT \ 
-    dtplyr \ 
-    dunn.test \
-    && rm -rf /tmp/downloaded_packages \
-    && rm -rf /var/lib/apt/lists/*
+# RUN install2.r --error --deps TRUE --skipinstalled -n $NCPUS \
+RUN install2.r --error --deps TRUE --skipinstalled -n $NCPUS data.table
+RUN install2.r --error --deps TRUE --skipinstalled -n $NCPUS daterangepicker
+RUN install2.r --error --deps TRUE --skipinstalled -n $NCPUS DBI 
+RUN install2.r --error --deps TRUE --skipinstalled -n $NCPUS desc 
+RUN install2.r --error --skipinstalled -n $NCPUS DescTools 
+RUN install2.r --error --deps TRUE --skipinstalled -n $NCPUS devtools 
+RUN install2.r --error --deps TRUE --skipinstalled -n $NCPUS distill
+RUN install2.r --error --deps TRUE --skipinstalled -n $NCPUS doParallel 
+RUN install2.r --error --deps TRUE --skipinstalled -n $NCPUS dotenv 
+RUN install2.r --error --deps TRUE --skipinstalled -n $NCPUS dplyr 
+RUN install2.r --error --deps TRUE --skipinstalled -n $NCPUS DT 
+RUN install2.r --error --deps TRUE --skipinstalled -n $NCPUS dtplyr 
+RUN install2.r --error --deps TRUE --skipinstalled -n $NCPUS dunn.test
+    # && rm -rf /tmp/downloaded_packages \
+    # && rm -rf /var/lib/apt/lists/*
 
 RUN install2.r --error --deps TRUE --skipinstalled -n $NCPUS \
     effects \
