@@ -15,14 +15,10 @@ jobs:
         with:
           images: joundso/rdsc_base_j
           tags: |
-            # minimal
             type=semver,pattern={{version}}
-            # use custom value instead of git tag
-            # type=semver,pattern={{version}},value=v1.0.0
           labels: |
             org.opencontainers.image.title=rdsc_base_j
             org.opencontainers.image.description=Base image for R Datascience
-            org.label-schema.schema-version="1.0"
             org.label-schema.url=https://github.com/joundso/r_datascience
             org.label-schema.vsc-url=https://github.com/joundso/r_datascience
       - name: Login to DockerHub
