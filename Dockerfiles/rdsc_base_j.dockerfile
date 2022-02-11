@@ -34,11 +34,15 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libclang-dev \
     libcurl4-openssl-dev \
     libffi-dev \
+    libfribidi-dev \
     libglu1-mesa-dev \
     libgsl-dev \
+    libharfbuzz-dev \
     libjpeg-dev \
     liblzma-dev \
     libmagick++-dev \
+    ## For package `RMariaDB`:
+    libmariadb-dev \
     libmpfr-dev \
     libobjc-7-dev \
     libopenblas-dev \
@@ -63,12 +67,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     tar \
     unixodbc-dev \
     unzip \
-    wget
-
-
-########################
-# clear caches
-RUN rm -rf /var/lib/apt/lists/* && \
+    wget && \
+    # clear caches
+    rm -rf /var/lib/apt/lists/* && \
     rm -rf /tmp/* && \
     rm -rf /root/.cache/pip/* && \
     rm -rf /home/${USER}/.cache/pip/* && \
@@ -184,7 +185,13 @@ RUN if [ "$TARGETPLATFORM" = "$ARM_LABEL" ] ; \
     libbz2-dev \
     liblzma-dev \
     libpcre2-dev \
-    libcurl4-openssl-dev; \
+    libcurl4-openssl-dev && \
+    # clear caches
+    rm -rf /var/lib/apt/lists/* && \
+    rm -rf /tmp/* && \
+    rm -rf /root/.cache/pip/* && \
+    rm -rf /home/${USER}/.cache/pip/* && \
+    apt-get clean && apt-get autoclean && apt-get autoremove -y; \
     fi
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -203,10 +210,17 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     tcl8.6-dev \
     texinfo \
     tk8.6-dev \
-    wajig
+    wajig && \
+    # clear caches
+    rm -rf /var/lib/apt/lists/* && \
+    rm -rf /tmp/* && \
+    rm -rf /root/.cache/pip/* && \
+    rm -rf /home/${USER}/.cache/pip/* && \
+    apt-get clean && apt-get autoclean && apt-get autoremove -y
+
 ## For Rattle:
-RUN wajig install -y libgtk2.0-dev
-RUN apt-get clean && \ 
+RUN wajig install -y libgtk2.0-dev && \
+    apt-get clean && \ 
     apt-get autoclean && \
     rm -rf /var/lib/apt/lists/*
 
@@ -230,17 +244,18 @@ ENV JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
 RUN echo JAVA_HOME="${JAVA_HOME}" >> /etc/environment
 RUN R CMD javareconf
 
-# first, make sure, that package "remotes" is installed, so we can make use
+
 USER ${RSESSION_USER}
-# of its function remotes::update_packages 
-# https://rdrr.io/cran/remotes/man/update_packages.html
-RUN R -q -e "install.packages(\"docopt\")"
-RUN R -q -e "install.packages(\"stringi\", configure.args=\"--disable-pkg-config\")"
+
+RUN R -q -e "install.packages('docopt')"
+RUN R -q -e "install.packages('stringi', configure.args='--disable-pkg-config')"
 RUN install2.r --error \
     remotes \
     devtools \
     reticulate \
-    data.table
+    data.table \
+    && rm -rf /tmp/downloaded_packages \
+    && rm -rf /var/lib/apt/lists/*
 
 # switch back
 USER root
@@ -262,5 +277,4 @@ RUN rm -rf /var/lib/apt/lists/* && \
     rm -rf /root/.cache/pip/* && \
     rm -rf /home/${USER}/.cache/pip/* && \
     apt-get clean && apt-get autoclean && apt-get autoremove -y
-
 ########################

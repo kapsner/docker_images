@@ -5,37 +5,39 @@ LABEL org.label-schema.schema-version="1.0" \
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-USER ${RSESSION_USER}
+## build ARGs
+ARG NCPUS=${NCPUS:--1}
 
-ARG a="abind"
-RUN for package in $a; do \
-    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, build_manual = FALSE, quiet = TRUE, upgrade = \"always\")"; \
-    done && \
-    rm -rf /tmp/*
+# USER ${RSESSION_USER}
 
-ARG b="bigmemory \ 
+RUN install2.r --error --deps TRUE --skipinstalled -n $NCPUS \
+    abind \
+    && rm -rf /tmp/downloaded_packages \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN install2.r --error --deps TRUE --skipinstalled -n $NCPUS \
+    bigmemory \ 
     billboarder \ 
-    bookdown"
-RUN for package in $b; do \
-    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, build_manual = FALSE, quiet = TRUE, upgrade = \"always\")"; \
-    done && \
-    rm -rf /tmp/*
+    bookdown \
+    && rm -rf /tmp/downloaded_packages \
+    && rm -rf /var/lib/apt/lists/*
 
-ARG c="cairoDevice \
-    citr \
+RUN install2.r --error --deps TRUE --skipinstalled -n $NCPUS \
+    ## Not on CRAN anymore:
+    # cairoDevice \
+    # citr \
     class \ 
     cluster \ 
     ClusterR \ 
     config \ 
     covr \ 
     cowplot \ 
-    curl"
-RUN for package in $c; do \
-    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, build_manual = FALSE, quiet = TRUE, upgrade = \"always\")"; \
-    done && \
-    rm -rf /tmp/*
+    curl \
+    && rm -rf /tmp/downloaded_packages \
+    && rm -rf /var/lib/apt/lists/*
 
-ARG d="data.table \ 
+RUN install2.r --error --deps TRUE --skipinstalled -n $NCPUS \
+    data.table \ 
     daterangepicker \
     DBI \ 
     desc \ 
@@ -47,84 +49,75 @@ ARG d="data.table \
     dplyr \ 
     DT \ 
     dtplyr \ 
-    dunn.test"
-RUN for package in $d; do \
-    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, build_manual = FALSE, quiet = TRUE, upgrade = \"always\")"; \
-    done && \
-    rm -rf /tmp/*
+    dunn.test \
+    && rm -rf /tmp/downloaded_packages \
+    && rm -rf /var/lib/apt/lists/*
 
-ARG e="effects"
-RUN for package in $e; do \
-    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, build_manual = FALSE, quiet = TRUE, upgrade = \"always\")"; \
-    done && \
-    rm -rf /tmp/*
+RUN install2.r --error --deps TRUE --skipinstalled -n $NCPUS \
+    effects \
+    && rm -rf /tmp/downloaded_packages \
+    && rm -rf /var/lib/apt/lists/*
 
-ARG f="fhircrackr \ 
+RUN install2.r --error --deps TRUE --skipinstalled -n $NCPUS \
+    fhircrackr \ 
     foreach \ 
     formatR \ 
     # DQAstats:
     future \ 
     # DQAstats:
-    future.apply"
-RUN for package in $f; do \
-    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, build_manual = FALSE, quiet = TRUE, upgrade = \"always\")"; \
-    done && \
-    rm -rf /tmp/*
+    future.apply \
+    && rm -rf /tmp/downloaded_packages \
+    && rm -rf /var/lib/apt/lists/*
 
-ARG g="ggplot2 \ 
+RUN install2.r --error --deps TRUE --skipinstalled -n $NCPUS \
+    ggplot2 \ 
     ggpubr \ 
     gtsummary \
-    gplots"
-RUN for package in $g; do \
-    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, build_manual = FALSE, quiet = TRUE, upgrade = \"always\")"; \
-    done && \
-    rm -rf /tmp/*
+    gplots \
+    && rm -rf /tmp/downloaded_packages \
+    && rm -rf /var/lib/apt/lists/*
 
-ARG h="highcharter \
+RUN install2.r --error --deps TRUE --skipinstalled -n $NCPUS \
+    highcharter \
     Hmisc \ 
-    httr"
-RUN for package in $h; do \
-    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, build_manual = FALSE, quiet = TRUE, upgrade = \"always\")"; \
-    done && \
-    rm -rf /tmp/*
+    httr \
+    && rm -rf /tmp/downloaded_packages \
+    && rm -rf /var/lib/apt/lists/*
 
-ARG i="influxdbr"
-RUN for package in $i; do \
-    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, build_manual = FALSE, quiet = TRUE, upgrade = \"always\")"; \
-    done && \
-    rm -rf /tmp/*
+RUN install2.r --error --deps TRUE --skipinstalled -n $NCPUS \
+    influxdbr \
+    && rm -rf /tmp/downloaded_packages \
+    && rm -rf /var/lib/apt/lists/*
 
-ARG j="jpeg \ 
-    jsonlite"
-RUN for package in $j; do \
-    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, build_manual = FALSE, quiet = TRUE, upgrade = \"always\")"; \
-    done && \
-    rm -rf /tmp/*
+RUN install2.r --error --deps TRUE --skipinstalled -n $NCPUS \
+    jpeg \ 
+    jsonlite \
+    && rm -rf /tmp/downloaded_packages \
+    && rm -rf /var/lib/apt/lists/*
 
-ARG k="kableExtra \ 
-    knitr"
-RUN for package in $k; do \
-    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, build_manual = FALSE, quiet = TRUE, upgrade = \"always\")"; \
-    done && \
-    rm -rf /tmp/*
+RUN install2.r --error --deps TRUE --skipinstalled -n $NCPUS \
+    kableExtra \ 
+    knitr \
+    && rm -rf /tmp/downloaded_packages \
+    && rm -rf /var/lib/apt/lists/*
 
-ARG l="languageserver \
+RUN install2.r --error --deps TRUE --skipinstalled -n $NCPUS \
+    languageserver \
     lintr \ 
     logger \
-    lubridate"
-RUN for package in $l; do \
-    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, build_manual = FALSE, quiet = TRUE, upgrade = \"always\")"; \
-    done && \
-    rm -rf /tmp/*
+    lubridate \
+    && rm -rf /tmp/downloaded_packages \
+    && rm -rf /var/lib/apt/lists/*
 
-ARG m="markdown \ 
+RUN install2.r --error --deps TRUE --skipinstalled -n $NCPUS \
+    markdown \ 
     Matrix \ 
     microbenchmark \ 
-    mlbench"
-RUN for package in $m; do \
-    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, build_manual = FALSE, quiet = TRUE, upgrade = \"always\")"; \
-    done && \
-    rm -rf /tmp/*
+    mlbench \
+    && rm -rf /tmp/downloaded_packages \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN R -q -e "exit(); quit()"
 
 ARG n="naivebayes"
 RUN for package in $n; do \
@@ -169,6 +162,7 @@ ARG r="R.utils \
     readr \ 
     redcapAPI \ 
     REDCapR \
+    RefManageR \
     remotes \ 
     ## Reproducible Examples:
     reprex \
