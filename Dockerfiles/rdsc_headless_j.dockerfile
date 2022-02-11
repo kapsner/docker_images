@@ -165,8 +165,7 @@ RUN install2.r --error --skipinstalled -n $NCPUS \
     ## Reproducible Examples:
     reprex \
     reshape2 \ 
-    reticulate \ 
-    RGtk2 \
+    reticulate \
     rJava \ 
     RJDBC \ 
     RJSONIO \
