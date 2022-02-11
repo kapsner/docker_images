@@ -367,6 +367,10 @@ RUN R -q -e "remotes::install_github('matt-dray/snorkel')"
 ## Explore data and create ggplots:
 RUN R -q -e "remotes::install_github('dreamRs/esquisse')"
 
+## Data Analytics:
+RUN R -q -e "remotes::install_github('radiant-rstats/radiant.update', upgrade = 'never'); \
+    radiant.update::radiant.update()"
+
 ## CRAN packages with my participation:
 ARG pack="DIZutils"
 RUN for package in $pack; do \   

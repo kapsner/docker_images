@@ -7,7 +7,7 @@ source ./.env
 export DOCKER_BUILDKIT=1
 
 ## Should the docker building process build without caching? (true/false)
-docker_build_no_cache=true
+docker_build_no_cache=false
 
 printf "\n\n##################################\n"
 printf "Building images with version tag $VERSION_TAG"
@@ -29,6 +29,7 @@ printf "\n\nBuilding $REGISTRY_PREFIX/$IMAGE_NAME image (latest):\n"
 
 # --platform linux/amd64,linux/arm64 \
 # --progress=plain \
+# docker buildx build \
 docker buildx build \
     --platform linux/amd64 \
     --no-cache=${docker_build_no_cache} \
