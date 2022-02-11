@@ -15,6 +15,7 @@ jobs:
         with:
           images: joundso/rdsc_base_j
           tags: |
+            latest
             type=semver,pattern={{version}}
           labels: |
             org.opencontainers.image.title=rdsc_base_j
