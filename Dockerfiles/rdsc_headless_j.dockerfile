@@ -10,19 +10,19 @@ ARG NCPUS=${NCPUS:--1}
 
 # USER ${RSESSION_USER}
 
-RUN install2.r --error --deps TRUE --skipinstalled -n $NCPUS \
+RUN install2.r --error --skipinstalled -n $NCPUS \
     abind \
     && rm -rf /tmp/downloaded_packages \
     && rm -rf /var/lib/apt/lists/*
 
-RUN install2.r --error --deps TRUE --skipinstalled -n $NCPUS \
+RUN install2.r --error --skipinstalled -n $NCPUS \
     bigmemory \ 
     billboarder \ 
     bookdown \
     && rm -rf /tmp/downloaded_packages \
     && rm -rf /var/lib/apt/lists/*
 
-RUN install2.r --error --deps TRUE --skipinstalled -n $NCPUS \
+RUN install2.r --error --skipinstalled -n $NCPUS \
     ## Not on CRAN anymore:
     # cairoDevice \
     # citr \
@@ -36,29 +36,29 @@ RUN install2.r --error --deps TRUE --skipinstalled -n $NCPUS \
     && rm -rf /tmp/downloaded_packages \
     && rm -rf /var/lib/apt/lists/*
 
-# RUN install2.r --error --deps TRUE --skipinstalled -n $NCPUS \
-RUN install2.r --error --deps TRUE --skipinstalled -n $NCPUS data.table
-RUN install2.r --error --deps TRUE --skipinstalled -n $NCPUS daterangepicker
-RUN install2.r --error --deps TRUE --skipinstalled -n $NCPUS DBI 
-RUN install2.r --error --deps TRUE --skipinstalled -n $NCPUS desc 
-RUN install2.r --error --skipinstalled -n $NCPUS DescTools 
-RUN install2.r --error --deps TRUE --skipinstalled -n $NCPUS devtools 
-RUN install2.r --error --deps TRUE --skipinstalled -n $NCPUS distill
-RUN install2.r --error --deps TRUE --skipinstalled -n $NCPUS doParallel 
-RUN install2.r --error --deps TRUE --skipinstalled -n $NCPUS dotenv 
-RUN install2.r --error --deps TRUE --skipinstalled -n $NCPUS dplyr 
-RUN install2.r --error --deps TRUE --skipinstalled -n $NCPUS DT 
-RUN install2.r --error --deps TRUE --skipinstalled -n $NCPUS dtplyr 
-RUN install2.r --error --deps TRUE --skipinstalled -n $NCPUS dunn.test
-    # && rm -rf /tmp/downloaded_packages \
-    # && rm -rf /var/lib/apt/lists/*
+RUN install2.r --error --skipinstalled -n $NCPUS \
+    data.table \
+    daterangepicker \
+    DBI  \
+    desc \
+    DescTools \ 
+    devtools \
+    distill \
+    doParallel \
+    dotenv \
+    dplyr \
+    DT \
+    dtplyr \
+    dunn.test \
+    && rm -rf /tmp/downloaded_packages \
+    && rm -rf /var/lib/apt/lists/*
 
-RUN install2.r --error --deps TRUE --skipinstalled -n $NCPUS \
+RUN install2.r --error --skipinstalled -n $NCPUS \
     effects \
     && rm -rf /tmp/downloaded_packages \
     && rm -rf /var/lib/apt/lists/*
 
-RUN install2.r --error --deps TRUE --skipinstalled -n $NCPUS \
+RUN install2.r --error --skipinstalled -n $NCPUS \
     fhircrackr \ 
     foreach \ 
     formatR \ 
@@ -69,7 +69,7 @@ RUN install2.r --error --deps TRUE --skipinstalled -n $NCPUS \
     && rm -rf /tmp/downloaded_packages \
     && rm -rf /var/lib/apt/lists/*
 
-RUN install2.r --error --deps TRUE --skipinstalled -n $NCPUS \
+RUN install2.r --error --skipinstalled -n $NCPUS \
     ggplot2 \ 
     ggpubr \ 
     gtsummary \
@@ -77,31 +77,31 @@ RUN install2.r --error --deps TRUE --skipinstalled -n $NCPUS \
     && rm -rf /tmp/downloaded_packages \
     && rm -rf /var/lib/apt/lists/*
 
-RUN install2.r --error --deps TRUE --skipinstalled -n $NCPUS \
+RUN install2.r --error --skipinstalled -n $NCPUS \
     highcharter \
     Hmisc \ 
     httr \
     && rm -rf /tmp/downloaded_packages \
     && rm -rf /var/lib/apt/lists/*
 
-RUN install2.r --error --deps TRUE --skipinstalled -n $NCPUS \
+RUN install2.r --error --skipinstalled -n $NCPUS \
     influxdbr \
     && rm -rf /tmp/downloaded_packages \
     && rm -rf /var/lib/apt/lists/*
 
-RUN install2.r --error --deps TRUE --skipinstalled -n $NCPUS \
+RUN install2.r --error --skipinstalled -n $NCPUS \
     jpeg \ 
     jsonlite \
     && rm -rf /tmp/downloaded_packages \
     && rm -rf /var/lib/apt/lists/*
 
-RUN install2.r --error --deps TRUE --skipinstalled -n $NCPUS \
+RUN install2.r --error --skipinstalled -n $NCPUS \
     kableExtra \ 
     knitr \
     && rm -rf /tmp/downloaded_packages \
     && rm -rf /var/lib/apt/lists/*
 
-RUN install2.r --error --deps TRUE --skipinstalled -n $NCPUS \
+RUN install2.r --error --skipinstalled -n $NCPUS \
     languageserver \
     lintr \ 
     logger \
@@ -109,7 +109,7 @@ RUN install2.r --error --deps TRUE --skipinstalled -n $NCPUS \
     && rm -rf /tmp/downloaded_packages \
     && rm -rf /var/lib/apt/lists/*
 
-RUN install2.r --error --deps TRUE --skipinstalled -n $NCPUS \
+RUN install2.r --error --skipinstalled -n $NCPUS \
     markdown \ 
     Matrix \ 
     microbenchmark \ 
@@ -117,33 +117,30 @@ RUN install2.r --error --deps TRUE --skipinstalled -n $NCPUS \
     && rm -rf /tmp/downloaded_packages \
     && rm -rf /var/lib/apt/lists/*
 
-RUN R -q -e "exit(); quit()"
+# RUN R -q -e "exit(); quit()"
 
-ARG n="naivebayes"
-RUN for package in $n; do \
-    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, build_manual = FALSE, quiet = TRUE, upgrade = \"always\")"; \
-    done && \
-    rm -rf /tmp/*
+RUN install2.r --error --skipinstalled -n $NCPUS \
+    naivebayes \
+    && rm -rf /tmp/downloaded_packages \
+    && rm -rf /var/lib/apt/lists/*
 
-ARG o="odbc \ 
+RUN install2.r --error --skipinstalled -n $NCPUS \
+    odbc \ 
     openssl \ 
-    openxlsx"
-RUN for package in $o; do \
-    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, build_manual = FALSE, quiet = TRUE, upgrade = \"always\")"; \
-    done && \
-    rm -rf /tmp/*
+    openxlsx \
+    && rm -rf /tmp/downloaded_packages \
+    && rm -rf /var/lib/apt/lists/*
 
-ARG p="pagedown \
+RUN install2.r --error --skipinstalled -n $NCPUS \
+    pagedown \
     parallel \ 
     parsedate \ 
     pheatmap \ 
     plotly \ 
     plyr \ 
-    psych"
-RUN for package in $p; do \
-    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, build_manual = FALSE, quiet = TRUE, upgrade = \"always\")"; \
-    done && \
-    rm -rf /tmp/*
+    psych \
+    && rm -rf /tmp/downloaded_packages \
+    && rm -rf /var/lib/apt/lists/*
 
 # ARG q="qpdf \ 
 #     questionr"
@@ -152,7 +149,8 @@ RUN for package in $p; do \
 #     done && \
 #     rm -rf /tmp/*
 
-ARG r="R.utils \ 
+RUN install2.r --error --skipinstalled -n $NCPUS \
+    R.utils \ 
     R6 \ 
     rapportools \
     rattle \
@@ -178,13 +176,12 @@ ARG r="R.utils \
     roxygen2 \ 
     RPostgres \ 
     RSQLite \ 
-    rstudioapi"
-RUN for package in $r; do \
-    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, build_manual = FALSE, quiet = TRUE, upgrade = \"always\")"; \
-    done && \
-    rm -rf /tmp/*
+    rstudioapi \
+    && rm -rf /tmp/downloaded_packages \
+    && rm -rf /var/lib/apt/lists/*
 
-ARG s="shiny \ 
+RUN install2.r --error --skipinstalled -n $NCPUS \
+    shiny \ 
     shinyalert \ 
     shinydashboard \ 
     shinyFiles \ 
@@ -195,31 +192,27 @@ ARG s="shiny \
     sqldf \  
     styler \ 
     summarytools \ 
-    sunburstR"
-RUN for package in $s; do \
-    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, build_manual = FALSE, quiet = TRUE, upgrade = \"always\")"; \
-    done && \
-    rm -rf /tmp/*
+    sunburstR \
+    && rm -rf /tmp/downloaded_packages \
+    && rm -rf /var/lib/apt/lists/*
 
-ARG t="testthat \ 
+RUN install2.r --error --skipinstalled -n $NCPUS \
+    testthat \ 
     tidyr \ 
     tidyverse \ 
     timeDate \ 
     tinytex \
     tiff \ 
-    treemap"
-RUN for package in $t; do \
-    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, build_manual = FALSE, quiet = TRUE, upgrade = \"always\")"; \
-    done && \
-    rm -rf /tmp/*
+    treemap \
+    && rm -rf /tmp/downloaded_packages \
+    && rm -rf /var/lib/apt/lists/*
 
-ARG u="urltools \ 
+RUN install2.r --error --skipinstalled -n $NCPUS \
+    urltools \ 
     usethis \ 
-    utf8"
-RUN for package in $u; do \
-    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, build_manual = FALSE, quiet = TRUE, upgrade = \"always\")"; \
-    done && \
-    rm -rf /tmp/*
+    utf8 \
+    && rm -rf /tmp/downloaded_packages \
+    && rm -rf /var/lib/apt/lists/*
 
 # ARG v="vegan \ 
 #     vroom"
@@ -228,34 +221,30 @@ RUN for package in $u; do \
 #     done && \
 #     rm -rf /tmp/*
 
-ARG w="wesanderson \ 
+RUN install2.r --error --skipinstalled -n $NCPUS \
+    wesanderson \ 
     wordcloud \ 
-    wordcloud2"
-RUN for package in $w; do \
-    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, build_manual = FALSE, quiet = TRUE, upgrade = \"always\")"; \
-    done && \
-    rm -rf /tmp/*
+    wordcloud2 \
+    && rm -rf /tmp/downloaded_packages \
+    && rm -rf /var/lib/apt/lists/*
 
-ARG x="xfun \ 
+RUN install2.r --error --skipinstalled -n $NCPUS \
+    xfun \ 
     xgboost \
     XML \ 
-    xml2"
-RUN for package in $x; do \
-    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, build_manual = FALSE, quiet = TRUE, upgrade = \"always\")"; \
-    done && \
-    rm -rf /tmp/*
+    xml2 \
+    && rm -rf /tmp/downloaded_packages \
+    && rm -rf /var/lib/apt/lists/*
 
-ARG y="yaml"
-RUN for package in $y; do \
-    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, build_manual = FALSE, quiet = TRUE, upgrade = \"always\")"; \
-    done && \
-    rm -rf /tmp/*
+RUN install2.r --error --skipinstalled -n $NCPUS \
+    yaml \
+    && rm -rf /tmp/downloaded_packages \
+    && rm -rf /var/lib/apt/lists/*
 
-ARG z="zip"
-RUN for package in $z; do \   
-    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, build_manual = FALSE, quiet = TRUE, upgrade = \"always\")"; \
-    done && \
-    rm -rf /tmp/*
+RUN install2.r --error --skipinstalled -n $NCPUS \
+    zip \
+    && rm -rf /tmp/downloaded_packages \
+    && rm -rf /var/lib/apt/lists/*
 
 
 # install required LaTeX-Packages

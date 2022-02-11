@@ -7,6 +7,8 @@ LABEL org.label-schema.schema-version="1.0" \
 # set environment variable to supress user interaction
 ENV DEBIAN_FRONTEND=noninteractive
 
+## build ARGs
+ARG NCPUS=${NCPUS:--1}
 ARG DISPLAY
 ENV DISPLAY=${DISPLAY}
 
@@ -39,6 +41,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libgsl-dev \
     libharfbuzz-dev \
     libjpeg-dev \
+    libjq-dev \
     liblzma-dev \
     libmagick++-dev \
     ## For package `RMariaDB`:
@@ -247,9 +250,8 @@ RUN echo JAVA_HOME="${JAVA_HOME}" >> /etc/environment && \
 
 USER ${RSESSION_USER}
 
-RUN R -q -e "install.packages('docopt')"
-RUN R -q -e "install.packages('stringi', configure.args='--disable-pkg-config')"
-RUN install2.r --error \
+RUN R -q -e "install.packages('docopt'); install.packages('stringi', configure.args='--disable-pkg-config')"
+RUN install2.r --error --deps TRUE --skipinstalled -n $NCPUS \
     remotes \
     devtools \
     reticulate \
