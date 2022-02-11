@@ -10,7 +10,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Docker meta Base
-        id: meta
+        id: meta-base
         uses: docker/metadata-action@v3
         with:
           images: joundso/rdsc_base_j
@@ -33,10 +33,10 @@ jobs:
         with:
           file: ./Dockerfiles/rdsc_base_j.dockerfile
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+          tags: ${{ steps.meta-base.outputs.tags }}
+          labels: ${{ steps.meta-base.outputs.labels }}
       - name: Docker meta Headless
-        id: meta
+        id: meta-headless
         uses: docker/metadata-action@v3
         with:
           images: joundso/rdsc_headless_j
@@ -53,10 +53,10 @@ jobs:
         with:
           file: ./Dockerfiles/rdsc_headless_j.dockerfile
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+          tags: ${{ steps.meta-headless.outputs.tags }}
+          labels: ${{ steps.meta-headless.outputs.labels }}
       - name: Docker meta RStudio
-        id: meta
+        id: meta-rstudio
         uses: docker/metadata-action@v3
         with:
           images: joundso/rdsc_rstudio_j
@@ -73,5 +73,5 @@ jobs:
         with:
           file: ./Dockerfiles/rdsc_rstudio_j.dockerfile
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+          tags: ${{ steps.meta-rstudio.outputs.tags }}
+          labels: ${{ steps.meta-rstudio.outputs.labels }}
