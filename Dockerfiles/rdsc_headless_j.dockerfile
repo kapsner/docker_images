@@ -369,20 +369,16 @@ USER root
 
 # install sudo here, required for rstudio:
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    sudo
-RUN apt-get clean && \ 
-    apt-get autoclean && \
-    rm -rf /var/lib/apt/lists/*
-
-# clear caches
-RUN rm -rf /var/lib/apt/lists/* && \
-    rm -rf /tmp/*
-RUN rm -rf /home/${RSESSION_USER}/.cache/pip/*
-RUN apt-get clean && apt-get autoclean && apt-get autoremove -y
+    sudo && \
+    rm -rf /var/lib/apt/lists/* && \
+    rm -rf /var/lib/apt/lists/* && \
+    rm -rf /tmp/* && \
+    rm -rf /home/${RSESSION_USER}/.cache/pip/* && \
+    apt-get clean && apt-get autoclean && apt-get autoremove -y
 
 # set ubuntu password here (password required for rstudio login)
-RUN echo ${USER}:password | chpasswd 
-RUN echo ${USER} ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/${USER} && \
+RUN echo ${USER}:password | chpasswd  && \
+    echo ${USER} ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/${USER} && \
     chmod 0440 /etc/sudoers.d/${USER}
 
 # make deployed shiny app accessible via port 3838
@@ -401,8 +397,8 @@ RUN echo "options(shiny.port = 3838)" >> /home/${RSESSION_USER}/.Rprofile && \
 RUN echo "export PATH=${PATH}" >> /home/${RSESSION_USER}/.bash_profile && chmod +x /home/${RSESSION_USER}/.bash_profile
 
 # set PATH for all users
-RUN echo "PATH=${PATH}" >> /etc/R/Renviron
-RUN echo "PATH=${PATH}" >> /etc/environment
+RUN echo "PATH=${PATH}" >> /etc/R/Renviron && \
+    echo "PATH=${PATH}" >> /etc/environment
 
 # add radian profile
 ADD config/.radian_profile /home/${RSESSION_USER}/.radian_profile
@@ -412,13 +408,11 @@ RUN chown -R ${RSESSION_USER}:${RSESSION_USER} /home/${RSESSION_USER}/.radian_pr
 # RUN chown -R ${RSESSION_USER}:${RSESSION_USER} /home/${RSESSION_USER}/.local
 
 # Add JDBC drivers:
-RUN mkdir -p /opt/libs
-RUN curl -SL https://repo1.maven.org/maven2/com/oracle/database/jdbc/ojdbc8/19.8.0.0/ojdbc8-19.8.0.0.jar -o /opt/libs/ojdbc8.jar
-RUN curl -SL https://repo1.maven.org/maven2/com/oracle/database/jdbc/ojdbc10/19.8.0.0/ojdbc10-19.8.0.0.jar -o /opt/libs/ojdbc10.jar
-RUN chown -R ${RSESSION_USER}:${RSESSION_USER} /opt/libs/
-
-# clear caches
-RUN rm -rf /var/lib/apt/lists/* && \
+RUN mkdir -p /opt/libs && \
+    curl -SL https://repo1.maven.org/maven2/com/oracle/database/jdbc/ojdbc8/19.8.0.0/ojdbc8-19.8.0.0.jar -o /opt/libs/ojdbc8.jar && \
+    curl -SL https://repo1.maven.org/maven2/com/oracle/database/jdbc/ojdbc10/19.8.0.0/ojdbc10-19.8.0.0.jar -o /opt/libs/ojdbc10.jar  && \
+    chown -R ${RSESSION_USER}:${RSESSION_USER} /opt/libs/ && \
+    rm -rf /var/lib/apt/lists/* && \
     rm -rf /tmp/* && \
     rm -rf /root/.cache/pip/* && \
     rm -rf /home/${USER}/.cache/pip/* && \

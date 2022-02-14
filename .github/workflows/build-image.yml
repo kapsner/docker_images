@@ -9,6 +9,12 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+      - name: Login to DockerHub
+        if: github.event_name != 'pull_request'
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Docker meta Base
         id: meta-base
         uses: docker/metadata-action@v3
@@ -22,12 +28,6 @@ jobs:
             org.opencontainers.image.description=Base image for R Datascience
             org.label-schema.url=https://github.com/joundso/r_datascience
             org.label-schema.vsc-url=https://github.com/joundso/r_datascience
-      - name: Login to DockerHub
-        if: github.event_name != 'pull_request'
-        uses: docker/login-action@v1
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Build and push base image
         uses: docker/build-push-action@v2
         with:
