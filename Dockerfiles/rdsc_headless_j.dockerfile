@@ -215,34 +215,33 @@ USER ${RSESSION_USER}
 
 # configure the other r packages
 # install phantomjs
-RUN R -q -e "webshot::install_phantomjs()"
+RUN R -q -e "webshot::install_phantomjs(); \
+    ## Install shinytest dependencies (= phantomjs):
+    shinytest::installDependencies()"
 
-# install shinytest dependencies (= phantomjs)
-RUN R -q -e "shinytest::installDependencies()"
-
-# install the stuff, where I participate
-#RUN R -q -e "devtools::install_git(url = 'https://gitlab.miracum.org/miracum/dqa/dqastats.git', ref = 'master')"
-#RUN R -q -e "devtools::install_git(url = 'https://gitlab.miracum.org/miracum/dqa/dqagui.git', ref = 'master')"
+# Install the stuff, where I participate:
+# RUN R -q -e "devtools::install_git(url = 'https://gitlab.miracum.org/miracum/dqa/dqastats.git', ref = 'master')"
+# RUN R -q -e "devtools::install_git(url = 'https://gitlab.miracum.org/miracum/dqa/dqagui.git', ref = 'master')"
 RUN R -q -e "devtools::install_git(url = 'https://gitlab.miracum.org/miracum/dqa/miRacumdqa.git', ref = 'master'); \
     devtools::install_github('miracum/misc-diztools', ref = 'dev'); \
     devtools::install_github('joundso/mainzelliste-connector', ref = 'development'); \
     devtools::install_github('joundso/rkafka', ref = 'development'); \
     devtools::install_github('joundso/gpas_connector', ref = 'development'); \
     devtools::install_github('joundso/requirements', ref = 'development'); \
-    devtools::install_github('joundso/usRbility', ref = 'dev')"
+    devtools::install_github('joundso/usRbility', ref = 'dev'); \
 
-## Other stuff:
-## Formatting comments and RMarkdown tables:
-RUN R -q -e "devtools::install_github('mwip/beautifyR')"
+    ## Other stuff:
+    ## Formatting comments and RMarkdown tables:
+    devtools::install_github('mwip/beautifyR'); \
 
-## Addin to easy insert roxygen formatting options:
-RUN R -q -e "remotes::install_github('matt-dray/snorkel')"
+    ## Addin to easy insert roxygen formatting options:
+    remotes::install_github('matt-dray/snorkel'); \
 
-## Explore data and create ggplots:
-RUN R -q -e "remotes::install_github('dreamRs/esquisse')"
+    ## Explore data and create ggplots:
+    remotes::install_github('dreamRs/esquisse'); \
 
-## Data Analytics:
-RUN R -q -e "remotes::install_github('radiant-rstats/radiant.update', upgrade = 'never'); \
+    ## Data Analytics:
+    remotes::install_github('radiant-rstats/radiant.update', upgrade = 'never'); \
     radiant.update::radiant.update()"
 
 ## CRAN packages with my participation:
@@ -263,10 +262,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     rm -rf /var/lib/apt/lists/* && \
     rm -rf /tmp/* && \
     rm -rf /home/${RSESSION_USER}/.cache/pip/* && \
-    apt-get clean && apt-get autoclean && apt-get autoremove -y
+    apt-get clean && apt-get autoclean && apt-get autoremove -y && \
 
-# set ubuntu password here (password required for rstudio login)
-RUN echo ${USER}:password | chpasswd  && \
+    # set ubuntu password here (password required for rstudio login)
+    echo ${USER}:password | chpasswd  && \
     echo ${USER} ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/${USER} && \
     chmod 0440 /etc/sudoers.d/${USER}
 
