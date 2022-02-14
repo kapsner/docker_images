@@ -12,20 +12,9 @@ ARG NCPUS=${NCPUS:--1}
 
 RUN install2.r --error --skipinstalled -n $NCPUS \
     abind \
-    && rm -rf /tmp/downloaded_packages \
-    && rm -rf /var/lib/apt/lists/*
-
-RUN install2.r --error --skipinstalled -n $NCPUS \
     bigmemory \ 
     billboarder \ 
     bookdown \
-    && rm -rf /tmp/downloaded_packages \
-    && rm -rf /var/lib/apt/lists/*
-
-RUN install2.r --error --skipinstalled -n $NCPUS \
-    ## Not on CRAN anymore:
-    # cairoDevice \
-    # citr \
     class \ 
     cluster \ 
     ClusterR \ 
@@ -33,10 +22,6 @@ RUN install2.r --error --skipinstalled -n $NCPUS \
     covr \ 
     cowplot \ 
     curl \
-    && rm -rf /tmp/downloaded_packages \
-    && rm -rf /var/lib/apt/lists/*
-
-RUN install2.r --error --skipinstalled -n $NCPUS \
     data.table \
     daterangepicker \
     DBI  \
@@ -50,15 +35,7 @@ RUN install2.r --error --skipinstalled -n $NCPUS \
     DT \
     dtplyr \
     dunn.test \
-    && rm -rf /tmp/downloaded_packages \
-    && rm -rf /var/lib/apt/lists/*
-
-RUN install2.r --error --skipinstalled -n $NCPUS \
     effects \
-    && rm -rf /tmp/downloaded_packages \
-    && rm -rf /var/lib/apt/lists/*
-
-RUN install2.r --error --skipinstalled -n $NCPUS \
     fhircrackr \ 
     foreach \ 
     formatR \ 
@@ -66,72 +43,30 @@ RUN install2.r --error --skipinstalled -n $NCPUS \
     future \ 
     # DQAstats:
     future.apply \
-    && rm -rf /tmp/downloaded_packages \
-    && rm -rf /var/lib/apt/lists/*
-
-RUN install2.r --error --skipinstalled -n $NCPUS \
     ggplot2 \ 
     ggpubr \ 
     gtsummary \
     gplots \
-    && rm -rf /tmp/downloaded_packages \
-    && rm -rf /var/lib/apt/lists/*
-
-RUN install2.r --error --skipinstalled -n $NCPUS \
     highcharter \
     Hmisc \ 
     httr \
-    && rm -rf /tmp/downloaded_packages \
-    && rm -rf /var/lib/apt/lists/*
-
-RUN install2.r --error --skipinstalled -n $NCPUS \
     influxdbr \
-    && rm -rf /tmp/downloaded_packages \
-    && rm -rf /var/lib/apt/lists/*
-
-RUN install2.r --error --skipinstalled -n $NCPUS \
     jpeg \ 
     jsonlite \
-    && rm -rf /tmp/downloaded_packages \
-    && rm -rf /var/lib/apt/lists/*
-
-RUN install2.r --error --skipinstalled -n $NCPUS \
     kableExtra \ 
     knitr \
-    && rm -rf /tmp/downloaded_packages \
-    && rm -rf /var/lib/apt/lists/*
-
-RUN install2.r --error --skipinstalled -n $NCPUS \
     languageserver \
     lintr \ 
     logger \
     lubridate \
-    && rm -rf /tmp/downloaded_packages \
-    && rm -rf /var/lib/apt/lists/*
-
-RUN install2.r --error --skipinstalled -n $NCPUS \
     markdown \ 
     Matrix \ 
     microbenchmark \ 
     mlbench \
-    && rm -rf /tmp/downloaded_packages \
-    && rm -rf /var/lib/apt/lists/*
-
-# RUN R -q -e "exit(); quit()"
-
-RUN install2.r --error --skipinstalled -n $NCPUS \
     naivebayes \
-    && rm -rf /tmp/downloaded_packages \
-    && rm -rf /var/lib/apt/lists/*
-
-RUN install2.r --error --skipinstalled -n $NCPUS \
     odbc \ 
     openssl \ 
     openxlsx \
-    && rm -rf /tmp/downloaded_packages \
-    && rm -rf /var/lib/apt/lists/*
-
-RUN install2.r --error --skipinstalled -n $NCPUS \
     pagedown \
     parallel \ 
     parsedate \ 
@@ -139,17 +74,6 @@ RUN install2.r --error --skipinstalled -n $NCPUS \
     plotly \ 
     plyr \ 
     psych \
-    && rm -rf /tmp/downloaded_packages \
-    && rm -rf /var/lib/apt/lists/*
-
-# ARG q="qpdf \ 
-#     questionr"
-# RUN for package in $q; do \
-#     R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, build_manual = FALSE, quiet = TRUE, upgrade = \"always\")"; \
-#     done && \
-#     rm -rf /tmp/*
-
-RUN install2.r --error --skipinstalled -n $NCPUS \
     R.utils \ 
     R6 \ 
     rapportools \
@@ -176,10 +100,6 @@ RUN install2.r --error --skipinstalled -n $NCPUS \
     RPostgres \ 
     RSQLite \ 
     rstudioapi \
-    && rm -rf /tmp/downloaded_packages \
-    && rm -rf /var/lib/apt/lists/*
-
-RUN install2.r --error --skipinstalled -n $NCPUS \
     shiny \ 
     shinyalert \ 
     shinydashboard \ 
@@ -192,10 +112,6 @@ RUN install2.r --error --skipinstalled -n $NCPUS \
     styler \ 
     summarytools \ 
     sunburstR \
-    && rm -rf /tmp/downloaded_packages \
-    && rm -rf /var/lib/apt/lists/*
-
-RUN install2.r --error --skipinstalled -n $NCPUS \
     testthat \ 
     tidyr \ 
     tidyverse \ 
@@ -203,44 +119,17 @@ RUN install2.r --error --skipinstalled -n $NCPUS \
     tinytex \
     tiff \ 
     treemap \
-    && rm -rf /tmp/downloaded_packages \
-    && rm -rf /var/lib/apt/lists/*
-
-RUN install2.r --error --skipinstalled -n $NCPUS \
     urltools \ 
     usethis \ 
     utf8 \
-    && rm -rf /tmp/downloaded_packages \
-    && rm -rf /var/lib/apt/lists/*
-
-# ARG v="vegan \ 
-#     vroom"
-# RUN for package in $v; do \
-#     R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, build_manual = FALSE, quiet = TRUE, upgrade = \"always\")"; \
-#     done && \
-#     rm -rf /tmp/*
-
-RUN install2.r --error --skipinstalled -n $NCPUS \
     wesanderson \ 
     wordcloud \ 
     wordcloud2 \
-    && rm -rf /tmp/downloaded_packages \
-    && rm -rf /var/lib/apt/lists/*
-
-RUN install2.r --error --skipinstalled -n $NCPUS \
     xfun \ 
     xgboost \
     XML \ 
     xml2 \
-    && rm -rf /tmp/downloaded_packages \
-    && rm -rf /var/lib/apt/lists/*
-
-RUN install2.r --error --skipinstalled -n $NCPUS \
     yaml \
-    && rm -rf /tmp/downloaded_packages \
-    && rm -rf /var/lib/apt/lists/*
-
-RUN install2.r --error --skipinstalled -n $NCPUS \
     zip \
     && rm -rf /tmp/downloaded_packages \
     && rm -rf /var/lib/apt/lists/*
@@ -295,9 +184,9 @@ ARG tiny="'amsfonts', \
     'url', \ 
     'xcolor'"
 
-RUN R -q -e "tinytex::tlmgr_conf()"
-RUN R -q -e "tinytex::tlmgr_install(pkgs = c(${tiny}))"
-RUN R -q -e "tinytex::tlmgr_update()"
+RUN R -q -e "tinytex::tlmgr_conf(); \
+    tinytex::tlmgr_install(pkgs = c(${tiny})); \
+    tinytex::tlmgr_update()"
 
 USER root
 
@@ -334,13 +223,13 @@ RUN R -q -e "shinytest::installDependencies()"
 # install the stuff, where I participate
 #RUN R -q -e "devtools::install_git(url = 'https://gitlab.miracum.org/miracum/dqa/dqastats.git', ref = 'master')"
 #RUN R -q -e "devtools::install_git(url = 'https://gitlab.miracum.org/miracum/dqa/dqagui.git', ref = 'master')"
-RUN R -q -e "devtools::install_git(url = 'https://gitlab.miracum.org/miracum/dqa/miRacumdqa.git', ref = 'master')"
-RUN R -q -e "devtools::install_github('miracum/misc-diztools', ref = 'dev')"
-RUN R -q -e "devtools::install_github('joundso/mainzelliste-connector', ref = 'development')"
-RUN R -q -e "devtools::install_github('joundso/rkafka', ref = 'development')"
-RUN R -q -e "devtools::install_github('joundso/gpas_connector', ref = 'development')"
-RUN R -q -e "devtools::install_github('joundso/requirements', ref = 'development')"
-RUN R -q -e "devtools::install_github('joundso/usRbility', ref = 'dev')"
+RUN R -q -e "devtools::install_git(url = 'https://gitlab.miracum.org/miracum/dqa/miRacumdqa.git', ref = 'master'); \
+    devtools::install_github('miracum/misc-diztools', ref = 'dev'); \
+    devtools::install_github('joundso/mainzelliste-connector', ref = 'development'); \
+    devtools::install_github('joundso/rkafka', ref = 'development'); \
+    devtools::install_github('joundso/gpas_connector', ref = 'development'); \
+    devtools::install_github('joundso/requirements', ref = 'development'); \
+    devtools::install_github('joundso/usRbility', ref = 'dev')"
 
 ## Other stuff:
 ## Formatting comments and RMarkdown tables:
