@@ -305,7 +305,7 @@ RUN chown -R ${RSESSION_USER}:${RSESSION_USER} /home/${RSESSION_USER}/.TinyTeX &
     chmod -R g+w /home/${RSESSION_USER}/.TinyTeX && \
     chmod -R g+wx /home/${RSESSION_USER}/bin
 
-USER ${RSESSION_USER}
+
 
 # safety-check at the end: 
 # 1) look if everything is installed correctely (if not, you might add system-dependencies in the base_image)
@@ -321,6 +321,8 @@ USER ${RSESSION_USER}
 # update all installed packages
 RUN R -q -e "vec <- unname(installed.packages()[,\"Package\"]); remotes::update_packages(packages = vec, build_manual = FALSE, quiet = TRUE, upgrade = \"always\")"  && \
     rm -rf /tmp/*
+
+USER ${RSESSION_USER}
 
 # configure the other r packages
 # install phantomjs
