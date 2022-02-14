@@ -26,7 +26,7 @@ docker-compose up -d
 
 - When you deploy a shiny app, it will be accessible via [`localhost:3838`](http://localhost:3838).
 
-- The [tag of the images](https://hub.docker.com/repository/docker/joundso/rdsc_rstudio_j/tags?page=1&ordering=last_updated) corresponds to the current R version. The R version in an image with the tag `4.1.2` is (of course) `R 4.1.2`. This also holds for sub-tags like `4.1.2.9001` where some changes in the image like different installed R packages might be the reason for the sub tag but the R version is still `4.1.2`. (Hint: All tags starting with `0.*.*` do not match this criteria. These images were built before this convention came up.)
+- The [tag of the images](https://hub.docker.com/repository/docker/joundso/rdsc_rstudio_j/tags?page=1&ordering=last_updated) corresponds to the current R version. The R version in an image with the tag `4.1.2` is (of course) `R 4.1.2`. This also holds for sub-tags like `4.1.2-9001` where some changes in the image like different installed R packages might be the reason for the sub tag but the R version is still `4.1.2`. (Hint: All tags starting with `0.*.*` do not match this criteria. These images were built before this convention came up.)
 
 - If you want to run two (or more) instances of the image,
   1. run `bash ./start_rdatascience.sh` to spin up the first container,
