@@ -46,10 +46,6 @@ docker-compose up -d
 To build all images new, run
 
 ```sh
-## Create a new multi-architecture builder (if you have no one yet):
-docker buildx create --name mybuilder
-docker buildx use mybuilder
-
 ## Run the script to build the image(s):
 sudo bash ./build_rdsc.sh
 ```

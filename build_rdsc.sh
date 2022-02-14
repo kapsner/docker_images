@@ -6,6 +6,10 @@ set -o pipefail
 source ./.env
 export DOCKER_BUILDKIT=1
 
+## Create a new multi-architecture builder (if you have no one yet):
+# docker buildx create --name mybuilder
+# docker buildx use mybuilder
+
 ## Should the docker building process build without caching? (true/false)
 docker_build_no_cache=false
 
