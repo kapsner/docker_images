@@ -16,6 +16,7 @@ RUN install2.r --error --skipinstalled -n $NCPUS \
     billboarder \ 
     bookdown \
     class \ 
+    cleaR \
     cluster \ 
     ClusterR \ 
     config \ 
@@ -223,12 +224,14 @@ RUN R -q -e "webshot::install_phantomjs(); \
 # RUN R -q -e "devtools::install_git(url = 'https://gitlab.miracum.org/miracum/dqa/dqastats.git', ref = 'master')"
 # RUN R -q -e "devtools::install_git(url = 'https://gitlab.miracum.org/miracum/dqa/dqagui.git', ref = 'master')"
 RUN R -q -e "devtools::install_git(url = 'https://gitlab.miracum.org/miracum/dqa/miRacumdqa.git', ref = 'master'); \
+    devtools::install_github('miracum/misc-dizutils', ref = 'development'); \
     devtools::install_github('miracum/misc-diztools', ref = 'dev'); \
     devtools::install_github('joundso/mainzelliste-connector', ref = 'development'); \
     devtools::install_github('joundso/rkafka', ref = 'development'); \
     devtools::install_github('joundso/gpas_connector', ref = 'development'); \
     devtools::install_github('joundso/requirements', ref = 'development'); \
     devtools::install_github('joundso/usRbility', ref = 'dev'); \
+    devtools::install_github('joundso/cleaR', ref = 'dev'); \
 
     ## Other stuff:
     ## Formatting comments and RMarkdown tables:

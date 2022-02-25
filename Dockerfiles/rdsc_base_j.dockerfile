@@ -148,6 +148,8 @@ RUN yes | pip install --no-cache-dir \
     auto-changelog \
     testresources
 
+ENV PATH="/home/${USER}/.local/bin:$PATH"
+
 USER root
 
 
