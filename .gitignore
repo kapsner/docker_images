@@ -4,6 +4,7 @@
 !/.gitignore
 !/NEWS.md
 !/README.md
+!/update_news.sh
 !/config/
 !/deploy_headless/
 !/deploy_rstudio/

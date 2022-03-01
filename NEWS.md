@@ -1,4 +1,22 @@
-# NEWS
+# R for datascience
+
+## 4.1.2-9019 (2022-03-01)
+
+#### Fixes
+
+* added package `markupsafe==2.0.1` to prevent auto-changelog from failing
+
+Full set of changes: [`4.1.2-9018...4.1.2-9019`](https://github.com/joundso/r_datascience/compare/4.1.2-9018...4.1.2-9019)
+
+## 4.1.2-9018 (2022-02-25)
+
+#### Others
+
+* Release name in parantheses
+* updated release message
+* added new packages
+
+Full set of changes: [`4.1.2-9016...4.1.2-9018`](https://github.com/joundso/r_datascience/compare/4.1.2-9016...4.1.2-9018)
 
 ## 4.1.2-9016 (2022-02-22)
 
@@ -7,6 +25,8 @@
 * changed tag style from `major.minor.patch.build` to `major.mino.path-build` to keep a valid semver tag
 #### Others
 
+* added release gh action
+* updated news.md
 * update to rstudio version `2022.02.0+443`
 
 Full set of changes: [`4.1.2-9015...4.1.2-9016`](https://github.com/joundso/r_datascience/compare/4.1.2-9015...4.1.2-9016)
