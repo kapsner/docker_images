@@ -146,6 +146,8 @@ ENV AMD_LABEL="linux/amd64"
 
 RUN yes | pip install --no-cache-dir \
     auto-changelog \
+    ## For auto-changelog (breaking as of 2022-03-01, see <https://github.com/aws/aws-sam-cli/issues/3661>):
+    markupsafe==2.0.1 \
     testresources
 
 ENV PATH="/home/${USER}/.local/bin:$PATH"
