@@ -46,6 +46,7 @@ RUN install2.r --error --skipinstalled -n $NCPUS \
     future.apply \
     ggplot2 \ 
     ggpubr \ 
+    ggstatsplot \
     gtsummary \
     gplots \
     highcharter \
