@@ -69,6 +69,7 @@ RUN export pkg="\"$(echo ${c} | sed -e 's/ /\"\, \"/g')"\" && \
 
 ARG d="d3r \ 
     data.table \ 
+    dataquieR \
     DBI \ 
     deepboost \ 
     desc \ 
@@ -150,6 +151,7 @@ RUN export pkg="\"$(echo ${g} | sed -e 's/ /\"\, \"/g')"\" && \
 
 ARG h="haplo.stats \ 
     haven \ 
+    here \
     Hmisc \ 
     httr \ 
     hunspell"
