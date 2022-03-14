@@ -11,7 +11,7 @@ export DOCKER_BUILDKIT=1
 # docker buildx use mybuilder
 
 ## Should the docker building process build without caching? (true/false)
-docker_build_no_cache=true
+docker_build_no_cache=false
 
 printf "\n\n##################################\n"
 printf "Building images with version tag $VERSION_TAG"

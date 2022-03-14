@@ -207,19 +207,27 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     psmisc \
     qpdf \
     littler \
+    r-cran-littler \
     r-base \
     r-base-dev \
+    r-base-core \
     r-recommended \
     tcl8.6-dev \
     texinfo \
     tk8.6-dev \
-    wajig && \
+    wajig \
+    && ln -s /usr/lib/R/site-library/littler/examples/install.r /usr/local/bin/install.r \
+    && ln -s /usr/lib/R/site-library/littler/examples/install2.r /usr/local/bin/install2.r \
+    && ln -s /usr/lib/R/site-library/littler/examples/installBioc.r /usr/local/bin/installBioc.r \
+    && ln -s /usr/lib/R/site-library/littler/examples/installDeps.r /usr/local/bin/installDeps.r \
+    && ln -s /usr/lib/R/site-library/littler/examples/installGithub.r /usr/local/bin/installGithub.r \
+    && ln -s /usr/lib/R/site-library/littler/examples/testInstalled.r /usr/local/bin/testInstalled.r \
     # clear caches
-    rm -rf /var/lib/apt/lists/* && \
-    rm -rf /tmp/* && \
-    rm -rf /root/.cache/pip/* && \
-    rm -rf /home/${USER}/.cache/pip/* && \
-    apt-get clean && apt-get autoclean && apt-get autoremove -y
+    && rm -rf /tmp/downloaded_packages/ /tmp/*.rds \
+    && rm -rf /var/lib/apt/lists/* \
+    && rm -rf /root/.cache/pip/* \
+    && rm -rf /home/${USER}/.cache/pip/* \
+    && apt-get clean && apt-get autoclean && apt-get autoremove -y
 
 ## For Rattle:
 RUN wajig install -y libgtk2.0-dev && \
@@ -232,10 +240,6 @@ RUN wajig install -y libgtk2.0-dev && \
 RUN mkdir -p /usr/local/lib/R/site-library && \
     chown -R ${RSESSION_USER}:${RSESSION_USER} /usr/local/lib/R/site-library
 
-RUN ln -s /usr/lib/R/site-library/littler/examples/install.r /usr/local/bin/install.r && \
-    ln -s /usr/lib/R/site-library/littler/examples/install2.r /usr/local/bin/install2.r && \
-    ln -s /usr/lib/R/site-library/littler/examples/installGithub.r /usr/local/bin/installGithub.r && \
-    ln -s /usr/lib/R/site-library/littler/examples/testInstalled.r /usr/local/bin/testInstalled.r
 
 # set cran repo
 RUN echo "options('repos' = 'https://cloud.r-project.org/')" >> /etc/R/Rprofile.site

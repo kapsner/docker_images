@@ -44,6 +44,7 @@ RUN install2.r --error --skipinstalled -n $NCPUS \
     future \ 
     # DQAstats:
     future.apply \
+    ggside \
     ggplot2 \ 
     ggpubr \ 
     ggstatsplot \
@@ -79,7 +80,7 @@ RUN install2.r --error --skipinstalled -n $NCPUS \
     R.utils \ 
     R6 \ 
     rapportools \
-    rattle \
+    # rattle \
     rcmdcheck \ 
     RCurl \ 
     reactable \
