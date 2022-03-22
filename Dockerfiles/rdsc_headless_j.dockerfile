@@ -128,6 +128,7 @@ RUN install2.r --error --skipinstalled -n $NCPUS \
     wesanderson \ 
     wordcloud \ 
     wordcloud2 \
+    xaringan \
     xfun \ 
     xgboost \
     XML \ 
