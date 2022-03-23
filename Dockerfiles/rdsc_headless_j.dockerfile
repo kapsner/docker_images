@@ -254,7 +254,8 @@ RUN R -q -e "devtools::install_git(url = 'https://gitlab.miracum.org/miracum/dqa
 
     ## Presentations with xaringan:
     remotes::install_github('yihui/xaringan'); \
-    remotes::install_github('jhelvy/xaringanBuilder') \
+    remotes::install_github('jhelvy/xaringanBuilder'); \
+    devtools::install_github('gadenbuie/xaringanExtra') \
     "
 
 ## CRAN packages with my participation:
