@@ -250,7 +250,12 @@ RUN R -q -e "devtools::install_git(url = 'https://gitlab.miracum.org/miracum/dqa
 
     ## Data Analytics:
     remotes::install_github('radiant-rstats/radiant.update', upgrade = 'never'); \
-    radiant.update::radiant.update()"
+    radiant.update::radiant.update(); \
+
+    ## Presentations with xaringan:
+    remotes::install_github('yihui/xaringan'); \
+    remotes::install_github('jhelvy/xaringanBuilder') \
+    "
 
 ## CRAN packages with my participation:
 ARG pack="DIZutils"
