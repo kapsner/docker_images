@@ -49,6 +49,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     ## For package `RMariaDB`:
     libmariadb-dev \
     libmpfr-dev \
+    ## For leaflet deps:
+    libmysqlclient-dev \
     libobjc-7-dev \
     libopenblas-dev \
     libopenmpi-dev \
