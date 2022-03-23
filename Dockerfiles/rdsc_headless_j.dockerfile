@@ -59,6 +59,8 @@ RUN install2.r --error --skipinstalled -n $NCPUS \
     kableExtra \ 
     knitr \
     languageserver \
+    ## For xaringan:
+    leaflet \
     lintr \ 
     logger \
     lubridate \
