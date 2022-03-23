@@ -37,6 +37,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libcurl4-openssl-dev \
     libffi-dev \
     libfribidi-dev \
+    ## For `leaflet`:
+    libgdal-dev \
     libglu1-mesa-dev \
     libgsl-dev \
     libharfbuzz-dev \
