@@ -47,9 +47,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     liblzma-dev \
     libmagick++-dev \
     ## For package `RMariaDB`:
-    libmariadb-dev \
+    # libmariadb-dev \
     libmpfr-dev \
-    ## For leaflet deps:
+    ## For `leaflet` deps:
     libmysqlclient-dev \
     libobjc-7-dev \
     libopenblas-dev \
