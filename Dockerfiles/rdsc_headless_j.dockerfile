@@ -66,6 +66,7 @@ RUN install2.r --error --skipinstalled -n $NCPUS \
     lubridate \
     markdown \ 
     Matrix \ 
+    metathis \
     microbenchmark \ 
     mlbench \
     naivebayes \
