@@ -69,7 +69,6 @@ RUN export pkg="\"$(echo ${c} | sed -e 's/ /\"\, \"/g')"\" && \
 
 ARG d="d3r \ 
     data.table \ 
-    dataquieR \
     DBI \ 
     deepboost \ 
     desc \ 
@@ -640,6 +639,7 @@ RUN echo "options(shiny.port = 3838)" >> /home/${RSESSION_USER}/.Rprofile && \
     echo "options(shiny.launch.browser = FALSE)" >> /home/${RSESSION_USER}/.Rprofile && \
     echo "options(shiny.error = browser)" >> /home/${RSESSION_USER}/.Rprofile && \
     echo "options(shiny.fullstacktrace = TRUE)" >> /home/${RSESSION_USER}/.Rprofile && \
+    echo "options(warnPartialMatchArgs = TRUE)" >> /home/${RSESSION_USER}/.Rprofile && \
     # https://github.com/Ikuyadeu/vscode-R#r-session-watcher-experimental
     echo "source(file.path(Sys.getenv(if (.Platform\$OS.type == \"windows\") \"USERPROFILE\" else \"HOME\"), \".vscode-R\", \"init.R\"))" >> /home/${RSESSION_USER}/.Rprofile && \
     chown -R ${RSESSION_USER}:${RSESSION_USER} /home/${RSESSION_USER}/.Rprofile
