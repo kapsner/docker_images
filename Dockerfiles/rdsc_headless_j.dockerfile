@@ -92,6 +92,7 @@ RUN install2.r --error --skipinstalled -n $NCPUS \
     REDCapR \
     RefManageR \
     remotes \ 
+    report \
     ## Reproducible Examples:
     reprex \
     reshape2 \ 
@@ -256,7 +257,10 @@ RUN R -q -e "devtools::install_git(url = 'https://gitlab.miracum.org/miracum/dqa
     ## Presentations with xaringan:
     remotes::install_github('yihui/xaringan'); \
     remotes::install_github('jhelvy/xaringanBuilder'); \
-    devtools::install_github('gadenbuie/xaringanExtra') \
+    devtools::install_github('gadenbuie/xaringanExtra'): \
+
+    ## Rattle for models:
+    install.packages('rattle', dependencies=c('Depends', 'Suggests')) \
     "
 
 ## CRAN packages with my participation:
