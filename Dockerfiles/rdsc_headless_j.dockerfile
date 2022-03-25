@@ -265,7 +265,7 @@ RUN R -q -e "devtools::install_git(url = 'https://gitlab.miracum.org/miracum/dqa
     ## https://cran.r-project.org/package=RGtk2
     ## here:)
     install.packages('https://cran.r-project.org/src/contrib/Archive/RGtk2/RGtk2_2.20.36.3.tar.gz', repos=NULL); \
-    install.packages('rattle', dependencies=c('Depends', 'Suggests')) \
+    install.packages('rattle', repos='https://rattle.togaware.com', type='source') \
     "
 
 ## CRAN packages with my participation:
