@@ -260,6 +260,11 @@ RUN R -q -e "devtools::install_git(url = 'https://gitlab.miracum.org/miracum/dqa
     devtools::install_github('gadenbuie/xaringanExtra'): \
 
     ## Rattle for models:
+    ## (since `RGtk2` is no longer on CRAN, we use the last version from the archive
+    ## https://cran.r-project.org/src/contrib/Archive/RGtk2/
+    ## https://cran.r-project.org/package=RGtk2
+    ## here:)
+    install.packages('https://cran.r-project.org/src/contrib/Archive/RGtk2/RGtk2_2.20.36.3.tar.gz', repos=NULL); \
     install.packages('rattle', dependencies=c('Depends', 'Suggests')) \
     "
 

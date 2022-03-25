@@ -41,6 +41,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libgdal-dev \
     libglu1-mesa-dev \
     libgsl-dev \
+    ## For rattle:
+    libgtk2.0-de \
     libharfbuzz-dev \
     libjpeg-dev \
     libjq-dev \
