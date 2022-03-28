@@ -257,7 +257,7 @@ RUN R -q -e "devtools::install_git(url = 'https://gitlab.miracum.org/miracum/dqa
     ## Presentations with xaringan:
     remotes::install_github('yihui/xaringan'); \
     remotes::install_github('jhelvy/xaringanBuilder'); \
-    devtools::install_github('gadenbuie/xaringanExtra'): \
+    devtools::install_github('gadenbuie/xaringanExtra'); \
 
     ## Rattle for models:
     ## (since `RGtk2` is no longer on CRAN, we use the last version from the archive
