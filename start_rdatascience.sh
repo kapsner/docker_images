@@ -34,6 +34,7 @@ docker build \
     --label "org.label-schema.vsc-url=https://github.com/joundso/r_datascience/blob/master/Dockerfiles/$IMAGE_NAME.dockerfile" \
     --label "org.label-schema.vcs-ref=$(git rev-parse HEAD)" \
     --label "org.label-schema.version=$(date -u +'%Y-%m-%dT%H:%M:%SZ')" \
+    --build-arg VERSION_TAG=${VERSION_TAG} \
     --build-arg DISPLAY=${DISPLAY} \
     -f ./Dockerfiles/$IMAGE_NAME.dockerfile \
     -t $REGISTRY_PREFIX/rdsc_rstudio_j:$VERSION_TAG . 2>&1 | tee ./log_$IMAGE_NAME.log

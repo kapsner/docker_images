@@ -1,4 +1,5 @@
-FROM joundso/rdsc_rstudio_j:latest
+ARG VERSION_TAG=latest
+FROM joundso/rdsc_rstudio_j:${VERSION_TAG}
 
 LABEL org.label-schema.schema-version="1.0" \
     org.label-schema.url="https://github.com/joundso/r_datascience"
