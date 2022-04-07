@@ -507,6 +507,7 @@ ARG tiny="\"amsfonts\", \
     \"oberdiek\", \ 
     \"pdfcrop\", \
     \"pdflscape\", \ 
+    \"pdfpages\", \
     \"tabu\", \ 
     \"tex-gyre-math\", \ 
     \"texlive-scripts\", \ 
