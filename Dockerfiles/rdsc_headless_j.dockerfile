@@ -107,6 +107,7 @@ RUN install2.r --error --skipinstalled -n $NCPUS \
     RPostgres \ 
     RSQLite \ 
     rstudioapi \
+    see \
     shiny \ 
     shinyalert \ 
     shinydashboard \ 
