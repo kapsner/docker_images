@@ -10,8 +10,19 @@ export DOCKER_BUILDKIT=1
 # docker buildx create --name mybuilder
 # docker buildx use mybuilder
 
-## Should the docker building process build without caching? (true/false)
-docker_build_no_cache=false
+## Should the docker building process build using caching? (true/false)
+docker_build_with_cache=true
+
+## -------------------------------------------
+## Starting the actual script:
+## -------------------------------------------
+
+if [ "$docker_build_with_cache" = true ]
+then
+    docker_build_no_cache=false
+else
+    docker_build_no_cache=true
+fi
 
 printf "\n\n##################################\n"
 printf "Building images with version tag $VERSION_TAG"
