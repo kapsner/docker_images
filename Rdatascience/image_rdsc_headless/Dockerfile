@@ -17,7 +17,8 @@ RUN export pkg="\"$(echo ${a} | sed -e 's/ /\"\, \"/g')"\" && \
     system(paste0(\"install2.r --error --ncpus -1 \", paste0(vec2, collapse = \" \")))" && \
     rm -rf /tmp/*
 
-ARG b="bayestestR \
+ARG b="badger \
+    bayestestR \
     bench \ 
     BH \ 
     bigmemory \ 
@@ -152,6 +153,7 @@ RUN export pkg="\"$(echo ${g} | sed -e 's/ /\"\, \"/g')"\" && \
 ARG h="haplo.stats \ 
     haven \ 
     here \
+    hexSticker \
     Hmisc \ 
     httr \ 
     hunspell"
