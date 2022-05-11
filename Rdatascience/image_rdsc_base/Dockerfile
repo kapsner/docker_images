@@ -15,7 +15,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     gpg-agent \
     libcurl4-openssl-dev \
     libssl-dev \
-    libobjc-8-dev \
+    libobjc-9-dev \
     libzmq3-dev \
     openjdk-8-jdk \
     unixodbc-dev

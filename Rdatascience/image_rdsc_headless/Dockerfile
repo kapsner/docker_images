@@ -17,7 +17,8 @@ RUN export pkg="\"$(echo ${a} | sed -e 's/ /\"\, \"/g')"\" && \
     system(paste0(\"install2.r --error --ncpus -1 \", paste0(vec2, collapse = \" \")))" && \
     rm -rf /tmp/*
 
-ARG b="bayestestR \
+ARG b="badger \
+    bayestestR \
     bench \ 
     BH \ 
     bigmemory \ 
@@ -109,7 +110,8 @@ RUN export pkg="\"$(echo ${e} | sed -e 's/ /\"\, \"/g')"\" && \
     rm -rf /tmp/*
 
 ARG f="factoextra \ 
-    fastAdaboost \ 
+    fastAdaboost \
+    fastshap \ 
     flexclust \ 
     flexdashboard \ 
     flexmix \ 
@@ -151,6 +153,7 @@ RUN export pkg="\"$(echo ${g} | sed -e 's/ /\"\, \"/g')"\" && \
 ARG h="haplo.stats \ 
     haven \ 
     here \
+    hexSticker \
     Hmisc \ 
     httr \ 
     hunspell"
@@ -163,6 +166,7 @@ RUN export pkg="\"$(echo ${h} | sed -e 's/ /\"\, \"/g')"\" && \
 ARG i="igraph \ 
     influxdbr \ 
     infotheo \ 
+    invgamma \
     ipred \ 
     irlba \ 
     irr"
@@ -276,6 +280,7 @@ ARG p="pagedown \
     party \ 
     partykit \ 
     pbkrtest \ 
+    PearsonDS \
     performance \
     PerformanceAnalytics \ 
     plotly \ 
@@ -285,6 +290,7 @@ ARG p="pagedown \
     precrec \ 
     pROC \
     processx \ 
+    progress \
     profvis \ 
     PRROC \ 
     pspearman \ 
@@ -382,6 +388,7 @@ ARG s="see \
     SparseM \ 
     spelling \
     splines \
+    splitTools \
     sqldf \  
     stargazer \ 
     styler \ 
