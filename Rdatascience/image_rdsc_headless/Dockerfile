@@ -515,6 +515,7 @@ ARG tiny="\"amsfonts\", \
     \"pdfcrop\", \
     \"pdflscape\", \ 
     \"pdfpages\", \
+    \"realboxes\", \
     \"tabu\", \ 
     \"tex-gyre-math\", \ 
     \"texlive-scripts\", \ 
