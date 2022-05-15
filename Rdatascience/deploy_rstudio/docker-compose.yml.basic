@@ -11,5 +11,7 @@ services:
     volumes:
     - ./volume:/home/user/volume 
     - ./rhub:/home/user/.local/share/rhub
+    - ~/.gitconfig:/home/user/.gitconfig:ro
+    - ~/.git-credentials:/home/user/.git-credentials:ro
     tty: true
     # privileged: true
