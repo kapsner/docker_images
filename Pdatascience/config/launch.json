@@ -16,7 +16,12 @@
             "program": "${file}",
             "console": "integratedTerminal",
             "justMyCode": false,
-            "cwd": "${fileDirname}"
+            "cwd": "${fileDirname}",
+            //"args": [
+            //    "-arg1", "value1",
+            //    "-arg2", "value2",
+            //    "-arg3", "value3"
+            //]
         }
     ]
 }
