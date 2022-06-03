@@ -134,6 +134,7 @@ ARG g="GA \
     gbm \ 
     gclus \ 
     genetics \ 
+    ggcorrplot \
     ggfortify \ 
     ggmap \ 
     ggplot2 \ 
