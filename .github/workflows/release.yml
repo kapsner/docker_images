@@ -2,8 +2,10 @@ name: Publish Release
 
 on:
   push:
-    tags:
-      - '*'
+    # tags:
+    #   - '*'
+    branches-ignore:
+      - '**'
 
 jobs:
   build:
