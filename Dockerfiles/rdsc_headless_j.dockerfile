@@ -200,8 +200,8 @@ RUN R -q -e "tinytex::tlmgr_conf(); \
 USER root
 
 RUN chown -R ${RSESSION_USER}:${RSESSION_USER} /home/${RSESSION_USER}/.TinyTeX && \
-    chmod -R g+w /home/${RSESSION_USER}/.TinyTeX && \
-    chmod -R g+wx /home/${RSESSION_USER}/bin
+    chmod -R g+w /home/${RSESSION_USER}/.TinyTeX
+    # && \ chmod -R g+wx /home/${RSESSION_USER}/bin
 
 
 
