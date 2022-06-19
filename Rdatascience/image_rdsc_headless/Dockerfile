@@ -370,6 +370,7 @@ ARG s="see \
     SentimentAnalysis \ 
     sem \ 
     seriation \ 
+    shapviz \
     shiny \ 
     shinyalert \
     shinydashboard \ 
@@ -581,6 +582,11 @@ RUN for repo in ${github_array}; do IFS=",";\
 ADD ./config/requirements.txt /home/${RSESSION_USER}/
 RUN yes | pip install -r /home/${RSESSION_USER}/requirements.txt
 
+# pip install our own stuff
+RUN yes | pip install \
+    git+https://github.com/miracum/dqa-mdr-connector \
+    git+https://github.com/kapsner/auto-changelog
+
 # configure the other r packages
 # install phantomjs
 RUN R -q -e "webshot::install_phantomjs()"
@@ -595,7 +601,8 @@ ARG pack="rBiasCorrection \
     BiasCorrector \
     DIZtools \
     DIZutils \
-    DQAstats"
+    DQAstats \
+    DQAgui"
 RUN for package in $pack; do \   
     R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
     done && \
@@ -606,7 +613,8 @@ RUN for package in $pack; do \
 ARG github_array="\
     kapsner/KhelpeR,development \
     kapsner/mlr3learners.lightgbm,development \
-    kapsner/sjtable2df,main"
+    kapsner/sjtable2df,main \
+    miracum/dqa-miracumdqa,master"
 RUN for repo in ${github_array}; do IFS=",";\ 
     set -- $repo; \
     R -q -e "p <- \"$1\"; \
@@ -615,7 +623,6 @@ RUN for repo in ${github_array}; do IFS=",";\
     rm -rf /tmp/*
 
 ARG gitlab_array="\
-    https://gitlab.miracum.org/miracum/dqa/miRacumdqa.git,master \
     https://gitlab.miracum.org/kosmic/kosmicgui.git,master"
 RUN for repo in ${gitlab_array}; do IFS=",";\ 
     set -- $repo; \
