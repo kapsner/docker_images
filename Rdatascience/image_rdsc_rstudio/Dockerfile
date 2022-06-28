@@ -16,7 +16,7 @@ RUN apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
 # get RStudio-Server (Preview Version): https://www.rstudio.com/products/rstudio/download/preview/
-ENV RSTUDIO_VERSION=2022.02.2-485 \
+ENV RSTUDIO_VERSION=2022.02.3-492 \
     RSTUIO_URL=https://download2.rstudio.org/server/bionic/amd64/
 # stable
 # ENV RSTUDIO_VERSION=1.2.5033 \
@@ -26,8 +26,9 @@ ENV RSTUDIO_LINK=${RSTUIO_URL}${RSTUDIO_FILE}
 RUN wget ${RSTUDIO_LINK}
 
 # (temp fix for Ubuntu22.04)
-RUN wget http://security.ubuntu.com/ubuntu/pool/main/o/openssl/libssl1.1_1.1.1l-1ubuntu1.3_amd64.deb
-RUN apt install ./libssl1.1_1.1.1l-1ubuntu1.3_amd64.deb
+ENV LIBSSL_VERSION=1.1_1.1.1l-1ubuntu1.5
+RUN wget http://security.ubuntu.com/ubuntu/pool/main/o/openssl/libssl${LIBSSL_VERSION}_amd64.deb
+RUN apt install ./libssl${LIBSSL_VERSION}_amd64.deb
 
 RUN gdebi -n ${RSTUDIO_FILE}
 RUN rm -rf ${RSTUDIO_FILE}
