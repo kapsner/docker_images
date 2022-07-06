@@ -80,6 +80,7 @@ RUN install2.r --error --skipinstalled -n $NCPUS \
     plotly \ 
     plyr \ 
     psych \
+    quarto \
     R.utils \ 
     R6 \ 
     rapportools \
