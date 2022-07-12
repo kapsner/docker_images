@@ -67,7 +67,9 @@ RUN rm -rf /var/lib/apt/lists/* && \
 # fix permissions in home folder
 RUN chown -R ${RSESSION_USER}:${RSESSION_USER} /home/${RSESSION_USER}/.local
 
+# add start.sh script
+ADD config/start.sh /
+RUN chmod +x /start.sh
+
 # entrypoint
-ENTRYPOINT rstudio-server start && \
-    printf "\e]8;;https://0.0.0.0:8787\e\\https://0.0.0.0:8787\e]8;;\e\\n" && \
-    tail -f /dev/null 
+ENTRYPOINT bash -c "/start.sh"
