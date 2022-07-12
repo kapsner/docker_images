@@ -68,4 +68,6 @@ RUN rm -rf /var/lib/apt/lists/* && \
 RUN chown -R ${RSESSION_USER}:${RSESSION_USER} /home/${RSESSION_USER}/.local
 
 # entrypoint
-ENTRYPOINT rstudio-server start && tail -f /dev/null 
+ENTRYPOINT rstudio-server start && \
+    printf "\e]8;;https://0.0.0.0:8787\e\\https://0.0.0.0:8787\e]8;;\e\\n" && \
+    tail -f /dev/null 
