@@ -141,6 +141,7 @@ ARG g="GA \
     ggpubr \ 
     ggraph \ 
     ggridges \ 
+    ggstatsplot \
     git2r \ 
     glmnet \ 
     glmmTMB \
