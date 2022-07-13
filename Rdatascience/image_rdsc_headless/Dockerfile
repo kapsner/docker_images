@@ -279,6 +279,7 @@ RUN export pkg="\"$(echo ${o} | sed -e 's/ /\"\, \"/g')"\" && \
 ARG p="pagedown \
     parallel \ 
     parameters \
+    ParBayesianOptimization \
     party \ 
     partykit \ 
     pbkrtest \ 
