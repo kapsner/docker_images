@@ -121,6 +121,7 @@ RUN install2.r --error --skipinstalled -n $NCPUS \
     styler \ 
     summarytools \ 
     sunburstR \
+    survminer \
     testthat \ 
     tidyr \ 
     tidyverse \ 
