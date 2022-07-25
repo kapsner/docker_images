@@ -166,6 +166,7 @@ RUN export pkg="\"$(echo ${h} | sed -e 's/ /\"\, \"/g')"\" && \
     rm -rf /tmp/*
 
 ARG i="igraph \ 
+    imager \
     influxdbr \ 
     infotheo \ 
     invgamma \
