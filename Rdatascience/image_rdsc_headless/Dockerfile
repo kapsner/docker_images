@@ -309,6 +309,7 @@ ARG q="qdap \
     qpdf \ 
     quantreg \ 
     quantregForest \
+    quarto \
     questionr"
 RUN export pkg="\"$(echo ${q} | sed -e 's/ /\"\, \"/g')"\" && \
     R -q -e "vec <- setdiff(c($pkg), unname(installed.packages()[,\"Package\"])); print(vec); \
