@@ -334,6 +334,7 @@ ARG r="R.utils \
     readstata13 \ 
     readxl \ 
     remotes \ 
+    renv \
     ReporteRs \ 
     ReporteRsjars \ 
     reshape2 \ 

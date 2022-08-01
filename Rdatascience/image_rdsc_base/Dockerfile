@@ -51,8 +51,9 @@ RUN apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
 # make R site-library default package installation folder writeable
-RUN mkdir -p /usr/local/lib/R/site-library
-RUN chown -R ${RSESSION_USER}:${RSESSION_USER} /usr/local/lib/R/site-library
+ENV R_LIBS_SITE=/usr/local/lib/R/site-library
+RUN mkdir -p ${R_LIBS_SITE}
+RUN chown -R ${RSESSION_USER}:${RSESSION_USER} ${R_LIBS_SITE}
 
 RUN ln -s /usr/lib/R/site-library/littler/examples/install.r /usr/local/bin/install.r && \
     ln -s /usr/lib/R/site-library/littler/examples/install2.r /usr/local/bin/install2.r && \
@@ -94,7 +95,6 @@ ENV PATH="/home/${RSESSION_USER}/miniconda/bin:${PATH}"
 # Add RETICULATE_PYTHON variable to Renviron
 RUN echo "RETICULATE_PYTHON=/home/${RSESSION_USER}/miniconda/bin/python" >> /etc/R/Renviron
 # Since R 4.0.0, we also need to add R_LIBS_SITE to /etc/R/Renviron
-ENV R_LIBS_SITE=/usr/local/lib/R/site-library
 RUN echo "R_LIBS_SITE=${R_LIBS_SITE}" >> /etc/R/Renviron
 
 # environment variable for data.table
