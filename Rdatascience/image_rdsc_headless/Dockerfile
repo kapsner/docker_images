@@ -498,6 +498,7 @@ ARG tiny="\"amsfonts\", \
     \"atveryend\", \ 
     \"babel\", \ 
     \"babel-german\", \ 
+    \"bookmark\", \ 
     \"caption\", \ 
     \"colortbl\", \ 
     \"dehyph-exptl\", \ 
@@ -522,8 +523,10 @@ ARG tiny="\"amsfonts\", \
     \"pdfcrop\", \
     \"pdflscape\", \ 
     \"pdfpages\", \
+    \"pgf\", \
     \"realboxes\", \
     \"tabu\", \ 
+    \"tcolorbox\", \ 
     \"tex-gyre-math\", \ 
     \"texlive-scripts\", \ 
     \"threeparttable\", \ 
