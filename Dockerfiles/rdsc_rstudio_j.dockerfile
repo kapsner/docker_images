@@ -3,6 +3,13 @@ FROM joundso/rdsc_headless_j:latest
 LABEL org.label-schema.schema-version="1.0" \
     org.label-schema.url="https://github.com/joundso/r_datascience"
 
+ARG \
+    ## Quarto: https://github.com/quarto-dev/quarto-cli/releases
+    QUARTO_VERSION="1.0.37" \
+
+    ## RStudio: https://www.rstudio.com/products/rstudio/download/preview/
+    RSTUDIO_VERSION="2022.07.1-554"
+
 # USER ${RSESSION_USER}
 
 # # update all installed packages
@@ -11,12 +18,16 @@ LABEL org.label-schema.schema-version="1.0" \
 
 # USER root
 
+## Install quarto:
+RUN curl -o quarto-linux-amd64.deb -L https://github.com/quarto-dev/quarto-cli/releases/download/v${QUARTO_VERSION}/quarto-${QUARTO_VERSION}-linux-amd64.deb && \
+    dpkg -i quarto-linux-amd64.deb && \
+    rm -f quarto-linux-amd64.deb
+
+
 # get RStudio-Server (Preview Version): https://www.rstudio.com/products/rstudio/download/preview/
 # ENV RSTUDIO_VERSION=1.4.1725 \
-ENV RSTUDIO_VERSION=2022.07.1 \
-    RSTUDIO_VERSION_PREVIEW=554 \
-    RSTUIO_URL=https://s3.amazonaws.com/rstudio-ide-build/server/bionic/amd64/
-ENV RSTUDIO_FILE="rstudio-server-${RSTUDIO_VERSION}-${RSTUDIO_VERSION_PREVIEW}-amd64.deb"
+ENV RSTUIO_URL=https://s3.amazonaws.com/rstudio-ide-build/server/bionic/amd64/
+ENV RSTUDIO_FILE="rstudio-server-${RSTUDIO_VERSION}-amd64.deb"
 ENV RSTUDIO_LINK=${RSTUIO_URL}${RSTUDIO_FILE}
 
 ## install gdebi here, required to install rstudio
