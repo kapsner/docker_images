@@ -26,7 +26,7 @@ ENV RSTUDIO_LINK=${RSTUIO_URL}${RSTUDIO_FILE}
 RUN wget ${RSTUDIO_LINK}
 
 # (temp fix for Ubuntu22.04)
-ENV LIBSSL_VERSION=1.1_1.1.1l-1ubuntu1.6
+ENV LIBSSL_VERSION=1.1_1.1.1f-1ubuntu2.16
 RUN wget http://security.ubuntu.com/ubuntu/pool/main/o/openssl/libssl${LIBSSL_VERSION}_amd64.deb
 RUN apt install ./libssl${LIBSSL_VERSION}_amd64.deb
 

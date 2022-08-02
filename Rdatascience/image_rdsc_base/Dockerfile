@@ -33,7 +33,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     jags \
     lmodern \
     libapparmor1 \
+    libfribidi-dev \
     libgit2-dev \
+    libharfbuzz-dev \
     libnode-dev \
     pandoc \
     pandoc-citeproc \
