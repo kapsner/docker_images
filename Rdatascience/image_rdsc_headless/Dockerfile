@@ -607,7 +607,8 @@ RUN R -q -e "shinytest::installDependencies()"
 # install my packages
 
 # CRAN packages with my participation
-ARG pack="rBiasCorrection \
+ARG pack="sjtable2df \
+    rBiasCorrection \
     BiasCorrector \
     DIZtools \
     DIZutils \
@@ -623,7 +624,6 @@ RUN for package in $pack; do \
 ARG github_array="\
     kapsner/KhelpeR,development \
     kapsner/mlr3learners.lightgbm,development \
-    kapsner/sjtable2df,main \
     miracum/dqa-miracumdqa,master"
 RUN for repo in ${github_array}; do IFS=",";\ 
     set -- $repo; \
