@@ -8,9 +8,10 @@ ARG \
     QUARTO_VERSION="1.0.37" \
 
     ## RStudio: 
-    ## - https://www.rstudio.com/products/rstudio/download/preview/
-    ## - https://dailies.rstudio.com/rstudio/spotted-wakerobin/server/jammy/
-    RSTUDIO_VERSION="2022.07.2-557"
+    ## - Semi-Stable: https://www.rstudio.com/products/rstudio/download/preview/
+    ## - Pre-Relese Builds: https://dailies.rstudio.com/rstudio/spotted-wakerobin/server/jammy/
+    ##   or: https://dailies.rstudio.com/rstudio/
+    RSTUDIO_VERSION="2022.11.0-daily-83"
 
 # USER ${RSESSION_USER}
 
