@@ -18,7 +18,7 @@ RUN apt-get clean && \
 # get RStudio-Server (Preview Version): https://www.rstudio.com/products/rstudio/download/preview/
 ENV RSTUDIO_VERSION=2022.07.0-548 \
     
-    ## to Ubuntu 20.04 (bionic):
+    ## until Ubuntu 20.04 (bionic):
     # RSTUIO_URL=https://download2.rstudio.org/server/bionic/amd64/
     
     ## since Ubuntu 22.04 (jammy):
