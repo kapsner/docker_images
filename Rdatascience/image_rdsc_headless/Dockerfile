@@ -520,6 +520,7 @@ ARG tiny="\"amsfonts\", \
     \"lm\", \ 
     \"makecell\", \ 
     \"multirow\", \ 
+    \"needspace\", \ 
     \"oberdiek\", \ 
     \"pdfcrop\", \
     \"pdflscape\", \ 

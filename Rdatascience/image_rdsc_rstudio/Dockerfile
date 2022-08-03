@@ -34,11 +34,13 @@ RUN gdebi -n ${RSTUDIO_FILE}
 RUN rm -rf ${RSTUDIO_FILE}
 
 # install quarto
-ENV PATH=/usr/lib/rstudio-server/bin/quarto/bin/:${PATH}
 # ENV QUARTO_VERSION=1.0.37
 # RUN curl -o quarto-linux-amd64.deb -L \
 #     https://github.com/quarto-dev/quarto-cli/releases/download/v${QUARTO_VERSION}/quarto-${QUARTO_VERSION}-linux-amd64.deb
 # RUN gdebi -n quarto-linux-amd64.deb
+# https://github.com/quarto-dev/quarto-r/blob/main/R/quarto.R#L10
+ENV QUARTO_PATH=/usr/lib/rstudio-server/bin/quarto/bin/
+ENV PATH=${QUARTO_PATH}:${PATH}
 
 # overwrite headless .Rprofile
 RUN echo "options(shiny.port = 3838)" > /home/${RSESSION_USER}/.Rprofile && \
