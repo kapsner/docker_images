@@ -1,4 +1,4 @@
-FROM ubuntu:20.04
+FROM ubuntu:22.04
 
 LABEL org.label-schema.schema-version="1.0" \
     org.label-schema.url="https://github.com/joundso/r_datascience"
@@ -53,7 +53,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libmpfr-dev \
     ## For `leaflet` deps:
     libmysqlclient-dev \
-    libobjc-7-dev \
+    # libobjc-7-dev \
     libopenblas-dev \
     libopenmpi-dev \
     libpng-dev \
@@ -70,14 +70,14 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     nano \
     net-tools \
     openjdk-17-jdk \
-    python \
+    python3 \
     python3-pip \
     software-properties-common \
     tar \
     unixodbc-dev \
     unzip \
     wget && \
-    # clear caches
+    ## Clear caches:
     rm -rf /var/lib/apt/lists/* && \
     rm -rf /tmp/* && \
     rm -rf /root/.cache/pip/* && \

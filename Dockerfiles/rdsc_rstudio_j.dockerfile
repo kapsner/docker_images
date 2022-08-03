@@ -7,8 +7,10 @@ ARG \
     ## Quarto: https://github.com/quarto-dev/quarto-cli/releases
     QUARTO_VERSION="1.0.37" \
 
-    ## RStudio: https://www.rstudio.com/products/rstudio/download/preview/
-    RSTUDIO_VERSION="2022.07.1-554"
+    ## RStudio: 
+    ## - https://www.rstudio.com/products/rstudio/download/preview/
+    ## - https://dailies.rstudio.com/rstudio/spotted-wakerobin/server/jammy/
+    RSTUDIO_VERSION="2022.07.2-557"
 
 # USER ${RSESSION_USER}
 
@@ -26,7 +28,8 @@ RUN curl -o quarto-linux-amd64.deb -L https://github.com/quarto-dev/quarto-cli/r
 
 # get RStudio-Server (Preview Version): https://www.rstudio.com/products/rstudio/download/preview/
 # ENV RSTUDIO_VERSION=1.4.1725 \
-ENV RSTUIO_URL=https://s3.amazonaws.com/rstudio-ide-build/server/bionic/amd64/
+ENV RSTUIO_URL=https://s3.amazonaws.com/rstudio-ide-build/server/jammy/amd64/
+# ENV RSTUIO_URL=https://download2.rstudio.org/server/jammy/amd64/
 ENV RSTUDIO_FILE="rstudio-server-${RSTUDIO_VERSION}-amd64.deb"
 ENV RSTUDIO_LINK=${RSTUIO_URL}${RSTUDIO_FILE}
 
@@ -37,8 +40,6 @@ ENV RSTUDIO_LINK=${RSTUIO_URL}${RSTUDIO_FILE}
 # RUN apt-get clean && \ 
 #     apt-get autoclean && \
 #     rm -rf /var/lib/apt/lists/*
-
-RUN echo ${RSTUDIO_LINK}
 
 RUN wget -O rstudio_installer.deb -q ${RSTUDIO_LINK}
 
