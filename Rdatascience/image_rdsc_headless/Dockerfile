@@ -73,6 +73,7 @@ ARG d="d3r \
     DBI \ 
     deepboost \ 
     desc \ 
+    DescrTab2 \
     DescTools \ 
     devtools \ 
     DHARMa \
