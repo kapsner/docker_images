@@ -39,8 +39,9 @@ RUN rm -rf ${RSTUDIO_FILE}
 #     https://github.com/quarto-dev/quarto-cli/releases/download/v${QUARTO_VERSION}/quarto-${QUARTO_VERSION}-linux-amd64.deb
 # RUN gdebi -n quarto-linux-amd64.deb
 # https://github.com/quarto-dev/quarto-r/blob/main/R/quarto.R#L10
-ENV QUARTO_PATH=/usr/lib/rstudio-server/bin/quarto/bin/
-ENV PATH=${QUARTO_PATH}:${PATH}
+ENV QUARTO_BASE=/usr/lib/rstudio-server/bin/quarto/bin
+ENV QUARTO_PATH=${QUARTO_BASE}/quarto
+ENV PATH=${QUARTO_BASE}:${PATH}
 
 # overwrite headless .Rprofile
 RUN echo "options(shiny.port = 3838)" > /home/${RSESSION_USER}/.Rprofile && \
@@ -58,9 +59,11 @@ RUN chown -R ${RSESSION_USER}:${RSESSION_USER} /home/${RSESSION_USER}/.config/ &
 # https://docs.rstudio.com/ide/server-pro/1.2.1293-1/r-sessions.html
 RUN echo "export PATH=${PATH}" >> /home/${RSESSION_USER}/.bash_profile && chmod +x /home/${RSESSION_USER}/.bash_profile
 
-# set PATH for all users
-RUN echo "PATH=${PATH}" >> /etc/R/Renviron
-RUN echo "PATH=${PATH}" >> /etc/environment
+# set PATH and QUARTO_PATH for all users
+RUN echo "PATH=${PATH}" >> /etc/R/Renviron && \
+    echo "PATH=${PATH}" >> /etc/environment
+RUN echo "QUARTO_PATH=${QUARTO_PATH}" >> /etc/R/Renviron && \
+    echo "QUARTO_PATH=${QUARTO_PATH}" >> /etc/environment
 
 ########################
 # clear caches
