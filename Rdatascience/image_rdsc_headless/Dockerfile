@@ -527,6 +527,7 @@ ARG tiny="\"amsfonts\", \
     \"pdfpages\", \
     \"pgf\", \
     \"realboxes\", \
+    \"setspace\", \
     \"tabu\", \ 
     \"tcolorbox\", \ 
     \"tex-gyre-math\", \ 
