@@ -17,19 +17,13 @@ RUN apt-get clean && \
 
 # get RStudio-Server (Preview Version): https://www.rstudio.com/products/rstudio/download/preview/
 ENV RSTUDIO_VERSION=2022.07.0-548 \
-    
-    ## until Ubuntu 20.04 (bionic):
-    # RSTUIO_URL=https://download2.rstudio.org/server/bionic/amd64/
-    
-    ## since Ubuntu 22.04 (jammy):
-    RSTUIO_URL=https://download2.rstudio.org/server/jammy/amd64/
+    RSTUIO_URL_BASE=https://download2.rstudio.org/server/
 
 # stable
 # ENV RSTUDIO_VERSION=1.2.5033 \
 #     RSTUIO_URL=https://download2.rstudio.org/server/bionic/amd64/
 ENV RSTUDIO_FILE="rstudio-server-${RSTUDIO_VERSION}-amd64.deb"
-ENV RSTUDIO_LINK=${RSTUIO_URL}${RSTUDIO_FILE}
-RUN wget ${RSTUDIO_LINK}
+RUN wget ${RSTUIO_URL_BASE}$(lsb_release -cs)/amd64/${RSTUDIO_FILE}
 
 RUN gdebi -n ${RSTUDIO_FILE}
 RUN rm -rf ${RSTUDIO_FILE}
