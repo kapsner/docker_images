@@ -15,9 +15,8 @@ LABEL org.label-schema.schema-version="1.0" \
 # ENV RSTUDIO_VERSION=1.4.1725 \
 ENV RSTUDIO_VERSION=2022.07.0 \
     RSTUDIO_VERSION_PREVIEW=548 \
-    RSTUIO_URL=https://s3.amazonaws.com/rstudio-ide-build/server/bionic/amd64/
+    RSTUIO_URL_BASE=https://s3.amazonaws.com/rstudio-ide-build/server/
 ENV RSTUDIO_FILE="rstudio-server-${RSTUDIO_VERSION}-${RSTUDIO_VERSION_PREVIEW}-amd64.deb"
-ENV RSTUDIO_LINK=${RSTUIO_URL}${RSTUDIO_FILE}
 
 ## install gdebi here, required to install rstudio
 ## (gdebi will fail without sudo)
@@ -27,9 +26,7 @@ ENV RSTUDIO_LINK=${RSTUIO_URL}${RSTUDIO_FILE}
 #     apt-get autoclean && \
 #     rm -rf /var/lib/apt/lists/*
 
-RUN echo ${RSTUDIO_LINK}
-
-RUN wget -O rstudio_installer.deb -q ${RSTUDIO_LINK}
+RUN wget -O rstudio_installer.deb -q ${RSTUIO_URL_BASE}$(lsb_release -cs)/amd64/${RSTUDIO_FILE}
 
 # RUN gdebi -n ${RSTUDIO_FILE}
 RUN dpkg -i rstudio_installer.deb
