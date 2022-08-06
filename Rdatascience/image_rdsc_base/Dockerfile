@@ -37,8 +37,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libgit2-dev \
     libharfbuzz-dev \
     libnode-dev \
-    pandoc \
-    pandoc-citeproc \
     psmisc \
     qpdf \
     littler \
@@ -46,7 +44,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     r-base-dev \
     r-recommended \
     tcl8.6-dev \
-    texinfo \
     tk8.6-dev
 RUN apt-get clean && \ 
     apt-get autoclean && \

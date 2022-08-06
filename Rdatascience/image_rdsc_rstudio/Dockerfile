@@ -25,8 +25,8 @@ ENV RSTUDIO_VERSION=2022.07.0-548 \
 ENV RSTUDIO_FILE="rstudio-server-${RSTUDIO_VERSION}-amd64.deb"
 RUN wget ${RSTUIO_URL_BASE}$(lsb_release -cs)/amd64/${RSTUDIO_FILE}
 
-RUN gdebi -n ${RSTUDIO_FILE}
-RUN rm -rf ${RSTUDIO_FILE}
+RUN gdebi -n ${RSTUDIO_FILE} && \
+    rm -rf ${RSTUDIO_FILE}
 
 # install quarto
 # ENV QUARTO_VERSION=1.0.37
@@ -35,8 +35,9 @@ RUN rm -rf ${RSTUDIO_FILE}
 # RUN gdebi -n quarto-linux-amd64.deb
 # https://github.com/quarto-dev/quarto-r/blob/main/R/quarto.R#L10
 ENV QUARTO_BASE=/usr/lib/rstudio-server/bin/quarto/bin
-ENV QUARTO_PATH=${QUARTO_BASE}/quarto
-ENV PATH=${QUARTO_BASE}:${PATH}
+ENV QUARTO_PATH=${QUARTO_BASE}/quarto \
+    PANDOC_BASE=${QUARTO_BASE}/tools
+ENV PATH=${QUARTO_BASE}:${PANDOC_BASE}:${PATH}
 
 # overwrite headless .Rprofile
 RUN echo "options(shiny.port = 3838)" > /home/${RSESSION_USER}/.Rprofile && \
