@@ -13,8 +13,6 @@ ARG \
     ##   or: https://dailies.rstudio.com/rstudio/
     RSTUDIO_VERSION="2022.11.0-daily-105"
 
-ENV UBUNTU_CODENAME=$(cat /etc/os-release | grep UBUNTU_CODENAME | cut -d "=" -f 2-)
-
 # USER ${RSESSION_USER}
 
 # # update all installed packages
@@ -29,7 +27,14 @@ RUN curl -o quarto-linux-amd64.deb -L https://github.com/quarto-dev/quarto-cli/r
     rm -f quarto-linux-amd64.deb
 
 
-ENV RSTUIO_URL=https://s3.amazonaws.com/rstudio-ide-build/server/$(lsb_release -cs)/amd64/
+## UBUNTU_CODENAME (22.04 = jammy):
+## - `lsb_release -cs` (needs to be installed first: `apt-get update && apt-get install -y lsb-release && apt-get clean all`)
+## - `cat /etc/os-release | grep UBUNTU_CODENAME | cut -d "=" -f 2-` (without any additional package)
+## - Details: https://stackoverflow.com/questions/58395566/lsb-release-command-not-found-in-latest-ubuntu-docker-container
+ENV UBUNTU_CODENAME=$(cat /etc/os-release | grep UBUNTU_CODENAME | cut -d "=" -f 2-)
+
+
+ENV RSTUIO_URL=https://s3.amazonaws.com/rstudio-ide-build/server/${UBUNTU_CODENAME}/amd64/
 # ENV RSTUIO_URL="https://download2.rstudio.org/server/$(lsb_release -cs)/amd64/"
 ENV RSTUDIO_FILE="rstudio-server-${RSTUDIO_VERSION}-amd64.deb"
 ENV RSTUDIO_LINK=${RSTUIO_URL}${RSTUDIO_FILE}
