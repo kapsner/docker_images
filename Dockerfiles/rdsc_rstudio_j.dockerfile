@@ -5,13 +5,15 @@ LABEL org.label-schema.schema-version="1.0" \
 
 ARG \
     ## Quarto: https://github.com/quarto-dev/quarto-cli/releases
-    QUARTO_VERSION="1.0.37" \
+    QUARTO_VERSION="1.1.70" \
 
     ## RStudio: 
     ## - Semi-Stable: https://www.rstudio.com/products/rstudio/download/preview/
     ## - Pre-Relese Builds: https://dailies.rstudio.com/rstudio/spotted-wakerobin/server/jammy/
     ##   or: https://dailies.rstudio.com/rstudio/
     RSTUDIO_VERSION="2022.11.0-daily-105"
+
+ENV UBUNTU_CODENAME=$(cat /etc/os-release | grep UBUNTU_CODENAME | cut -d "=" -f 2-)
 
 # USER ${RSESSION_USER}
 
@@ -27,7 +29,7 @@ RUN curl -o quarto-linux-amd64.deb -L https://github.com/quarto-dev/quarto-cli/r
     rm -f quarto-linux-amd64.deb
 
 
-ENV RSTUIO_URL="https://s3.amazonaws.com/rstudio-ide-build/server/$(lsb_release -cs)/amd64/"
+ENV RSTUIO_URL=https://s3.amazonaws.com/rstudio-ide-build/server/$(lsb_release -cs)/amd64/
 # ENV RSTUIO_URL="https://download2.rstudio.org/server/$(lsb_release -cs)/amd64/"
 ENV RSTUDIO_FILE="rstudio-server-${RSTUDIO_VERSION}-amd64.deb"
 ENV RSTUDIO_LINK=${RSTUIO_URL}${RSTUDIO_FILE}

@@ -290,7 +290,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     rm -rf /var/lib/apt/lists/* && \
     rm -rf /tmp/* && \
     rm -rf /home/${RSESSION_USER}/.cache/pip/* && \
-    apt-get clean && apt-get autoclean && apt-get autoremove -y && \
+    apt-get clean all && \
+    apt-get autoclean && \
+    apt-get autoremove -y && \
 
     # set ubuntu password here (password required for rstudio login)
     echo ${USER}:password | chpasswd  && \
@@ -332,6 +334,8 @@ RUN mkdir -p /opt/libs && \
     rm -rf /tmp/* && \
     rm -rf /root/.cache/pip/* && \
     rm -rf /home/${USER}/.cache/pip/* && \
-    apt-get clean && apt-get autoclean && apt-get autoremove -y
+    apt-get clean all && \
+    apt-get autoclean && \
+    apt-get autoremove -y
 
 WORKDIR /home/${RSESSION_USER}

@@ -82,7 +82,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     rm -rf /tmp/* && \
     rm -rf /root/.cache/pip/* && \
     rm -rf /home/${USER}/.cache/pip/* && \
-    apt-get clean && apt-get autoclean && apt-get autoremove -y
+    apt-get clean all && \
+    apt-get autoclean && \
+    apt-get autoremove -y
 
 ########################
 # define image user
@@ -200,7 +202,9 @@ RUN if [ "$TARGETPLATFORM" = "$ARM_LABEL" ] ; \
     rm -rf /tmp/* && \
     rm -rf /root/.cache/pip/* && \
     rm -rf /home/${USER}/.cache/pip/* && \
-    apt-get clean && apt-get autoclean && apt-get autoremove -y; \
+    apt-get clean all && \
+    apt-get autoclean && \
+    apt-get autoremove -y; \
     fi
 
 ARG CACHEBREAKER=1
@@ -234,13 +238,16 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /tmp/downloaded_packages/ /tmp/*.rds \
     && rm -rf /var/lib/apt/lists/* \
     && rm -rf /root/.cache/pip/* \
-    && rm -rf /home/${USER}/.cache/pip/* \
-    && apt-get clean && apt-get autoclean && apt-get autoremove -y
+    && rm -rf /home/${USER}/.cache/pip/* && \
+    apt-get clean all && \
+    apt-get autoclean && \
+    apt-get autoremove -y
 
 ## For Rattle:
 RUN wajig install -y libgtk2.0-dev && \
-    apt-get clean && \ 
+    apt-get clean all && \
     apt-get autoclean && \
+    apt-get autoremove -y && \
     rm -rf /var/lib/apt/lists/*
 
 
