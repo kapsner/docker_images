@@ -11,7 +11,7 @@ ARG \
     ## - Semi-Stable: https://www.rstudio.com/products/rstudio/download/preview/
     ## - Pre-Relese Builds: https://dailies.rstudio.com/rstudio/spotted-wakerobin/server/jammy/
     ##   or: https://dailies.rstudio.com/rstudio/
-    RSTUDIO_VERSION="2022.11.0-daily-83"
+    RSTUDIO_VERSION="2022.11.0-daily-105"
 
 # USER ${RSESSION_USER}
 
