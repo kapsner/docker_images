@@ -27,10 +27,8 @@ RUN curl -o quarto-linux-amd64.deb -L https://github.com/quarto-dev/quarto-cli/r
     rm -f quarto-linux-amd64.deb
 
 
-# get RStudio-Server (Preview Version): https://www.rstudio.com/products/rstudio/download/preview/
-# ENV RSTUDIO_VERSION=1.4.1725 \
-ENV RSTUIO_URL=https://s3.amazonaws.com/rstudio-ide-build/server/jammy/amd64/
-# ENV RSTUIO_URL=https://download2.rstudio.org/server/jammy/amd64/
+ENV RSTUIO_URL="https://s3.amazonaws.com/rstudio-ide-build/server/$(lsb_release -cs)/amd64/"
+# ENV RSTUIO_URL="https://download2.rstudio.org/server/$(lsb_release -cs)/amd64/"
 ENV RSTUDIO_FILE="rstudio-server-${RSTUDIO_VERSION}-amd64.deb"
 ENV RSTUDIO_LINK=${RSTUIO_URL}${RSTUDIO_FILE}
 
