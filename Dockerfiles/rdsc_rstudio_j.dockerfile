@@ -5,13 +5,14 @@ LABEL org.label-schema.schema-version="1.0" \
 
 ARG \
     ## Quarto: https://github.com/quarto-dev/quarto-cli/releases
-    QUARTO_VERSION="1.1.70" \
+    QUARTO_VERSION="1.1.75" \
 
     ## RStudio: 
     ## - Semi-Stable: https://www.rstudio.com/products/rstudio/download/preview/
     ## - Pre-Relese Builds: https://dailies.rstudio.com/rstudio/spotted-wakerobin/server/jammy/
     ##   or: https://dailies.rstudio.com/rstudio/
-    RSTUDIO_VERSION="2022.11.0-daily-105"
+    ##   or: https://dailies.rstudio.com/rstudio/elsbeth-geranium/server/jammy/
+    RSTUDIO_VERSION="2022.11.0-daily-107"
 
 # USER ${RSESSION_USER}
 
@@ -31,13 +32,14 @@ RUN curl -o quarto-linux-amd64.deb -L https://github.com/quarto-dev/quarto-cli/r
 ## - `lsb_release -cs` (needs to be installed first: `apt-get update && apt-get install -y lsb-release && apt-get clean all`)
 ## - `cat /etc/os-release | grep UBUNTU_CODENAME | cut -d "=" -f 2-` (without any additional package)
 ## - Details: https://stackoverflow.com/questions/58395566/lsb-release-command-not-found-in-latest-ubuntu-docker-container
-ENV UBUNTU_CODENAME=$(cat /etc/os-release | grep UBUNTU_CODENAME | cut -d "=" -f 2-)
 
-
-ENV RSTUIO_URL=https://s3.amazonaws.com/rstudio-ide-build/server/${UBUNTU_CODENAME}/amd64/
-# ENV RSTUIO_URL="https://download2.rstudio.org/server/$(lsb_release -cs)/amd64/"
 ENV RSTUDIO_FILE="rstudio-server-${RSTUDIO_VERSION}-amd64.deb"
-ENV RSTUDIO_LINK=${RSTUIO_URL}${RSTUDIO_FILE}
+
+RUN wget \
+    -O rstudio_installer.deb \
+    -q https://s3.amazonaws.com/rstudio-ide-build/server/$(lsb_release -cs)/amd64/${RSTUDIO_FILE}
+    # -q https://download2.rstudio.org/server/$(lsb_release -cs)/amd64/${RSTUDIO_FILE}
+
 
 ## install gdebi here, required to install rstudio
 ## (gdebi will fail without sudo)
@@ -47,7 +49,6 @@ ENV RSTUDIO_LINK=${RSTUIO_URL}${RSTUDIO_FILE}
 #     apt-get autoclean && \
 #     rm -rf /var/lib/apt/lists/*
 
-RUN wget -O rstudio_installer.deb -q ${RSTUDIO_LINK}
 
 # RUN gdebi -n ${RSTUDIO_FILE}
 RUN dpkg -i rstudio_installer.deb
