@@ -28,6 +28,7 @@ RUN install2.r --error --skipinstalled -n $NCPUS \
     DBI  \
     desc \
     DescTools \ 
+    DescrTab2 \
     devtools \
     distill \
     doParallel \
