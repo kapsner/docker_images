@@ -68,6 +68,8 @@ RUN install2.r --error --skipinstalled -n $NCPUS \
     markdown \ 
     Matrix \ 
     metathis \
+    ## `mice` for impuation of missing values:
+    mice \
     microbenchmark \ 
     mlbench \
     naivebayes \
