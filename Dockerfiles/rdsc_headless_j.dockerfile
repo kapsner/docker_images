@@ -135,6 +135,8 @@ RUN install2.r --error --skipinstalled -n $NCPUS \
     urltools \ 
     usethis \ 
     utf8 \
+    ## `VIM` for visualizing missing values:
+    VIM \
     wesanderson \ 
     wordcloud \ 
     wordcloud2 \
