@@ -45,9 +45,10 @@ RUN install2.r --error --skipinstalled -n $NCPUS \
     future \ 
     # DQAstats:
     future.apply \
-    ggside \
+    ggfortify \
     ggplot2 \ 
     ggpubr \ 
+    ggside \
     ggstatsplot \
     gtsummary \
     gplots \
@@ -126,6 +127,7 @@ RUN install2.r --error --skipinstalled -n $NCPUS \
     styler \ 
     summarytools \ 
     sunburstR \
+    survival \
     survminer \
     testthat \ 
     tidyr \ 

@@ -63,6 +63,8 @@
     "rainbow_parentheses": true,
     "server_editor_font_enabled": true,
     "server_editor_font": "JetBrains Mono",
-    "visual_markdown_editing_is_default": true,
-    "show_doc_outline_rmd": true
+    "visual_markdown_editing_is_default": false,
+    "show_doc_outline_rmd": true,
+    "chunk_output_type": "console",
+    "default_encoding": "UTF-8"
 }
