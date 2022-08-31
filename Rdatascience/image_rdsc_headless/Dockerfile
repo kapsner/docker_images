@@ -608,7 +608,8 @@ RUN R -q -e "shinytest::installDependencies()"
 # install my packages
 
 # CRAN packages with my participation
-ARG pack="sjtable2df \
+ARG pack="autonewsmd \
+    sjtable2df \
     rBiasCorrection \
     BiasCorrector \
     DIZtools \
