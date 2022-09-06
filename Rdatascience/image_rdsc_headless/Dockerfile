@@ -519,6 +519,7 @@ ARG tiny="\"amsfonts\", \
     \"latexconfig\", \ 
     \"lm\", \ 
     \"makecell\", \ 
+    \"makeindex\", \
     \"multirow\", \ 
     \"needspace\", \ 
     \"oberdiek\", \ 
