@@ -39,6 +39,7 @@ RUN install2.r --error --skipinstalled -n $NCPUS \
     dunn.test \
     effects \
     fhircrackr \ 
+    finalfit \
     foreach \ 
     formatR \ 
     # DQAstats:
