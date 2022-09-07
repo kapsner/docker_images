@@ -215,8 +215,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libapparmor1 \
     libgit2-dev \
     libnode-dev \
-    pandoc \
-    pandoc-citeproc \
     psmisc \
     qpdf \
     littler \
