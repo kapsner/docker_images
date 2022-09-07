@@ -54,6 +54,11 @@ RUN wget \
 RUN dpkg -i rstudio_installer.deb
 RUN rm -f rstudio_installer.deb
 
+ENV QUARTO_BASE=/usr/lib/rstudio-server/bin/quarto/bin
+ENV QUARTO_PATH=${QUARTO_BASE}/quarto \
+    PANDOC_BASE=${QUARTO_BASE}/tools
+ENV PATH=${QUARTO_BASE}:${PANDOC_BASE}:${PATH}
+
 # overwrite headless .Rprofile
 RUN echo "options(shiny.port = 3838)" > /home/${RSESSION_USER}/.Rprofile && \
     echo "options(shiny.host = '0.0.0.0')" >> /home/${RSESSION_USER}/.Rprofile && \
