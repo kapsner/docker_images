@@ -9,15 +9,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 USER ${RSESSION_USER}
 
-ARG packages="BiocManager" 
-RUN for package in $packages; do \
-    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
-    done && \
-    rm -rf /tmp/*
-
-# install devel version
-#RUN R -q -e "BiocManager::install(version = \"devel\", ask = FALSE)"
-
 ARG a="affy \ 
     Biobase \ 
     BiocCheck \ 
@@ -42,16 +33,16 @@ ARG a="affy \
     SummarizedExperiment \
     sva"
 RUN for package in $a; do \
-    R -q -e "p <- \"$package\"; BiocManager::install(pkgs = p, update = TRUE, ask = FALSE)"; \
+    echo "pak::pkg_install(pkg = \"$package\", upgrade = TRUE, ask = FALSE)" | r; \
     done && \
     rm -rf /tmp/*
 
 # install the stuff, where I participated
 ARG gitlab_array="\
-    https://gitlab.miracum.org/clearly/sigident.preproc.git,master \
-    https://gitlab.miracum.org/clearly/sigident.func.git,master \
-    https://gitlab.miracum.org/clearly/sigident.git,master \
-    https://gitlab.miracum.org/clearly/tromics.git,master"
+    https://github.com/kapsner/sigident.preproc.git,master \
+    https://github.com/kapsner/sigident.func.git,master \
+    https://github.com/kapsner/sigident.git,master \
+    https://github.com/kapsner/tromics.git,master"
 RUN for repo in ${gitlab_array}; do IFS=",";\ 
     set -- $repo; \
     R -q -e "p <- \"$1\"; \

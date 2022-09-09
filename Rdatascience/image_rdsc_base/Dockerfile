@@ -54,10 +54,8 @@ ENV R_LIBS_SITE=/usr/local/lib/R/site-library
 RUN mkdir -p ${R_LIBS_SITE}
 RUN chown -R ${RSESSION_USER}:${RSESSION_USER} ${R_LIBS_SITE}
 
-RUN ln -s /usr/lib/R/site-library/littler/examples/install.r /usr/local/bin/install.r && \
-    ln -s /usr/lib/R/site-library/littler/examples/install2.r /usr/local/bin/install2.r && \
-    ln -s /usr/lib/R/site-library/littler/examples/installGithub.r /usr/local/bin/installGithub.r && \
-    ln -s /usr/lib/R/site-library/littler/examples/testInstalled.r /usr/local/bin/testInstalled.r
+# add littler binaries to PATH
+ENV PATH=/usr/lib/R/site-library/littler/examples/:${PATH}
 
 # set cran repo
 RUN echo "options(\"repos\" = \"https://cloud.r-project.org/\")" >> /etc/R/Rprofile.site
@@ -69,18 +67,15 @@ ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 RUN echo JAVA_HOME="${JAVA_HOME}" >> /etc/environment
 RUN R CMD javareconf
 
-# first, make sure, that package "remotes" is installed, so we can make use
 USER ${RSESSION_USER}
-# of its function remotes::update_packages 
-# https://rdrr.io/cran/remotes/man/update_packages.html
 RUN R -q -e "install.packages(\"docopt\")"
 RUN install2.r --error --ncpus -1 stringi
 #RUN R -q -e "install.packages(\"stringi\", configure.args=\"--disable-pkg-config\")"
 RUN install2.r --error --ncpus -1 \
-    remotes \
+    data.table \
     devtools \
-    reticulate \
-    data.table
+    pak \
+    reticulate
 
 # install miniconda via reticulate and configure python
 RUN R -q -e "reticulate::py_config()"

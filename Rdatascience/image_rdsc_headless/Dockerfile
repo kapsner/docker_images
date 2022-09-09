@@ -5,12 +5,8 @@ ENV DEBIAN_FRONTEND=noninteractive
 USER ${RSESSION_USER}
 
 ARG a="abind \ 
-    ada \ 
-    adabag \ 
-    aplpack \ 
     arm \ 
-    arules \ 
-    arulesViz"
+    arules"
 RUN export pkg="\"$(echo ${a} | sed -e 's/ /\"\, \"/g')"\" && \
     R -q -e "vec <- setdiff(c($pkg), unname(installed.packages()[,\"Package\"])); print(vec); \
     vec2 <- intersect(c(vec), unname(available.packages()[,\"Package\"])); print(vec2); \
@@ -18,17 +14,12 @@ RUN export pkg="\"$(echo ${a} | sed -e 's/ /\"\, \"/g')"\" && \
     rm -rf /tmp/*
 
 ARG b="badger \
-    bayestestR \
     bench \ 
     BH \ 
-    bigmemory \ 
     blme \ 
     bookdown \ 
     boot \
-    bootstrap \
-    brms \ 
-    brnn \ 
-    bst"
+    bootstrap"
 RUN export pkg="\"$(echo ${b} | sed -e 's/ /\"\, \"/g')"\" && \
     R -q -e "vec <- setdiff(c($pkg), unname(installed.packages()[,\"Package\"])); print(vec); \
     vec2 <- intersect(c(vec), unname(available.packages()[,\"Package\"])); print(vec2); \
@@ -39,15 +30,12 @@ ARG c="C50 \
     car \ 
     carData \ 
     caret \ 
-    caretEnsemble \ 
     cellranger \ 
     checkmate \ 
     citr \
-    Ckmeans.1d.dp \ 
     class \ 
     clipr \ 
     cluster \ 
-    ClusterR \ 
     coda \
     coin \ 
     compare \
@@ -130,12 +118,7 @@ RUN export pkg="\"$(echo ${f} | sed -e 's/ /\"\, \"/g')"\" && \
     system(paste0(\"install2.r --error --ncpus -1 \", paste0(vec2, collapse = \" \")))" && \
     rm -rf /tmp/*
 
-ARG g="GA \
-    gamlr \ 
-    gbm \ 
-    gclus \ 
-    genetics \ 
-    ggcorrplot \
+ARG g="ggcorrplot \
     ggfortify \ 
     ggmap \ 
     ggplot2 \ 
@@ -144,8 +127,7 @@ ARG g="GA \
     ggridges \ 
     ggstatsplot \
     git2r \ 
-    glmnet \ 
-    glmmTMB \
+    glmnet \
     gplots"
 RUN export pkg="\"$(echo ${g} | sed -e 's/ /\"\, \"/g')"\" && \
     R -q -e "vec <- setdiff(c($pkg), unname(installed.packages()[,\"Package\"])); print(vec); \
@@ -189,6 +171,7 @@ RUN export pkg="\"$(echo ${j} | sed -e 's/ /\"\, \"/g')"\" && \
     rm -rf /tmp/*
 
 ARG k="kableExtra \ 
+    kernelshap \
     kernlab \ 
     kknn \ 
     knitr"
@@ -279,6 +262,7 @@ RUN export pkg="\"$(echo ${o} | sed -e 's/ /\"\, \"/g')"\" && \
     rm -rf /tmp/*
 
 ARG p="pagedown \
+    pak \
     parallel \ 
     parameters \
     ParBayesianOptimization \
