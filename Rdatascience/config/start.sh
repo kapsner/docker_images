@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source /config_env.sh
+
 printf "\nStarting RStudio server\n\n"
 rstudio-server start
 

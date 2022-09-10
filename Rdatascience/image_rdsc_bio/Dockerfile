@@ -1,6 +1,8 @@
 FROM rdsc_rstudio:latest
 #FROM rdsc_headless:latest
 
+USER root
+
 # install some dependencies for enhancedvolcano
 RUN apt-get update && apt-get install -y --no-install-recommends \
     libharfbuzz-dev \

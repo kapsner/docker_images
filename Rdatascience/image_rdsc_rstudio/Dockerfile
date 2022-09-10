@@ -7,6 +7,8 @@ ARG BASEIMAGE
 
 FROM ${BASEIMAGE}
 
+USER root
+
 # install gdebi here, required to install rstudio
 # (gdebi will fail without sudo)
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -55,9 +57,7 @@ RUN chown -R ${RSESSION_USER}:${RSESSION_USER} /home/${RSESSION_USER}/.config/ &
 # https://docs.rstudio.com/ide/server-pro/1.2.1293-1/r-sessions.html
 RUN echo "export PATH=${PATH}" >> /home/${RSESSION_USER}/.bash_profile && chmod +x /home/${RSESSION_USER}/.bash_profile
 
-# set PATH and QUARTO_PATH for all users
-RUN echo "PATH=${PATH}" >> /etc/R/Renviron && \
-    echo "PATH=${PATH}" >> /etc/environment
+# set QUARTO_PATH for all users
 RUN echo "QUARTO_PATH=${QUARTO_PATH}" >> /etc/R/Renviron && \
     echo "QUARTO_PATH=${QUARTO_PATH}" >> /etc/environment
 
@@ -72,12 +72,13 @@ RUN rm -rf /var/lib/apt/lists/* && \
 
 ########################
 
-# fix permissions in home folder
-RUN chown -R ${RSESSION_USER}:${RSESSION_USER} /home/${RSESSION_USER}/.local
-
 # add start.sh script
 ADD config/start.sh /
 RUN chmod +x /start.sh
+
+########################
+
+WORKDIR /home/${RSESSION_USER}
 
 # entrypoint
 ENTRYPOINT bash -c "/start.sh"

@@ -30,8 +30,6 @@ ARG c="C50 \
     car \ 
     carData \ 
     caret \ 
-    cellranger \ 
-    checkmate \ 
     citr \
     class \ 
     clipr \ 
@@ -45,39 +43,30 @@ ARG c="C50 \
     corrplot \ 
     covr \ 
     cowplot \ 
-    CPE \ 
     cramer \ 
     curl \ 
-    cutpointr \
-    CVST"
+    cutpointr"
 RUN export pkg="\"$(echo ${c} | sed -e 's/ /\"\, \"/g')"\" && \
     R -q -e "vec <- setdiff(c($pkg), unname(installed.packages()[,\"Package\"])); print(vec); \
     vec2 <- intersect(c(vec), unname(available.packages()[,\"Package\"])); print(vec2); \
     system(paste0(\"install2.r --error --ncpus -1 \", paste0(vec2, collapse = \" \")))" && \
     rm -rf /tmp/*
 
-ARG d="d3r \ 
-    data.table \ 
+ARG d="data.table \ 
     DBI \ 
-    deepboost \ 
     desc \ 
     DescrTab2 \
-    DescTools \ 
     devtools \ 
     DHARMa \
     DiagrammeR \ 
-    dimRed \ 
     discretization \ 
-    distrom \ 
-    doBy \ 
     doMC \ 
     doParallel \ 
     doRNG \
     dplyr \ 
     DT \ 
     dtplyr \ 
-    dunn.test \ 
-    dygraphs"
+    dunn.test"
 RUN export pkg="\"$(echo ${d} | sed -e 's/ /\"\, \"/g')"\" && \
     R -q -e "vec <- setdiff(c($pkg), unname(installed.packages()[,\"Package\"])); print(vec); \
     vec2 <- intersect(c(vec), unname(available.packages()[,\"Package\"])); print(vec2); \
@@ -85,13 +74,11 @@ RUN export pkg="\"$(echo ${d} | sed -e 's/ /\"\, \"/g')"\" && \
     rm -rf /tmp/*
 
 ARG e="e1071 \ 
-    earth \ 
     easystats \
     effects \ 
     effectsize \
     effsize \ 
-    epitools \ 
-    exactRankTests"
+    epitools"
 RUN export pkg="\"$(echo ${e} | sed -e 's/ /\"\, \"/g')"\" && \
     R -q -e "vec <- setdiff(c($pkg), unname(installed.packages()[,\"Package\"])); print(vec); \
     vec2 <- intersect(c(vec), unname(available.packages()[,\"Package\"])); print(vec2); \
@@ -99,17 +86,14 @@ RUN export pkg="\"$(echo ${e} | sed -e 's/ /\"\, \"/g')"\" && \
     rm -rf /tmp/*
 
 ARG f="factoextra \ 
-    fastAdaboost \
     fastshap \ 
     flexclust \ 
-    flexdashboard \ 
     flexmix \ 
     flextable \ 
     foreach \ 
     forecast \ 
     foreign \ 
     formatR \ 
-    fpc \ 
     future \ 
     future.apply"
 RUN export pkg="\"$(echo ${f} | sed -e 's/ /\"\, \"/g')"\" && \
@@ -135,8 +119,7 @@ RUN export pkg="\"$(echo ${g} | sed -e 's/ /\"\, \"/g')"\" && \
     system(paste0(\"install2.r --error --ncpus -1 \", paste0(vec2, collapse = \" \")))" && \
     rm -rf /tmp/*
 
-ARG h="haplo.stats \ 
-    haven \ 
+ARG h="haven \ 
     here \
     hexSticker \
     Hmisc \ 
@@ -151,10 +134,7 @@ RUN export pkg="\"$(echo ${h} | sed -e 's/ /\"\, \"/g')"\" && \
 ARG i="igraph \ 
     imager \
     influxdbr \ 
-    infotheo \ 
     invgamma \
-    ipred \ 
-    irlba \ 
     irr"
 RUN export pkg="\"$(echo ${i} | sed -e 's/ /\"\, \"/g')"\" && \
     R -q -e "vec <- setdiff(c($pkg), unname(installed.packages()[,\"Package\"])); print(vec); \
@@ -186,11 +166,8 @@ ARG l="languageserver \
     lava \ 
     lda \ 
     ldatuning \ 
-    LDAvis \ 
-    LiblineaR \
     lightgbm \ 
     lintr \ 
-    lm.beta \ 
     lme4 \ 
     lmtest \ 
     lsa \ 
@@ -208,8 +185,6 @@ ARG m="manipulate \
     markdown \ 
     MASS \ 
     Matrix \ 
-    MatrixModels \ 
-    mboost \ 
     MCMCpack \ 
     merTools \ 
     microbenchmark \ 
@@ -239,8 +214,7 @@ ARG n="naivebayes \
     NLP \ 
     nls2 \ 
     nnet \ 
-    nnls \ 
-    nortest"
+    nnls"
 RUN export pkg="\"$(echo ${n} | sed -e 's/ /\"\, \"/g')"\" && \
     R -q -e "vec <- setdiff(c($pkg), unname(installed.packages()[,\"Package\"])); print(vec); \
     vec2 <- intersect(c(vec), unname(available.packages()[,\"Package\"])); print(vec2); \
@@ -250,7 +224,6 @@ RUN export pkg="\"$(echo ${n} | sed -e 's/ /\"\, \"/g')"\" && \
 ARG o="odbc \ 
     officer \ 
     onewaytests \ 
-    openNLPdata \ 
     openssl \ 
     openxlsx \ 
     optparse \
@@ -268,19 +241,15 @@ ARG p="pagedown \
     ParBayesianOptimization \
     party \ 
     partykit \ 
-    pbkrtest \ 
     PearsonDS \
     performance \
     PerformanceAnalytics \ 
-    plotly \ 
-    pls \ 
     plyr \ 
     polynom \ 
     precrec \ 
     pROC \
     processx \ 
     progress \
-    profvis \ 
     PRROC \ 
     pspearman \ 
     psych"
@@ -290,42 +259,26 @@ RUN export pkg="\"$(echo ${p} | sed -e 's/ /\"\, \"/g')"\" && \
     system(paste0(\"install2.r --error --ncpus -1 \", paste0(vec2, collapse = \" \")))" && \
     rm -rf /tmp/*
 
-ARG q="qdap \ 
-    qpdf \ 
+ARG q="qpdf \ 
     quantreg \ 
     quantregForest \
-    quarto \
-    questionr"
+    quarto"
 RUN export pkg="\"$(echo ${q} | sed -e 's/ /\"\, \"/g')"\" && \
     R -q -e "vec <- setdiff(c($pkg), unname(installed.packages()[,\"Package\"])); print(vec); \
     vec2 <- intersect(c(vec), unname(available.packages()[,\"Package\"])); print(vec2); \
     system(paste0(\"install2.r --error --ncpus -1 \", paste0(vec2, collapse = \" \")))" && \
     rm -rf /tmp/*
 
-ARG r="R.utils \ 
-    r2d3 \ 
-    R6 \ 
+ARG r="R6 \ 
     randomForest \ 
     ranger \ 
-    rbokeh \ 
-    Rcmdr \ 
     rcmdcheck \ 
-    rcompanion \ 
-    RConics \ 
     Rcpp \ 
-    RcppRoll \ 
     RCurl \ 
     readr \ 
-    readstata13 \ 
-    readxl \ 
     remotes \ 
     renv \
-    ReporteRs \ 
-    ReporteRsjars \ 
-    reshape2 \ 
     reticulate \ 
-    rgenoud \
-    rgl \  
     rhub \ 
     R2jags \
     rjags \
@@ -334,8 +287,6 @@ ARG r="R.utils \
     rlang \ 
     rmarkdown \ 
     rms \ 
-    rngtools \ 
-    rnn \ 
     ROCR \ 
     roxygen2 \ 
     rpart \ 
@@ -345,11 +296,7 @@ ARG r="R.utils \
     rstantools \ 
     rstudioapi \ 
     rticles \
-    rts \ 
-    RVAideMemoire \ 
-    rversions \ 
-    rvest \ 
-    rvg"
+    rvest"
 RUN export pkg="\"$(echo ${r} | sed -e 's/ /\"\, \"/g')"\" && \
     R -q -e "vec <- setdiff(c($pkg), unname(installed.packages()[,\"Package\"])); print(vec); \
     vec2 <- intersect(c(vec), unname(available.packages()[,\"Package\"])); print(vec2); \
@@ -358,33 +305,25 @@ RUN export pkg="\"$(echo ${r} | sed -e 's/ /\"\, \"/g')"\" && \
 
 ARG s="see \
     SentimentAnalysis \ 
-    sem \ 
-    seriation \ 
     shapviz \
     shiny \ 
     shinyalert \
     shinydashboard \ 
     shinyFiles \ 
     shinyjs \ 
-    shinystan \ 
     shinytest \
     shinythemes \ 
     shinyWidgets \ 
-    sigmoid \ 
     sjlabelled \ 
     sjmisc \ 
     sjPlot \ 
     sjstats \ 
     smbinning \ 
-    sparklyr \ 
-    SparseM \ 
     spelling \
     splines \
     splitTools \
-    sqldf \  
     stargazer \ 
     styler \ 
-    summarytools \ 
     sunburstR \ 
     survival \ 
     survminer \ 
@@ -400,15 +339,12 @@ ARG t="tau \
     testthat \ 
     text2vec \ 
     textstem \ 
-    textir \ 
-    threejs \ 
     tibble \ 
     tidyr \ 
     tidymodels \ 
     tidyselect \ 
     tidyverse \ 
     tiff \
-    timeDate \ 
     tm \ 
     tinytex \ 
     topicmodels \ 
@@ -420,8 +356,7 @@ RUN export pkg="\"$(echo ${t} | sed -e 's/ /\"\, \"/g')"\" && \
     system(paste0(\"install2.r --error --ncpus -1 \", paste0(vec2, collapse = \" \")))" && \
     rm -rf /tmp/*
 
-ARG u="ucminf \ 
-    udpipe \ 
+ARG u="udpipe \ 
     urltools \ 
     usethis \ 
     utf8"
@@ -431,8 +366,7 @@ RUN export pkg="\"$(echo ${u} | sed -e 's/ /\"\, \"/g')"\" && \
     system(paste0(\"install2.r --error --ncpus -1 \", paste0(vec2, collapse = \" \")))" && \
     rm -rf /tmp/*
 
-ARG v="vegan \ 
-    vroom"
+ARG v="vroom"
 RUN export pkg="\"$(echo ${v} | sed -e 's/ /\"\, \"/g')"\" && \
     R -q -e "vec <- setdiff(c($pkg), unname(installed.packages()[,\"Package\"])); print(vec); \
     vec2 <- intersect(c(vec), unname(available.packages()[,\"Package\"])); print(vec2); \
@@ -658,15 +592,6 @@ RUN echo "options(shiny.port = 3838)" >> /home/${RSESSION_USER}/.Rprofile && \
     echo "source(file.path(Sys.getenv(if (.Platform\$OS.type == \"windows\") \"USERPROFILE\" else \"HOME\"), \".vscode-R\", \"init.R\"))" >> /home/${RSESSION_USER}/.Rprofile && \
     chown -R ${RSESSION_USER}:${RSESSION_USER} /home/${RSESSION_USER}/.Rprofile
 
-# add PATH to a bash_profile script (workaround so that path is available in rstudio\"s terminal)
-# https://support.rstudio.com/hc/en-us/articles/115010737148-Using-the-RStudio-Terminal#env
-# https://docs.rstudio.com/ide/server-pro/1.2.1293-1/r-sessions.html
-RUN echo "export PATH=${PATH}" >> /home/${RSESSION_USER}/.bash_profile && chmod +x /home/${RSESSION_USER}/.bash_profile
-
-# set PATH for all users
-RUN echo "PATH=${PATH}" >> /etc/R/Renviron
-RUN echo "PATH=${PATH}" >> /etc/environment
-
 # add radian profile
 ADD config/.radian_profile /home/${RSESSION_USER}/.radian_profile
 RUN chown -R ${RSESSION_USER}:${RSESSION_USER} /home/${RSESSION_USER}/.radian_profile
@@ -674,8 +599,12 @@ RUN chown -R ${RSESSION_USER}:${RSESSION_USER} /home/${RSESSION_USER}/.radian_pr
 # add rhub profile
 RUN mkdir -p /home/${RSESSION_USER}/.local/share/rhub
 
-# fix permissions in home folder
-RUN chown -R ${RSESSION_USER}:${RSESSION_USER} /home/${RSESSION_USER}/.local
+# fix permissions in home folder and /etc/ to allow running the config_env-script
+RUN chown -R ${RSESSION_USER}:${RSESSION_USER} /home/${RSESSION_USER}/.local && \
+    touch /home/${RSESSION_USER}/.bash_profile && \
+    chown -R ${RSESSION_USER}:${RSESSION_USER} /home/${RSESSION_USER}/.bash_profile && \
+    chown ${RSESSION_USER}:${RSESSION_USER} /etc/environment && \
+    chown -R ${RSESSION_USER}:${RSESSION_USER} /etc/R/Renviron
 
 ########################
 # clear caches
@@ -688,4 +617,13 @@ RUN rm -rf /var/lib/apt/lists/* && \
 
 ########################
 
+# add config_env.sh script
+ADD config/config_env.sh /
+RUN chmod +x /config_env.sh
+
+USER ${RSESSION_USER}
+
 WORKDIR /home/${RSESSION_USER}
+
+# entrypoint
+ENTRYPOINT bash -c "/config_env.sh && tail -f /dev/null"

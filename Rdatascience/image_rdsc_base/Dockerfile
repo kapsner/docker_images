@@ -64,7 +64,7 @@ RUN echo "options(\"repos\" = \"https://cloud.r-project.org/\")" >> /etc/R/Rprof
 
 # update envar
 ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
-RUN echo JAVA_HOME="${JAVA_HOME}" >> /etc/environment
+RUN echo JAVA_HOME="${JAVA_HOME}" > /etc/environment
 RUN R CMD javareconf
 
 USER ${RSESSION_USER}
@@ -84,7 +84,8 @@ RUN conda clean -ya
 # switch back
 USER root
 
-ENV PATH="/home/${RSESSION_USER}/miniconda/bin:${PATH}"
+# this happens already in the base image
+# ENV PATH=/home/${RSESSION_USER}/miniconda/bin:${PATH}
 
 # Add RETICULATE_PYTHON variable to Renviron
 RUN echo "RETICULATE_PYTHON=/home/${RSESSION_USER}/miniconda/bin/python" >> /etc/R/Renviron
