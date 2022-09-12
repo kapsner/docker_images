@@ -11,7 +11,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 USER ${RSESSION_USER}
 
-ARG a="affy \ 
+RUN install2.r --error --ncpus -1 BiocManager
+
+ARG bio="affy \ 
     Biobase \ 
     BiocCheck \ 
     clusterProfiler \ 
@@ -34,9 +36,14 @@ ARG a="affy \
     pheatmap \
     SummarizedExperiment \
     sva"
-RUN for package in $a; do \
-    echo "pak::pkg_install(pkg = \"$package\", upgrade = TRUE, ask = FALSE)" | r; \
-    done && \
+# pak currently takes >5 hours to install the packages --> infeasible
+# RUN for package in $a; do \
+#     echo "pak::pkg_install(pkg = \"$package\", upgrade = TRUE, ask = FALSE)" | r; \
+#     done && \
+#     rm -rf /tmp/*
+RUN export pkg="\"$(echo ${bio} | sed -e 's/ /\"\, \"/g')"\" && \
+    export install_pkg=$(echo "vec <- setdiff(c($pkg), unname(installed.packages()[,'Package'])); cat(vec)" | r) && \
+    installBioc.r --error --ncpus -1 $install_pkg && \
     rm -rf /tmp/*
 
 # install the stuff, where I participated
@@ -47,8 +54,8 @@ ARG gitlab_array="\
     https://github.com/kapsner/tromics.git,master"
 RUN for repo in ${gitlab_array}; do IFS=",";\ 
     set -- $repo; \
-    R -q -e "p <- \"$1\"; \
-        tryCatch({remotes::install_git(url = p, ref = \"$2\", upgrade = \"always\")}, error = function(e) {print(e)})"; \
+    echo "p <- \"$1\"; \
+        tryCatch({remotes::install_git(url = p, ref = \"$2\", upgrade = \"always\")}, error = function(e) {print(e)})" | r; \
     done && \
     rm -rf /tmp/*
 

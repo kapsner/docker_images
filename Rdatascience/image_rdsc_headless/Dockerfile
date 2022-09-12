@@ -8,9 +8,9 @@ ARG a="abind \
     arm \ 
     arules"
 RUN export pkg="\"$(echo ${a} | sed -e 's/ /\"\, \"/g')"\" && \
-    R -q -e "vec <- setdiff(c($pkg), unname(installed.packages()[,\"Package\"])); print(vec); \
-    vec2 <- intersect(c(vec), unname(available.packages()[,\"Package\"])); print(vec2); \
-    system(paste0(\"install2.r --error --ncpus -1 \", paste0(vec2, collapse = \" \")))" && \
+    export install_pkg=$(echo "vec <- setdiff(c($pkg), unname(installed.packages()[,'Package'])); \
+    vec2 <- intersect(c(vec), unname(available.packages()[,'Package'])); cat(vec2)" | r) && \
+    install2.r --error --ncpus -1 $install_pkg && \
     rm -rf /tmp/*
 
 ARG b="badger \
@@ -21,9 +21,9 @@ ARG b="badger \
     boot \
     bootstrap"
 RUN export pkg="\"$(echo ${b} | sed -e 's/ /\"\, \"/g')"\" && \
-    R -q -e "vec <- setdiff(c($pkg), unname(installed.packages()[,\"Package\"])); print(vec); \
-    vec2 <- intersect(c(vec), unname(available.packages()[,\"Package\"])); print(vec2); \
-    system(paste0(\"install2.r --error --ncpus -1 \", paste0(vec2, collapse = \" \")))" && \
+    export install_pkg=$(echo "vec <- setdiff(c($pkg), unname(installed.packages()[,'Package'])); \
+    vec2 <- intersect(c(vec), unname(available.packages()[,'Package'])); cat(vec2)" | r) && \
+    install2.r --error --ncpus -1 $install_pkg && \
     rm -rf /tmp/*
 
 ARG c="C50 \ 
@@ -47,9 +47,9 @@ ARG c="C50 \
     curl \ 
     cutpointr"
 RUN export pkg="\"$(echo ${c} | sed -e 's/ /\"\, \"/g')"\" && \
-    R -q -e "vec <- setdiff(c($pkg), unname(installed.packages()[,\"Package\"])); print(vec); \
-    vec2 <- intersect(c(vec), unname(available.packages()[,\"Package\"])); print(vec2); \
-    system(paste0(\"install2.r --error --ncpus -1 \", paste0(vec2, collapse = \" \")))" && \
+    export install_pkg=$(echo "vec <- setdiff(c($pkg), unname(installed.packages()[,'Package'])); \
+    vec2 <- intersect(c(vec), unname(available.packages()[,'Package'])); cat(vec2)" | r) && \
+    install2.r --error --ncpus -1 $install_pkg && \
     rm -rf /tmp/*
 
 ARG d="data.table \ 
@@ -68,9 +68,9 @@ ARG d="data.table \
     dtplyr \ 
     dunn.test"
 RUN export pkg="\"$(echo ${d} | sed -e 's/ /\"\, \"/g')"\" && \
-    R -q -e "vec <- setdiff(c($pkg), unname(installed.packages()[,\"Package\"])); print(vec); \
-    vec2 <- intersect(c(vec), unname(available.packages()[,\"Package\"])); print(vec2); \
-    system(paste0(\"install2.r --error --ncpus -1 \", paste0(vec2, collapse = \" \")))" && \
+    export install_pkg=$(echo "vec <- setdiff(c($pkg), unname(installed.packages()[,'Package'])); \
+    vec2 <- intersect(c(vec), unname(available.packages()[,'Package'])); cat(vec2)" | r) && \
+    install2.r --error --ncpus -1 $install_pkg && \
     rm -rf /tmp/*
 
 ARG e="e1071 \ 
@@ -80,9 +80,9 @@ ARG e="e1071 \
     effsize \ 
     epitools"
 RUN export pkg="\"$(echo ${e} | sed -e 's/ /\"\, \"/g')"\" && \
-    R -q -e "vec <- setdiff(c($pkg), unname(installed.packages()[,\"Package\"])); print(vec); \
-    vec2 <- intersect(c(vec), unname(available.packages()[,\"Package\"])); print(vec2); \
-    system(paste0(\"install2.r --error --ncpus -1 \", paste0(vec2, collapse = \" \")))" && \
+    export install_pkg=$(echo "vec <- setdiff(c($pkg), unname(installed.packages()[,'Package'])); \
+    vec2 <- intersect(c(vec), unname(available.packages()[,'Package'])); cat(vec2)" | r) && \
+    install2.r --error --ncpus -1 $install_pkg && \
     rm -rf /tmp/*
 
 ARG f="factoextra \ 
@@ -97,9 +97,9 @@ ARG f="factoextra \
     future \ 
     future.apply"
 RUN export pkg="\"$(echo ${f} | sed -e 's/ /\"\, \"/g')"\" && \
-    R -q -e "vec <- setdiff(c($pkg), unname(installed.packages()[,\"Package\"])); print(vec); \
-    vec2 <- intersect(c(vec), unname(available.packages()[,\"Package\"])); print(vec2); \
-    system(paste0(\"install2.r --error --ncpus -1 \", paste0(vec2, collapse = \" \")))" && \
+    export install_pkg=$(echo "vec <- setdiff(c($pkg), unname(installed.packages()[,'Package'])); \
+    vec2 <- intersect(c(vec), unname(available.packages()[,'Package'])); cat(vec2)" | r) && \
+    install2.r --error --ncpus -1 $install_pkg && \
     rm -rf /tmp/*
 
 ARG g="ggcorrplot \
@@ -114,9 +114,9 @@ ARG g="ggcorrplot \
     glmnet \
     gplots"
 RUN export pkg="\"$(echo ${g} | sed -e 's/ /\"\, \"/g')"\" && \
-    R -q -e "vec <- setdiff(c($pkg), unname(installed.packages()[,\"Package\"])); print(vec); \
-    vec2 <- intersect(c(vec), unname(available.packages()[,\"Package\"])); print(vec2); \
-    system(paste0(\"install2.r --error --ncpus -1 \", paste0(vec2, collapse = \" \")))" && \
+    export install_pkg=$(echo "vec <- setdiff(c($pkg), unname(installed.packages()[,'Package'])); \
+    vec2 <- intersect(c(vec), unname(available.packages()[,'Package'])); cat(vec2)" | r) && \
+    install2.r --error --ncpus -1 $install_pkg && \
     rm -rf /tmp/*
 
 ARG h="haven \ 
@@ -126,9 +126,9 @@ ARG h="haven \
     httr \ 
     hunspell"
 RUN export pkg="\"$(echo ${h} | sed -e 's/ /\"\, \"/g')"\" && \
-    R -q -e "vec <- setdiff(c($pkg), unname(installed.packages()[,\"Package\"])); print(vec); \
-    vec2 <- intersect(c(vec), unname(available.packages()[,\"Package\"])); print(vec2); \
-    system(paste0(\"install2.r --error --ncpus -1 \", paste0(vec2, collapse = \" \")))" && \
+    export install_pkg=$(echo "vec <- setdiff(c($pkg), unname(installed.packages()[,'Package'])); \
+    vec2 <- intersect(c(vec), unname(available.packages()[,'Package'])); cat(vec2)" | r) && \
+    install2.r --error --ncpus -1 $install_pkg && \
     rm -rf /tmp/*
 
 ARG i="igraph \ 
@@ -137,17 +137,17 @@ ARG i="igraph \
     invgamma \
     irr"
 RUN export pkg="\"$(echo ${i} | sed -e 's/ /\"\, \"/g')"\" && \
-    R -q -e "vec <- setdiff(c($pkg), unname(installed.packages()[,\"Package\"])); print(vec); \
-    vec2 <- intersect(c(vec), unname(available.packages()[,\"Package\"])); print(vec2); \
-    system(paste0(\"install2.r --error --ncpus -1 \", paste0(vec2, collapse = \" \")))" && \
+    export install_pkg=$(echo "vec <- setdiff(c($pkg), unname(installed.packages()[,'Package'])); \
+    vec2 <- intersect(c(vec), unname(available.packages()[,'Package'])); cat(vec2)" | r) && \
+    install2.r --error --ncpus -1 $install_pkg && \
     rm -rf /tmp/*
 
 ARG j="jpeg \ 
     jsonlite"
 RUN export pkg="\"$(echo ${j} | sed -e 's/ /\"\, \"/g')"\" && \
-    R -q -e "vec <- setdiff(c($pkg), unname(installed.packages()[,\"Package\"])); print(vec); \
-    vec2 <- intersect(c(vec), unname(available.packages()[,\"Package\"])); print(vec2); \
-    system(paste0(\"install2.r --error --ncpus -1 \", paste0(vec2, collapse = \" \")))" && \
+    export install_pkg=$(echo "vec <- setdiff(c($pkg), unname(installed.packages()[,'Package'])); \
+    vec2 <- intersect(c(vec), unname(available.packages()[,'Package'])); cat(vec2)" | r) && \
+    install2.r --error --ncpus -1 $install_pkg && \
     rm -rf /tmp/*
 
 ARG k="kableExtra \ 
@@ -156,9 +156,9 @@ ARG k="kableExtra \
     kknn \ 
     knitr"
 RUN export pkg="\"$(echo ${k} | sed -e 's/ /\"\, \"/g')"\" && \
-    R -q -e "vec <- setdiff(c($pkg), unname(installed.packages()[,\"Package\"])); print(vec); \
-    vec2 <- intersect(c(vec), unname(available.packages()[,\"Package\"])); print(vec2); \
-    system(paste0(\"install2.r --error --ncpus -1 \", paste0(vec2, collapse = \" \")))" && \
+    export install_pkg=$(echo "vec <- setdiff(c($pkg), unname(installed.packages()[,'Package'])); \
+    vec2 <- intersect(c(vec), unname(available.packages()[,'Package'])); cat(vec2)" | r) && \
+    install2.r --error --ncpus -1 $install_pkg && \
     rm -rf /tmp/*
 
 ARG l="languageserver \
@@ -173,9 +173,9 @@ ARG l="languageserver \
     lsa \ 
     lubridate"
 RUN export pkg="\"$(echo ${l} | sed -e 's/ /\"\, \"/g')"\" && \
-    R -q -e "vec <- setdiff(c($pkg), unname(installed.packages()[,\"Package\"])); print(vec); \
-    vec2 <- intersect(c(vec), unname(available.packages()[,\"Package\"])); print(vec2); \
-    system(paste0(\"install2.r --error --ncpus -1 \", paste0(vec2, collapse = \" \")))" && \
+    export install_pkg=$(echo "vec <- setdiff(c($pkg), unname(installed.packages()[,'Package'])); \
+    vec2 <- intersect(c(vec), unname(available.packages()[,'Package'])); cat(vec2)" | r) && \
+    install2.r --error --ncpus -1 $install_pkg && \
     rm -rf /tmp/*
 
 ARG m="manipulate \ 
@@ -202,9 +202,9 @@ ARG m="manipulate \
     modelbased \
     muhaz"
 RUN export pkg="\"$(echo ${m} | sed -e 's/ /\"\, \"/g')"\" && \
-    R -q -e "vec <- setdiff(c($pkg), unname(installed.packages()[,\"Package\"])); print(vec); \
-    vec2 <- intersect(c(vec), unname(available.packages()[,\"Package\"])); print(vec2); \
-    system(paste0(\"install2.r --error --ncpus -1 \", paste0(vec2, collapse = \" \")))" && \
+    export install_pkg=$(echo "vec <- setdiff(c($pkg), unname(installed.packages()[,'Package'])); \
+    vec2 <- intersect(c(vec), unname(available.packages()[,'Package'])); cat(vec2)" | r) && \
+    install2.r --error --ncpus -1 $install_pkg && \
     rm -rf /tmp/*
 
 ARG n="naivebayes \ 
@@ -216,9 +216,9 @@ ARG n="naivebayes \
     nnet \ 
     nnls"
 RUN export pkg="\"$(echo ${n} | sed -e 's/ /\"\, \"/g')"\" && \
-    R -q -e "vec <- setdiff(c($pkg), unname(installed.packages()[,\"Package\"])); print(vec); \
-    vec2 <- intersect(c(vec), unname(available.packages()[,\"Package\"])); print(vec2); \
-    system(paste0(\"install2.r --error --ncpus -1 \", paste0(vec2, collapse = \" \")))" && \
+    export install_pkg=$(echo "vec <- setdiff(c($pkg), unname(installed.packages()[,'Package'])); \
+    vec2 <- intersect(c(vec), unname(available.packages()[,'Package'])); cat(vec2)" | r) && \
+    install2.r --error --ncpus -1 $install_pkg && \
     rm -rf /tmp/*
 
 ARG o="odbc \ 
@@ -229,9 +229,9 @@ ARG o="odbc \
     optparse \
     ordinal"
 RUN export pkg="\"$(echo ${o} | sed -e 's/ /\"\, \"/g')"\" && \
-    R -q -e "vec <- setdiff(c($pkg), unname(installed.packages()[,\"Package\"])); print(vec); \
-    vec2 <- intersect(c(vec), unname(available.packages()[,\"Package\"])); print(vec2); \
-    system(paste0(\"install2.r --error --ncpus -1 \", paste0(vec2, collapse = \" \")))" && \
+    export install_pkg=$(echo "vec <- setdiff(c($pkg), unname(installed.packages()[,'Package'])); \
+    vec2 <- intersect(c(vec), unname(available.packages()[,'Package'])); cat(vec2)" | r) && \
+    install2.r --error --ncpus -1 $install_pkg && \
     rm -rf /tmp/*
 
 ARG p="pagedown \
@@ -254,9 +254,9 @@ ARG p="pagedown \
     pspearman \ 
     psych"
 RUN export pkg="\"$(echo ${p} | sed -e 's/ /\"\, \"/g')"\" && \
-    R -q -e "vec <- setdiff(c($pkg), unname(installed.packages()[,\"Package\"])); print(vec); \
-    vec2 <- intersect(c(vec), unname(available.packages()[,\"Package\"])); print(vec2); \
-    system(paste0(\"install2.r --error --ncpus -1 \", paste0(vec2, collapse = \" \")))" && \
+    export install_pkg=$(echo "vec <- setdiff(c($pkg), unname(installed.packages()[,'Package'])); \
+    vec2 <- intersect(c(vec), unname(available.packages()[,'Package'])); cat(vec2)" | r) && \
+    install2.r --error --ncpus -1 $install_pkg && \
     rm -rf /tmp/*
 
 ARG q="qpdf \ 
@@ -264,9 +264,9 @@ ARG q="qpdf \
     quantregForest \
     quarto"
 RUN export pkg="\"$(echo ${q} | sed -e 's/ /\"\, \"/g')"\" && \
-    R -q -e "vec <- setdiff(c($pkg), unname(installed.packages()[,\"Package\"])); print(vec); \
-    vec2 <- intersect(c(vec), unname(available.packages()[,\"Package\"])); print(vec2); \
-    system(paste0(\"install2.r --error --ncpus -1 \", paste0(vec2, collapse = \" \")))" && \
+    export install_pkg=$(echo "vec <- setdiff(c($pkg), unname(installed.packages()[,'Package'])); \
+    vec2 <- intersect(c(vec), unname(available.packages()[,'Package'])); cat(vec2)" | r) && \
+    install2.r --error --ncpus -1 $install_pkg && \
     rm -rf /tmp/*
 
 ARG r="R6 \ 
@@ -291,16 +291,15 @@ ARG r="R6 \
     roxygen2 \ 
     rpart \ 
     RPostgres \ 
-    RSQLite \ 
     rstan \ 
     rstantools \ 
     rstudioapi \ 
     rticles \
     rvest"
 RUN export pkg="\"$(echo ${r} | sed -e 's/ /\"\, \"/g')"\" && \
-    R -q -e "vec <- setdiff(c($pkg), unname(installed.packages()[,\"Package\"])); print(vec); \
-    vec2 <- intersect(c(vec), unname(available.packages()[,\"Package\"])); print(vec2); \
-    system(paste0(\"install2.r --error --ncpus -1 \", paste0(vec2, collapse = \" \")))" && \
+    export install_pkg=$(echo "vec <- setdiff(c($pkg), unname(installed.packages()[,'Package'])); \
+    vec2 <- intersect(c(vec), unname(available.packages()[,'Package'])); cat(vec2)" | r) && \
+    install2.r --error --ncpus -1 $install_pkg && \
     rm -rf /tmp/*
 
 ARG s="see \
@@ -330,9 +329,9 @@ ARG s="see \
     synthpop \ 
     syuzhet"
 RUN export pkg="\"$(echo ${s} | sed -e 's/ /\"\, \"/g')"\" && \
-    R -q -e "vec <- setdiff(c($pkg), unname(installed.packages()[,\"Package\"])); print(vec); \
-    vec2 <- intersect(c(vec), unname(available.packages()[,\"Package\"])); print(vec2); \
-    system(paste0(\"install2.r --error --ncpus -1 \", paste0(vec2, collapse = \" \")))" && \
+    export install_pkg=$(echo "vec <- setdiff(c($pkg), unname(installed.packages()[,'Package'])); \
+    vec2 <- intersect(c(vec), unname(available.packages()[,'Package'])); cat(vec2)" | r) && \
+    install2.r --error --ncpus -1 $install_pkg && \
     rm -rf /tmp/*
 
 ARG t="tau \ 
@@ -351,9 +350,9 @@ ARG t="tau \
     tseries \ 
     twitteR"
 RUN export pkg="\"$(echo ${t} | sed -e 's/ /\"\, \"/g')"\" && \
-    R -q -e "vec <- setdiff(c($pkg), unname(installed.packages()[,\"Package\"])); print(vec); \
-    vec2 <- intersect(c(vec), unname(available.packages()[,\"Package\"])); print(vec2); \
-    system(paste0(\"install2.r --error --ncpus -1 \", paste0(vec2, collapse = \" \")))" && \
+    export install_pkg=$(echo "vec <- setdiff(c($pkg), unname(installed.packages()[,'Package'])); \
+    vec2 <- intersect(c(vec), unname(available.packages()[,'Package'])); cat(vec2)" | r) && \
+    install2.r --error --ncpus -1 $install_pkg && \
     rm -rf /tmp/*
 
 ARG u="udpipe \ 
@@ -361,25 +360,25 @@ ARG u="udpipe \
     usethis \ 
     utf8"
 RUN export pkg="\"$(echo ${u} | sed -e 's/ /\"\, \"/g')"\" && \
-    R -q -e "vec <- setdiff(c($pkg), unname(installed.packages()[,\"Package\"])); print(vec); \
-    vec2 <- intersect(c(vec), unname(available.packages()[,\"Package\"])); print(vec2); \
-    system(paste0(\"install2.r --error --ncpus -1 \", paste0(vec2, collapse = \" \")))" && \
+    export install_pkg=$(echo "vec <- setdiff(c($pkg), unname(installed.packages()[,'Package'])); \
+    vec2 <- intersect(c(vec), unname(available.packages()[,'Package'])); cat(vec2)" | r) && \
+    install2.r --error --ncpus -1 $install_pkg && \
     rm -rf /tmp/*
 
 ARG v="vroom"
 RUN export pkg="\"$(echo ${v} | sed -e 's/ /\"\, \"/g')"\" && \
-    R -q -e "vec <- setdiff(c($pkg), unname(installed.packages()[,\"Package\"])); print(vec); \
-    vec2 <- intersect(c(vec), unname(available.packages()[,\"Package\"])); print(vec2); \
-    system(paste0(\"install2.r --error --ncpus -1 \", paste0(vec2, collapse = \" \")))" && \
+    export install_pkg=$(echo "vec <- setdiff(c($pkg), unname(installed.packages()[,'Package'])); \
+    vec2 <- intersect(c(vec), unname(available.packages()[,'Package'])); cat(vec2)" | r) && \
+    install2.r --error --ncpus -1 $install_pkg && \
     rm -rf /tmp/*
 
 ARG w="wesanderson \ 
     wordcloud \ 
     wordcloud2"
 RUN export pkg="\"$(echo ${w} | sed -e 's/ /\"\, \"/g')"\" && \
-    R -q -e "vec <- setdiff(c($pkg), unname(installed.packages()[,\"Package\"])); print(vec); \
-    vec2 <- intersect(c(vec), unname(available.packages()[,\"Package\"])); print(vec2); \
-    system(paste0(\"install2.r --error --ncpus -1 \", paste0(vec2, collapse = \" \")))" && \
+    export install_pkg=$(echo "vec <- setdiff(c($pkg), unname(installed.packages()[,'Package'])); \
+    vec2 <- intersect(c(vec), unname(available.packages()[,'Package'])); cat(vec2)" | r) && \
+    install2.r --error --ncpus -1 $install_pkg && \
     rm -rf /tmp/*
 
 ARG x="xfun \ 
@@ -387,28 +386,28 @@ ARG x="xfun \
     XML \ 
     xml2"
 RUN export pkg="\"$(echo ${x} | sed -e 's/ /\"\, \"/g')"\" && \
-    R -q -e "vec <- setdiff(c($pkg), unname(installed.packages()[,\"Package\"])); print(vec); \
-    vec2 <- intersect(c(vec), unname(available.packages()[,\"Package\"])); print(vec2); \
-    system(paste0(\"install2.r --error --ncpus -1 \", paste0(vec2, collapse = \" \")))" && \
+    export install_pkg=$(echo "vec <- setdiff(c($pkg), unname(installed.packages()[,'Package'])); \
+    vec2 <- intersect(c(vec), unname(available.packages()[,'Package'])); cat(vec2)" | r) && \
+    install2.r --error --ncpus -1 $install_pkg && \
     rm -rf /tmp/*
 
 ARG y="yaml"
 RUN export pkg="\"$(echo ${y} | sed -e 's/ /\"\, \"/g')"\" && \
-    R -q -e "vec <- setdiff(c($pkg), unname(installed.packages()[,\"Package\"])); print(vec); \
-    vec2 <- intersect(c(vec), unname(available.packages()[,\"Package\"])); print(vec2); \
-    system(paste0(\"install2.r --error --ncpus -1 \", paste0(vec2, collapse = \" \")))" && \
+    export install_pkg=$(echo "vec <- setdiff(c($pkg), unname(installed.packages()[,'Package'])); \
+    vec2 <- intersect(c(vec), unname(available.packages()[,'Package'])); cat(vec2)" | r) && \
+    install2.r --error --ncpus -1 $install_pkg && \
     rm -rf /tmp/*
 
 ARG z="zip \ 
     zoo"
 RUN export pkg="\"$(echo ${z} | sed -e 's/ /\"\, \"/g')"\" && \
-    R -q -e "vec <- setdiff(c($pkg), unname(installed.packages()[,\"Package\"])); print(vec); \
-    vec2 <- intersect(c(vec), unname(available.packages()[,\"Package\"])); print(vec2); \
-    system(paste0(\"install2.r --error --ncpus -1 \", paste0(vec2, collapse = \" \")))" && \
+    export install_pkg=$(echo "vec <- setdiff(c($pkg), unname(installed.packages()[,'Package'])); \
+    vec2 <- intersect(c(vec), unname(available.packages()[,'Package'])); cat(vec2)" | r) && \
+    install2.r --error --ncpus -1 $install_pkg && \
     rm -rf /tmp/*
 
 # install required LaTeX-Packages
-RUN R -q -e "tinytex::install_tinytex()"
+RUN echo "tinytex::install_tinytex()" | r
 
 ENV PATH="/home/${RSESSION_USER}/bin:/home/${RSESSION_USER}/.TinyTeX/bin/x86_64-linux:${PATH}"
 
@@ -463,9 +462,9 @@ ARG tiny="\"amsfonts\", \
     \"url\", \ 
     \"xcolor\""
 
-RUN R -q -e "tinytex::tlmgr_conf()"
-RUN R -q -e "tinytex::tlmgr_install(pkgs = c(${tiny}))"
-RUN R -q -e "tinytex::tlmgr_update()"
+RUN echo "tinytex::tlmgr_conf()" | r && \
+    echo "tinytex::tlmgr_install(pkgs = c(${tiny}))" | r && \
+    echo "tinytex::tlmgr_update()" | r
 
 
 USER root
@@ -485,12 +484,14 @@ ARG allpackages="\"$a\" \"$b\" \"$c\" \"$d\" \"$e\" \"$f\" \"$g\" \"$h\" \
     \"$s\" \"$t\" \"$u\" \"$v\" \"$w\" \"$x\" \"$y\" \"$z\""
 
 RUN export packages_format="$(echo $(echo ${allpackages} | sed -e \"s/ /\"\, \"/g\") | sed -e \"s/\"\"/\"/g\")" && \
-    R -q -e "vec <- setdiff(c($packages_format), unname(installed.packages()[,\"Package\"])); print(vec); \
-    vec2 <- intersect(c(vec), unname(available.packages()[,\"Package\"])); print(vec2); \
-    install.packages(pkgs = vec2)"
+    export install_pkg=$(echo "vec <- setdiff(c($packages_format), unname(installed.packages()[,'Package'])); \
+    vec2 <- intersect(c(vec), unname(available.packages()[,'Package'])); cat(vec2)" | r) && \
+    install2.r --error --ncpus -1 $install_pkg && \
+    rm -rf /tmp/*
 
 # update all installed packages
-RUN R -q -e "vec <- unname(installed.packages()[,\"Package\"]); remotes::update_packages(packages = vec, upgrade = \"always\")"  && \
+RUN echo "vec <- unname(installed.packages()[,'Package']); \
+    remotes::update_packages(packages = vec, upgrade = 'always')" | r && \
     rm -rf /tmp/*
 
 # install development packages
@@ -501,7 +502,7 @@ ARG github_array="\
     
 RUN for repo in ${github_array}; do IFS=",";\ 
     set -- $repo; \
-    R -q -e "p <- \"$1\"; remotes::install_github(repo = p, ref = \"$2\", upgrade = \"always\")"; \
+    echo "p <- \"$1\"; remotes::install_github(repo = p, ref = \"$2\", upgrade = \"always\")" | r; \
     done && \
     rm -rf /tmp/*
 
@@ -519,10 +520,10 @@ RUN yes | pip install \
 
 # configure the other r packages
 # install phantomjs
-RUN R -q -e "webshot::install_phantomjs()"
+RUN echo "webshot::install_phantomjs()" | r
 
 # install shinytest dependencies (= phantomjs)
-RUN R -q -e "shinytest::installDependencies()"
+RUN echo "shinytest::installDependencies()" | r
 
 # install my packages
 
@@ -536,7 +537,7 @@ ARG pack="autonewsmd \
     DQAstats \
     DQAgui"
 RUN for package in $pack; do \   
-    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")"; \
+    echo "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")" | r; \
     done && \
     rm -rf /tmp/*
 
@@ -548,8 +549,8 @@ ARG github_array="\
     miracum/dqa-miracumdqa,master"
 RUN for repo in ${github_array}; do IFS=",";\ 
     set -- $repo; \
-    R -q -e "p <- \"$1\"; \
-        tryCatch({remotes::install_github(repo = p, ref = \"$2\", upgrade = \"always\")}, error = function(e) {print(e)})"; \
+    echo "p <- \"$1\"; \
+        tryCatch({remotes::install_github(repo = p, ref = \"$2\", upgrade = \"always\")}, error = function(e) {print(e)})" | r; \
     done && \
     rm -rf /tmp/*
 
@@ -557,8 +558,8 @@ ARG gitlab_array="\
     https://gitlab.miracum.org/kosmic/kosmicgui.git,master"
 RUN for repo in ${gitlab_array}; do IFS=",";\ 
     set -- $repo; \
-    R -q -e "p <- \"$1\"; \
-        tryCatch({remotes::install_git(url = p, ref = \"$2\", upgrade = \"always\")}, error = function(e) {print(e)})"; \
+    echo "p <- \"$1\"; \
+        tryCatch({remotes::install_git(url = p, ref = \"$2\", upgrade = \"always\")}, error = function(e) {print(e)})" | r; \
     done && \
     rm -rf /tmp/*
 

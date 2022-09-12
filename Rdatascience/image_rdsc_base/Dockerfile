@@ -39,7 +39,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libnode-dev \
     psmisc \
     qpdf \
-    littler \
     r-base \
     r-base-dev \
     r-recommended \
@@ -54,9 +53,6 @@ ENV R_LIBS_SITE=/usr/local/lib/R/site-library
 RUN mkdir -p ${R_LIBS_SITE}
 RUN chown -R ${RSESSION_USER}:${RSESSION_USER} ${R_LIBS_SITE}
 
-# add littler binaries to PATH
-ENV PATH=/usr/lib/R/site-library/littler/examples/:${PATH}
-
 # set cran repo
 RUN echo "options(\"repos\" = \"https://cloud.r-project.org/\")" >> /etc/R/Rprofile.site
 
@@ -67,18 +63,20 @@ ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 RUN echo JAVA_HOME="${JAVA_HOME}" > /etc/environment
 RUN R CMD javareconf
 
+# add littler binaries to PATH
+ENV PATH=/usr/local/lib/R/site-library/littler/bin:/usr/local/lib/R/site-library/littler/examples:${PATH}
+
 USER ${RSESSION_USER}
-RUN R -q -e "install.packages(\"docopt\")"
-RUN install2.r --error --ncpus -1 stringi
-#RUN R -q -e "install.packages(\"stringi\", configure.args=\"--disable-pkg-config\")"
+RUN R -q -e "install.packages(c('littler', 'docopt'))"
 RUN install2.r --error --ncpus -1 \
     data.table \
     devtools \
     pak \
-    reticulate
+    reticulate \
+    stringi
 
 # install miniconda via reticulate and configure python
-RUN R -q -e "reticulate::py_config()"
+RUN echo "reticulate::py_config()" | r
 RUN conda clean -ya
 
 # switch back
@@ -105,4 +103,4 @@ RUN rm -rf /var/lib/apt/lists/* && \
     conda clean -ya && \
     apt-get clean && apt-get autoclean && apt-get autoremove -y
 
-########################
+#######################
