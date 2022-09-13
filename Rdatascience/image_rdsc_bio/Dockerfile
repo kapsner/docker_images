@@ -5,8 +5,6 @@ USER root
 
 # install some dependencies for enhancedvolcano
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    libharfbuzz-dev \
-    libfribidi-dev \
     libproj-dev
 
 USER ${RSESSION_USER}
@@ -25,7 +23,6 @@ ARG bio="affy \
     GEOquery \
     ggcyto \
     GO.db \
-    gPCA \
     hgu133plus2cdf \
     hgu133plus2probe \
     impute \
@@ -43,7 +40,7 @@ ARG bio="affy \
 #     rm -rf /tmp/*
 RUN export pkg="\"$(echo ${bio} | sed -e 's/ /\"\, \"/g')"\" && \
     export install_pkg=$(echo "vec <- setdiff(c($pkg), unname(installed.packages()[,'Package'])); cat(vec)" | r) && \
-    installBioc.r --error --ncpus -1 $install_pkg && \
+    installBioc.r --ncpus -1 $install_pkg && \
     rm -rf /tmp/*
 
 # install the stuff, where I participated
