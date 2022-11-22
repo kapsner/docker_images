@@ -440,11 +440,13 @@ ARG tiny="\"amsfonts\", \
     \"multirow\", \ 
     \"needspace\", \ 
     \"oberdiek\", \ 
+    \"pdfcol\", \
     \"pdfcrop\", \
     \"pdflscape\", \ 
     \"pdfpages\", \
     \"pgf\", \
     \"realboxes\", \
+    \"scrartcl\", \
     \"setspace\", \
     \"tabu\", \ 
     \"tcolorbox\", \ 
@@ -544,6 +546,10 @@ RUN for package in $pack; do \
 
 # declare arrays to install dev-packages
 ARG github_array="\
+    kapsner/kdry,main \
+    kapsner/mlexperiments,main \
+    kapsner/mllrnrs,main \
+    kapsner/mlsurvlrnrs,main \
     kapsner/KhelpeR,development \
     kapsner/mlr3learners.lightgbm,development \
     miracum/dqa-miracumdqa,master"
