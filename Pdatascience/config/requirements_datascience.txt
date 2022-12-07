@@ -2,12 +2,12 @@
 batchgenerators
 imgaug 
 keras
-monai>=0.4.0
-pytorch-lightning>=1.2.4
+monai
+pytorch-lightning
 pytorch-lightning-bolts
 scikit-build
 scikit-image 
 scikit-learn
 scipy
-torchmetrics>=0.3.1
+torchmetrics
 xnat

@@ -35,7 +35,7 @@ ENV PATH=/home/${USER}/miniconda/bin:$PATH
 
 # ARG PYVERSION
 # ENV PYVERSION=${PYVERSION}
-ENV PYVERSION=3.9
+ENV PYVERSION=3.10
 
 USER ${USER}
 
@@ -43,6 +43,9 @@ RUN curl -sLo ~/miniconda.sh https://repo.anaconda.com/miniconda/Miniconda3-late
     chmod +x ~/miniconda.sh
 RUN ~/miniconda.sh -b -p ~/miniconda  && \
     rm ~/miniconda.sh
+
+# update conda
+RUN conda update -n base -c defaults conda
 
 RUN conda install -y python==${PYVERSION} && \
     conda clean -ya

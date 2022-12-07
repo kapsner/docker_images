@@ -1,5 +1,8 @@
 #!/bin/bash
 
+export BUILD_DEVEL_IMG=nvidia/cuda:11.8.0-cudnn8-devel-ubuntu22.04
+export BUILD_RUNTIME_IMG=nvidia/cuda:11.8.0-cudnn8-runtime-ubuntu22.04
+
 # build basic build image ontop of nvidia/cuda-devel container
 printf "\nBuild base_gpu_build image\n"
 cd ../build_image_gpu

@@ -31,7 +31,7 @@ RUN conda install -y \
 # magma-cuda must match cuda version
 RUN conda install -y -c \
     pytorch \
-    magma-cuda110
+    magma-cuda120
 
 ########################
 # build libraries from source
