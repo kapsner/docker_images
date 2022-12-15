@@ -446,7 +446,6 @@ ARG tiny="\"amsfonts\", \
     \"pdfpages\", \
     \"pgf\", \
     \"realboxes\", \
-    \"scrartcl\", \
     \"setspace\", \
     \"tabu\", \ 
     \"tcolorbox\", \ 
