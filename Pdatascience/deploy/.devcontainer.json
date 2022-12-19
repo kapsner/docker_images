@@ -12,10 +12,10 @@
     "terminal.integrated.defaultProfile.linux": "bash",
     "python.disableInstallationCheck": true,
     "terminal.integrated.inheritEnv": false,
-    "python.pythonPath": "/home/user/miniconda/bin/python",
+    "python.pythonPath": "~/miniconda/bin/python",
     "python.languageServer": "Pylance",
     "python.linting.pylintEnabled": true,
-    "python.linting.pylintPath": "/home/user/miniconda/bin/pylint",
+    "python.linting.pylintPath": "~/miniconda/bin/pylint",
     "python.linting.enabled": true,
     "python.linting.pylintArgs": ["--disable=C0111", "--disable=C0103"],
     "python.formatting.provider": "autopep8",
@@ -32,9 +32,9 @@
   "runArgs": [
     //"--gpus=all",
     "--shm-size=1gb",
-    "-v", "/mount/this/folder:/home/user/development",
+    "-v", "/mount/this/folder:/home/user/development"
     // "--privileged" // !!! use this with caution only - e.g. when using smb mounts with mount.cifs
-  ],
+  ]
   //"mounts": [
   //  "source=/mount/this/folder,target=/home/user/development,type=bind,consistency=cached"
   //]

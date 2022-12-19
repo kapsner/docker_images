@@ -17,13 +17,14 @@ RUN apt-get clean && \
     apt-get autoclean && \
     rm -rf /var/lib/apt/lists/*
 
-# get RStudio-Server (Preview Version): https://www.rstudio.com/products/rstudio/download/preview/
-ENV RSTUDIO_VERSION=2022.07.2-576 \
-    RSTUIO_URL_BASE=https://download2.rstudio.org/server/
+# get RStudio-Server (Preview Version):https://dailies.rstudio.com/rstudio/elsbeth-geranium/server/jammy-amd64/
+# daily
+ENV RSTUDIO_VERSION=2022.12.0-353 \
+    RSTUIO_URL_BASE=https://s3.amazonaws.com/rstudio-ide-build/server/
 
 # stable
-# ENV RSTUDIO_VERSION=1.2.5033 \
-#     RSTUIO_URL=https://download2.rstudio.org/server/bionic/amd64/
+# ENV RSTUDIO_VERSION=2022.07.2-576 \
+#     RSTUIO_URL_BASE=https://download2.rstudio.org/server/
 ENV RSTUDIO_FILE="rstudio-server-${RSTUDIO_VERSION}-amd64.deb"
 RUN wget ${RSTUIO_URL_BASE}$(lsb_release -cs)/amd64/${RSTUDIO_FILE}
 
