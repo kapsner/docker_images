@@ -9,5 +9,6 @@ scikit-build
 scikit-image 
 scikit-learn
 scipy
+tensorboard
 torchmetrics
 xnat
