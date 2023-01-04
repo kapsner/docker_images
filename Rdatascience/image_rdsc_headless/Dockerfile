@@ -187,6 +187,7 @@ ARG m="manipulate \
     Matrix \ 
     MCMCpack \ 
     merTools \ 
+    mice \
     microbenchmark \ 
     mgcv \
     mlbench \ 
