@@ -68,7 +68,6 @@
     "insert_native_pipe_operator": true,
     "jobs_tab_visibility": "shown",
     "auto_detect_indentation": true,
-    "relative_line_numbers": true,
     "default_latex_program": "XeLaTeX",
     "python_type": "conda",
     "python_version": "3.9.0",
