@@ -104,7 +104,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     locales \
     locate \
     nano \
+    ncdu \
     net-tools \
+    rsync \
     software-properties-common \
     tar \
     unzip \
