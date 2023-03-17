@@ -26,9 +26,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 RUN apt-get clean && \ 
 apt-get autoclean && \
 rm -rf /var/lib/apt/lists/*
-RUN cd /tmp && git clone -b 1.1.0 https://github.com/Syllo/nvtop.git
+RUN cd /tmp && git clone -b 3.0.1 https://github.com/Syllo/nvtop.git
 RUN mkdir -p /tmp/nvtop/build && cd /tmp/nvtop/build && \
-    cmake .. -DNVML_RETRIEVE_HEADER_ONLINE=True && \
+    cmake .. DNVIDIA_SUPPORT=ON -DAMDGPU_SUPPORT=OFF -DINTEL_SUPPORT=OFF && \
     make && \
     make install
 
