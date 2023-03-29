@@ -1,3 +1,7 @@
 [wsl2]
-memory=19GB 
+memory=18GB 
 swap=32GB
+processors=6
+
+[boot]
+systemd=true
