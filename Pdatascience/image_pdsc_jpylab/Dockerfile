@@ -8,6 +8,8 @@ USER ${PYTHON_USER}
 RUN yes | pip install \
     jupyterlab \
     jupyterlab-lsp \
+    # to activate python debugger
+    xeus-python==0.15.2 \
     'python-language-server[all]'
 
 RUN conda clean -ya
@@ -42,5 +44,4 @@ WORKDIR /home/${PYTHON_USER}
 USER ${PYTHON_USER}
 
 # run jupyter lab from users home directory
-# --allow-root flag unfortunatelly required to get enry working with docker-compose
 ENTRYPOINT jupyter lab --no-browser --ip=0.0.0.0

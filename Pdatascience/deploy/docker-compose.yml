@@ -1,7 +1,7 @@
 version: '3'
 services:
   pdatascience:
-    image: pdsc_jpylab:latest
+    image: pdsc_jpylab_cpu:latest
     container_name: pdsc_jpylab
     # restart: unless-stopped
     ports:

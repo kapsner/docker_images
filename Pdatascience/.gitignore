@@ -9,7 +9,6 @@
 
 !/Dockerfile
 !/build_pdsc.sh
-!/build_pdsc_gpu.sh
 !/*.sh
 !/_old_install/
 !/deploy/
@@ -19,3 +18,4 @@
 !/image_pdsc_gpu_base/
 !/image_pdsc_headless/
 !/image_pdsc_jpylab/
+!/image/pdsc_vscode/

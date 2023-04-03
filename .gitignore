@@ -4,6 +4,7 @@
 !/.gitignore
 !/base_image/
 !/build_image_gpu/
+!/configs/
 !/misc/
 !/misc/docker-ionic/
 !/misc/docker-JabRef/

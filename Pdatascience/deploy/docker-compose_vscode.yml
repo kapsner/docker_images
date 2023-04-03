@@ -1,0 +1,18 @@
+version: '3'
+services:
+  pdatascience:
+    image: pdsc_vscode_cpu:latest
+    container_name: pdsc_vscode
+    # restart: unless-stopped
+    ports:
+      - "127.0.0.1:6006:6006" # tensorflow
+      - "127.0.0.1:8080:8080" # vscode
+    environment:
+      - DISPLAY=$DISPLAY
+      - PASSWORD=password
+      - CS_DISABLE_FILE_DOWNLOADS=true # Disable file downloads from Code.
+      - PORT=8080
+    volumes:
+      - /mount/this/folder:/home/user/development
+    tty: true
+    shm_size: 4gb
