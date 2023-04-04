@@ -18,25 +18,16 @@ RUN apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
 # get RStudio-Server (Preview Version):https://dailies.rstudio.com/rstudio/elsbeth-geranium/server/jammy-amd64/
-# daily
-ENV RSTUDIO_VERSION=2022.12.0-353 \
+ENV RSTUDIO_VERSION=2023.03.0-386 \
     RSTUIO_URL_BASE=https://s3.amazonaws.com/rstudio-ide-build/server/
 
-# stable
-# ENV RSTUDIO_VERSION=2022.07.2-576 \
-#     RSTUIO_URL_BASE=https://download2.rstudio.org/server/
 ENV RSTUDIO_FILE="rstudio-server-${RSTUDIO_VERSION}-amd64.deb"
 RUN wget ${RSTUIO_URL_BASE}$(lsb_release -cs)/amd64/${RSTUDIO_FILE}
 
 RUN gdebi -n ${RSTUDIO_FILE} && \
     rm -rf ${RSTUDIO_FILE}
 
-# install quarto
-# ENV QUARTO_VERSION=1.0.37
-# RUN curl -o quarto-linux-amd64.deb -L \
-#     https://github.com/quarto-dev/quarto-cli/releases/download/v${QUARTO_VERSION}/quarto-${QUARTO_VERSION}-linux-amd64.deb
-# RUN gdebi -n quarto-linux-amd64.deb
-# https://github.com/quarto-dev/quarto-r/blob/main/R/quarto.R#L10
+# configure quarto
 ENV QUARTO_BASE=/usr/lib/rstudio-server/bin/quarto/bin
 ENV QUARTO_PATH=${QUARTO_BASE}/quarto \
     PANDOC_BASE=${QUARTO_BASE}/tools
