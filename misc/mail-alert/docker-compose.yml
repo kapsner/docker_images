@@ -1,0 +1,7 @@
+version: "3"
+services:
+  mail-alert:
+    container_name: mail_alert
+    image: mail-alert:latest
+    volumes:
+      - "./settings:/etc/ssmtp/ssmtp.conf"
