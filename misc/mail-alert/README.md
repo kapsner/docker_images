@@ -2,4 +2,11 @@
 
 Simple container with smtp configured to send mail-alerts.
 
-Change credentials in [settings](settings).
+Adjust [settings](settings) and revaliases accordingly.
+
+
+To send mail, simply run
+
+```bash
+docker-compose run mail-alert bash -c "mail -s 'TEST' -r sender@mail.com some@mail.com"
+```

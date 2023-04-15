@@ -5,3 +5,4 @@ services:
     image: mail-alert:latest
     volumes:
       - "./settings:/etc/ssmtp/ssmtp.conf"
+      - "./revaliases:/etc/ssmtp/revaliases"
