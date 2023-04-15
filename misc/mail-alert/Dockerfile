@@ -6,3 +6,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     ssmtp \
     mailutils \
     mpack
+
+# define image user
+ENV USER="pi"
+RUN useradd -ms /bin/bash ${USER}
+
+USER ${USER}
