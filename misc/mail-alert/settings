@@ -1,5 +1,0 @@
-mailhub=smtp.gmail.com:587
-AuthUser=user@email.com
-AuthPass=app-password
-FromLineOverride=YES
-UseSTARTTLS=YES
