@@ -33,6 +33,8 @@ RUN wget -qO- https://cloud.r-project.org/bin/linux/ubuntu/marutter_pubkey.asc |
 RUN add-apt-repository "deb https://cloud.r-project.org/bin/linux/ubuntu $(lsb_release -cs)-cran40/"
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    cmake \
     qpdf \
     r-base \
     r-base-dev \
@@ -75,3 +77,4 @@ RUN rm -rf /var/lib/apt/lists/* && \
     apt-get clean && apt-get autoclean && apt-get autoremove -y
 
 USER ${RSESSION_USER}
+WORKDIR /home/${RSESSION_USER}/
