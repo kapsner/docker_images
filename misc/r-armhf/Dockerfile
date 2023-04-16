@@ -9,7 +9,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     # ca-certificates important for curl from https
     ca-certificates \
     # curl required to download miniconda
-    curl
+    curl \
+    lsb-release
 RUN apt-get clean && \ 
     apt-get autoclean && \
     rm -rf /var/lib/apt/lists/*
