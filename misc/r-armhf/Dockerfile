@@ -27,16 +27,18 @@ RUN useradd -ms /bin/bash ${USER}
 ENV RSESSION_USER=${USER} 
 
 # Add R apt-get repository for latest R
-RUN wget -qO- https://cloud.r-project.org/bin/linux/ubuntu/marutter_pubkey.asc | \
-    tee -a /etc/apt/trusted.gpg.d/cran_ubuntu_key.asc
-# add the R 4.0 repo from CRAN -- adjust 'focal' to 'groovy' or 'bionic' as needed
-RUN add-apt-repository "deb https://cloud.r-project.org/bin/linux/ubuntu $(lsb_release -cs)-cran40/"
+# RUN wget -qO- https://cloud.r-project.org/bin/linux/ubuntu/marutter_pubkey.asc | \
+#     tee -a /etc/apt/trusted.gpg.d/cran_ubuntu_key.asc
+# # add the R 4.0 repo from CRAN -- adjust 'focal' to 'groovy' or 'bionic' as needed
+# RUN add-apt-repository "deb https://cloud.r-project.org/bin/linux/ubuntu $(lsb_release -cs)-cran40/"
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     cmake \
     qpdf \
-    r-base
+    r-base \
+    r-base-dev \
+    r-recommended
 RUN apt-get clean && \ 
     apt-get autoclean && \
     rm -rf /var/lib/apt/lists/*
