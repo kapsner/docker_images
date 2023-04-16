@@ -35,6 +35,8 @@ ENV RSESSION_USER=${USER}
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     cmake \
+    libcurl4-openssl-dev \
+    libssl-dev \
     qpdf \
     r-base \
     r-base-dev \
@@ -75,9 +77,6 @@ RUN echo "R_DATATABLE_NUM_PROCS_PERCENT=100" >> /etc/R/Renviron
 # clear caches
 RUN rm -rf /var/lib/apt/lists/* && \
     rm -rf /tmp/* && \
-    rm -rf /root/.cache/pip/* && \
-    rm -rf /home/${USER}/.cache/pip/* && \
-    conda clean -ya && \
     apt-get clean && apt-get autoclean && apt-get autoremove -y
 
 USER ${RSESSION_USER}
