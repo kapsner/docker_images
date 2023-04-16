@@ -54,6 +54,10 @@ RUN echo "options(\"repos\" = \"https://cloud.r-project.org/\")" >> /etc/R/Rprof
 
 USER ${RSESSION_USER}
 RUN R -q -e "install.packages(c('littler', 'docopt'))"
+
+# add littler binaries to PATH
+ENV PATH=/usr/local/lib/R/site-library/littler/bin:/usr/local/lib/R/site-library/littler/examples:${PATH}
+
 RUN install2.r --error --ncpus -1 \
     data.table \
     quantmod \
