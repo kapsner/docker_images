@@ -10,6 +10,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates \
     # curl required to download miniconda
     curl \
+    dirmngr \
     lsb-release \
     software-properties-common
 RUN apt-get clean && \ 
@@ -27,6 +28,11 @@ ENV RSESSION_USER=${USER}
 # Add R apt-get repository for latest R
 RUN wget -qO- https://cloud.r-project.org/bin/linux/ubuntu/marutter_pubkey.asc | \
     tee -a /etc/apt/trusted.gpg.d/cran_ubuntu_key.asc
+RUN gpg --keyserver hkp://keyserver.ubuntu.com:80 \
+    --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9
+RUN mkdir -p /usr/local/share/keyrings
+RUN gpg --export E298A3A825C0D65DFD57CBB651716619E084DAB9 >  /etc/apt/trusted.gpg.d/r-software-archive-keyring.gpg
+
 # add the R 4.0 repo from CRAN -- adjust 'focal' to 'groovy' or 'bionic' as needed
 RUN add-apt-repository "deb https://cloud.r-project.org/bin/linux/ubuntu $(lsb_release -cs)-cran40/"
 
