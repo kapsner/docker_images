@@ -36,9 +36,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     cmake \
     qpdf \
-    r-base \
-    r-base-dev \
-    r-recommended
+    r-base
 RUN apt-get clean && \ 
     apt-get autoclean && \
     rm -rf /var/lib/apt/lists/*
