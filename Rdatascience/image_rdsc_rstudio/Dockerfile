@@ -17,12 +17,16 @@ RUN apt-get clean && \
     apt-get autoclean && \
     rm -rf /var/lib/apt/lists/*
 
-# get RStudio-Server (Preview Version):https://dailies.rstudio.com/rstudio/elsbeth-geranium/server/jammy-amd64/
-ENV RSTUDIO_VERSION=2023.03.0-386 \
-    RSTUIO_URL_BASE=https://s3.amazonaws.com/rstudio-ide-build/server/
+# get RStudio-Server: stable releases: https://posit.co/download/rstudio-server/
+# ENV RSTUDIO_VERSION=2023.03.0-386 \
+#     RSTUDIO_URL_BASE=https://s3.amazonaws.com/rstudio-ide-build/server/
+
+# daily builds: https://dailies.rstudio.com/rstudio/
+ENV RSTUDIO_VERSION=2023.05.0-daily-293 \
+    RSTUDIO_URL_BASE=https://s3.amazonaws.com/rstudio-ide-build/server/
 
 ENV RSTUDIO_FILE="rstudio-server-${RSTUDIO_VERSION}-amd64.deb"
-RUN wget ${RSTUIO_URL_BASE}$(lsb_release -cs)/amd64/${RSTUDIO_FILE}
+RUN wget ${RSTUDIO_URL_BASE}$(lsb_release -cs)/amd64/${RSTUDIO_FILE}
 
 RUN gdebi -n ${RSTUDIO_FILE} && \
     rm -rf ${RSTUDIO_FILE}

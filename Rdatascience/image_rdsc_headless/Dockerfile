@@ -521,8 +521,7 @@ RUN yes | pip install -r /home/${RSESSION_USER}/requirements.txt
 
 # pip install our own stuff
 RUN yes | pip install \
-    git+https://github.com/miracum/dqa-mdr-connector \
-    git+https://github.com/kapsner/auto-changelog
+    git+https://github.com/miracum/dqa-mdr-connector
 
 # configure the other r packages
 # install phantomjs
