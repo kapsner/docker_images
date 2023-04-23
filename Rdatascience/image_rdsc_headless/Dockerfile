@@ -532,6 +532,7 @@ RUN echo "shinytest::installDependencies()" | r
 # CRAN packages with my participation
 ARG pack="autonewsmd \
     sjtable2df \
+    kdry \
     rBiasCorrection \
     BiasCorrector \
     DIZtools \
@@ -546,12 +547,11 @@ RUN for package in $pack; do \
 
 # declare arrays to install dev-packages
 ARG github_array="\
-    kapsner/kdry,main \
     kapsner/mlexperiments,main \
     kapsner/mllrnrs,main \
     kapsner/mlsurvlrnrs,main \
-    kapsner/KhelpeR,development \
-    kapsner/mlr3learners.lightgbm,development \
+    # kapsner/KhelpeR,development \
+    # kapsner/mlr3learners.lightgbm,development \
     miracum/dqa-miracumdqa,master"
 RUN for repo in ${github_array}; do IFS=",";\ 
     set -- $repo; \
