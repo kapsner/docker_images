@@ -68,7 +68,7 @@ ENV PATH=/usr/local/lib/R/site-library/littler/bin:/usr/local/lib/R/site-library
 
 USER ${RSESSION_USER}
 RUN R -q -e "install.packages(c('littler', 'docopt'))"
-RUN install2.r --error --ncpus -1 \
+RUN install2.r --skipinstalled --ncpus -1 \
     data.table \
     devtools \
     pak \
