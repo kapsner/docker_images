@@ -327,6 +327,7 @@ ARG s="see \
     stargazer \ 
     styler \ 
     sunburstR \ 
+    survex \
     survival \ 
     survminer \ 
     synthpop \ 
@@ -350,6 +351,7 @@ ARG t="tau \
     tm \ 
     tinytex \ 
     topicmodels \ 
+    treeshap \
     tseries \ 
     twitteR"
 RUN export pkg="\"$(echo ${t} | sed -e 's/ /\"\, \"/g')"\" && \
