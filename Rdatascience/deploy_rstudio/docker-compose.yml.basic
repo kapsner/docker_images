@@ -9,8 +9,8 @@ services:
     # https://github.com/rocker-org/rocker-versioned/blob/master/rstudio/README.md
     network_mode: "host" # required for zotero/citr connection
     volumes:
-    - ./volume:/home/user/volume 
-    - ./rhub:/home/user/.local/share/rhub
+    - ./volume:/home/user/volume:rw
+    - ./rhub:/home/user/.local/share/rhub:rw
     - ~/.gitconfig:/home/user/.gitconfig:ro
     - ~/.git-credentials:/home/user/.git-credentials:ro
     tty: true

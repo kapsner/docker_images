@@ -263,6 +263,7 @@ RUN export pkg="\"$(echo ${p} | sed -e 's/ /\"\, \"/g')"\" && \
 ARG q="qpdf \ 
     quantreg \ 
     quantregForest \
+    quantmod \
     quarto"
 RUN export pkg="\"$(echo ${q} | sed -e 's/ /\"\, \"/g')"\" && \
     export install_pkg=$(echo "vec <- setdiff(c($pkg), unname(installed.packages()[,'Package'])); \
