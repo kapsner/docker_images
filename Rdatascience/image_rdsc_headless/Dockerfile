@@ -58,6 +58,7 @@ ARG d="data.table \
     DescrTab2 \
     deSolve \
     devtools \ 
+    diffviewer \
     DHARMa \
     DiagrammeR \ 
     discretization \ 
