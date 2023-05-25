@@ -36,6 +36,33 @@ RUN chown -R ${PYTHON_USER}:${PYTHON_USER} /home/${PYTHON_USER}/.config/
 
 ########################
 
+# install sudo here, required for cifs-utils and mounting network drives
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    cifs-utils \
+    sudo
+RUN apt-get clean && \ 
+    apt-get autoclean && \
+    rm -rf /var/lib/apt/lists/*
+
+# set ubuntu passowrd here 
+# RUN echo ${USER}:password | chpasswd 
+RUN echo ${USER} ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/${USER} && \
+    chmod 0440 /etc/sudoers.d/${USER}
+
+########################
+
+RUN rm -rf /var/lib/apt/lists/* && \
+    rm -rf /tmp/* && \
+    rm -rf /root/.cache/pip/* && \
+    rm -rf /home/${USER}/.cache/pip/* && \
+    conda clean -ya && \
+    apt-get clean && apt-get autoclean && apt-get autoremove -y
+
+########################
+WORKDIR /home/${PYTHON_USER}
+
+########################
+
 USER ${PYTHON_USER}
 
 ENV TF_FORCE_GPU_ALLOW_GROWTH=true
