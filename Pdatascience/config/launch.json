@@ -14,7 +14,8 @@
             "type": "python",
             "request": "launch",
             "program": "${file}",
-            "console": "integratedTerminal",
+            // "console": "integratedTerminal",
+            "console": "internalConsole",
             "justMyCode": false,
             "cwd": "${fileDirname}",
             //"args": [
