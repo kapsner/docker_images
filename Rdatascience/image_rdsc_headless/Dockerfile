@@ -539,6 +539,9 @@ ARG pack="autonewsmd \
     kdry \
     rBiasCorrection \
     BiasCorrector \
+    mlexperiments \
+    mllrnrs \
+    mlsurvlrnrs \
     DIZtools \
     DIZutils \
     DQAstats \
@@ -551,9 +554,6 @@ RUN for package in $pack; do \
 
 # declare arrays to install dev-packages
 ARG github_array="\
-    kapsner/mlexperiments,main \
-    kapsner/mllrnrs,main \
-    kapsner/mlsurvlrnrs,main \
     # kapsner/KhelpeR,development \
     # kapsner/mlr3learners.lightgbm,development \
     miracum/dqa-miracumdqa,master"
