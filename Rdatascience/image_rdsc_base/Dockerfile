@@ -50,6 +50,7 @@ RUN apt-get clean && \
 
 # make R site-library default package installation folder writeable
 ENV R_LIBS_SITE=/usr/local/lib/R/site-library
+ENV R_LIBS_USER=${R_LIBS_SITE}
 RUN mkdir -p ${R_LIBS_SITE}
 RUN chown -R ${RSESSION_USER}:${RSESSION_USER} ${R_LIBS_SITE}
 
