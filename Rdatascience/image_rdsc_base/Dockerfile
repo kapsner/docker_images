@@ -35,6 +35,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libapparmor1 \
     libfribidi-dev \
     libgit2-dev \
+    libglpk-dev \
     libharfbuzz-dev \
     libnode-dev \
     psmisc \

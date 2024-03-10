@@ -22,7 +22,7 @@ RUN apt-get clean && \
 #     RSTUDIO_URL_BASE=https://s3.amazonaws.com/rstudio-ide-build/server/
 
 # daily builds: https://dailies.rstudio.com/rstudio/
-ENV RSTUDIO_VERSION=2023.05.0-daily-293 \
+ENV RSTUDIO_VERSION=2024.04.0-daily-426 \
     RSTUDIO_URL_BASE=https://s3.amazonaws.com/rstudio-ide-build/server/
 
 ENV RSTUDIO_FILE="rstudio-server-${RSTUDIO_VERSION}-amd64.deb"
