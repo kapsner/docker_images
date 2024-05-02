@@ -19,13 +19,13 @@ RUN chown -R ${PYTHON_USER}:${PYTHON_USER} /home/${PYTHON_USER}/miniconda
 # compile nvtop :) 
 # seems as if apt-version only works with nvidia-drivers-460 and cuda 11.0
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    libncursesw5-dev
+    libncurses5-dev libncursesw5-dev libdrm-dev libsystemd-dev
 RUN apt-get clean && \ 
 apt-get autoclean && \
 rm -rf /var/lib/apt/lists/*
-RUN cd /tmp && git clone -b 1.1.0 https://github.com/Syllo/nvtop.git
+RUN cd /tmp && git clone -b 3.0.2 https://github.com/Syllo/nvtop.git
 RUN mkdir -p /tmp/nvtop/build && cd /tmp/nvtop/build && \
-    cmake .. -DNVML_RETRIEVE_HEADER_ONLINE=True && \
+    /usr/bin/cmake .. -DNVIDIA_SUPPORT=ON -DAMDGPU_SUPPORT=OFF -DINTEL_SUPPORT=OFF && \
     make && \
     make install
 

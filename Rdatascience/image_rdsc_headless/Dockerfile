@@ -306,7 +306,7 @@ RUN export pkg="\"$(echo ${r} | sed -e 's/ /\"\, \"/g')"\" && \
     install2.r --skipinstalled --ncpus -1 $install_pkg && \
     rm -rf /tmp/*
 
-ARG s="see \
+ARG s="see\
     SentimentAnalysis \ 
     shapviz \
     shiny \ 
