@@ -321,6 +321,7 @@ ARG s="see\
     sjmisc \ 
     sjPlot \ 
     sjstats \ 
+    slackr \
     smbinning \ 
     spelling \
     splines \
