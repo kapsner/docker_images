@@ -43,6 +43,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     r-base \
     r-base-dev \
     r-recommended \
+    tidy \
     tcl8.6-dev \
     tk8.6-dev
 RUN apt-get clean && \ 
