@@ -12,6 +12,9 @@ ENV DEBIAN_FRONTEND=noninteractive
 ARG DISPLAY
 ENV DISPLAY=${DISPLAY}
 
+# Delete custom user in ubuntu from 24.04 on https://askubuntu.com/a/1515958
+RUN touch /var/mail/ubuntu && chown ubuntu /var/mail/ubuntu && userdel -r ubuntu
+
 # install essential packages
 RUN apt-get update && apt-get install -y --no-install-recommends \
     apt-utils \ 
@@ -26,7 +29,7 @@ RUN apt-get clean && \
 ########################
 # define image user
 ENV USER="user"
-RUN useradd -ms /bin/bash ${USER}
+RUN useradd -m -s /usr/bin/bash -u 1000 ${USER}
 
 ########################
 # Install Miniconda and Python 3.10
@@ -35,18 +38,19 @@ ENV PATH=/home/${USER}/miniconda/bin:$PATH
 
 # ARG PYVERSION
 # ENV PYVERSION=${PYVERSION}
-ENV PYVERSION=3.11
+ENV PYVERSION=3.12
 
 USER ${USER}
 
-#RUN curl -sLo ~/miniconda.sh https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh && \
-RUN curl -sLo ~/miniconda.sh https://repo.anaconda.com/miniconda/Miniconda3-py311_23.9.0-0-Linux-x86_64.sh && \
+RUN curl -sLo ~/miniconda.sh https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh && \
     chmod +x ~/miniconda.sh
 RUN ~/miniconda.sh -b -p ~/miniconda  && \
     rm ~/miniconda.sh
 
 # update conda
-RUN conda update -n base -c defaults conda
+RUN conda config --add channels defaults && \
+    conda config --set channel_priority flexible && \
+    conda update -n base -c defaults conda
 
 RUN conda install -y python==${PYVERSION} && \
     conda clean -ya

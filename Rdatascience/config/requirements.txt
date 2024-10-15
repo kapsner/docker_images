@@ -1,23 +1,16 @@
 # install more packages
-auto-changelog
 colorama>=0.3.8
 cython
 fhirclient
 fhir-resources
 jedi
 jinja2
-lightgbm
 matplotlib
-nltk
-nose
 openpyxl
 pandas
 pydub
 pylint
 pydub
-pylint
 pillow
-radian
 scikit-learn
 scipy
-xgboost
