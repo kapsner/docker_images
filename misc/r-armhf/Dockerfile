@@ -62,7 +62,6 @@ ENV PATH=/usr/local/lib/R/site-library/littler/bin:/usr/local/lib/R/site-library
 
 RUN install2.r --error --ncpus -1 \
     data.table \
-    devtools \
     qpdf \
     quantmod \
     slackr \
