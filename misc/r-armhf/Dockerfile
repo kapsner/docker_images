@@ -62,11 +62,13 @@ ENV PATH=/usr/local/lib/R/site-library/littler/bin:/usr/local/lib/R/site-library
 
 RUN install2.r --error --ncpus -1 \
     data.table \
+    devtools \
     qpdf \
     quantmod \
     slackr \
-    here \
-    qpdf
+    here
+
+RUN installGithub.r mrkaye97/slackr
 
 USER root
 # Since R 4.0.0, we also need to add R_LIBS_SITE to /etc/R/Renviron
