@@ -67,6 +67,9 @@ RUN install2.r --error --ncpus -1 \
     slackr \
     here
 
+RUN install2.r --error --ncpus -1 \
+    remotes
+
 RUN installGithub.r mrkaye97/slackr
 
 USER root
