@@ -504,14 +504,13 @@ RUN echo "vec <- unname(installed.packages()[,'Package']); \
 
 # install development packages
 ARG github_array="\
-    skranz/ReplaceInFiles,master \
-    crsh/citr,master \
-    ropensci/tic,main"
-    
-RUN for repo in ${github_array}; do IFS=",";\ 
-    set -- $repo; \
-    echo "p <- \"$1\"; remotes::install_github(repo = p, ref = \"$2\", upgrade = \"always\")" | r; \
-    done && \
+    skranz/ReplaceInFiles \
+    crsh/citr \
+    ropensci/tic"
+
+RUN export pkg="\"$(echo ${github_array} | sed -e 's/ /\"\, \"/g')"\" && \
+    export install_pkg=$(echo "vec <- c($pkg); cat(vec)" | r) && \
+    installGithub.r $install_pkg && \
     rm -rf /tmp/*
 
 # stay with user here (let everything in .virtualenv/r-reticulate be installed by the user)
@@ -534,6 +533,17 @@ RUN echo "shinytest::installDependencies()" | r
 
 # install my packages
 
+# declare arrays to install dev-packages
+ARG github_array="\
+    # kapsner/KhelpeR@development \
+    # kapsner/mlr3learners.lightgbm@development \
+    miracum/dqa-miracumdqa"
+
+RUN export pkg="\"$(echo ${github_array} | sed -e 's/ /\"\, \"/g')"\" && \
+    export install_pkg=$(echo "vec <- c($pkg); cat(vec)" | r) && \
+    installGithub.r $install_pkg && \
+    rm -rf /tmp/*
+
 # CRAN packages with my participation
 ARG pack="autonewsmd \
     sjtable2df \
@@ -547,31 +557,11 @@ ARG pack="autonewsmd \
     DIZutils \
     DQAstats \
     DQAgui"
-RUN for package in $pack; do \   
-    echo "p <- \"$package\"; remotes::update_packages(packages = p, upgrade = \"always\")" | r; \
-    done && \
-    rm -rf /tmp/*
 
-
-# declare arrays to install dev-packages
-ARG github_array="\
-    # kapsner/KhelpeR,development \
-    # kapsner/mlr3learners.lightgbm,development \
-    miracum/dqa-miracumdqa,master"
-RUN for repo in ${github_array}; do IFS=",";\ 
-    set -- $repo; \
-    echo "p <- \"$1\"; \
-        tryCatch({remotes::install_github(repo = p, ref = \"$2\", upgrade = \"always\")}, error = function(e) {print(e)})" | r; \
-    done && \
-    rm -rf /tmp/*
-
-ARG gitlab_array="\
-    https://gitlab.miracum.org/kosmic/kosmicgui.git,master"
-RUN for repo in ${gitlab_array}; do IFS=",";\ 
-    set -- $repo; \
-    echo "p <- \"$1\"; \
-        tryCatch({remotes::install_git(url = p, ref = \"$2\", upgrade = \"always\")}, error = function(e) {print(e)})" | r; \
-    done && \
+RUN export pkg="\"$(echo ${pack} | sed -e 's/ /\"\, \"/g')"\" && \
+    export install_pkg=$(echo "vec <- setdiff(c($pkg), unname(installed.packages()[,'Package'])); \
+    vec2 <- intersect(c(vec), unname(available.packages()[,'Package'])); cat(vec2)" | r) && \
+    install2.r $install_pkg && \
     rm -rf /tmp/*
 
 # switch back
