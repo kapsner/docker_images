@@ -65,8 +65,12 @@ RUN install2.r --error --ncpus -1 \
     qpdf \
     quantmod \
     slackr \
-    here \
-    qpdf
+    here
+
+RUN install2.r --error --ncpus -1 \
+    remotes
+
+RUN installGithub.r mrkaye97/slackr
 
 USER root
 # Since R 4.0.0, we also need to add R_LIBS_SITE to /etc/R/Renviron
