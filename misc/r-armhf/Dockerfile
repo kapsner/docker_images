@@ -71,9 +71,6 @@ RUN install2.r --error --ncpus -1 \
 RUN install2.r --error --ncpus -1 \
     remotes
 
-RUN install2.r --error --ncpus -1 \
-    ggpubr
-
 RUN installGithub.r mrkaye97/slackr
 
 USER root
