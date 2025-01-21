@@ -22,7 +22,7 @@ RUN apt-get clean && \
 #     RSTUDIO_URL_BASE=https://s3.amazonaws.com/rstudio-ide-build/server/
 
 # daily builds: https://dailies.rstudio.com/rstudio/
-ENV RSTUDIO_VERSION=2024.09.0-375 \
+ENV RSTUDIO_VERSION=2024.12.0-467 \
     #RSTUDIO_URL_BASE=https://s3.amazonaws.com/rstudio-ide-build/server/
     RSTUDIO_URL_BASE=https://download2.rstudio.org/server/jammy
 
