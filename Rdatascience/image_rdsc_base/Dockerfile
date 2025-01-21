@@ -78,6 +78,14 @@ RUN install2.r --skipinstalled --ncpus -1 \
     reticulate \
     stringi
 
+########################
+# install some more conda tools
+RUN conda install -y \
+-c conda-forge \
+libstdcxx-ng
+# libstdcxx-ng required for radian (https://github.com/randy3k/radian)
+RUN yes | pip install radian
+
 # install miniconda via reticulate and configure python
 RUN echo "reticulate::py_config()" | r
 RUN conda clean -ya

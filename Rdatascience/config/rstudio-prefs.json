@@ -31,7 +31,6 @@
     "continue_comments_on_newline": true,
     "highlight_selected_line": true,
     "show_invisibles": true,
-    "show_indent_guides": true,
     "syntax_color_console": true,
     "highlight_r_function_calls": true,
     "console_line_length_limit": 2000,
@@ -69,7 +68,16 @@
     "jobs_tab_visibility": "shown",
     "auto_detect_indentation": true,
     "default_latex_program": "XeLaTeX",
+    "remove_history_duplicates": true,
+    "soft_wrap_r_files": true,
+    "default_encoding": "UTF-8",
+    "visual_markdown_editing_show_margin": true,
+    "visual_markdown_code_editor_line_numbers": true,
+    "visual_markdown_editing_wrap_at_column": 80,
+    "visual_markdown_editing_wrap": "column",
+    "enable_cloud_publish_ui": false,
+    "show_publish_diagnostics": true,
     "python_type": "conda",
-    "python_version": "3.9.0",
-    "python_path": "~/miniconda/bin/python3.9"
+    "python_version": "3.12.0",
+    "python_path": "~/miniconda/bin/python3.12"
 }

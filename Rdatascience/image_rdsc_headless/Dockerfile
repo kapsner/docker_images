@@ -596,8 +596,8 @@ RUN echo "options(shiny.port = 3838)" >> /home/${RSESSION_USER}/.Rprofile && \
 
 # add radian profile, init folder for rhub profile &
 # fix permissions in home folder and /etc/ to allow running the config_env-script
-# ADD config/.radian_profile /home/${RSESSION_USER}/.radian_profile
-#RUN chown -R ${RSESSION_USER}:${RSESSION_USER} /home/${RSESSION_USER}/.radian_profile && \
+ADD config/.radian_profile /home/${RSESSION_USER}/.radian_profile
+RUN chown -R ${RSESSION_USER}:${RSESSION_USER} /home/${RSESSION_USER}/.radian_profile
 RUN mkdir -p /home/${RSESSION_USER}/.local/share/rhub && \
     chown -R ${RSESSION_USER}:${RSESSION_USER} /home/${RSESSION_USER}/.local && \
     touch /home/${RSESSION_USER}/.bash_profile && \
