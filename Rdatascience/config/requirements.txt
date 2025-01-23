@@ -8,6 +8,7 @@ jinja2
 matplotlib
 openpyxl
 pandas
+playwright
 pydub
 pylint
 pydub

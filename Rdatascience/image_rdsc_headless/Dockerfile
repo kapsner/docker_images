@@ -520,6 +520,9 @@ RUN export pkg="\"$(echo ${github_array} | sed -e 's/ /\"\, \"/g')"\" && \
 ADD ./config/requirements.txt /home/${RSESSION_USER}/
 RUN yes | pip install -r /home/${RSESSION_USER}/requirements.txt
 
+# install playwright (revealjs2pdf)
+RUN playwright install chromium
+
 # pip install our own stuff
 RUN yes | pip install \
     git+https://github.com/miracum/dqa-mdr-connector
