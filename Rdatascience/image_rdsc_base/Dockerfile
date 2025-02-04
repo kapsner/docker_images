@@ -151,7 +151,7 @@ RUN echo "alias rdevel=${RDEVEL}/bin/R" >> ~/.bashrc && \
     chmod +x ~/.bashrc
 USER root
 
-RUN ${RDEVEL}/bin/R -q -e "install.packages(c('devtools'), lib = '${RDEVEL}/library', repos = 'https://cloud.r-project.org/')"
+RUN ${RDEVEL}/bin/R -q -e "install.packages(c('devtools'), dependencies = TRUE, lib = '${RDEVEL}/library', repos = 'https://cloud.r-project.org/')"
 
 # in order to run RStudio with R-devel version, you need to exec in running container
 # and execute the following commands:
