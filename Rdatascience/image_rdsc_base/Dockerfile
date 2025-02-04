@@ -17,7 +17,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libssl-dev \
     libobjc-9-dev \
     libzmq3-dev \
-    openjdk-8-jdk \
+    default-jdk \
+    default-jdk-headless \
     unixodbc-dev
 RUN apt-get clean && \ 
     apt-get autoclean && \
@@ -27,7 +28,7 @@ RUN apt-get clean && \
 RUN wget -qO- https://cloud.r-project.org/bin/linux/ubuntu/marutter_pubkey.asc | \
     tee -a /etc/apt/trusted.gpg.d/cran_ubuntu_key.asc
 # add the R 4.0 repo from CRAN -- adjust 'focal' to 'groovy' or 'bionic' as needed
-RUN add-apt-repository "deb https://cloud.r-project.org/bin/linux/ubuntu $(lsb_release -cs)-cran40/"
+RUN add-apt-repository -s "deb https://cloud.r-project.org/bin/linux/ubuntu $(lsb_release -cs)-cran40/"
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     jags \
@@ -104,6 +105,62 @@ RUN echo "R_LIBS_SITE=${R_LIBS_SITE}" >> /etc/R/Renviron
 # environment variable for data.table
 # https://github.com/Rdatatable/data.table/pull/3435/files
 RUN echo "R_DATATABLE_NUM_PROCS_PERCENT=100" >> /etc/R/Renviron
+
+
+########################
+# add r-devel
+# https://people.math.aau.dk/~sorenh/misc/misc/install-rdevel.html
+# RUN apt-get build-dep -y r-base
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    subversion \
+    ccache \
+    xorg-dev
+ENV RDEVEL=/usr/local/lib/R-devel
+ENV RSOURCES=/home/${RSESSION_USER}/src
+
+# bypass miniconda which leads to compilation errors
+ENV PATH_OLD=${PATH}
+ENV PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/lib/x86_64-linux-gnu
+
+RUN mkdir -p ${RDEVEL} && \
+    mkdir -p ${RSOURCES}
+
+RUN cd ${RSOURCES} && \
+    svn co https://svn.r-project.org/R/trunk R-devel && \
+    R-devel/tools/rsync-recommended
+
+RUN cd ${RDEVEL} && \
+    ${RSOURCES}/R-devel/configure \
+    --enable-R-shlib \
+    --enable-memory-profiling \
+    --with-blas \
+    --with-lapack && \
+    make -j
+    # --without-recommended-packages && \
+
+# in case of failure:
+# make uninstall
+# make clean
+# make distclean
+
+RUN rm -rf ${RSOURCES}
+
+
+USER ${RSESSION_USER} 
+RUN echo "alias rdevel=${RDEVEL}/bin/R" >> ~/.bashrc && \
+    chmod +x ~/.bashrc
+USER root
+
+RUN ${RDEVEL}/bin/R -q -e "install.packages(c('devtools'), lib = '${RDEVEL}/library', repos = 'https://cloud.r-project.org/')"
+
+# in order to run RStudio with R-devel version, you need to exec in running container
+# and execute the following commands:
+# rstudio-server stop
+# export RSTUDIO_WHICH_R=/usr/local/lib/R-devel/bin/R
+# rstudio-server start
+
+# restore PATH
+ENV PATH=${PATH_OLD}
 
 ########################
 # clear caches
