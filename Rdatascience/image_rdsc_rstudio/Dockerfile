@@ -59,6 +59,13 @@ RUN echo "export PATH=${PATH}" >> /home/${RSESSION_USER}/.bash_profile && chmod 
 RUN echo "QUARTO_PATH=${QUARTO_PATH}" >> /etc/R/Renviron && \
     echo "QUARTO_PATH=${QUARTO_PATH}" >> /etc/environment
 
+# for cran checks
+# https://cran.r-project.org/doc/manuals/r-release/R-ints.html
+RUN mkdir -p /home/${RSESSION_USER}/.R && \
+    cd /home/${RSESSION_USER}/.R && \
+    touch check.Renviron && \
+    echo "_R_CHECK_TEST_TIMING_CPU_TO_ELAPSED_THRESHOLD_=2.5" > check.Renviron && \
+    chmod +r check.Renviron
 
 ########################
 # add r-devel
