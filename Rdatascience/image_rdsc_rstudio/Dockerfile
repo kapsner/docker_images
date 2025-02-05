@@ -59,6 +59,57 @@ RUN echo "export PATH=${PATH}" >> /home/${RSESSION_USER}/.bash_profile && chmod 
 RUN echo "QUARTO_PATH=${QUARTO_PATH}" >> /etc/R/Renviron && \
     echo "QUARTO_PATH=${QUARTO_PATH}" >> /etc/environment
 
+
+########################
+# add r-devel
+# https://people.math.aau.dk/~sorenh/misc/misc/install-rdevel.html
+
+#ENV RDEVEL=/usr/local/lib/R-devel
+#ENV RSOURCES=/home/${RSESSION_USER}/src
+
+# bypass miniconda which leads to compilation errors
+#ENV PATH_OLD=${PATH}
+#ENV PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/lib/x86_64-linux-gnu
+
+#RUN mkdir -p ${RDEVEL} && \
+#    mkdir -p ${RSOURCES}
+
+#RUN cd ${RSOURCES} && \
+#    svn co https://svn.r-project.org/R/trunk R-devel && \
+#    R-devel/tools/rsync-recommended
+
+#RUN cd ${RDEVEL} && \
+#    ${RSOURCES}/R-devel/configure \
+#    --enable-R-shlib \
+#    --enable-memory-profiling \
+#    --with-blas \
+#    --with-lapack && \
+#    make -j
+    # --without-recommended-packages && \
+
+# in case of failure:
+# make uninstall
+# make clean
+# make distclean
+
+#RUN rm -rf ${RSOURCES}
+
+#USER ${RSESSION_USER} 
+#RUN echo "alias rdevel=${RDEVEL}/bin/R" >> ~/.bashrc && \
+#    chmod +x ~/.bashrc
+#USER root
+
+#RUN ${RDEVEL}/bin/R -q -e "install.packages(c('devtools'), dependencies = TRUE, lib = '${RDEVEL}/library', repos = 'https://cloud.r-project.org/')"
+
+# in order to run RStudio with R-devel version, you need to exec in running container
+# and execute the following commands:
+# rstudio-server stop
+# export RSTUDIO_WHICH_R=/usr/local/lib/R-devel/bin/R
+# rstudio-server start
+
+# restore PATH
+#ENV PATH=${PATH_OLD}
+
 ########################
 # clear caches
 RUN rm -rf /var/lib/apt/lists/* && \
