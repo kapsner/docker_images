@@ -30,6 +30,7 @@ ARG c="C50 \
     car \ 
     carData \ 
     caret \ 
+    checkhelper \
     citr \
     class \ 
     clipr \ 
