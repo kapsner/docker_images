@@ -13,8 +13,8 @@ function pdsc_cpu {
 }
 
 function pdsc_gpu_build {
-    export BUILD_DEVEL_IMG=nvidia/cuda:12.2.2-cudnn8-devel-ubuntu22.04
-    export BUILD_RUNTIME_IMG=nvidia/cuda:12.2.2-cudnn8-runtime-ubuntu22.04
+    export BUILD_DEVEL_IMG=nvidia/cuda:12.4.1-cudnn-devel-ubuntu22.04
+    export BUILD_RUNTIME_IMG=nvidia/cuda:12.4.1-cudnn-runtime-ubuntu22.04
 
     # build basic build image ontop of nvidia/cuda-devel container
     printf "\nBuild base_gpu_build image\n"
@@ -41,7 +41,7 @@ function pdsc_gpu_build {
 }
 
 function pdsc_gpu_nobuild {
-    export BUILD_RUNTIME_IMG=nvidia/cuda:11.8.0-cudnn8-runtime-ubuntu22.04
+    export BUILD_RUNTIME_IMG=nvidia/cuda:12.4.1-cudnn-runtime-ubuntu22.04
 
     cd ../base_image
     ./build_base_image_gpu.sh

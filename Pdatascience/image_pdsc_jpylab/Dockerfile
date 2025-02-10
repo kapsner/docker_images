@@ -9,7 +9,7 @@ RUN yes | pip install \
     jupyterlab \
     jupyterlab-lsp \
     # to activate python debugger
-    xeus-python==0.15.2 \
+    xeus-python \
     'python-language-server[all]'
 
 RUN conda clean -ya

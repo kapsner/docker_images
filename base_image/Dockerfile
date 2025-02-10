@@ -13,7 +13,10 @@ ARG DISPLAY
 ENV DISPLAY=${DISPLAY}
 
 # Delete custom user in ubuntu from 24.04 on https://askubuntu.com/a/1515958
-RUN touch /var/mail/ubuntu && chown ubuntu /var/mail/ubuntu && userdel -r ubuntu
+ENV CONDITION='ubuntu24'
+RUN if [ $(expr "$BASEIMAGE" : '.*ubuntu24.*') -eq 1 ]; then \
+    touch /var/mail/ubuntu && chown ubuntu /var/mail/ubuntu && userdel -r ubuntu; \
+    fi
 
 # install essential packages
 RUN apt-get update && apt-get install -y --no-install-recommends \
