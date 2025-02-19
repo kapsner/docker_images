@@ -1,9 +1,10 @@
 ARG BASEIMAGE
-
 # GPU: nvidia/cuda:11.0-cudnn8-devel-ubuntu18.04
 # else: ubuntu:20.10
 
 FROM ${BASEIMAGE}
+
+ARG BASEIMAGE
 
 # set ENV-Vars
 # set environment variable to supress user interaction
@@ -13,11 +14,11 @@ ARG DISPLAY
 ENV DISPLAY=${DISPLAY}
 
 # Delete custom user in ubuntu from 24.04 on https://askubuntu.com/a/1515958
-ENV CONDITION='ubuntu24'
-RUN if [ $(expr "$BASEIMAGE" : '.*ubuntu24.*') -eq 1 ]; then \
+RUN if [ "$BASEIMAGE" = "ubuntu:24.04" ]; then \
+    echo "Deleting user ubuntu" && \
     touch /var/mail/ubuntu && chown ubuntu /var/mail/ubuntu && userdel -r ubuntu; \
     fi
-
+    
 # install essential packages
 RUN apt-get update && apt-get install -y --no-install-recommends \
     apt-utils \ 

@@ -22,9 +22,9 @@ RUN apt-get clean && \
 #     RSTUDIO_URL_BASE=https://s3.amazonaws.com/rstudio-ide-build/server/
 
 # daily builds: https://dailies.rstudio.com/rstudio/
-ENV RSTUDIO_VERSION=2024.12.0-467 \
-    #RSTUDIO_URL_BASE=https://s3.amazonaws.com/rstudio-ide-build/server/
-    RSTUDIO_URL_BASE=https://download2.rstudio.org/server/jammy
+ENV RSTUDIO_VERSION=2025.04.0-daily-299 \
+    RSTUDIO_URL_BASE=https://s3.amazonaws.com/rstudio-ide-build/server/jammy
+    #RSTUDIO_URL_BASE=https://download2.rstudio.org/server/jammy
 
 ENV RSTUDIO_FILE="rstudio-server-${RSTUDIO_VERSION}-amd64.deb"
 #RUN wget ${RSTUDIO_URL_BASE}$(lsb_release -cs)/amd64/${RSTUDIO_FILE}
