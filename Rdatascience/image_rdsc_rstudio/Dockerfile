@@ -33,10 +33,27 @@ RUN wget ${RSTUDIO_URL_BASE}/amd64/${RSTUDIO_FILE}
 RUN gdebi -n ${RSTUDIO_FILE} && \
     rm -rf ${RSTUDIO_FILE}
 
-# configure quarto
-ENV QUARTO_BASE=/usr/lib/rstudio-server/bin/quarto/bin
-ENV QUARTO_PATH=${QUARTO_BASE}/quarto \
-    PANDOC_BASE=${QUARTO_BASE}/tools/x86_64
+# use quarto from RStudio
+#ENV QUARTO_BASE=/usr/lib/rstudio-server/bin/quarto/bin
+
+# use pandoc from RStudio
+ENV PANDOC_BASE=${QUARTO_BASE}/tools/x86_64
+
+# install quarto (versions: https://github.com/quarto-dev/quarto-cli/releases/)
+# https://docs.posit.co/resources/install-quarto.html
+ENV QUARTO_VERSION="1.7.13"
+RUN mkdir -p /opt/quarto/${QUARTO_VERSION}
+
+RUN curl -o quarto.tar.gz -L \
+    "https://github.com/quarto-dev/quarto-cli/releases/download/v${QUARTO_VERSION}/quarto-${QUARTO_VERSION}-linux-amd64.tar.gz"
+RUN tar -zxvf quarto.tar.gz \
+    -C "/opt/quarto/${QUARTO_VERSION}" \
+    --strip-components=1 
+RUN rm quarto.tar.gz
+
+ENV QUARTO_BASE=/opt/quarto/"${QUARTO_VERSION}"/bin/
+
+ENV QUARTO_PATH=${QUARTO_BASE}/quarto
 ENV PATH=${QUARTO_BASE}:${PANDOC_BASE}:${PATH}
 
 # overwrite headless .Rprofile
@@ -72,27 +89,27 @@ RUN mkdir -p /home/${RSESSION_USER}/.R && \
 # add r-devel
 # https://people.math.aau.dk/~sorenh/misc/misc/install-rdevel.html
 
-ENV RDEVEL=/usr/local/lib/R-devel
-ENV RSOURCES=/home/${RSESSION_USER}/src
+#ENV RDEVEL=/usr/local/lib/R-devel
+#ENV RSOURCES=/home/${RSESSION_USER}/src
 
 # bypass miniconda which leads to compilation errors
-ENV PATH_OLD=${PATH}
-ENV PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/lib/x86_64-linux-gnu
-
-RUN mkdir -p ${RDEVEL} && \
-    mkdir -p ${RSOURCES}
-
-RUN cd ${RSOURCES} && \
-    svn co https://svn.r-project.org/R/trunk R-devel
-RUN cd ${RSOURCES} && R-devel/tools/rsync-recommended
-
-RUN cd ${RDEVEL} && \
-    ${RSOURCES}/R-devel/configure \
-    --enable-R-shlib \
-    --enable-memory-profiling \
-    --with-blas \
-    --with-lapack && \
-    make -j
+#ENV PATH_OLD=${PATH}
+#ENV PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/lib/x86_64-linux-gnu
+#
+#RUN mkdir -p ${RDEVEL} && \
+#    mkdir -p ${RSOURCES}
+#
+#RUN cd ${RSOURCES} && \
+#    svn co https://svn.r-project.org/R/trunk R-devel
+#RUN cd ${RSOURCES} && R-devel/tools/rsync-recommended
+#
+#RUN cd ${RDEVEL} && \
+#    ${RSOURCES}/R-devel/configure \
+#    --enable-R-shlib \
+#    --enable-memory-profiling \
+#    --with-blas \
+#    --with-lapack && \
+#    make -j
     # --without-recommended-packages && \
 
 # in case of failure:
@@ -100,15 +117,15 @@ RUN cd ${RDEVEL} && \
 # make clean
 # make distclean
 
-RUN rm -rf ${RSOURCES}
+#RUN rm -rf ${RSOURCES}
 
-USER ${RSESSION_USER} 
-RUN echo "alias rdevel=${RDEVEL}/bin/R" >> ~/.bashrc && \
-    chmod +x ~/.bashrc
-USER root
+#USER ${RSESSION_USER} 
+#RUN echo "alias rdevel=${RDEVEL}/bin/R" >> ~/.bashrc && \
+#    chmod +x ~/.bashrc
+#USER root
 
-RUN ${RDEVEL}/bin/R -q -e "install.packages(c('pak'), dependencies = TRUE, lib = '${RDEVEL}/library', repos = 'https://cloud.r-project.org/')"
-RUN ${RDEVEL}/bin/R -q -e "pak::pkg_install('devtools')"
+#RUN ${RDEVEL}/bin/R -q -e "install.packages(c('pak'), dependencies = TRUE, lib = '${RDEVEL}/library', repos = 'https://cloud.r-project.org/')"
+#RUN ${RDEVEL}/bin/R -q -e "pak::pkg_install('devtools')"
 
 # in order to run RStudio with R-devel version, you need to exec in running container
 # and execute the following commands:
@@ -117,7 +134,7 @@ RUN ${RDEVEL}/bin/R -q -e "pak::pkg_install('devtools')"
 # rstudio-server start
 
 # restore PATH
-ENV PATH=${PATH_OLD}
+#ENV PATH=${PATH_OLD}
 
 ########################
 # clear caches
