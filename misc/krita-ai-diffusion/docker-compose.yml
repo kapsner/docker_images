@@ -1,0 +1,15 @@
+services:
+  krita-ai-diffusion:
+    image: aclysia/sd-comfyui-krita:v1.30.0
+    # restart: unless-stopped
+    ports:
+      - "127.0.0.1:8188:3001" # comfyui
+      - "127.0.0.1:8889:8888" # jupyter
+    volumes:
+      - /path/to/krita/ai_diffusion/docker_workspace:/workspace
+    tty: true
+    shm_size: 8gb
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=0
+    runtime: nvidia
+    command: /start.sh --recommended # https://github.com/Acly/krita-ai-diffusion/wiki/Cloud-GPU#arguments-for-model-download-at-start-up
