@@ -16,6 +16,7 @@ RUN export pkg="\"$(echo ${a} | sed -e 's/ /\"\, \"/g')"\" && \
 ARG b="badger \
     bench \ 
     BH \ 
+    bibliometrix \
     blme \ 
     bookdown \ 
     boot \
@@ -256,7 +257,8 @@ ARG p="pagedown \
     progress \
     PRROC \ 
     pspearman \ 
-    psych"
+    psych \
+    pubmedR"
 RUN export pkg="\"$(echo ${p} | sed -e 's/ /\"\, \"/g')"\" && \
     export install_pkg=$(echo "vec <- setdiff(c($pkg), unname(installed.packages()[,'Package'])); \
     vec2 <- intersect(c(vec), unname(available.packages()[,'Package'])); cat(vec2)" | r) && \
