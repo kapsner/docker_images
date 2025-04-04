@@ -89,27 +89,27 @@ RUN mkdir -p /home/${RSESSION_USER}/.R && \
 # add r-devel
 # https://people.math.aau.dk/~sorenh/misc/misc/install-rdevel.html
 
-#ENV RDEVEL=/usr/local/lib/R-devel
-#ENV RSOURCES=/home/${RSESSION_USER}/src
+ENV RDEVEL=/usr/local/lib/R-devel
+ENV RSOURCES=/home/${RSESSION_USER}/src
 
 # bypass miniconda which leads to compilation errors
-#ENV PATH_OLD=${PATH}
-#ENV PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/lib/x86_64-linux-gnu
-#
-#RUN mkdir -p ${RDEVEL} && \
-#    mkdir -p ${RSOURCES}
-#
-#RUN cd ${RSOURCES} && \
-#    svn co https://svn.r-project.org/R/trunk R-devel
-#RUN cd ${RSOURCES} && R-devel/tools/rsync-recommended
-#
-#RUN cd ${RDEVEL} && \
-#    ${RSOURCES}/R-devel/configure \
-#    --enable-R-shlib \
-#    --enable-memory-profiling \
-#    --with-blas \
-#    --with-lapack && \
-#    make -j
+ENV PATH_OLD=${PATH}
+ENV PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/lib/x86_64-linux-gnu
+
+RUN mkdir -p ${RDEVEL} && \
+    mkdir -p ${RSOURCES}
+
+RUN cd ${RSOURCES} && \
+    svn co https://svn.r-project.org/R/trunk R-devel
+RUN cd ${RSOURCES} && R-devel/tools/rsync-recommended
+
+RUN cd ${RDEVEL} && \
+    ${RSOURCES}/R-devel/configure \
+    --enable-R-shlib \
+    --enable-memory-profiling \
+    --with-blas \
+    --with-lapack && \
+    make -j
     # --without-recommended-packages && \
 
 # in case of failure:
@@ -117,15 +117,15 @@ RUN mkdir -p /home/${RSESSION_USER}/.R && \
 # make clean
 # make distclean
 
-#RUN rm -rf ${RSOURCES}
+RUN rm -rf ${RSOURCES}
 
-#USER ${RSESSION_USER} 
-#RUN echo "alias rdevel=${RDEVEL}/bin/R" >> ~/.bashrc && \
-#    chmod +x ~/.bashrc
-#USER root
+USER ${RSESSION_USER} 
+RUN echo "alias rdevel=${RDEVEL}/bin/R" >> ~/.bashrc && \
+    chmod +x ~/.bashrc
+USER root
 
-#RUN ${RDEVEL}/bin/R -q -e "install.packages(c('pak'), dependencies = TRUE, lib = '${RDEVEL}/library', repos = 'https://cloud.r-project.org/')"
-#RUN ${RDEVEL}/bin/R -q -e "pak::pkg_install('devtools')"
+RUN ${RDEVEL}/bin/R -q -e "install.packages(c('pak'), dependencies = TRUE, lib = '${RDEVEL}/library', repos = 'https://cloud.r-project.org/')"
+RUN ${RDEVEL}/bin/R -q -e "pak::pkg_install('devtools')"
 
 # in order to run RStudio with R-devel version, you need to exec in running container
 # and execute the following commands:
@@ -134,7 +134,7 @@ RUN mkdir -p /home/${RSESSION_USER}/.R && \
 # rstudio-server start
 
 # restore PATH
-#ENV PATH=${PATH_OLD}
+ENV PATH=${PATH_OLD}
 
 ########################
 # clear caches
