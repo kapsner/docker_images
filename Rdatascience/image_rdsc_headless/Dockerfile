@@ -429,12 +429,15 @@ ARG tiny="\"amsfonts\", \
     \"bookmark\", \ 
     \"caption\", \ 
     \"colortbl\", \ 
+    \"csquotes\", \
     \"dehyph-exptl\", \ 
     \"ec\", \ 
     \"environ\", \ 
     \"epstopdf-pkg\", \ 
+    \"fancyhdr\", \
     \"float\", \ 
     \"geometry\", \ 
+    \"graphbox\", \
     \"graphics\", \ 
     \"graphics-def\", \ 
     \"hycolor\", \ 
@@ -449,12 +452,16 @@ ARG tiny="\"amsfonts\", \
     \"makeindex\", \
     \"multirow\", \ 
     \"needspace\", \ 
+    \"nomencl\", \
     \"oberdiek\", \ 
+    \"placeins\", \
     \"pdfcol\", \
     \"pdfcrop\", \
     \"pdflscape\", \ 
     \"pdfpages\", \
+    \"pdftex\", \
     \"pgf\", \
+    \"ragged2e\", \
     \"realboxes\", \
     \"setspace\", \
     \"tabu\", \ 

@@ -108,6 +108,7 @@ RUN cd ${RDEVEL} && \
     --enable-R-shlib \
     --enable-memory-profiling \
     --with-blas \
+    --with-cairo \
     --with-lapack && \
     make -j
     # --without-recommended-packages && \
