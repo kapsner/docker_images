@@ -64,8 +64,11 @@ RUN echo "options(shiny.port = 3838)" > /home/${RSESSION_USER}/.Rprofile && \
 
 # add custom RStudio theme ("Dracula")
 ADD config/rstudio-prefs.json /home/${RSESSION_USER}/.config/rstudio/rstudio-prefs.json
+RUN mkdir -p /home/${RSESSION_USER}/.config/rstudio/snippets
+ADD config/markdown.snippets /home/${RSESSION_USER}/.config/rstudio/snippets/markdown.snippets
 RUN chown -R ${RSESSION_USER}:${RSESSION_USER} /home/${RSESSION_USER}/.config/ && \
-    chmod 644 /home/${RSESSION_USER}/.config/rstudio/rstudio-prefs.json
+    chmod 644 /home/${RSESSION_USER}/.config/rstudio/rstudio-prefs.json && \
+    chmod 644 /home/${RSESSION_USER}/.config/rstudio/snippets/markdown.snippets
 
 # add PATH to a bash_profile script (workaround so that path is available in rstudio\"s terminal)
 # https://support.rstudio.com/hc/en-us/articles/115010737148-Using-the-RStudio-Terminal#env

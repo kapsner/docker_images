@@ -1,0 +1,39 @@
+snippet [
+	[${1:label}](${2:location})
+
+snippet ![
+	![${1:label}](${2:location})
+
+snippet r
+	```{r ${1:label}, ${2:options}}
+	${0}
+	```
+
+snippet rcpp
+	```{r, engine='Rcpp'}
+	#include <Rcpp.h>
+	using namespace Rcpp;
+	
+	${0}
+	
+	```
+snippet col
+	:::: {.columns}
+	::: {.column width=50%}
+	
+	:::
+	
+	::: {.column width=50%}
+	
+	:::
+	::::
+
+snippet fra
+	::: {.fragment}
+	
+	:::
+	
+snippet no
+	::: {.notes}
+	
+	:::
