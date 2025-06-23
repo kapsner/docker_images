@@ -78,6 +78,7 @@ RUN export pkg="\"$(echo ${d} | sed -e 's/ /\"\, \"/g')"\" && \
     rm -rf /tmp/*
 
 ARG e="e1071 \ 
+    easyPubMed \
     easystats \
     effects \ 
     effectsize \
