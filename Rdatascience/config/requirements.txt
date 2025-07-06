@@ -1,4 +1,5 @@
 # install more packages
+commitizen
 colorama>=0.3.8
 cython
 fhirclient
@@ -8,6 +9,7 @@ jinja2
 matplotlib
 openpyxl
 pandas
+poetry
 pptx2md
 playwright
 pydub
