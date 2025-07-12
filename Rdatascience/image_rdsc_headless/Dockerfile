@@ -173,6 +173,7 @@ ARG l="languageserver \
     ldatuning \ 
     lightgbm \ 
     lintr \ 
+    lgrdata \
     lme4 \ 
     lmtest \ 
     lsa \ 
