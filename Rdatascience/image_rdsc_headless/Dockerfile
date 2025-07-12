@@ -353,6 +353,7 @@ ARG t="tau \
     tidymodels \ 
     tidyselect \ 
     tidyverse \ 
+    tinyplot \
     tiff \
     tm \ 
     tinytex \ 
