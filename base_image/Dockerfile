@@ -52,7 +52,8 @@ RUN ~/miniconda.sh -b -p ~/miniconda  && \
     rm ~/miniconda.sh
 
 # update conda
-RUN conda config --add channels defaults && \
+RUN conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/main && \
+    conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/r && \
     conda tos accept --override-channels --channel defaults && \
     conda config --set channel_priority flexible && \
     conda update -n base -c defaults conda
