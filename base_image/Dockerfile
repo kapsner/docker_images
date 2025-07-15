@@ -53,6 +53,7 @@ RUN ~/miniconda.sh -b -p ~/miniconda  && \
 
 # update conda
 RUN conda config --add channels defaults && \
+    conda tos accept --override-channels --channel defaults && \
     conda config --set channel_priority flexible && \
     conda update -n base -c defaults conda
 
