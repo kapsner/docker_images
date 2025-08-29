@@ -6,11 +6,16 @@ processors=6
 
 
 # /etc/wsl.conf should look like:
-[boot]
-systemd=true
+#[boot]
+#systemd=true
+#
+#[user]
+#default=user
+#
+#[automount]
+#options = "metadata"
 
-[user]
-default=user
-
-[automount]
-options = "metadata"
+# to keep it alive, when exiting powershell, add this to ~/.bashrc
+#if [[ $- == *i* ]] && ! pgrep -f "sleep infinity" > /dev/null; then
+#  nohup sleep infinity >/dev/null 2>&1 &
+#fi
