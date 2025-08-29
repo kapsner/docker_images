@@ -9,7 +9,6 @@ jinja2
 matplotlib
 openpyxl
 pandas
-poetry
 pptx2md
 playwright
 pydub
@@ -18,3 +17,4 @@ pydub
 pillow
 scikit-learn
 scipy
+uv

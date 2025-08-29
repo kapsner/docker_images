@@ -5,9 +5,9 @@ ipython
 jedi
 jupyter
 numpy>=1.19.2
-poetry
 pdoc3
 pipreqs
 pycodestyle
 pylint
 pytest
+uv
