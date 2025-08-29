@@ -140,6 +140,7 @@ ARG i="igraph \
     imager \
     influxdbr \ 
     invgamma \
+    IRkernel \
     irr"
 RUN export pkg="\"$(echo ${i} | sed -e 's/ /\"\, \"/g')"\" && \
     export install_pkg=$(echo "vec <- setdiff(c($pkg), unname(installed.packages()[,'Package'])); \
@@ -173,6 +174,7 @@ ARG l="languageserver \
     ldatuning \ 
     lightgbm \ 
     lintr \ 
+    lgrdata \
     lme4 \ 
     lmtest \ 
     lsa \ 
@@ -353,6 +355,7 @@ ARG t="tau \
     tidymodels \ 
     tidyselect \ 
     tidyverse \ 
+    tinyplot \
     tiff \
     tm \ 
     tinytex \ 
@@ -544,6 +547,9 @@ RUN echo "webshot::install_phantomjs()" | r
 
 # install shinytest dependencies (= phantomjs)
 RUN echo "shinytest::installDependencies()" | r
+
+# to get r jupyter kernel running
+RUN echo "IRkernel::installspec()" | r
 
 # install my packages
 

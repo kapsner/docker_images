@@ -1,7 +1,21 @@
 [wsl2]
+vmIdleTimeout=-1
 memory=18GB 
 swap=32GB
 processors=6
 
-[boot]
-systemd=true
+
+# /etc/wsl.conf should look like:
+#[boot]
+#systemd=true
+#
+#[user]
+#default=user
+#
+#[automount]
+#options = "metadata"
+
+# to keep it alive, when exiting powershell, add this to ~/.bashrc
+#if [[ $- == *i* ]] && ! pgrep -f "sleep infinity" > /dev/null; then
+#  nohup sleep infinity >/dev/null 2>&1 &
+#fi
