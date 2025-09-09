@@ -6,6 +6,7 @@ fhirclient
 fhir-resources
 jedi
 jinja2
+jupyter # required for quarto
 matplotlib
 nbclient
 openpyxl
@@ -18,4 +19,4 @@ pydub
 pillow
 scikit-learn
 scipy
-uv
+uv # packaging
