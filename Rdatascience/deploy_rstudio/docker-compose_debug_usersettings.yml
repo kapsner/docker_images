@@ -1,4 +1,3 @@
-version: "3"
 services:
   r_datascience_debug:
     image: rdsc_base:latest

@@ -1,4 +1,3 @@
-version: '3'
 services:
   pdatascience:
     image: pdsc_vscode_cpu:latest

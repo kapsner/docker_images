@@ -1,15 +1,16 @@
-version: '3'
 services:
   pdatascience:
-    image: pdsc_jpylab_cpu:latest
-    container_name: pdsc_jpylab
+    image: pdsc_headless:latest
+    container_name: pdsc_headless
     # restart: unless-stopped
     ports:
-      - "127.0.0.1:6006:6006" # tensorboard
-      - "127.0.0.1:8888:8888" # jupyter
+      #- "127.0.0.1:6006:6006" # tensorboard
+      #- "127.0.0.1:8888:8888" # jupyter
+      - "127.0.0.1:2377:2375" # ssh
     environment:
       - DISPLAY=$DISPLAY
     volumes:
       - /mount/this/folder:/home/user/development
     tty: true
     shm_size: 2gb
+    #privileged: true
