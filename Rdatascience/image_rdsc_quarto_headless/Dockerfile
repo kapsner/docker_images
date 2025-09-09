@@ -134,5 +134,6 @@ RUN chmod +x /start_w_ssh.sh
 
 WORKDIR /home/${RSESSION_USER}
 
+SHELL ["/bin/bash", "-c"]
 # entrypoint
 ENTRYPOINT sudo service ssh restart && tail -f /dev/null
