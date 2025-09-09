@@ -12,10 +12,7 @@ USER ${PYTHON_USER}
 
 ########################
 # install some more tools
-RUN conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/main && \
-    conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/r && \
-    conda tos accept --override-channels --channel defaults && \
-    conda install -y \
+RUN conda install -y \
     -c conda-forge \
     gdcm \
     swig

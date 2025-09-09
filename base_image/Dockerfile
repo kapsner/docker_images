@@ -51,11 +51,11 @@ RUN curl -sLo ~/miniconda.sh https://repo.anaconda.com/miniconda/Miniconda3-late
 RUN ~/miniconda.sh -b -p ~/miniconda  && \
     rm ~/miniconda.sh
 
+# https://www.anaconda.com/docs/getting-started/tos-plugin#docker-in-ci%2Fcd-environments
+ENV CONDA_PLUGINS_AUTO_ACCEPT_TOS=true
+
 # update conda
-RUN conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/main && \
-    conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/r && \
-    conda tos accept --override-channels --channel defaults && \
-    conda config --set channel_priority flexible && \
+RUN conda config --set channel_priority flexible && \
     conda update -n base -c defaults conda
 
 RUN conda install -y python==${PYVERSION} && \
