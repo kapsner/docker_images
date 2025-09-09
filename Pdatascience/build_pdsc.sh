@@ -122,9 +122,10 @@ fi
 if $VSCODE; then
     ide="vscode"
     final_image_name="pdsc_vscode_"$final_img_suffix
+    pdsc_final_layer
 else
-    ide="jpylab"
-    final_image_name="pdsc_jpylab_"$final_img_suffix
+    # ide="jpylab"
+    # final_image_name="pdsc_jpylab_"$final_img_suffix
 fi
 
-pdsc_final_layer
+#pdsc_final_layer
