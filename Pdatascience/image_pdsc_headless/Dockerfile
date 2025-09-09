@@ -48,8 +48,8 @@ RUN apt-get clean && \
     apt-get autoclean && \
     rm -rf /var/lib/apt/lists/*
 
-# set ubuntu passowrd here 
-# RUN echo ${USER}:password | chpasswd 
+# set ubuntu passowrd here
+RUN echo ${USER}:password | chpasswd 
 RUN echo ${USER} ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/${USER} && \
     chmod 0440 /etc/sudoers.d/${USER}
 
