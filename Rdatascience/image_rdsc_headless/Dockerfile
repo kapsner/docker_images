@@ -199,13 +199,7 @@ ARG m="manipulate \
     mgcv \
     mlbench \ 
     MLmetrics \ 
-    mlr3db \ 
-    mlr3learners \
-    mlr3measures \ 
-    mlr3misc \ 
-    mlr3proba \ 
-    mlr3verse \ 
-    mlr3viz \
+    measures \
     mltools \ 
     modelbased \
     muhaz"
