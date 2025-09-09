@@ -42,7 +42,8 @@ RUN chown -R ${PYTHON_USER}:${PYTHON_USER} /home/${PYTHON_USER}/.config/
 # install sudo here, required for cifs-utils and mounting network drives
 RUN apt-get update && apt-get install -y --no-install-recommends \
     cifs-utils \
-    sudo
+    sudo \
+    openssh-server
 RUN apt-get clean && \ 
     apt-get autoclean && \
     rm -rf /var/lib/apt/lists/*
@@ -51,6 +52,11 @@ RUN apt-get clean && \
 # RUN echo ${USER}:password | chpasswd 
 RUN echo ${USER} ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/${USER} && \
     chmod 0440 /etc/sudoers.d/${USER}
+
+# setup ssh-server
+RUN sed -i -E 's,^#?Port.*$,Port 2375,' /etc/ssh/sshd_config && \
+    sh -c "echo '${USER} ALL=(root) NOPASSWD: /usr/sbin/service ssh start' >/etc/sudoers.d/service-ssh-start"
+
 
 ########################
 
@@ -66,4 +72,4 @@ WORKDIR /home/${PYTHON_USER}
 
 USER ${PYTHON_USER}
 
-ENTRYPOINT tail -f /dev/null
+ENTRYPOINT sudo service ssh restart && tail -f /dev/null
