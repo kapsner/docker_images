@@ -131,6 +131,8 @@ RUN rm -rf /var/lib/apt/lists/* && \
 
 WORKDIR /home/${RSESSION_USER}
 
-SHELL ["/bin/bash", "-c"]
+USER ${RSESSION_USER}
+
 # entrypoint
-ENTRYPOINT sudo service ssh restart && tail -f /dev/null
+SHELL ["/bin/bash", "-c"]
+ENTRYPOINT sudo service ssh restart && source ~/.bash_profile && tail -f /dev/null
