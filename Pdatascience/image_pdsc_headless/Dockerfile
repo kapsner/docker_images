@@ -57,6 +57,8 @@ RUN echo ${USER} ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/${USER} && \
 RUN sed -i -E 's,^#?Port.*$,Port 2375,' /etc/ssh/sshd_config && \
     sh -c "echo '${USER} ALL=(root) NOPASSWD: /usr/sbin/service ssh start' >/etc/sudoers.d/service-ssh-start"
 
+# add PATH to a bash_profile script (workaround so that path is available in positron's terminal)
+RUN echo "export PATH=${PATH}" >> /home/${PYTHON_USER}/.bash_profile && chmod +x /home/${PYTHON_USER}/.bash_profile
 
 ########################
 

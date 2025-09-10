@@ -13,7 +13,8 @@ USER root
 # (gdebi will fail without sudo)
 RUN apt-get update && apt-get install -y --no-install-recommends \
     gdebi-core \
-    openssh-server
+    openssh-server \
+    pandoc
 RUN apt-get clean && \ 
     apt-get autoclean && \
     rm -rf /var/lib/apt/lists/*
@@ -35,9 +36,9 @@ RUN tar -zxvf quarto.tar.gz \
 RUN rm quarto.tar.gz
 
 ENV QUARTO_BASE=/opt/quarto/"${QUARTO_VERSION}"/bin/
-
+#ENV PANDOC_BASE=/usr/bin/ # this is the default location
 ENV QUARTO_PATH=${QUARTO_BASE}/quarto
-ENV PATH=${QUARTO_BASE}:${PANDOC_BASE}:${PATH}
+ENV PATH=${QUARTO_BASE}:${PATH}
 
 # overwrite headless .Rprofile
 RUN echo "options(shiny.port = 3838)" > /home/${RSESSION_USER}/.Rprofile && \
@@ -123,12 +124,6 @@ RUN rm -rf /var/lib/apt/lists/* && \
     rm -rf /home/${USER}/.cache/pip/* && \
     conda clean -ya && \
     apt-get clean && apt-get autoclean && apt-get autoremove -y
-
-########################
-
-# add start.sh script
-ADD config/start_w_ssh.sh /
-RUN chmod +x /start_w_ssh.sh
 
 ########################
 
