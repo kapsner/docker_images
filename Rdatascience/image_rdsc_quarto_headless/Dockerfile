@@ -49,7 +49,9 @@ RUN echo "options(shiny.port = 3838)" > /home/${RSESSION_USER}/.Rprofile && \
 # add PATH to a bash_profile script (workaround so that path is available in rstudio\"s terminal)
 # https://support.rstudio.com/hc/en-us/articles/115010737148-Using-the-RStudio-Terminal#env
 # https://docs.rstudio.com/ide/server-pro/1.2.1293-1/r-sessions.html
-RUN echo "export PATH=${PATH}" >> /home/${RSESSION_USER}/.bash_profile && chmod +x /home/${RSESSION_USER}/.bash_profile
+RUN echo "export PATH=${PATH}" >> /home/${RSESSION_USER}/.bash_profile && \
+    chmod +x /home/${RSESSION_USER}/.bash_profile && \
+    chown -R ${RSESSION_USER}:${RSESSION_USER} /home/${RSESSION_USER}/.bash_profile
 
 # set QUARTO_PATH for all users
 RUN echo "QUARTO_PATH=${QUARTO_PATH}" >> /etc/R/Renviron && \
