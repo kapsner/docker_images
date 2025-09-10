@@ -76,4 +76,4 @@ WORKDIR /home/${PYTHON_USER}
 USER ${PYTHON_USER}
 
 SHELL ["/bin/bash", "-c"]
-ENTRYPOINT sudo service ssh restart && tail -f /dev/null
+ENTRYPOINT sudo service ssh restart && source ~/.bash_profile && tail -f /dev/null
