@@ -49,7 +49,7 @@ RUN echo "options(shiny.port = 3838)" > /home/${RSESSION_USER}/.Rprofile && \
 # add PATH to a bash_profile script (workaround so that path is available in rstudio\"s terminal)
 # https://support.rstudio.com/hc/en-us/articles/115010737148-Using-the-RStudio-Terminal#env
 # https://docs.rstudio.com/ide/server-pro/1.2.1293-1/r-sessions.html
-RUN echo "export PATH=${PATH}\nsource activate base" >> /home/${RSESSION_USER}/.bash_profile && \
+RUN echo "export PATH=${PATH}" >> /home/${RSESSION_USER}/.bash_profile && \
     chmod +x /home/${RSESSION_USER}/.bash_profile && \
     chown -R ${RSESSION_USER}:${RSESSION_USER} /home/${RSESSION_USER}/.bash_profile
 
@@ -129,12 +129,17 @@ RUN rm -rf /var/lib/apt/lists/* && \
 
 ########################
 
+# add start_new.sh script
+ADD config/start_new.sh /
+RUN chmod +x /start_new.sh && \
+    chown ${RSESSION_USER}:${RSESSION_USER} /start_new.sh
+
+########################
+
 WORKDIR /home/${RSESSION_USER}
 
 USER ${RSESSION_USER}
 
 # entrypoint
 SHELL ["/bin/bash", "-c"]
-ENTRYPOINT sudo service ssh restart && \
-    source ~/.bash_profile && \
-    tail -f /dev/null
+ENTRYPOINT ["/start_new.sh"]
