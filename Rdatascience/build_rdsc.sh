@@ -37,9 +37,9 @@ function rdsc_rad {
 
 ### Parsing command line arguments:
 usage="$(basename "$0")
-_Flag: --quarto install rdsc_quarto_hl"
-_Flag: --rstudio install rdsc_rstudio"
-_Flag: --bio install rdsc_bio"
+_Flag: None install rdsc_quarto_hl
+_Flag: --rstudio install rdsc_rstudio
+_Flag: --bio install rdsc_bio
 _Flag: --vision install rdsc_rad"
 
 RSTUDIO=false
