@@ -1,7 +1,4 @@
 # install datascience packages
-batchgenerators
-imgaug 
-keras
 monai
 pytorch-lightning
 pytorch-lightning-bolts
@@ -9,6 +6,8 @@ scikit-build
 scikit-image 
 scikit-learn
 scipy
+torch
+torchvision
 tensorboard
 torchmetrics
 xnat

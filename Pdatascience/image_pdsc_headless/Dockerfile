@@ -5,30 +5,11 @@ FROM pdsc_base:latest
 
 ########################
 # build libraries from source
-USER ${PYTHON_USER}
-
-# install torch / torchvision
-RUN yes | pip install \
-    torch \
-    torchvision
+USER ${PYTHON_USER}    
 
 ########################
 # install other datascience libraries
 RUN yes | pip install -r /home/${PYTHON_USER}/requirements_datascience.txt
-
-########################
-# Install more packages
-RUN yes | pip install -f \
-    https://h2o-release.s3.amazonaws.com/h2o/latest_stable_Py.html h2o
-
-RUN yes | pip install \
-    lightgbm
-
-RUN yes | pip install \
-    tensorflow
-
-RUN yes | pip install \
-    xgboost
 
 ########################
 RUN conda clean -ya
@@ -61,6 +42,7 @@ RUN sed -i -E 's,^#?Port.*$,Port 2375,' /etc/ssh/sshd_config && \
 RUN echo "export PATH=${PATH}" >> /home/${PYTHON_USER}/.bash_profile && \
     chmod +x /home/${PYTHON_USER}/.bash_profile && \
     chown -R ${PYTHON_USER}:${PYTHON_USER} /home/${PYTHON_USER}/.bash_profile
+    
 ########################
 
 RUN rm -rf /var/lib/apt/lists/* && \

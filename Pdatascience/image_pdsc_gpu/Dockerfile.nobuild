@@ -15,10 +15,8 @@ RUN mkdir -p /etc/OpenCL/vendors && \
     echo "libnvidia-opencl.so.1" > /etc/OpenCL/vendors/nvidia.icd
 
 USER ${PYTHON_USER}
-# install gpu datascience libraries
+# add requirements*.txt-files 
 ADD ./config/requirements*.txt /home/${PYTHON_USER}/
-RUN yes | pip install -r /home/${PYTHON_USER}/requirements_deepl.txt
-
 
 USER root
 ########################
