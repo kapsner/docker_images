@@ -35,7 +35,7 @@ RUN tar -zxvf quarto.tar.gz \
     --strip-components=1 
 RUN rm quarto.tar.gz
 
-ENV QUARTO_BASE=/opt/quarto/"${QUARTO_VERSION}"/bin/
+ENV QUARTO_BASE=/opt/quarto/"${QUARTO_VERSION}"/bin
 #ENV PANDOC_BASE=/usr/bin/ # this is the default location
 ENV QUARTO_PATH=${QUARTO_BASE}/quarto
 ENV PATH=${QUARTO_BASE}:${PATH}
@@ -53,6 +53,11 @@ RUN echo "export PATH=${PATH}" >> /home/${RSESSION_USER}/.bash_profile && \
     chmod +x /home/${RSESSION_USER}/.bash_profile && \
     chown -R ${RSESSION_USER}:${RSESSION_USER} /home/${RSESSION_USER}/.bash_profile
 
+# PATH to .Renviron to have it available in positron's r-session
+RUN echo "PATH=${PATH}" >> /home/${RSESSION_USER}/.Renviron && \
+    chmod +x /home/${RSESSION_USER}/.Renviron && \
+    chown -R ${RSESSION_USER}:${RSESSION_USER} /home/${RSESSION_USER}/.Renviron
+
 # set QUARTO_PATH for all users
 RUN echo "QUARTO_PATH=${QUARTO_PATH}" >> /etc/R/Renviron && \
     echo "QUARTO_PATH=${QUARTO_PATH}" >> /etc/environment
@@ -64,7 +69,8 @@ RUN mkdir -p /home/${RSESSION_USER}/.R && \
     touch check.Renviron && \
     echo "_R_CHECK_TEST_TIMING_CPU_TO_ELAPSED_THRESHOLD_=2.5" > check.Renviron && \
     echo "_R_CHECK_TIMINGS_=5" >> check.Renviron && \
-    chmod 666 check.Renviron
+    chmod 666 check.Renviron && \
+    chown -R ${RSESSION_USER}:${RSESSION_USER} /home/${RSESSION_USER}/.R
 
 ########################
 # # add r-devel
@@ -127,7 +133,7 @@ RUN rm -rf /var/lib/apt/lists/* && \
     conda clean -ya && \
     apt-get clean && apt-get autoclean && apt-get autoremove -y
 
-########################
+########################see the command that starts ark? Is that where you got this information from? Can you please share that section of the logs?
 
 # add start_new.sh script
 ADD config/start_new.sh /
