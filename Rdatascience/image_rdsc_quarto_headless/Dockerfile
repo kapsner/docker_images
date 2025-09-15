@@ -13,8 +13,7 @@ USER root
 # (gdebi will fail without sudo)
 RUN apt-get update && apt-get install -y --no-install-recommends \
     gdebi-core \
-    openssh-server \
-    pandoc
+    openssh-server
 RUN apt-get clean && \ 
     apt-get autoclean && \
     rm -rf /var/lib/apt/lists/*
@@ -36,9 +35,10 @@ RUN tar -zxvf quarto.tar.gz \
 RUN rm quarto.tar.gz
 
 ENV QUARTO_BASE=/opt/quarto/"${QUARTO_VERSION}"/bin
-#ENV PANDOC_BASE=/usr/bin/ # this is the default location
-ENV QUARTO_PATH=${QUARTO_BASE}/quarto
-ENV PATH=${QUARTO_BASE}:${PATH}
+# use pandoc from quarto-install
+ENV PANDOC_BASE=${QUARTO_BASE}/tools/x86_64 \
+    QUARTO_PATH=${QUARTO_BASE}/quarto
+ENV PATH=${QUARTO_BASE}:${PANDOC_BASE}:${PATH}
 
 # overwrite headless .Rprofile
 RUN echo "options(shiny.port = 3838)" > /home/${RSESSION_USER}/.Rprofile && \
@@ -76,8 +76,8 @@ RUN mkdir -p /home/${RSESSION_USER}/.R && \
 # # add r-devel
 # # https://people.math.aau.dk/~sorenh/misc/misc/install-rdevel.html
 
-# ENV RDEVEL=/usr/local/lib/R-devel
-# ENV RSOURCES=/home/${RSESSION_USER}/src
+# ENV RDEVEL=/usr/local/lib/R-devel \
+#     RSOURCES=/home/${RSESSION_USER}/src
 
 # # bypass miniconda which leads to compilation errors
 # ENV PATH_OLD=${PATH}
