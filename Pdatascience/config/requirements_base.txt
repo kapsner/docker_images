@@ -1,13 +1,11 @@
 # install datascience packages
-autopep8
 commitizen
 ipython
-jedi
 jupyter
 numpy>=1.19.2
 pdoc3
 pipreqs
 pycodestyle
-pylint
 pytest
+ruff
 uv

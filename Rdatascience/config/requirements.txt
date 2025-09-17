@@ -1,10 +1,8 @@
 # install more packages
 commitizen
-colorama>=0.3.8
 cython
 fhirclient
 fhir-resources
-jedi
 jinja2
 jupyter # required for quarto
 matplotlib
@@ -13,10 +11,8 @@ openpyxl
 pandas
 pptx2md
 playwright
-pydub
-pylint
-pydub
 pillow
 scikit-learn
 scipy
+ruff # language server / linter / formatter
 uv # packaging
