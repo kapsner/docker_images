@@ -24,7 +24,15 @@ RUN sed -i -E 's,^#?Port.*$,Port 2375,' /etc/ssh/sshd_config && \
 
 # install quarto (versions: https://github.com/quarto-dev/quarto-cli/releases/)
 # https://docs.posit.co/resources/install-quarto.html
-ENV QUARTO_VERSION="1.7.34"
+
+# get latest quarto-cli release version
+ENV QUARTO_CLI_URL="https://api.github.com/repos/quarto-dev/quarto-cli/tags"
+ENV QUARTO_VERSION=$( \
+      curl -s ${QUARTO_CLI_URL} | \
+      jq -r '.[0].name'| \
+      awk '{ gsub("[[:alpha:]]", "") ; print $0 }' \
+    )
+
 RUN mkdir -p /opt/quarto/${QUARTO_VERSION}
 
 RUN curl -o quarto.tar.gz -L \
@@ -53,8 +61,20 @@ RUN echo "export PATH=${PATH}" >> /home/${RSESSION_USER}/.bash_profile && \
     chmod +x /home/${RSESSION_USER}/.bash_profile && \
     chown -R ${RSESSION_USER}:${RSESSION_USER} /home/${RSESSION_USER}/.bash_profile
 
+# get latest quarto vscode-extension release version
+ENV QUARTO_VSIX_URL="https://api.github.com/repos/quarto-dev/quarto/tags"
+ENV QUARTO_VSIX_VERSION=$( \
+      curl -s ${QUARTO_VSIX_URL} | \
+      jq -r '.[1].name' | \
+      awk '{ gsub("[[:alpha:]]|-", "") ; print $0 }' \
+    )
+
+# DICTIONARIES (hunspell)
+ENV DICTPATH="/home/${RSESSION_USER}/.positron-server/extensions/quarto.quarto-${QUARTO_VSIX_VERSION}/out/lsp/resources/dictionaries"
+
 # PATH to .Renviron to have it available in positron's r-session
 RUN echo "PATH=${PATH}" >> /home/${RSESSION_USER}/.Renviron && \
+    echo "DICTPATH=${DICTPATH}" >> /home/${RSESSION_USER}/.Renviron && \
     chmod +x /home/${RSESSION_USER}/.Renviron && \
     chown -R ${RSESSION_USER}:${RSESSION_USER} /home/${RSESSION_USER}/.Renviron
 

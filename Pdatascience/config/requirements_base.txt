@@ -5,6 +5,7 @@ jupyter
 numpy>=1.19.2
 pdoc3
 pipreqs
+pre-commit
 pycodestyle
 pytest
 ruff

@@ -9,9 +9,10 @@ matplotlib
 nbclient
 openpyxl
 pandas
-pptx2md
-playwright
 pillow
+playwright
+pptx2md
+pre-commit
 scikit-learn
 scipy
 ruff # language server / linter / formatter
