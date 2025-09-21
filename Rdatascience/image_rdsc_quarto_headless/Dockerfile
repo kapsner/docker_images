@@ -22,64 +22,57 @@ RUN apt-get clean && \
 RUN sed -i -E 's,^#?Port.*$,Port 2375,' /etc/ssh/sshd_config && \
     sh -c "echo '${USER} ALL=(root) NOPASSWD: /usr/sbin/service ssh start' >/etc/sudoers.d/service-ssh-start"
 
-# install quarto (versions: https://github.com/quarto-dev/quarto-cli/releases/)
-# https://docs.posit.co/resources/install-quarto.html
-
-
 # get latest quarto vscode-extension release version
-ENV QUARTO_VSIX_URL="https://api.github.com/repos/quarto-dev/quarto/tags"
-
-# get latest quarto-cli release version
-ENV QUARTO_CLI_URL="https://api.github.com/repos/quarto-dev/quarto-cli/tags"
+ENV QUARTO_VSIX_VER_URL="https://api.github.com/repos/quarto-dev/quarto/tags" \
+    # get latest quarto-cli release version
+    QUARTO_CLI_VER_URL="https://api.github.com/repos/quarto-dev/quarto-cli/tags" \
+    POSITRON_EXTENSION_PATH="/home/${RSESSION_USER}/.positron-server/extensions" \
+    QUARTO_DL_URL=https://github.com/quarto-dev/quarto-cli/releases/download
 
 RUN QUARTO_VERSION=$( \
-      curl -s ${QUARTO_CLI_URL} | \
+      curl -s ${QUARTO_CLI_VER_URL} | \
       jq -r '.[0].name'| \
       awk '{ gsub("[[:alpha:]]", "") ; print $0 }' \
     ) && \
     mkdir -p /opt/quarto/${QUARTO_VERSION} && \
     curl -o quarto.tar.gz -L \
-    "https://github.com/quarto-dev/quarto-cli/releases/download/v${QUARTO_VERSION}/quarto-${QUARTO_VERSION}-linux-amd64.tar.gz" && \
+    "${QUARTO_DL_URL}/v${QUARTO_VERSION}/quarto-${QUARTO_VERSION}-linux-amd64.tar.gz" && \
     tar -zxvf quarto.tar.gz \
     -C "/opt/quarto/${QUARTO_VERSION}" \
     --strip-components=1 && \
     rm quarto.tar.gz && \
     QUARTO_VSIX_VERSION=$( \
-      curl -s ${QUARTO_VSIX_URL} | \
+      curl -s ${QUARTO_VSIX_VER_URL} | \
       jq -r '.[1].name' | \
       awk '{ gsub("[[:alpha:]]|-", "") ; print $0 }' \
     ) && \
-    DICTPATH="/home/${RSESSION_USER}/.positron-server/extensions/quarto.quarto-${QUARTO_VSIX_VERSION}/out/lsp/resources/dictionaries" && \
+    DICPATH="${POSITRON_EXTENSION_PATH}/quarto.quarto-${QUARTO_VSIX_VERSION}/out/lsp/resources/dictionaries" && \
     QUARTO_BASE=/opt/quarto/"${QUARTO_VERSION}"/bin && \
     PANDOC_BASE=${QUARTO_BASE}/tools/x86_64 && \
     QUARTO_PATH=${QUARTO_BASE}/quarto && \
     PATH=${QUARTO_BASE}:${PANDOC_BASE}:${PATH} && \
-    echo "export PATH=${PATH}" >> /home/${RSESSION_USER}/.bash_profile && \
-    chmod +x /home/${RSESSION_USER}/.bash_profile && \
-    chown -R ${RSESSION_USER}:${RSESSION_USER} /home/${RSESSION_USER}/.bash_profile && \
-    echo "PATH=${PATH}" >> /home/${RSESSION_USER}/.Renviron && \
-    echo "DICTPATH=${DICTPATH}" >> /home/${RSESSION_USER}/.Renviron && \
-    echo "R_LIBS_USER=${R_LIBS_USER}" >> /home/${RSESSION_USER}/.Renviron && \
-    chmod +x /home/${RSESSION_USER}/.Renviron && \
-    chown -R ${RSESSION_USER}:${RSESSION_USER} /home/${RSESSION_USER}/.Renviron && \
-    echo "QUARTO_PATH=${QUARTO_PATH}" >> /etc/R/Renviron && \
-    echo "QUARTO_PATH=${QUARTO_PATH}" >> /etc/environment
+    cd /home/${RSESSION_USER} && \
+    # add PATH to a bash_profile script (workaround so that path is available in rstudio\"s terminal)
+    # https://support.rstudio.com/hc/en-us/articles/115010737148-Using-the-RStudio-Terminal#env
+    # https://docs.rstudio.com/ide/server-pro/1.2.1293-1/r-sessions.html
+    echo "export PATH=${PATH}" >> .bash_profile && \
+    chmod +x .bash_profile && \
+    chown -R ${RSESSION_USER}:${RSESSION_USER} .bash_profile && \
+    # PATH to .Renviron to have it available in positron's r-session
+    echo "PATH=${PATH}\nDICPATH=${DICPATH}\nR_LIBS_USER=${R_LIBS_USER}" >> .Renviron && \
+    echo "QUARTO_VERSION=${QUARTO_VERSION}\nQUARTO_VSIX_VERSION=${QUARTO_VSIX_VERSION}" >> .Renviron && \
+    echo "_R_CHECK_TEST_TIMING_CPU_TO_ELAPSED_THRESHOLD_=2.5\n_R_CHECK_TIMINGS_=5" >> .Renviron && \
+    chmod +x .Renviron && \
+    chown -R ${RSESSION_USER}:${RSESSION_USER} .Renviron && \
+    # for cran checks https://cran.r-project.org/doc/manuals/r-release/R-ints.html
+    mkdir -p .R && touch .R/check.Renviron && \
+    echo "_R_CHECK_TEST_TIMING_CPU_TO_ELAPSED_THRESHOLD_=2.5\n_R_CHECK_TIMINGS_=5" > .R/.Renviron && \
+    chmod +x .R/check.Renviron && \
+    chown -R ${RSESSION_USER}:${RSESSION_USER} .R && \
+    # set QUARTO_PATH for all users
+    echo "QUARTO_PATH=${QUARTO_PATH}\nDICPATH=${DICPATH}" >> /etc/R/Renviron && \
+    echo "QUARTO_PATH=${QUARTO_PATH}\nDICPATH=${DICPATH}" >> /etc/environment
 
-# add PATH to a bash_profile script (workaround so that path is available in rstudio\"s terminal)
-# https://support.rstudio.com/hc/en-us/articles/115010737148-Using-the-RStudio-Terminal#env
-# https://docs.rstudio.com/ide/server-pro/1.2.1293-1/r-sessions.html
-# PATH to .Renviron to have it available in positron's r-session
-# set QUARTO_PATH for all users
-
-# for cran checks
-# https://cran.r-project.org/doc/manuals/r-release/R-ints.html
-RUN mkdir -p /home/${RSESSION_USER}/.R && \
-    cd /home/${RSESSION_USER}/.R && \
-    touch check.Renviron && \
-    echo "_R_CHECK_TEST_TIMING_CPU_TO_ELAPSED_THRESHOLD_=2.5" > check.Renviron && \
-    echo "_R_CHECK_TIMINGS_=5" >> check.Renviron && \
-    chmod 666 check.Renviron && \
-    chown -R ${RSESSION_USER}:${RSESSION_USER} /home/${RSESSION_USER}/.R
 
 ########################
 # # add r-devel
