@@ -90,6 +90,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     git \
     htop \
     iputils-ping \
+    jq \
     libjpeg-dev \
     libpng-dev \
     imagemagick \

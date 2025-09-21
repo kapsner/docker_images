@@ -25,62 +25,51 @@ RUN sed -i -E 's,^#?Port.*$,Port 2375,' /etc/ssh/sshd_config && \
 # install quarto (versions: https://github.com/quarto-dev/quarto-cli/releases/)
 # https://docs.posit.co/resources/install-quarto.html
 
+
+# get latest quarto vscode-extension release version
+ENV QUARTO_VSIX_URL="https://api.github.com/repos/quarto-dev/quarto/tags"
+
 # get latest quarto-cli release version
 ENV QUARTO_CLI_URL="https://api.github.com/repos/quarto-dev/quarto-cli/tags"
-ENV QUARTO_VERSION=$( \
+
+RUN QUARTO_VERSION=$( \
       curl -s ${QUARTO_CLI_URL} | \
       jq -r '.[0].name'| \
       awk '{ gsub("[[:alpha:]]", "") ; print $0 }' \
-    )
-
-RUN mkdir -p /opt/quarto/${QUARTO_VERSION}
-
-RUN curl -o quarto.tar.gz -L \
-    "https://github.com/quarto-dev/quarto-cli/releases/download/v${QUARTO_VERSION}/quarto-${QUARTO_VERSION}-linux-amd64.tar.gz"
-RUN tar -zxvf quarto.tar.gz \
+    ) && \
+    mkdir -p /opt/quarto/${QUARTO_VERSION} && \
+    curl -o quarto.tar.gz -L \
+    "https://github.com/quarto-dev/quarto-cli/releases/download/v${QUARTO_VERSION}/quarto-${QUARTO_VERSION}-linux-amd64.tar.gz" && \
+    tar -zxvf quarto.tar.gz \
     -C "/opt/quarto/${QUARTO_VERSION}" \
-    --strip-components=1 
-RUN rm quarto.tar.gz
-
-ENV QUARTO_BASE=/opt/quarto/"${QUARTO_VERSION}"/bin
-# use pandoc from quarto-install
-ENV PANDOC_BASE=${QUARTO_BASE}/tools/x86_64 \
-    QUARTO_PATH=${QUARTO_BASE}/quarto
-ENV PATH=${QUARTO_BASE}:${PANDOC_BASE}:${PATH}
-
-# overwrite headless .Rprofile
-RUN echo "options(shiny.port = 3838)" > /home/${RSESSION_USER}/.Rprofile && \
-    echo "options(shiny.host = \"0.0.0.0\")" >> /home/${RSESSION_USER}/.Rprofile && \
-    echo "options(shiny.launch.browser = FALSE)" >> /home/${RSESSION_USER}/.Rprofile && \
-    chown -R ${RSESSION_USER}:${RSESSION_USER} /home/${RSESSION_USER}/.Rprofile
+    --strip-components=1 && \
+    rm quarto.tar.gz && \
+    QUARTO_VSIX_VERSION=$( \
+      curl -s ${QUARTO_VSIX_URL} | \
+      jq -r '.[1].name' | \
+      awk '{ gsub("[[:alpha:]]|-", "") ; print $0 }' \
+    ) && \
+    DICTPATH="/home/${RSESSION_USER}/.positron-server/extensions/quarto.quarto-${QUARTO_VSIX_VERSION}/out/lsp/resources/dictionaries" && \
+    QUARTO_BASE=/opt/quarto/"${QUARTO_VERSION}"/bin && \
+    PANDOC_BASE=${QUARTO_BASE}/tools/x86_64 && \
+    QUARTO_PATH=${QUARTO_BASE}/quarto && \
+    PATH=${QUARTO_BASE}:${PANDOC_BASE}:${PATH} && \
+    echo "export PATH=${PATH}" >> /home/${RSESSION_USER}/.bash_profile && \
+    chmod +x /home/${RSESSION_USER}/.bash_profile && \
+    chown -R ${RSESSION_USER}:${RSESSION_USER} /home/${RSESSION_USER}/.bash_profile && \
+    echo "PATH=${PATH}" >> /home/${RSESSION_USER}/.Renviron && \
+    echo "DICTPATH=${DICTPATH}" >> /home/${RSESSION_USER}/.Renviron && \
+    echo "R_LIBS_USER=${R_LIBS_USER}" >> /home/${RSESSION_USER}/.Renviron && \
+    chmod +x /home/${RSESSION_USER}/.Renviron && \
+    chown -R ${RSESSION_USER}:${RSESSION_USER} /home/${RSESSION_USER}/.Renviron && \
+    echo "QUARTO_PATH=${QUARTO_PATH}" >> /etc/R/Renviron && \
+    echo "QUARTO_PATH=${QUARTO_PATH}" >> /etc/environment
 
 # add PATH to a bash_profile script (workaround so that path is available in rstudio\"s terminal)
 # https://support.rstudio.com/hc/en-us/articles/115010737148-Using-the-RStudio-Terminal#env
 # https://docs.rstudio.com/ide/server-pro/1.2.1293-1/r-sessions.html
-RUN echo "export PATH=${PATH}" >> /home/${RSESSION_USER}/.bash_profile && \
-    chmod +x /home/${RSESSION_USER}/.bash_profile && \
-    chown -R ${RSESSION_USER}:${RSESSION_USER} /home/${RSESSION_USER}/.bash_profile
-
-# get latest quarto vscode-extension release version
-ENV QUARTO_VSIX_URL="https://api.github.com/repos/quarto-dev/quarto/tags"
-ENV QUARTO_VSIX_VERSION=$( \
-      curl -s ${QUARTO_VSIX_URL} | \
-      jq -r '.[1].name' | \
-      awk '{ gsub("[[:alpha:]]|-", "") ; print $0 }' \
-    )
-
-# DICTIONARIES (hunspell)
-ENV DICTPATH="/home/${RSESSION_USER}/.positron-server/extensions/quarto.quarto-${QUARTO_VSIX_VERSION}/out/lsp/resources/dictionaries"
-
 # PATH to .Renviron to have it available in positron's r-session
-RUN echo "PATH=${PATH}" >> /home/${RSESSION_USER}/.Renviron && \
-    echo "DICTPATH=${DICTPATH}" >> /home/${RSESSION_USER}/.Renviron && \
-    chmod +x /home/${RSESSION_USER}/.Renviron && \
-    chown -R ${RSESSION_USER}:${RSESSION_USER} /home/${RSESSION_USER}/.Renviron
-
 # set QUARTO_PATH for all users
-RUN echo "QUARTO_PATH=${QUARTO_PATH}" >> /etc/R/Renviron && \
-    echo "QUARTO_PATH=${QUARTO_PATH}" >> /etc/environment
 
 # for cran checks
 # https://cran.r-project.org/doc/manuals/r-release/R-ints.html

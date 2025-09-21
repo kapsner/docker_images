@@ -605,7 +605,7 @@ RUN echo "options(shiny.port = 3838)" >> /home/${RSESSION_USER}/.Rprofile && \
     echo "options(shiny.fullstacktrace = TRUE)" >> /home/${RSESSION_USER}/.Rprofile && \
     echo "options(warnPartialMatchArgs = TRUE)" >> /home/${RSESSION_USER}/.Rprofile && \
     # https://github.com/Ikuyadeu/vscode-R#r-session-watcher-experimental
-    echo "source(file.path(Sys.getenv(if (.Platform\$OS.type == \"windows\") \"USERPROFILE\" else \"HOME\"), \".vscode-R\", \"init.R\"))" >> /home/${RSESSION_USER}/.Rprofile && \
+    #echo "source(file.path(Sys.getenv(if (.Platform\$OS.type == \"windows\") \"USERPROFILE\" else \"HOME\"), \".vscode-R\", \"init.R\"))" >> /home/${RSESSION_USER}/.Rprofile && \
     chown -R ${RSESSION_USER}:${RSESSION_USER} /home/${RSESSION_USER}/.Rprofile
 
 # add radian profile, init folder for rhub profile &
@@ -616,7 +616,7 @@ RUN mkdir -p /home/${RSESSION_USER}/.local/share/rhub && \
     chown -R ${RSESSION_USER}:${RSESSION_USER} /home/${RSESSION_USER}/.local && \
     touch /home/${RSESSION_USER}/.bash_profile && \
     chown -R ${RSESSION_USER}:${RSESSION_USER} /home/${RSESSION_USER}/.bash_profile && \
-    chown ${RSESSION_USER}:${RSESSION_USER} /etc/environment && \
+    chown -R ${RSESSION_USER}:${RSESSION_USER} /etc/environment && \
     chown -R ${RSESSION_USER}:${RSESSION_USER} /etc/R/Renviron
 
 ########################
