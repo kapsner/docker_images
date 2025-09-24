@@ -420,6 +420,7 @@ RUN echo "tinytex::install_tinytex()" | r
 ENV PATH="/home/${RSESSION_USER}/bin:/home/${RSESSION_USER}/.TinyTeX/bin/x86_64-linux:${PATH}"
 
 ARG tiny="\"amsfonts\", \ 
+    \"adjustbox\", \ 
     \"amsmath\", \ 
     \"atveryend\", \ 
     \"babel\", \ 
@@ -430,6 +431,7 @@ ARG tiny="\"amsfonts\", \
     \"csquotes\", \
     \"dehyph-exptl\", \ 
     \"ec\", \ 
+    \"enumitem\", \ 
     \"environ\", \ 
     \"epstopdf-pkg\", \ 
     \"fancyhdr\", \
