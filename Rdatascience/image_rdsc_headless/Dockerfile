@@ -434,10 +434,11 @@ ARG tiny="\"amsfonts\", \
     \"enumitem\", \ 
     \"environ\", \ 
     \"epstopdf-pkg\", \ 
-    \"fancyhdr\", \
+    \"eurosym\", \ 
+    \"fancyhdr\", \ 
     \"float\", \ 
     \"geometry\", \ 
-    \"graphbox\", \
+    \"graphbox\", \ 
     \"graphics\", \ 
     \"graphics-def\", \ 
     \"hycolor\", \ 
@@ -449,21 +450,21 @@ ARG tiny="\"amsfonts\", \
     \"latexconfig\", \ 
     \"lm\", \ 
     \"makecell\", \ 
-    \"makeindex\", \
+    \"makeindex\", \ 
     \"multirow\", \ 
     \"needspace\", \ 
-    \"nomencl\", \
+    \"nomencl\", \ 
     \"oberdiek\", \ 
-    \"placeins\", \
-    \"pdfcol\", \
-    \"pdfcrop\", \
+    \"placeins\", \ 
+    \"pdfcol\", \ 
+    \"pdfcrop\", \ 
     \"pdflscape\", \ 
-    \"pdfpages\", \
-    \"pdftex\", \
-    \"pgf\", \
-    \"ragged2e\", \
-    \"realboxes\", \
-    \"setspace\", \
+    \"pdfpages\", \ 
+    \"pdftex\", \ 
+    \"pgf\", \ 
+    \"ragged2e\", \ 
+    \"realboxes\", \ 
+    \"setspace\", \ 
     \"tabu\", \ 
     \"tcolorbox\", \ 
     \"tex-gyre-math\", \ 
