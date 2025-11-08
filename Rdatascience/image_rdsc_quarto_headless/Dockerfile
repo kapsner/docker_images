@@ -22,36 +22,32 @@ RUN apt-get clean && \
 RUN sed -i -E 's,^#?Port.*$,Port 2375,' /etc/ssh/sshd_config && \
     sh -c "echo '${USER} ALL=(root) NOPASSWD: /usr/sbin/service ssh start' >/etc/sudoers.d/service-ssh-start"
 
-# get latest quarto vscode-extension release version
-ENV QUARTO_VSIX_VER_URL="https://api.github.com/repos/quarto-dev/quarto/tags" \
-    # get latest quarto-cli release version
-    QUARTO_CLI_VER_URL="https://api.github.com/repos/quarto-dev/quarto-cli/tags" \
-    POSITRON_EXTENSION_PATH="/home/${RSESSION_USER}/.positron-server/extensions" \
+ENV POSITRON_EXTENSION_PATH="/home/${RSESSION_USER}/.positron-server/extensions" \
     QUARTO_DL_URL=https://github.com/quarto-dev/quarto-cli/releases/download
 
-RUN QUARTO_VERSION=$( \
-      curl -s ${QUARTO_CLI_VER_URL} | \
-      jq -r '.[0].name'| \
-      awk '{ gsub("[[:alpha:]]", "") ; print $0 }' \
-    ) && \
+ADD image_rdsc_quarto_headless/.env /home/${RSESSION_USER}/.quartoenv
+ARG QUARTO_VERSION
+
+ENV QUARTO_DL_FILE="${QUARTO_DL_URL}/v${QUARTO_VERSION}/quarto-${QUARTO_VERSION}-linux-amd64.tar.gz"
+
+RUN echo ${QUARTO_DL_FILE} && \
     mkdir -p /opt/quarto/${QUARTO_VERSION} && \
-    curl -o quarto.tar.gz -L \
-    "${QUARTO_DL_URL}/v${QUARTO_VERSION}/quarto-${QUARTO_VERSION}-linux-amd64.tar.gz" && \
+    curl -o quarto.tar.gz -L ${QUARTO_DL_FILE} && \
     tar -zxvf quarto.tar.gz \
     -C "/opt/quarto/${QUARTO_VERSION}" \
     --strip-components=1 && \
-    rm quarto.tar.gz && \
-    QUARTO_VSIX_VERSION=$( \
-      curl -s ${QUARTO_VSIX_VER_URL} | \
-      jq -r '.[1].name' | \
-      awk '{ gsub("[[:alpha:]]|-", "") ; print $0 }' \
-    ) && \
-    DICPATH="${POSITRON_EXTENSION_PATH}/quarto.quarto-${QUARTO_VSIX_VERSION}/out/lsp/resources/dictionaries" && \
-    QUARTO_BASE=/opt/quarto/"${QUARTO_VERSION}"/bin && \
-    PANDOC_BASE=${QUARTO_BASE}/tools/x86_64 && \
-    QUARTO_PATH=${QUARTO_BASE}/quarto && \
-    PATH=${QUARTO_BASE}:${PANDOC_BASE}:${PATH} && \
-    cd /home/${RSESSION_USER} && \
+    rm quarto.tar.gz
+
+ARG QUARTO_VSIX_VERSION
+
+ENV DICPATH="${POSITRON_EXTENSION_PATH}/quarto.quarto-${QUARTO_VSIX_VERSION}/out/lsp/resources/dictionaries" \
+    QUARTO_BASE=/opt/quarto/"${QUARTO_VERSION}"/bin \
+    PANDOC_BASE=${QUARTO_BASE}/tools/x86_64 \
+    QUARTO_PATH=${QUARTO_BASE}/quarto \
+    PATH=${QUARTO_BASE}:${PANDOC_BASE}:${PATH}
+
+# write path and other environment-variables
+RUN cd /home/${RSESSION_USER} && \
     # add PATH to a bash_profile script (workaround so that path is available in rstudio\"s terminal)
     # https://support.rstudio.com/hc/en-us/articles/115010737148-Using-the-RStudio-Terminal#env
     # https://docs.rstudio.com/ide/server-pro/1.2.1293-1/r-sessions.html

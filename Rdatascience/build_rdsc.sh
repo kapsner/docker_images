@@ -15,7 +15,17 @@ function rdsc_base {
 
 function rdsc_quarto_hl {
     printf "\nBuild rdsc_quarto_headless image\n"
-    docker build --build-arg BASEIMAGE=rdsc_headless:latest -f image_rdsc_quarto_headless/Dockerfile -t rdsc_quarto_hl .
+    source image_rdsc_quarto_headless/prep.sh
+    # export envvars
+    cd image_rdsc_quarto_headless && export $(grep -v '^#' .env | xargs)
+    cd ..
+    cat image_rdsc_quarto_headless/.env
+    docker build \
+      --build-arg BASEIMAGE=rdsc_headless:latest \
+      --build-arg QUARTO_VERSION=$QUARTO_VERSION \
+      --build-arg QUARTO_VSIX_VERSION=$QUARTO_VSIX_VERSION \
+      -f image_rdsc_quarto_headless/Dockerfile \
+      -t rdsc_quarto_hl .
 }
 
 function rdsc_rstudio {

@@ -487,11 +487,9 @@ RUN echo "tinytex::tlmgr_conf()" | r && \
 
 
 USER root
-
 RUN chown -R ${RSESSION_USER}:${RSESSION_USER} /home/${RSESSION_USER}/.TinyTeX && \
     chmod -R g+w /home/${RSESSION_USER}/.TinyTeX && \
     chmod -R g+wx /home/${RSESSION_USER}/bin
-
 USER ${RSESSION_USER}
 
 # safety-check at the end: 
