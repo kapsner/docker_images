@@ -2,12 +2,13 @@
 /*/
 
 !/.gitignore
-!/base_image/
-!/build_image_gpu/
 !/configs/
 !/misc/
 !/misc/docker-ionic/
 !/misc/docker-JabRef/
-!/base_image_gpu/
-!/Pdatascience/
-!/Rdatascience/
+!/datascience/
+!/datascience/base_image/
+!/datascience/base_image_gpu/
+!/datascience/Pdatascience/
+!/datascience/Rdatascience/
+!/datascience/positron_headless/

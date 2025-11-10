@@ -26,6 +26,23 @@
     ],
     "description": "Insert columns"
   },
+  "Insert three columns": {
+    "prefix": "col3",
+    "body": [
+      ":::: {.columns}",
+      "::: {.column width=33%}",
+      "$0",
+      ":::",
+      "::: {.column width=33%}",
+      "",
+      ":::",
+      "::: {.column width=33%}",
+      "",
+      ":::",
+      "::::"
+    ],
+    "description": "Insert three columns"
+  },
   "Textindent": {
     "prefix": "ind",
     "body" :[

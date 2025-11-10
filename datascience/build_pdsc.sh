@@ -1,7 +1,7 @@
 #!/bin/bash
 
 function pdsc_cpu {
-    cd ../base_image
+    cd base_image
     ./build_base_image.sh
     cd ../Pdatascience
 
@@ -9,7 +9,12 @@ function pdsc_cpu {
     docker build --build-arg BASEIMAGE=base_image:latest -f image_pdsc_base/Dockerfile -t pdsc_base .
 
     printf "\nBuild pdsc_headless image\n"
-    docker build -f image_pdsc_headless/Dockerfile -t $last_layer_from .
+    docker build -f image_pdsc_headless/Dockerfile -t "pdsc_headless_prep" .pdsc_headless
+    cd ..
+    docker build \
+      --build-arg BASEIMAGE="pdsc_headless_prep":latest \
+      -f positron_headless/Dockerfile \
+      -t pdsc_headless .
 }
 
 function pdsc_gpu_build {
@@ -18,7 +23,7 @@ function pdsc_gpu_build {
 
     # build basic build image ontop of nvidia/cuda-devel container
     printf "\nBuild base_gpu_build image\n"
-    cd ../build_image_gpu
+    cd base_image_gpu
     ./build_base_gpu_build.sh
 
     printf "\nBuild pdsc_gpu_build image\n"
@@ -113,8 +118,6 @@ if $GPU; then
         pdsc_gpu_nobuild
     fi
 else
-    last_layer_from="pdsc_headless"
-    final_img_suffix="cpu"
     pdsc_cpu
 fi
 

@@ -12,15 +12,10 @@ USER root
 # install gdebi here, required to install rstudio
 # (gdebi will fail without sudo)
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    gdebi-core \
-    openssh-server
+    gdebi-core
 RUN apt-get clean && \ 
     apt-get autoclean && \
     rm -rf /var/lib/apt/lists/*
-
-# setup ssh-server
-RUN sed -i -E 's,^#?Port.*$,Port 2375,' /etc/ssh/sshd_config && \
-    sh -c "echo '${USER} ALL=(root) NOPASSWD: /usr/sbin/service ssh start' >/etc/sudoers.d/service-ssh-start"
 
 ENV POSITRON_EXTENSION_PATH="/home/${RSESSION_USER}/.positron-server/extensions" \
     QUARTO_DL_URL=https://github.com/quarto-dev/quarto-cli/releases/download
@@ -69,6 +64,13 @@ RUN cd /home/${RSESSION_USER} && \
     echo "QUARTO_PATH=${QUARTO_PATH}\nDICPATH=${DICPATH}" >> /etc/R/Renviron && \
     echo "QUARTO_PATH=${QUARTO_PATH}\nDICPATH=${DICPATH}" >> /etc/environment
 
+
+########################
+# Add quarto-snippets configuration
+RUN mkdir -p /home/${RSESSION_USER}/.config/Positron/User/snippets/ && \
+    chown -R ${RSESSION_USER}:${RSESSION_USER} /home/${RSESSION_USER}/.config
+ADD config/quarto.json /home/${RSESSION_USER}/.config/Positron/User/snippets/
+RUN chown -R ${RSESSION_USER}:${RSESSION_USER} /home/${RSESSION_USER}/.config/Positron/User/snippets/quarto.json
 
 ########################
 # # add r-devel
@@ -131,19 +133,4 @@ RUN rm -rf /var/lib/apt/lists/* && \
     conda clean -ya && \
     apt-get clean && apt-get autoclean && apt-get autoremove -y
 
-########################see the command that starts ark? Is that where you got this information from? Can you please share that section of the logs?
-
-# add start_new.sh script
-ADD config/start_new.sh /
-RUN chmod +x /start_new.sh && \
-    chown ${RSESSION_USER}:${RSESSION_USER} /start_new.sh
-
 ########################
-
-WORKDIR /home/${RSESSION_USER}
-
-USER ${RSESSION_USER}
-
-# entrypoint
-SHELL ["/bin/bash", "-c"]
-ENTRYPOINT ["/start_new.sh"]
