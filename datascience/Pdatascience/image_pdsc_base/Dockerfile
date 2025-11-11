@@ -14,17 +14,18 @@ USER ${PYTHON_USER}
 
 ########################
 # install some more tools
-RUN conda install -y \
-    -c conda-forge \
-    gdcm \
-    swig
+# RUN conda install -y \
+#     -c conda-forge \
+#     gdcm \
+#     swig
 # swig for GDCM
 
 ########################
 # install scikit-build from source (for SimpleITK)
 RUN source activate base && \
     uv pip install --system \
-    scikit-build
+    scikit-build \
+    python-gdcm
 
 # install datascience packages
 ADD ./config/requirements*.txt /home/${PYTHON_USER}/
