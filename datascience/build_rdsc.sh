@@ -14,7 +14,7 @@ function rdsc_base {
 }
 
 function rdsc_quarto_hl {
-    printf "\nBuild rdsc_quarto_headless image\n"
+    printf "\nBuild rdsc_quarto_hl_prep image\n"
     cd image_rdsc_quarto_headless
     source prep.sh
     # export envvars
@@ -27,6 +27,7 @@ function rdsc_quarto_hl {
       -f image_rdsc_quarto_headless/Dockerfile \
       -t rdsc_quarto_hl_prep .
     cd ..
+    printf "\nBuild rdsc_quarto_hl image\n"
     docker build \
       --build-arg BASEIMAGE=rdsc_quarto_hl_prep:latest \
       -f positron_headless/Dockerfile \

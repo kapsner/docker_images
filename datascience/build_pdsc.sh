@@ -8,9 +8,10 @@ function pdsc_cpu {
     printf "\nBuild pdsc_base image\n"
     docker build --build-arg BASEIMAGE=base_image:latest -f image_pdsc_base/Dockerfile -t pdsc_base .
 
-    printf "\nBuild pdsc_headless image\n"
-    docker build -f image_pdsc_headless/Dockerfile -t pdsc_headless .
+    printf "\nBuild pdsc_headless_prep image\n"
+    docker build -f image_pdsc_headless/Dockerfile -t pdsc_headless_prep .
     cd ..
+    printf "\nBuild pdsc_headless image\n"
     docker build \
       --build-arg BASEIMAGE=pdsc_headless_prep:latest \
       -f positron_headless/Dockerfile \
@@ -31,7 +32,7 @@ function pdsc_gpu_build {
 
     # build final image ontop of nvidia/cuda-runtime container
     # (could happen in parallel to first 2 steps in the future)
-    cd ../base_image
+    cd base_image
     ./build_base_image_gpu.sh
 
     cd ../Pdatascience/
@@ -48,7 +49,7 @@ function pdsc_gpu_build {
 function pdsc_gpu_nobuild {
     export BUILD_RUNTIME_IMG=nvidia/cuda:12.4.1-cudnn-runtime-ubuntu22.04
 
-    cd ../base_image
+    cd base_image
     ./build_base_image_gpu.sh
 
     cd ../Pdatascience/
