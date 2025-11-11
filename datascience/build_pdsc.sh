@@ -9,10 +9,10 @@ function pdsc_cpu {
     docker build --build-arg BASEIMAGE=base_image:latest -f image_pdsc_base/Dockerfile -t pdsc_base .
 
     printf "\nBuild pdsc_headless image\n"
-    docker build -f image_pdsc_headless/Dockerfile -t "pdsc_headless_prep" .pdsc_headless
+    docker build -f image_pdsc_headless/Dockerfile -t pdsc_headless .
     cd ..
     docker build \
-      --build-arg BASEIMAGE="pdsc_headless_prep":latest \
+      --build-arg BASEIMAGE=pdsc_headless_prep:latest \
       -f positron_headless/Dockerfile \
       -t pdsc_headless .
 }

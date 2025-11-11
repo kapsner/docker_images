@@ -5,6 +5,8 @@ ARG BASEIMAGE
 
 FROM ${BASEIMAGE}
 
+SHELL ["/bin/bash", "-c"]
+
 ENV PYTHON_USER=${USER}
 
 ########################
@@ -20,13 +22,18 @@ RUN conda install -y \
 
 ########################
 # install scikit-build from source (for SimpleITK)
-RUN yes | pip install scikit-build
+RUN source activate base && \
+    uv pip install --system \
+    scikit-build
 
 # install datascience packages
 ADD ./config/requirements*.txt /home/${PYTHON_USER}/
-RUN yes | pip install -r /home/${PYTHON_USER}/requirements_base.txt
-#RUN yes | pip install -r /home/${PYTHON_USER}/requirements_nlp.txt
-RUN yes | pip install -r /home/${PYTHON_USER}/requirements.txt
+RUN source activate base && \
+    uv pip install --system \
+    -r /home/${PYTHON_USER}/requirements_base.txt
+RUN source activate base && \
+    uv pip install --system \
+    -r /home/${PYTHON_USER}/requirements.txt
 
 ########################
 # clear caches

@@ -2,10 +2,13 @@ ARG BASEIMAGE
 
 FROM ${BASEIMAGE}
 
+SHELL ["/bin/bash", "-c"]
+
 USER ${PYTHON_USER}
 
 # install jupyter lab
-RUN yes | pip install \
+RUN source activate base && \
+    uv pip install --system \
     jupyterlab \
     jupyterlab-lsp \
     # to activate python debugger
@@ -35,6 +38,8 @@ RUN rm -rf /var/lib/apt/lists/* && \
     rm -rf /tmp/* && \
     rm -rf /root/.cache/pip/* && \
     rm -rf /home/${USER}/.cache/pip/* && \
+    rm -rf /root/.cache/uv/* && \
+    rm -rf /home/${USER}/.cache/uv/* && \
     conda clean -ya && \
     apt-get clean && apt-get autoclean && apt-get autoremove -y
 

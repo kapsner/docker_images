@@ -5,6 +5,7 @@ ARG BASEIMAGE
 FROM ${BASEIMAGE}
 
 ARG BASEIMAGE
+SHELL ["/bin/bash", "-c"]
 
 # set ENV-Vars
 # set environment variable to supress user interaction
@@ -42,7 +43,7 @@ ENV PATH=/home/${USER}/miniconda/bin:$PATH
 
 # ARG PYVERSION
 # ENV PYVERSION=${PYVERSION}
-ENV PYVERSION=3.12
+ENV PYVERSION=3.13
 
 USER ${USER}
 
@@ -66,7 +67,9 @@ RUN conda install -y python==${PYVERSION} && \
 ENV MAKEFLAGS="-j$(nproc)"
 
 # install some (python) prerequisites
-RUN yes | pip install \
+RUN source activate base && yes | pip install uv
+RUN source activate base && \
+    uv pip install --system \
     auto-changelog \
     numpy \
     pyyaml \
@@ -140,6 +143,8 @@ RUN rm -rf /var/lib/apt/lists/* && \
     rm -rf /tmp/* && \
     rm -rf /root/.cache/pip/* && \
     rm -rf /home/${USER}/.cache/pip/* && \
+    rm -rf /root/.cache/uv/* && \
+    rm -rf /home/${USER}/.cache/uv/* && \
     conda clean -ya && \
     apt-get clean && apt-get autoclean && apt-get autoremove -y
 
