@@ -15,10 +15,10 @@ RUN source activate base && \
 ########################
 # install other GPU learning libraries
 # (currently don't need them)
-# RUN yes | pip install -f \
+# RUN source activate basee && uv pip install --system -f \
 #     https://h2o-release.s3.amazonaws.com/h2o/latest_stable_Py.html h2o
 
-# RUN yes | pip install \
+# RUN source activate basee && uv pip install --system \
 #     tensorflow-gpu
 
 ########################
