@@ -583,20 +583,6 @@ RUN export pkg="\"$(echo ${pack} | sed -e 's/ /\"\, \"/g')"\" && \
 USER root
 
 ########################
-# install sudo here, required for cifs-utils and mounting network drives
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    cifs-utils \
-    sudo
-RUN apt-get clean && \ 
-    apt-get autoclean && \
-    rm -rf /var/lib/apt/lists/*
-
-# set ubuntu password here (password required for rstudio login)
-RUN echo ${RSESSION_USER}:password | chpasswd 
-RUN echo ${RSESSION_USER} ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/${RSESSION_USER} && \
-    chmod 0440 /etc/sudoers.d/${RSESSION_USER}
-
-########################
 
 # make deployed shiny app accessible via port 3838
 RUN echo "options(shiny.port = 3838)" >> /home/${RSESSION_USER}/.Rprofile && \

@@ -9,14 +9,6 @@ FROM ${BASEIMAGE}
 
 USER root
 
-# install gdebi here, required to install rstudio
-# (gdebi will fail without sudo)
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    gdebi-core
-RUN apt-get clean && \ 
-    apt-get autoclean && \
-    rm -rf /var/lib/apt/lists/*
-
 ENV POSITRON_EXTENSION_PATH="/home/${RSESSION_USER}/.positron-server/extensions" \
     QUARTO_DL_URL=https://github.com/quarto-dev/quarto-cli/releases/download
 
@@ -46,7 +38,7 @@ RUN cd /home/${RSESSION_USER} && \
     # add PATH to a bash_profile script (workaround so that path is available in rstudio\"s terminal)
     # https://support.rstudio.com/hc/en-us/articles/115010737148-Using-the-RStudio-Terminal#env
     # https://docs.rstudio.com/ide/server-pro/1.2.1293-1/r-sessions.html
-    echo "export PATH=${PATH}" >> .bash_profile && \
+    echo "#export PATH=${PATH}" >> .bash_profile && \
     chmod +x .bash_profile && \
     chown -R ${RSESSION_USER}:${RSESSION_USER} .bash_profile && \
     # PATH to .Renviron to have it available in positron's r-session

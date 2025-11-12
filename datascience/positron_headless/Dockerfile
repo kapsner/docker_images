@@ -4,9 +4,10 @@ FROM ${BASEIMAGE}
 
 USER root
 
-# install gdebi here, required to install rstudio
-# (gdebi will fail without sudo)
+# install openssh, sudo and cifs-utils here
 RUN apt-get update && apt-get install -y --no-install-recommends \
+    cifs-utils \
+    sudo \
     openssh-server
 RUN apt-get clean && \ 
     apt-get autoclean && \
@@ -14,7 +15,7 @@ RUN apt-get clean && \
 
 # setup ssh-server
 RUN sed -i -E 's,^#?Port.*$,Port 2375,' /etc/ssh/sshd_config && \
-    sh -c "echo '${USER} ALL=(root) NOPASSWD: /usr/sbin/service ssh start' >/etc/sudoers.d/service-ssh-start"
+    sh -c "echo '${USER} ALL=(root) NOPASSWD: /usr/sbin/service ssh start' > /etc/sudoers.d/service-ssh-start"
 
 
 ########################
@@ -32,6 +33,12 @@ RUN mkdir -p /home/${USER}/.positron-server/data/Machine/ && \
 ADD positron_headless/config/settings.json /home/${USER}/.positron-server/data/Machine/
 RUN chown -R ${USER}:${USER} /home/${USER}/.positron-server/data/Machine/settings.json
 
+
+########################
+# add PATH to a bash_profile script (workaround so that path is available in positron's terminal)
+RUN echo "export PATH=${PATH}" >> /home/${USER}/.bash_profile && \
+    chmod +x /home/${USER}/.bash_profile && \
+    chown -R ${USER}:${USER} /home/${USER}/.bash_profile
 
 ########################
 # clear caches
