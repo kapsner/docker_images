@@ -7,6 +7,8 @@ ARG BASEIMAGE
 
 FROM ${BASEIMAGE}
 
+SHELL ["/bin/bash", "-c"]
+
 USER root
 
 # install gdebi here, required to install rstudio

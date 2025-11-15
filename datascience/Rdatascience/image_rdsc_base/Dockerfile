@@ -5,6 +5,8 @@ ARG BASEIMAGE
 
 FROM ${BASEIMAGE}
 
+SHELL ["/bin/bash", "-c"]
+
 # set rsession user here
 ENV RSESSION_USER=${USER} 
 

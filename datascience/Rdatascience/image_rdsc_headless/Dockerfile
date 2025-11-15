@@ -1,5 +1,7 @@
 FROM rdsc_base:latest
 
+SHELL ["/bin/bash", "-c"]
+
 ENV DEBIAN_FRONTEND=noninteractive
 
 USER ${RSESSION_USER}
