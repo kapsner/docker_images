@@ -529,13 +529,13 @@ RUN export pkg="\"$(echo ${github_array} | sed -e 's/ /\"\, \"/g')"\" && \
 # install additional python packages
 # install datascience packages
 ADD ./config/requirements.txt /home/${RSESSION_USER}/
-RUN source activate basee && uv pip install --system -r /home/${RSESSION_USER}/requirements.txt
+RUN source activate base && uv pip install --system -r /home/${RSESSION_USER}/requirements.txt
 
 # install playwright (revealjs2pdf)
 RUN playwright install chromium
 
 # pip install our own stuff
-RUN source activate basee && uv pip install --system \
+RUN source activate base && uv pip install --system \
     git+https://github.com/miracum/dqa-mdr-connector
 
 # configure the other r packages

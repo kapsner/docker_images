@@ -13,10 +13,14 @@ RUN apt-get clean && \
     apt-get autoclean && \
     rm -rf /var/lib/apt/lists/*
 
+# set ubuntu password here (password required for ssh login)
+RUN echo ${USER}:password | chpasswd 
+RUN echo "${USER} ALL=(root) NOPASSWD: ALL" > /etc/sudoers.d/${USER} && \
+    chmod 0440 /etc/sudoers.d/${USER}
+
 # setup ssh-server
 RUN sed -i -E 's,^#?Port.*$,Port 2375,' /etc/ssh/sshd_config && \
-    sh -c "echo '${USER} ALL=(root) NOPASSWD: /usr/sbin/service ssh start' > /etc/sudoers.d/service-ssh-start"
-
+    echo "${USER} ALL=(root) NOPASSWD: /usr/sbin/service ssh start" > /etc/sudoers.d/service-ssh-start
 
 ########################
 # Add script for automated installation of positron extensions
@@ -36,6 +40,7 @@ RUN chown -R ${USER}:${USER} /home/${USER}/.positron-server/data/Machine/setting
 
 ########################
 # add PATH to a bash_profile script (workaround so that path is available in positron's terminal)
+ENV PATH=${PATH}
 RUN echo "export PATH=${PATH}" >> /home/${USER}/.bash_profile && \
     chmod +x /home/${USER}/.bash_profile && \
     chown -R ${USER}:${USER} /home/${USER}/.bash_profile

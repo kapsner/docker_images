@@ -87,7 +87,7 @@ RUN conda install -y \
 -c conda-forge \
 libstdcxx-ng
 # libstdcxx-ng required for radian (https://github.com/randy3k/radian)
-RUN source activate basee && uv pip install --system radian
+RUN source activate base && uv pip install --system radian
 
 # install miniconda via reticulate and configure python
 RUN echo "reticulate::py_config()" | r
