@@ -1,8 +1,8 @@
 #!/bin/bash
 
-# Positron Extension Synchronization Script
+# IDE Extension Synchronization Script
 # ------------------------------------------------------------------
-# This script compares installed Positron extensions against a predefined
+# This script compares installed IDE extensions against a predefined
 # list and automatically installs any missing extensions.
 # It is designed to be sourced from a shell configuration file (like .bashrc).
 
@@ -40,8 +40,8 @@ DESIRED_EXTENSIONS=(
     "charliermarsh.ruff"
 )
 
-# --- 2. Check for the 'positron' command ---
-# If Positron isn't installed or not in PATH, skip the check.
+# --- 2. Check for the 'IDE' command ---
+# If IDE isn't installed or not in PATH, skip the check.
 if ! command -v $INSTALL_EXEC &> /dev/null; then
     echo "[$IDE_NAME-SYNC] '$INSTALL_EXEC' command not found. Skipping extension synchronization."
     # Use 'return' to exit cleanly if sourced in .bashrc
@@ -63,7 +63,7 @@ for EXTENSION in "${DESIRED_EXTENSIONS[@]}"; do
         echo "[$IDE_NAME-SYNC] Missing: ${EXTENSION}. Installing..."
         
         # Install the extension.
-        # We redirect stderr (2) to /dev/null to suppress verbose success messages from 'positron'.
+        # We redirect stderr (2) to /dev/null to suppress verbose success messages from 'IDE'.
         $INSTALL_EXEC --install-extension "${EXTENSION}" 2>/dev/null
         
         if [ $? -eq 0 ]; then

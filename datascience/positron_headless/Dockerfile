@@ -24,10 +24,10 @@ RUN sed -i -E 's,^#?Port.*$,Port 2375,' /etc/ssh/sshd_config && \
 
 ########################
 # Add script for automated installation of positron extensions
-ADD positron_headless/config/positron-extension-sync.sh /home/${USER}/
+ADD positron_headless/config/ide-extension-sync.sh /home/${USER}/
 RUN cd /home/${USER}/ && \
-    chmod +x positron-extension-sync.sh && \
-    echo "source ~/positron-extension-sync.sh" >> .bashrc
+    chmod +x ide-extension-sync.sh && \
+    echo "source ~/ide-extension-sync.sh" >> .bashrc
 
 
 ########################
