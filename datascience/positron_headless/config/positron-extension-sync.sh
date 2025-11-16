@@ -6,8 +6,8 @@
 # list and automatically installs any missing extensions.
 # It is designed to be sourced from a shell configuration file (like .bashrc).
 
-VSCODE_DIR="~/.vscode-server"
-POSITRON_DIR="~/.positron-server"
+VSCODE_DIR="/home/$USER/.vscode-server"
+POSITRON_DIR="/home/$USER/.positron-server"
 
 if [[ -d "$VSCODE_DIR" || -d "$POSITRON_DIR" ]]; then
     # Check specifically which directory was found (optional, but helpful)
