@@ -21,7 +21,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libzmq3-dev \
     default-jdk \
     default-jdk-headless \
-    unixodbc-dev
+    unixodbc-dev \
+    poppler-utils
 RUN apt-get clean && \ 
     apt-get autoclean && \
     rm -rf /var/lib/apt/lists/*
