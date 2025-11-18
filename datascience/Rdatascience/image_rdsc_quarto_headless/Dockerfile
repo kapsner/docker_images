@@ -7,15 +7,9 @@ ARG BASEIMAGE
 
 FROM ${BASEIMAGE}
 
-USER root
+SHELL ["/bin/bash", "-c"]
 
-# install gdebi here, required to install rstudio
-# (gdebi will fail without sudo)
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    gdebi-core
-RUN apt-get clean && \ 
-    apt-get autoclean && \
-    rm -rf /var/lib/apt/lists/*
+USER root
 
 ENV POSITRON_EXTENSION_PATH="/home/${RSESSION_USER}/.positron-server/extensions" \
     QUARTO_DL_URL=https://github.com/quarto-dev/quarto-cli/releases/download
@@ -23,6 +17,7 @@ ENV POSITRON_EXTENSION_PATH="/home/${RSESSION_USER}/.positron-server/extensions"
 ADD image_rdsc_quarto_headless/.env /home/${RSESSION_USER}/.quartoenv
 ARG QUARTO_VERSION
 
+ENV QUARTO_VERSION=$QUARTO_VERSION
 ENV QUARTO_DL_FILE="${QUARTO_DL_URL}/v${QUARTO_VERSION}/quarto-${QUARTO_VERSION}-linux-amd64.tar.gz"
 
 RUN echo ${QUARTO_DL_FILE} && \
@@ -36,33 +31,33 @@ RUN echo ${QUARTO_DL_FILE} && \
 ARG QUARTO_VSIX_VERSION
 
 ENV DICPATH="${POSITRON_EXTENSION_PATH}/quarto.quarto-${QUARTO_VSIX_VERSION}/out/lsp/resources/dictionaries" \
-    QUARTO_BASE=/opt/quarto/"${QUARTO_VERSION}"/bin \
-    PANDOC_BASE=${QUARTO_BASE}/tools/x86_64 \
-    QUARTO_PATH=${QUARTO_BASE}/quarto \
-    PATH=${QUARTO_BASE}:${PANDOC_BASE}:${PATH}
+    QUARTO_BASE=/opt/quarto/"${QUARTO_VERSION}"/bin
+ENV PANDOC_BASE=${QUARTO_BASE}/tools/x86_64 \
+    QUARTO_PATH=${QUARTO_BASE}/quarto
+ENV PATH=${QUARTO_BASE}:${PANDOC_BASE}:${PATH}
 
 # write path and other environment-variables
 RUN cd /home/${RSESSION_USER} && \
     # add PATH to a bash_profile script (workaround so that path is available in rstudio\"s terminal)
     # https://support.rstudio.com/hc/en-us/articles/115010737148-Using-the-RStudio-Terminal#env
     # https://docs.rstudio.com/ide/server-pro/1.2.1293-1/r-sessions.html
-    echo "export PATH=${PATH}" >> .bash_profile && \
+    echo "#export PATH=${PATH}" >> .bash_profile && \
     chmod +x .bash_profile && \
     chown -R ${RSESSION_USER}:${RSESSION_USER} .bash_profile && \
     # PATH to .Renviron to have it available in positron's r-session
-    echo "PATH=${PATH}\nDICPATH=${DICPATH}\nR_LIBS_USER=${R_LIBS_USER}" >> .Renviron && \
-    echo "QUARTO_VERSION=${QUARTO_VERSION}\nQUARTO_VSIX_VERSION=${QUARTO_VSIX_VERSION}" >> .Renviron && \
-    echo "_R_CHECK_TEST_TIMING_CPU_TO_ELAPSED_THRESHOLD_=2.5\n_R_CHECK_TIMINGS_=5" >> .Renviron && \
+    printf "PATH=${PATH}\nDICPATH=${DICPATH}\nR_LIBS_USER=${R_LIBS_USER}" >> .Renviron && \
+    printf "QUARTO_VERSION=${QUARTO_VERSION}\nQUARTO_VSIX_VERSION=${QUARTO_VSIX_VERSION}" >> .Renviron && \
+    printf "_R_CHECK_TEST_TIMING_CPU_TO_ELAPSED_THRESHOLD_=2.5\n_R_CHECK_TIMINGS_=5" >> .Renviron && \
     chmod +x .Renviron && \
     chown -R ${RSESSION_USER}:${RSESSION_USER} .Renviron && \
     # for cran checks https://cran.r-project.org/doc/manuals/r-release/R-ints.html
     mkdir -p .R && touch .R/check.Renviron && \
-    echo "_R_CHECK_TEST_TIMING_CPU_TO_ELAPSED_THRESHOLD_=2.5\n_R_CHECK_TIMINGS_=5" > .R/.Renviron && \
+    printf "_R_CHECK_TEST_TIMING_CPU_TO_ELAPSED_THRESHOLD_=2.5\n_R_CHECK_TIMINGS_=5" > .R/.Renviron && \
     chmod +x .R/check.Renviron && \
     chown -R ${RSESSION_USER}:${RSESSION_USER} .R && \
     # set QUARTO_PATH for all users
-    echo "QUARTO_PATH=${QUARTO_PATH}\nDICPATH=${DICPATH}" >> /etc/R/Renviron && \
-    echo "QUARTO_PATH=${QUARTO_PATH}\nDICPATH=${DICPATH}" >> /etc/environment
+    printf "QUARTO_PATH=${QUARTO_PATH}\nDICPATH=${DICPATH}" >> /etc/R/Renviron && \
+    printf "QUARTO_PATH=${QUARTO_PATH}\nDICPATH=${DICPATH}" >> /etc/environment
 
 
 ########################

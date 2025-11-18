@@ -1,5 +1,7 @@
 FROM rdsc_base:latest
 
+SHELL ["/bin/bash", "-c"]
+
 ENV DEBIAN_FRONTEND=noninteractive
 
 USER ${RSESSION_USER}
@@ -527,13 +529,13 @@ RUN export pkg="\"$(echo ${github_array} | sed -e 's/ /\"\, \"/g')"\" && \
 # install additional python packages
 # install datascience packages
 ADD ./config/requirements.txt /home/${RSESSION_USER}/
-RUN source activate basee && uv pip install --system -r /home/${RSESSION_USER}/requirements.txt
+RUN source activate base && uv pip install --system -r /home/${RSESSION_USER}/requirements.txt
 
 # install playwright (revealjs2pdf)
 RUN playwright install chromium
 
 # pip install our own stuff
-RUN source activate basee && uv pip install --system \
+RUN source activate base && uv pip install --system \
     git+https://github.com/miracum/dqa-mdr-connector
 
 # configure the other r packages
@@ -581,20 +583,6 @@ RUN export pkg="\"$(echo ${pack} | sed -e 's/ /\"\, \"/g')"\" && \
 
 # switch back
 USER root
-
-########################
-# install sudo here, required for cifs-utils and mounting network drives
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    cifs-utils \
-    sudo
-RUN apt-get clean && \ 
-    apt-get autoclean && \
-    rm -rf /var/lib/apt/lists/*
-
-# set ubuntu password here (password required for rstudio login)
-RUN echo ${RSESSION_USER}:password | chpasswd 
-RUN echo ${RSESSION_USER} ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/${RSESSION_USER} && \
-    chmod 0440 /etc/sudoers.d/${RSESSION_USER}
 
 ########################
 

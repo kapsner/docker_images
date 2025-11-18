@@ -5,6 +5,8 @@ ARG BASEIMAGE
 
 FROM ${BASEIMAGE}
 
+SHELL ["/bin/bash", "-c"]
+
 # set rsession user here
 ENV RSESSION_USER=${USER} 
 
@@ -19,7 +21,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libzmq3-dev \
     default-jdk \
     default-jdk-headless \
-    unixodbc-dev
+    unixodbc-dev \
+    poppler-utils
 RUN apt-get clean && \ 
     apt-get autoclean && \
     rm -rf /var/lib/apt/lists/*
@@ -85,7 +88,7 @@ RUN conda install -y \
 -c conda-forge \
 libstdcxx-ng
 # libstdcxx-ng required for radian (https://github.com/randy3k/radian)
-RUN source activate basee && uv pip install --system radian
+RUN source activate base && uv pip install --system radian
 
 # install miniconda via reticulate and configure python
 RUN echo "reticulate::py_config()" | r

@@ -1,5 +1,7 @@
 FROM rdsc_gpu_base:latest
 
+SHELL ["/bin/bash", "-c"]
+
 # compile lightgbm GPU R package
 # https://lightgbm.readthedocs.io/en/latest/GPU-Tutorial.html
 RUN git clone --recursive https://github.com/microsoft/LightGBM

@@ -1,5 +1,7 @@
 FROM rdsc_rstudio:latest
 
+SHELL ["/bin/bash", "-c"]
+
 
 # switch user (let everything in .virtualenv/r-reticulate be installed by the user)
 # we can use pip here, since we added the virtualenv to the beginning of our PATH variable

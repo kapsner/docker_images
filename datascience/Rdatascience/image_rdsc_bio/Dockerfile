@@ -1,6 +1,8 @@
 FROM rdsc_rstudio:latest
 #FROM rdsc_headless:latest
 
+SHELL ["/bin/bash", "-c"]
+
 USER root
 
 # install some dependencies for enhancedvolcano
