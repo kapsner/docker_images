@@ -15,7 +15,8 @@ ARG DISPLAY
 ENV DISPLAY=${DISPLAY}
 
 # Delete custom user in ubuntu from 24.04 on https://askubuntu.com/a/1515958
-RUN if [ "$BASEIMAGE" = "ubuntu:24.04" ]; then \
+ENV REGEX='ubuntu(\:)?24\.04'
+RUN if [[ "$BASEIMAGE" =~ $REGEX ]]; then \
     echo "Deleting user ubuntu" && \
     touch /var/mail/ubuntu && chown ubuntu /var/mail/ubuntu && userdel -r ubuntu; \
     fi
