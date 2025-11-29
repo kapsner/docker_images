@@ -18,6 +18,30 @@ function pdsc_cpu {
       -t pdsc_headless .
 }
 
+function pdsc_gpu {
+    export BUILD_RUNTIME_IMG=nvidia/cuda:12.8.1-cudnn-runtime-ubuntu24.04
+
+    cd base_image
+    ./build_base_image_gpu.sh
+    cd ../Pdatascience
+
+    printf "\nBuild pdsc_gpu_nobuild image\n"
+    docker build -f image_pdsc_gpu/Dockerfile.nobuild -t pdsc_gpu_nobuild .
+
+    printf "\nBuild pdsc_gpu_base image\n"
+    docker build --build-arg BASEIMAGE=pdsc_gpu_nobuild:latest -f image_pdsc_base/Dockerfile -t pdsc_gpu_base .
+
+    printf "\nBuild pdsc_gpu_prep image\n"
+    docker build -f image_pdsc_gpu/Dockerfile -t pdsc_gpu_prep .
+
+    cd ..
+    printf "\nBuild pdsc_headless_gpu image\n"
+    docker build \
+      --build-arg BASEIMAGE=pdsc_gpu_prep:latest \
+      -f positron_headless/Dockerfile \
+      -t pdsc_headless_gpu .
+}
+
 function pdsc_gpu_build {
     export BUILD_DEVEL_IMG=nvidia/cuda:12.4.1-cudnn-devel-ubuntu22.04
     export BUILD_RUNTIME_IMG=nvidia/cuda:12.4.1-cudnn-runtime-ubuntu22.04
@@ -44,24 +68,6 @@ function pdsc_gpu_build {
 
     printf "\nBuild pdsc_gpu image\n"
     docker build -f image_pdsc_gpu/Dockerfile -t $last_layer_from .
-}
-
-function pdsc_gpu_nobuild {
-    export BUILD_RUNTIME_IMG=nvidia/cuda:12.4.1-cudnn-runtime-ubuntu22.04
-
-    cd base_image
-    ./build_base_image_gpu.sh
-
-    cd ../Pdatascience/
-    printf "\nBuild pdsc_gpu_nobuild image\n"
-    docker build -f image_pdsc_gpu/Dockerfile.nobuild -t pdsc_gpu_nobuild .
-
-    printf "\nBuild pdsc_gpu_base image\n"
-    docker build --build-arg BASEIMAGE=pdsc_gpu_nobuild:latest -f image_pdsc_base/Dockerfile -t pdsc_gpu_base .
-
-    printf "\nBuild pdsc_gpu image\n"
-    docker build -f image_pdsc_gpu/Dockerfile -t pdsc_gpu .
-
 }
 
 function pdsc_final_layer {
@@ -95,17 +101,6 @@ do
             GBUILD=true
             shift # past argument
         ;;
-
-        -v|--vscode)
-            VSCODE=true
-            shift # past argument
-        ;;
-
-        *)    # unknown option
-            echo -e "unknow parameter: $key"
-            echo -e "$usage"
-            exit 1
-        ;;
     esac
 done
 
@@ -116,20 +111,8 @@ if $GPU; then
     if $GBUILD; then
         pdsc_gpu_build
     else
-        pdsc_gpu_nobuild
+        pdsc_gpu
     fi
 else
     pdsc_cpu
 fi
-
-
-if $VSCODE; then
-    ide="vscode"
-    final_image_name="pdsc_vscode_"$final_img_suffix
-    pdsc_final_layer
-#else
-    # ide="jpylab"
-    # final_image_name="pdsc_jpylab_"$final_img_suffix
-fi
-
-#pdsc_final_layer

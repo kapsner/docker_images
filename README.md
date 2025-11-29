@@ -3,12 +3,17 @@
 This repo holds several files for my personal docker images.
 They are not maintained and from time to time adjusted to my needs.
 
-- [base_image](./base_image/)
-- [base_image_gpu](./base_image_gpu/)
-- [Pdatascience](./Pdatascience/)
-- [Rdatascience](./Rdatascience/)
-- [misc/docker-ionic](./misc/docker-ionic/)
-- [misc/docker-JabRef](./misc/docker-JabRef/)
+- [datascience/](./datascience/)
+    - [base_image](./datascience/base_image/)
+    - [base_image_gpu](./datascience/base_image_gpu/)
+    - [Pdatascience](./datascience/Pdatascience/)
+    - [Rdatascience](./datascience/Rdatascience/)
+    - [positron_headless](./datascience/Rdatascience/)
+- [misc/](./misc/)
+    - [krita-ai-diffusion](./misc/krita-ai-diffusion/)
+    - [r-armhf](./misc/r-armhf/)
+    - [docker-ionic](./misc/docker-ionic/)
+    - [docker-JabRef](./misc/docker-JabRef/)
 
 ## Docker Housekeeping
 
