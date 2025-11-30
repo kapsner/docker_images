@@ -18,9 +18,29 @@ RUN echo ${USER}:password | chpasswd
 RUN echo "${USER} ALL=(root) NOPASSWD: ALL" > /etc/sudoers.d/${USER} && \
     chmod 0440 /etc/sudoers.d/${USER}
 
+########################
 # setup ssh-server
-RUN sed -i -E 's,^#?Port.*$,Port 2375,' /etc/ssh/sshd_config && \
-    echo "${USER} ALL=(root) NOPASSWD: /usr/sbin/service ssh start" > /etc/sudoers.d/service-ssh-start
+# Generate new Host Keys in the dedicated directory
+ENV SSHD_CONFIG_DIR="/home/${USER}/.ssh"
+RUN mkdir -p ${SSHD_CONFIG_DIR} && \
+    ssh-keygen -q -N "" -t rsa -b 4096 -f ${SSHD_CONFIG_DIR}/ssh_host_rsa_key && \
+    ssh-keygen -q -N "" -t ecdsa -f ${SSHD_CONFIG_DIR}/ssh_host_ecdsa_key && \
+    ssh-keygen -q -N "" -t ed25519 -f ${SSHD_CONFIG_DIR}/ssh_host_ed25519_key
+# copy and modify sshd_config
+RUN cp /etc/ssh/sshd_config ${SSHD_CONFIG_DIR}/ && \
+    sed -i -E 's,^#?Port.*$,Port 2375,' ${SSHD_CONFIG_DIR}/sshd_config && \
+    sed -i -E 's,^#?PasswordAuthentication.*$,PasswordAuthentication yes,' ${SSHD_CONFIG_DIR}/sshd_config && \
+    sed -i -E 's,^#?StrictModes.*$,StrictModes no,' ${SSHD_CONFIG_DIR}/sshd_config && \
+    echo "AllowUsers ${USER}" >> ${SSHD_CONFIG_DIR}/sshd_config && \
+    echo "HostKey ${SSHD_CONFIG_DIR}/ssh_host_rsa_key" >> ${SSHD_CONFIG_DIR}/sshd_config && \
+    echo "HostKey ${SSHD_CONFIG_DIR}/ssh_host_ecdsa_key" >> ${SSHD_CONFIG_DIR}/sshd_config && \
+    echo "HostKey ${SSHD_CONFIG_DIR}/ssh_host_ed25519_key" >> ${SSHD_CONFIG_DIR}/sshd_config && \
+    echo "PidFile ${SSHD_CONFIG_DIR}/sshd.pid" >> ${SSHD_CONFIG_DIR}/sshd_config
+# Set ownership for the dedicated non-root SSHD runner
+RUN chown -R ${USER} ${SSHD_CONFIG_DIR} && \
+    # Set secure permissions on host keys
+    chmod 600 ${SSHD_CONFIG_DIR}/* && \
+    chmod 644 ${SSHD_CONFIG_DIR}/sshd_config
 
 ########################
 # Add script for automated installation of positron extensions
@@ -56,10 +76,10 @@ RUN rm -rf /var/lib/apt/lists/* && \
 
 ########################
 
-# add start_new.sh script
-ADD positron_headless/config/start_new.sh /
-RUN chmod +x /start_new.sh && \
-    chown ${USER}:${USER} /start_new.sh
+# add start.sh script
+ADD positron_headless/config/start.sh /
+RUN chmod +x /start.sh && \
+    chown ${USER}:${USER} /start.sh
 
 ########################
 
@@ -69,4 +89,4 @@ USER ${USER}
 
 # entrypoint
 SHELL ["/bin/bash", "-c"]
-ENTRYPOINT ["/start_new.sh"]
+ENTRYPOINT ["/start.sh"]

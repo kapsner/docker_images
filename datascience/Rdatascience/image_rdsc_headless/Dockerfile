@@ -620,14 +620,3 @@ RUN rm -rf /var/lib/apt/lists/* && \
     apt-get clean && apt-get autoclean && apt-get autoremove -y
 
 ########################
-
-# add config_env.sh script
-ADD config/config_env.sh /
-RUN chmod +x /config_env.sh
-
-USER ${RSESSION_USER}
-
-WORKDIR /home/${RSESSION_USER}
-
-# entrypoint
-ENTRYPOINT bash -c "/config_env.sh && tail -f /dev/null"
