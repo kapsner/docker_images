@@ -22,7 +22,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     default-jdk \
     default-jdk-headless \
     unixodbc-dev \
-    poppler-utils
+    poppler-utils \
+    libpoppler-cpp-dev
 RUN apt-get clean && \ 
     apt-get autoclean && \
     rm -rf /var/lib/apt/lists/*
