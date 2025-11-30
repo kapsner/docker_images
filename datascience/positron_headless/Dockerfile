@@ -43,12 +43,24 @@ RUN chown -R ${USER} ${SSHD_CONFIG_DIR} && \
     chmod 644 ${SSHD_CONFIG_DIR}/sshd_config
 
 ########################
-# Add script for automated installation of positron extensions
+# add PATH to a bash_profile script (workaround so that path is available in positron's terminal)
+# to make this working, this must be sourced during container-start
+ENV PATH=${PATH}
+RUN echo "export PATH=${PATH}" >> /home/${USER}/.bash_profile && \
+    chmod +x /home/${USER}/.bash_profile && \
+    chown -R ${USER}:${USER} /home/${USER}/.bash_profile
+
+########################
+# Add alias script and script for automated installation of positron extensions
+ADD positron_headless/config/alias.sh /home/${USER}/
 ADD positron_headless/config/ide-extension-sync.sh /home/${USER}/
 RUN cd /home/${USER}/ && \
+    chmod +x alias.sh && \
     chmod +x ide-extension-sync.sh && \
+    chown ${USER}:${USER} alias.sh && \
+    chown ${USER}:${USER} ide-extension-sync.sh && \
+    echo "source ~/alias.sh" >> .bashrc && \
     echo "source ~/ide-extension-sync.sh" >> .bashrc
-
 
 ########################
 # Add user settings
@@ -56,14 +68,6 @@ RUN mkdir -p /home/${USER}/.positron-server/data/Machine/ && \
     chown -R ${USER}:${USER} /home/${USER}/.positron-server
 ADD positron_headless/config/settings.json /home/${USER}/.positron-server/data/Machine/
 RUN chown -R ${USER}:${USER} /home/${USER}/.positron-server/data/Machine/settings.json
-
-
-########################
-# add PATH to a bash_profile script (workaround so that path is available in positron's terminal)
-ENV PATH=${PATH}
-RUN echo "export PATH=${PATH}" >> /home/${USER}/.bash_profile && \
-    chmod +x /home/${USER}/.bash_profile && \
-    chown -R ${USER}:${USER} /home/${USER}/.bash_profile
 
 ########################
 # clear caches
