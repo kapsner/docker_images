@@ -60,7 +60,17 @@ RUN cd /home/${USER}/ && \
     chown ${USER}:${USER} alias.sh && \
     chown ${USER}:${USER} ide-extension-sync.sh && \
     echo "source ~/alias.sh" >> .bashrc && \
-    echo "source ~/ide-extension-sync.sh" >> .bashrc
+    echo "source ~/ide-extension-sync.sh" >> .bashrc && \
+    chmod +x ${USER}:${USER} .bashrc && \
+    chown ${USER}:${USER} .bashrc
+
+########################
+# write .bash_aliases
+RUN cd /home/${USER}/ && \
+    echo "alias ll='ls -alF'" >> .bash_aliases && \
+    echo "alias up='sudo apt update && sudo apt upgrade'" >> .bash_aliases && \
+    chmod +x ${USER}:${USER} .bash_aliases && \
+    chown ${USER}:${USER} .bash_aliases
 
 ########################
 # Add user settings
