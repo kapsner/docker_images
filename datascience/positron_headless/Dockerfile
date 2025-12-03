@@ -61,7 +61,7 @@ RUN cd /home/${USER}/ && \
     chown ${USER}:${USER} ide-extension-sync.sh && \
     echo "source ~/alias.sh" >> .bashrc && \
     echo "source ~/ide-extension-sync.sh" >> .bashrc && \
-    chmod +x ${USER}:${USER} .bashrc && \
+    chmod +x .bashrc && \
     chown ${USER}:${USER} .bashrc
 
 ########################
@@ -69,7 +69,7 @@ RUN cd /home/${USER}/ && \
 RUN cd /home/${USER}/ && \
     echo "alias ll='ls -alF'" >> .bash_aliases && \
     echo "alias up='sudo apt update && sudo apt upgrade'" >> .bash_aliases && \
-    chmod +x ${USER}:${USER} .bash_aliases && \
+    chmod +x .bash_aliases && \
     chown ${USER}:${USER} .bash_aliases
 
 ########################
