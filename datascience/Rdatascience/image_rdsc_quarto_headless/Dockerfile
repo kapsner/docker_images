@@ -48,6 +48,7 @@ RUN cd /home/${RSESSION_USER} && \
     printf "PATH=${PATH}\nDICPATH=${DICPATH}\nR_LIBS_USER=${R_LIBS_USER}" >> .Renviron && \
     printf "QUARTO_VERSION=${QUARTO_VERSION}\nQUARTO_VSIX_VERSION=${QUARTO_VSIX_VERSION}" >> .Renviron && \
     printf "_R_CHECK_TEST_TIMING_CPU_TO_ELAPSED_THRESHOLD_=2.5\n_R_CHECK_TIMINGS_=5" >> .Renviron && \
+    printf "RSTUDIO_PANDOC=${PANDOC_BASE}" >> .Renviron && \
     chmod +x .Renviron && \
     chown -R ${RSESSION_USER}:${RSESSION_USER} .Renviron && \
     # for cran checks https://cran.r-project.org/doc/manuals/r-release/R-ints.html
@@ -56,8 +57,8 @@ RUN cd /home/${RSESSION_USER} && \
     chmod +x .R/check.Renviron && \
     chown -R ${RSESSION_USER}:${RSESSION_USER} .R && \
     # set QUARTO_PATH for all users
-    printf "QUARTO_PATH=${QUARTO_PATH}\nDICPATH=${DICPATH}" >> /etc/R/Renviron && \
-    printf "QUARTO_PATH=${QUARTO_PATH}\nDICPATH=${DICPATH}" >> /etc/environment
+    printf "QUARTO_PATH=${QUARTO_PATH}\nDICPATH=${DICPATH}\nRSTUDIO_PANDOC=${PANDOC_BASE}" >> /etc/R/Renviron && \
+    printf "QUARTO_PATH=${QUARTO_PATH}\nDICPATH=${DICPATH}\nRSTUDIO_PANDOC=${PANDOC_BASE}" >> /etc/environment
 
 
 ########################
