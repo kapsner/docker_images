@@ -52,7 +52,7 @@ RUN cd /home/${RSESSION_USER} && \
     chown -R ${RSESSION_USER}:${RSESSION_USER} .Renviron && \
     # for cran checks https://cran.r-project.org/doc/manuals/r-release/R-ints.html
     mkdir -p .R && touch .R/check.Renviron && \
-    printf "_R_CHECK_TEST_TIMING_CPU_TO_ELAPSED_THRESHOLD_=2.5\n_R_CHECK_TIMINGS_=5" > .R/.Renviron && \
+    printf "_R_CHECK_TEST_TIMING_CPU_TO_ELAPSED_THRESHOLD_=2.5\n_R_CHECK_TIMINGS_=5" > .R/check.Renviron && \
     chmod +x .R/check.Renviron && \
     chown -R ${RSESSION_USER}:${RSESSION_USER} .R && \
     # set QUARTO_PATH for all users
