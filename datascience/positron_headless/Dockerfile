@@ -61,6 +61,7 @@ RUN cd /home/${USER}/ && \
     chown ${USER}:${USER} ide-extension-sync.sh && \
     echo "source ~/alias.sh" >> .bashrc && \
     echo "source ~/ide-extension-sync.sh" >> .bashrc && \
+    echo "git config --global credential.helper cache" >> .bashrc && \
     chmod +x .bashrc && \
     chown ${USER}:${USER} .bashrc
 
