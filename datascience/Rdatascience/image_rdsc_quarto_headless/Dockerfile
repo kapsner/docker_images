@@ -45,20 +45,20 @@ RUN cd /home/${RSESSION_USER} && \
     chmod +x .bash_profile && \
     chown -R ${RSESSION_USER}:${RSESSION_USER} .bash_profile && \
     # PATH to .Renviron to have it available in positron's r-session
-    printf "PATH=${PATH}\nDICPATH=${DICPATH}\nR_LIBS_USER=${R_LIBS_USER}" >> .Renviron && \
-    printf "QUARTO_VERSION=${QUARTO_VERSION}\nQUARTO_VSIX_VERSION=${QUARTO_VSIX_VERSION}" >> .Renviron && \
-    printf "_R_CHECK_TEST_TIMING_CPU_TO_ELAPSED_THRESHOLD_=2.5\n_R_CHECK_TIMINGS_=5" >> .Renviron && \
-    printf "RSTUDIO_PANDOC=${PANDOC_BASE}" >> .Renviron && \
+    printf "PATH=${PATH}\nDICPATH=${DICPATH}\nR_LIBS_USER=${R_LIBS_USER}\n" >> .Renviron && \
+    printf "QUARTO_VERSION=${QUARTO_VERSION}\nQUARTO_VSIX_VERSION=${QUARTO_VSIX_VERSION}\n" >> .Renviron && \
+    printf "_R_CHECK_TEST_TIMING_CPU_TO_ELAPSED_THRESHOLD_=2.5\n_R_CHECK_TIMINGS_=5\n" >> .Renviron && \
+    echo "RSTUDIO_PANDOC=${PANDOC_BASE}" >> .Renviron && \
     chmod +x .Renviron && \
     chown -R ${RSESSION_USER}:${RSESSION_USER} .Renviron && \
     # for cran checks https://cran.r-project.org/doc/manuals/r-release/R-ints.html
     mkdir -p .R && touch .R/check.Renviron && \
-    printf "_R_CHECK_TEST_TIMING_CPU_TO_ELAPSED_THRESHOLD_=2.5\n_R_CHECK_TIMINGS_=5" > .R/check.Renviron && \
+    printf "_R_CHECK_TEST_TIMING_CPU_TO_ELAPSED_THRESHOLD_=2.5\n_R_CHECK_TIMINGS_=5\n" > .R/check.Renviron && \
     chmod +x .R/check.Renviron && \
     chown -R ${RSESSION_USER}:${RSESSION_USER} .R && \
     # set QUARTO_PATH for all users
-    printf "QUARTO_PATH=${QUARTO_PATH}\nDICPATH=${DICPATH}\nRSTUDIO_PANDOC=${PANDOC_BASE}" >> /etc/R/Renviron && \
-    printf "QUARTO_PATH=${QUARTO_PATH}\nDICPATH=${DICPATH}\nRSTUDIO_PANDOC=${PANDOC_BASE}" >> /etc/environment
+    printf "QUARTO_PATH=${QUARTO_PATH}\nDICPATH=${DICPATH}\nRSTUDIO_PANDOC=${PANDOC_BASE}\n" >> /etc/R/Renviron && \
+    printf "QUARTO_PATH=${QUARTO_PATH}\nDICPATH=${DICPATH}\nRSTUDIO_PANDOC=${PANDOC_BASE}\n" >> /etc/environment
 
 
 ########################
