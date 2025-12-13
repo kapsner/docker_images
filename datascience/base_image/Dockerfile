@@ -127,6 +127,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     tar \
     unzip \
     wget \
+    xsel \
     zip
 RUN apt-get clean && \ 
     apt-get autoclean && \
