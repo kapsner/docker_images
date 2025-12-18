@@ -36,8 +36,10 @@ DESIRED_EXTENSIONS=(
     "james-yu.latex-workshop"
     "ms-pyright.pyright"
     "ms-python.debugpy"
+    "ms-python.vscode-python-envs"
     "quarto.quarto"
     "charliermarsh.ruff"
+    "meta.pyrefly"
 )
 
 # --- 2. Check for the 'IDE' command ---
