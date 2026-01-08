@@ -17,7 +17,11 @@
   "debug.console.fontSize": 12,
   "debugpy.debugJustMyCode": false,
   "editor.detectIndentation": false,
+  "editor.inlineCompletionsAccessibilityVerbose": true,
+  "editor.inlineSuggest.showToolbar": "always",
   "editor.fontSize": 12,
+  "editor.formatOnPaste": true,
+  "editor.formatOnSave": true,
   "editor.multiCursorModifier": "ctrlCmd",
   "editor.parameterHints.enabled": true,
   "editor.quickSuggestions": {
@@ -46,13 +50,34 @@
   "git.openRepositoryInParentFolders": "never",
   "interactiveWindow.executeWithShiftEnter": true,
   "jupyter.debugJustMyCode": false,
+  "jupyter.enableExtendedPythonKernelCompletions": true,
+  "kernelSupervisor.shutdownTimeout": "when idle",
   "notebook.cellToolbarLocation": {
     "default": "right",
     "jupyter-notebook": "left"
   },
   "npm.fetchOnlinePackageInfo": false,
+  "python.analysis.autoImportCompletions": true,
+  "python.analysis.typeCheckingMode": "standard",
+  "python.environmentProviders.enable": {
+    "Venv": false,
+    "uv": false
+  },
+  "python.interpreters.exclude": [
+    "/usr/bin/python",
+    "/usr/bin/python3",
+    "/bin/python",
+    "/bin/python3"
+  ],
+  "python.interpreters.include": [
+    "~/miniconda/bin/python"
+  ],
+  "python.missingPackage.severity": "Warning",
+  "python.terminal.activateEnvironment": true,
+  "python.terminal.shellIntegration.enabled": true,
   "quarto.usePipQuarto": false,
   "remote.autoForwardPortsSource": "hybrid",
+  "ruff.lineLength": 88,
   "security.workspace.trust.untrustedFiles": "open",
   "telemetry.enableCrashReporter": false,
   "telemetry.enableTelemetry": false,
@@ -74,7 +99,7 @@
       "path": "C:\\Program Files\\Git\\bin\\bash.exe"
     }
   },
-  "workbench.colorTheme": "Default Positron Dark",
+  "workbench.colorTheme": "Default High Contrast",
   "workbench.editorAssociations": {
     "*.ipynb": "jupyter-notebook"
   }
