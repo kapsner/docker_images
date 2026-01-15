@@ -34,7 +34,6 @@ DESIRED_EXTENSIONS=(
     "ms-toolsai.vscode-jupyter-cell-tags"
     "ms-toolsai.vscode-jupyter-slideshow"
     "james-yu.latex-workshop"
-    "ms-pyright.pyright"
     "ms-python.debugpy"
     "ms-python.vscode-python-envs"
     "quarto.quarto"
