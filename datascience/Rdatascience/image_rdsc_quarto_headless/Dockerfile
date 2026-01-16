@@ -48,12 +48,14 @@ RUN cd /home/${RSESSION_USER} && \
     printf "PATH=${PATH}\nDICPATH=${DICPATH}\nR_LIBS_USER=${R_LIBS_USER}\n" >> .Renviron && \
     printf "QUARTO_VERSION=${QUARTO_VERSION}\nQUARTO_VSIX_VERSION=${QUARTO_VSIX_VERSION}\n" >> .Renviron && \
     printf "_R_CHECK_TEST_TIMING_CPU_TO_ELAPSED_THRESHOLD_=2.5\n_R_CHECK_TIMINGS_=5\n" >> .Renviron && \
+    printf "#_R_CHECK_DEPENDS_ONLY=0\n#_R_CHECK_FORCE_SUGGESTS_=0\n" > .Renviron && \
     echo "RSTUDIO_PANDOC=${PANDOC_BASE}" >> .Renviron && \
     chmod +x .Renviron && \
     chown -R ${RSESSION_USER}:${RSESSION_USER} .Renviron && \
     # for cran checks https://cran.r-project.org/doc/manuals/r-release/R-ints.html
     mkdir -p .R && touch .R/check.Renviron && \
     printf "_R_CHECK_TEST_TIMING_CPU_TO_ELAPSED_THRESHOLD_=2.5\n_R_CHECK_TIMINGS_=5\n" > .R/check.Renviron && \
+    printf "#_R_CHECK_DEPENDS_ONLY=0\n#_R_CHECK_FORCE_SUGGESTS_=0\n" > .R/check.Renviron && \
     chmod +x .R/check.Renviron && \
     chown -R ${RSESSION_USER}:${RSESSION_USER} .R && \
     # set QUARTO_PATH for all users
