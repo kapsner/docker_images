@@ -82,7 +82,9 @@ ADD positron_headless/config/settings.json /home/${USER}/.positron-server/data/M
 RUN chown -R ${USER}:${USER} /home/${USER}/.positron-server/data/Machine/settings.json
 
 # install zsh-mod
-RUN su - ${USER} && sh -c "$(curl -fsSL https://install.ohmyz.sh/)"
+USER ${USER}
+RUN sh -c "$(curl -fsSL https://install.ohmyz.sh/)"
+USER root
 RUN cd /home/${USER}/ && \
     wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/refs/heads/master/templates/zshrc.zsh-template && \
     mv zshrc.zsh-template .zshrc && \
