@@ -83,10 +83,16 @@
   "telemetry.enableTelemetry": false,
   "telemetry.feedback.enabled": false,
   "terminal.external.windowsExec": "%ProgramFiles%\\Git\\bin\\bash",
-  "terminal.integrated.defaultProfile.linux": "bash",
+  "terminal.integrated.defaultProfile.linux": "zsh",
   "terminal.integrated.defaultProfile.windows": "Git Bash",
   "terminal.integrated.enableMultiLinePasteWarning": false,
   "terminal.integrated.fontSize": 12,
+  "terminal.integrated.profiles.linux": {
+    "bash": {
+      "icon": "terminal-bash",
+      "path": "zsh"
+    }
+  },
   "terminal.integrated.profiles.linux": {
     "bash": {
       "icon": "terminal-bash",

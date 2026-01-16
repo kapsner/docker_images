@@ -8,7 +8,8 @@ USER root
 RUN apt-get update && apt-get install -y --no-install-recommends \
     cifs-utils \
     sudo \
-    openssh-server
+    openssh-server \
+    zsh
 RUN apt-get clean && \ 
     apt-get autoclean && \
     rm -rf /var/lib/apt/lists/*
@@ -79,6 +80,15 @@ RUN mkdir -p /home/${USER}/.positron-server/data/Machine/ && \
     chown -R ${USER}:${USER} /home/${USER}/.positron-server
 ADD positron_headless/config/settings.json /home/${USER}/.positron-server/data/Machine/
 RUN chown -R ${USER}:${USER} /home/${USER}/.positron-server/data/Machine/settings.json
+
+# install zsh-mod
+RUN su - ${USER} && sh -c "$(curl -fsSL https://install.ohmyz.sh/)"
+RUN cd /home/${USER}/ && \
+    wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/refs/heads/master/templates/zshrc.zsh-template && \
+    mv zshrc.zsh-template .zshrc && \
+    sed -i -E 's,^ZSH_THEME="robbyrussell",ZSH_THEME="agnoster",' ${SSHD_CONFIG_DIR}/sshd_config && \
+    chmod 655 .zshrc && \
+    chown ${USER}:${USER} .zshrc
 
 ########################
 # clear caches
