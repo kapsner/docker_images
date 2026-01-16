@@ -88,7 +88,7 @@ USER root
 RUN cd /home/${USER}/ && \
     wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/refs/heads/master/templates/zshrc.zsh-template && \
     mv zshrc.zsh-template .zshrc && \
-    sed -i -E 's,^ZSH_THEME="robbyrussell",ZSH_THEME="agnoster",' ${SSHD_CONFIG_DIR}/sshd_config && \
+    sed -i -E 's,^ZSH_THEME="robbyrussell",ZSH_THEME="agnoster",' .zshrc && \
     chmod 655 .zshrc && \
     chown ${USER}:${USER} .zshrc
 
