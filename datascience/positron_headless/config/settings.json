@@ -57,8 +57,6 @@
     "jupyter-notebook": "left"
   },
   "npm.fetchOnlinePackageInfo": false,
-  "python.analysis.autoImportCompletions": true,
-  "python.analysis.typeCheckingMode": "standard",
   "python.environmentProviders.enable": {
     "Venv": false,
     "uv": false
@@ -82,18 +80,15 @@
   "telemetry.enableCrashReporter": false,
   "telemetry.enableTelemetry": false,
   "telemetry.feedback.enabled": false,
-  "terminal.external.windowsExec": "%ProgramFiles%\\Git\\bin\\bash",
   "terminal.integrated.defaultProfile.linux": "zsh",
   "terminal.integrated.defaultProfile.windows": "Git Bash",
   "terminal.integrated.enableMultiLinePasteWarning": false,
   "terminal.integrated.fontSize": 12,
   "terminal.integrated.profiles.linux": {
-    "bash": {
+    "zsh": {
       "icon": "terminal-bash",
       "path": "zsh"
-    }
-  },
-  "terminal.integrated.profiles.linux": {
+    },
     "bash": {
       "icon": "terminal-bash",
       "path": "bash"
