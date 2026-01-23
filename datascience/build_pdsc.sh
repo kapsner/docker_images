@@ -12,8 +12,15 @@ function pdsc_cpu {
     docker build -f image_pdsc_headless/Dockerfile -t pdsc_headless_prep .
     cd ..
     printf "\nBuild pdsc_headless image\n"
+    cd positron_headless
+    source prep.sh
+    # export envvars
+    export $(grep -v '^#' .env | xargs)
+    cd ..
     docker build \
       --build-arg BASEIMAGE=pdsc_headless_prep:latest \
+      --build-arg NVM_VERSION=$NVM_VERSION \
+      --build-arg NODE_VERSION=$NODE_VERSION \
       -f positron_headless/Dockerfile \
       -t pdsc_headless .
 }
@@ -36,8 +43,15 @@ function pdsc_gpu {
 
     cd ..
     printf "\nBuild pdsc_headless_gpu image\n"
+    cd positron_headless
+    source prep.sh
+    # export envvars
+    export $(grep -v '^#' .env | xargs)
+    cd ..
     docker build \
       --build-arg BASEIMAGE=pdsc_gpu_prep:latest \
+      --build-arg NVM_VERSION=$NVM_VERSION \
+      --build-arg NODE_VERSION=$NODE_VERSION \
       -f positron_headless/Dockerfile \
       -t pdsc_headless_gpu .
 }

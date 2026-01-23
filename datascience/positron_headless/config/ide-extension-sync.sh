@@ -41,6 +41,10 @@ DESIRED_EXTENSIONS=(
     "meta.pyrefly"
 )
 
+if command -v gemini &> /dev/null; then
+    DESIRED_EXTENSIONS+=("google.gemini-cli-vscode-ide-companion")
+fi
+
 # --- 2. Check for the 'IDE' command ---
 # If IDE isn't installed or not in PATH, skip the check.
 if ! command -v $INSTALL_EXEC &> /dev/null; then
