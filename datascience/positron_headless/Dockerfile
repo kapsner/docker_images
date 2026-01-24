@@ -19,13 +19,6 @@ RUN echo ${USER}:password | chpasswd
 RUN echo "${USER} ALL=(root) NOPASSWD: ALL" > /etc/sudoers.d/${USER} && \
     chmod 0440 /etc/sudoers.d/${USER}
 
-ADD positron_headless/.env /home/${RSESSION_USER}/.nodeenv
-ARG NVM_VERSION
-ENV NVM_VERSION=$NVM_VERSION
-
-ARG NODE_VERSION
-ENV NODE_VERSION=$NODE_VERSION
-
 # Define Path variable here
 ENV PATH=${PATH}
 
@@ -95,46 +88,6 @@ RUN cd /home/${USER}/ && \
     chown ${USER}:${USER} .zshrc
 
 ########################
-
-# https://github.com/nvm-sh/nvm?tab=readme-ov-file#installing-in-docker
-ENV NVM_DIR=/home/${USER}/.nvm \
-    OPT_USER_DIR=/opt/${USER}
-# update path variable
-ENV PATH=${NVM_DIR}/versions/node/v${NODE_VERSION}/bin:${PATH}
-RUN mkdir -p ${NVM_DIR} && \
-    chown -R ${USER}:${USER} ${NVM_DIR}
-RUN mkdir -p ${OPT_USER_DIR} && \
-    chown -R ${USER}:${USER} ${OPT_USER_DIR}
-RUN cd /home/${USER}/ && \
-    echo "export NVM_DIR=${NVM_DIR}" >> .termrc && \
-    echo 'source $NVM_DIR/nvm.sh' >> .termrc && \
-    echo "export NVM_DIR=${NVM_DIR}" >> .termrc
-
-USER ${USER}
-# Download and install nvm
-RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v${NVM_VERSION}/install.sh | bash
-
-# add gemini-cli
-RUN cd ${OPT_USER_DIR} && \
-    git clone https://github.com/google-gemini/gemini-cli.git
-
-RUN cd ${OPT_USER_DIR}/gemini-cli && \
-    source ${NVM_DIR}/nvm.sh && \
-    npm install
-
-# add temp-folder for projects
-RUN cd /home/${USER}/ && mkdir gemini_temp
-
-USER root
-RUN cd ${OPT_USER_DIR}/gemini-cli && \
-    cp bundle/gemini.js /usr/local/bin/gemini.js && \
-    chmod +x /usr/local/bin/gemini.js && \
-    chown ${USER}:${USER} /usr/local/bin/gemini.js && \
-    echo "alias gemini='/usr/local/bin/gemini.js'" >> /home/${USER}/.bash_aliases
-# clean up
-RUN rm -rf ${OPT_USER_DIR}/gemini-cli
-
-########################
 # clear caches
 RUN rm -rf /var/lib/apt/lists/* && \
     rm -rf /tmp/* && \
@@ -147,8 +100,8 @@ RUN rm -rf /var/lib/apt/lists/* && \
 # fix .bashrc stuff for bash and zsh
 RUN cd /home/${USER}/ && \
     echo "source ~/.termrc" >> .bashrc && \
-    echo "source ~/.termrc" >> .zshrc && \
     echo "source ~/.bash_aliases" >> .zshrc && \
+    echo "source ~/.termrc" >> .zshrc && \
     chmod 655 .bashrc && \
     chown ${USER}:${USER} .bashrc
 
