@@ -58,11 +58,11 @@ function pdsc_gpu {
     export $(grep -v '^#' .env | xargs)
     cd ..
     docker build \
-      --build-arg BASEIMAGE=pdsc_headless_gpu_plus:latest \
+      --build-arg BASEIMAGE=pdsc_headless_gpu:latest \
       --build-arg NVM_VERSION=$NVM_VERSION \
       --build-arg NODE_VERSION=$NODE_VERSION \
       -f addon_layer/Dockerfile \
-      -t pdsc_headless_plus .
+      -t pdsc_headless_gpu_plus .
 }
 
 function pdsc_gpu_build {
