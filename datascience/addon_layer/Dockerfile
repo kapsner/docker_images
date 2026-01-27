@@ -4,7 +4,7 @@ FROM ${BASEIMAGE}
 
 USER root
 
-ADD addon_layer/.env /home/${RSESSION_USER}/.nodeenv
+ADD addon_layer/.env /home/${USER}/.nodeenv
 ARG NVM_VERSION
 ENV NVM_VERSION=$NVM_VERSION
 
