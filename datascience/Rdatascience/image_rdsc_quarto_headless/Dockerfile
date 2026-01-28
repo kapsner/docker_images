@@ -71,8 +71,14 @@ ADD config/quarto.json /home/${RSESSION_USER}/.config/Positron/User/snippets/
 RUN chown -R ${RSESSION_USER}:${RSESSION_USER} /home/${RSESSION_USER}/.config/Positron/User/snippets/quarto.json
 
 ########################
-# # add r-devel
+########################
+# add r-devel
 # # https://people.math.aau.dk/~sorenh/misc/misc/install-rdevel.html
+# # RUN apt-get build-dep -y r-base
+# RUN apt-get update && apt-get install -y --no-install-recommends \
+#     subversion \
+#     ccache \
+#     xorg-dev
 
 # ENV RDEVEL=/usr/local/lib/R-devel \
 #     RSOURCES=/home/${RSESSION_USER}/src

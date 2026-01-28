@@ -10,9 +10,7 @@ ARG a="abind \
     arm \ 
     arules"
 RUN export pkg="\"$(echo ${a} | sed -e 's/ /\"\, \"/g')"\" && \
-    export install_pkg=$(echo "vec <- setdiff(c($pkg), unname(installed.packages()[,'Package'])); \
-    vec2 <- intersect(c(vec), unname(available.packages()[,'Package'])); cat(vec2)" | r) && \
-    install2.r --skipinstalled --ncpus -1 $install_pkg && \
+    R -q -e "pak::pkg_install(c($pkg), lib = \"${R_LIBS_USER}\")" && \
     rm -rf /tmp/*
 
 ARG b="badger \
@@ -24,17 +22,13 @@ ARG b="badger \
     boot \
     bootstrap"
 RUN export pkg="\"$(echo ${b} | sed -e 's/ /\"\, \"/g')"\" && \
-    export install_pkg=$(echo "vec <- setdiff(c($pkg), unname(installed.packages()[,'Package'])); \
-    vec2 <- intersect(c(vec), unname(available.packages()[,'Package'])); cat(vec2)" | r) && \
-    install2.r --skipinstalled --ncpus -1 $install_pkg && \
+    R -q -e "pak::pkg_install(c($pkg), lib = \"${R_LIBS_USER}\")" && \
     rm -rf /tmp/*
 
 ARG c="C50 \ 
     car \ 
     carData \ 
-    caret \ 
     checkhelper \
-    citr \
     class \ 
     clipr \ 
     cluster \ 
@@ -42,7 +36,6 @@ ARG c="C50 \
     coin \ 
     compare \
     config \ 
-    corpus \ 
     correlation \
     corrplot \ 
     covr \ 
@@ -51,32 +44,22 @@ ARG c="C50 \
     curl \ 
     cutpointr"
 RUN export pkg="\"$(echo ${c} | sed -e 's/ /\"\, \"/g')"\" && \
-    export install_pkg=$(echo "vec <- setdiff(c($pkg), unname(installed.packages()[,'Package'])); \
-    vec2 <- intersect(c(vec), unname(available.packages()[,'Package'])); cat(vec2)" | r) && \
-    install2.r --skipinstalled --ncpus -1 $install_pkg && \
+    R -q -e "pak::pkg_install(c($pkg), lib = \"${R_LIBS_USER}\")" && \
     rm -rf /tmp/*
 
 ARG d="data.table \ 
     DBI \ 
     desc \ 
-    DescrTab2 \
-    deSolve \
     devtools \ 
-    diffviewer \
-    DHARMa \
-    DiagrammeR \ 
     discretization \ 
     doMC \
     doParallel \ 
     doRNG \
     dplyr \ 
     DT \ 
-    dtplyr \ 
     dunn.test"
 RUN export pkg="\"$(echo ${d} | sed -e 's/ /\"\, \"/g')"\" && \
-    export install_pkg=$(echo "vec <- setdiff(c($pkg), unname(installed.packages()[,'Package'])); \
-    vec2 <- intersect(c(vec), unname(available.packages()[,'Package'])); cat(vec2)" | r) && \
-    install2.r --skipinstalled --ncpus -1 $install_pkg && \
+    R -q -e "pak::pkg_install(c($pkg), lib = \"${R_LIBS_USER}\")" && \
     rm -rf /tmp/*
 
 ARG e="e1071 \ 
@@ -87,9 +70,7 @@ ARG e="e1071 \
     effsize \ 
     epitools"
 RUN export pkg="\"$(echo ${e} | sed -e 's/ /\"\, \"/g')"\" && \
-    export install_pkg=$(echo "vec <- setdiff(c($pkg), unname(installed.packages()[,'Package'])); \
-    vec2 <- intersect(c(vec), unname(available.packages()[,'Package'])); cat(vec2)" | r) && \
-    install2.r --skipinstalled --ncpus -1 $install_pkg && \
+    R -q -e "pak::pkg_install(c($pkg), lib = \"${R_LIBS_USER}\")" && \
     rm -rf /tmp/*
 
 ARG f="factoextra \ 
@@ -104,9 +85,7 @@ ARG f="factoextra \
     future \ 
     future.apply"
 RUN export pkg="\"$(echo ${f} | sed -e 's/ /\"\, \"/g')"\" && \
-    export install_pkg=$(echo "vec <- setdiff(c($pkg), unname(installed.packages()[,'Package'])); \
-    vec2 <- intersect(c(vec), unname(available.packages()[,'Package'])); cat(vec2)" | r) && \
-    install2.r --skipinstalled --ncpus -1 $install_pkg && \
+    R -q -e "pak::pkg_install(c($pkg), lib = \"${R_LIBS_USER}\")" && \
     rm -rf /tmp/*
 
 ARG g="ggcorrplot \
@@ -121,9 +100,7 @@ ARG g="ggcorrplot \
     glmnet \
     gplots"
 RUN export pkg="\"$(echo ${g} | sed -e 's/ /\"\, \"/g')"\" && \
-    export install_pkg=$(echo "vec <- setdiff(c($pkg), unname(installed.packages()[,'Package'])); \
-    vec2 <- intersect(c(vec), unname(available.packages()[,'Package'])); cat(vec2)" | r) && \
-    install2.r --skipinstalled --ncpus -1 $install_pkg && \
+    R -q -e "pak::pkg_install(c($pkg), lib = \"${R_LIBS_USER}\")" && \
     rm -rf /tmp/*
 
 ARG h="haven \ 
@@ -133,9 +110,7 @@ ARG h="haven \
     httr \ 
     hunspell"
 RUN export pkg="\"$(echo ${h} | sed -e 's/ /\"\, \"/g')"\" && \
-    export install_pkg=$(echo "vec <- setdiff(c($pkg), unname(installed.packages()[,'Package'])); \
-    vec2 <- intersect(c(vec), unname(available.packages()[,'Package'])); cat(vec2)" | r) && \
-    install2.r --skipinstalled --ncpus -1 $install_pkg && \
+    R -q -e "pak::pkg_install(c($pkg), lib = \"${R_LIBS_USER}\")" && \
     rm -rf /tmp/*
 
 ARG i="igraph \ 
@@ -145,17 +120,13 @@ ARG i="igraph \
     IRkernel \
     irr"
 RUN export pkg="\"$(echo ${i} | sed -e 's/ /\"\, \"/g')"\" && \
-    export install_pkg=$(echo "vec <- setdiff(c($pkg), unname(installed.packages()[,'Package'])); \
-    vec2 <- intersect(c(vec), unname(available.packages()[,'Package'])); cat(vec2)" | r) && \
-    install2.r --skipinstalled --ncpus -1 $install_pkg && \
+    R -q -e "pak::pkg_install(c($pkg), lib = \"${R_LIBS_USER}\")" && \
     rm -rf /tmp/*
 
 ARG j="jpeg \ 
     jsonlite"
 RUN export pkg="\"$(echo ${j} | sed -e 's/ /\"\, \"/g')"\" && \
-    export install_pkg=$(echo "vec <- setdiff(c($pkg), unname(installed.packages()[,'Package'])); \
-    vec2 <- intersect(c(vec), unname(available.packages()[,'Package'])); cat(vec2)" | r) && \
-    install2.r --skipinstalled --ncpus -1 $install_pkg && \
+    R -q -e "pak::pkg_install(c($pkg), lib = \"${R_LIBS_USER}\")" && \
     rm -rf /tmp/*
 
 ARG k="kableExtra \ 
@@ -164,65 +135,43 @@ ARG k="kableExtra \
     kknn \ 
     knitr"
 RUN export pkg="\"$(echo ${k} | sed -e 's/ /\"\, \"/g')"\" && \
-    export install_pkg=$(echo "vec <- setdiff(c($pkg), unname(installed.packages()[,'Package'])); \
-    vec2 <- intersect(c(vec), unname(available.packages()[,'Package'])); cat(vec2)" | r) && \
-    install2.r --skipinstalled --ncpus -1 $install_pkg && \
+    R -q -e "pak::pkg_install(c($pkg), lib = \"${R_LIBS_USER}\")" && \
     rm -rf /tmp/*
 
 ARG l="languageserver \
     latticeExtra \ 
     lava \ 
-    lda \ 
-    ldatuning \ 
     lightgbm \ 
     lintr \ 
-    lgrdata \
     lme4 \ 
     lmtest \ 
-    lsa \ 
     lubridate"
 RUN export pkg="\"$(echo ${l} | sed -e 's/ /\"\, \"/g')"\" && \
-    export install_pkg=$(echo "vec <- setdiff(c($pkg), unname(installed.packages()[,'Package'])); \
-    vec2 <- intersect(c(vec), unname(available.packages()[,'Package'])); cat(vec2)" | r) && \
-    install2.r --skipinstalled --ncpus -1 $install_pkg && \
+    R -q -e "pak::pkg_install(c($pkg), lib = \"${R_LIBS_USER}\")" && \
     rm -rf /tmp/*
 
-ARG m="manipulate \ 
-    manipulateWidget \ 
-    maps \ 
-    maptools \ 
-    markdown \ 
+ARG m="markdown \ 
     MASS \ 
     Matrix \ 
     MCMCpack \ 
-    merTools \ 
+    measures \
     mice \
     microbenchmark \ 
     mgcv \
     mlbench \ 
-    MLmetrics \ 
-    measures \
     mltools \ 
-    modelbased \
-    muhaz"
+    modelbased"
 RUN export pkg="\"$(echo ${m} | sed -e 's/ /\"\, \"/g')"\" && \
-    export install_pkg=$(echo "vec <- setdiff(c($pkg), unname(installed.packages()[,'Package'])); \
-    vec2 <- intersect(c(vec), unname(available.packages()[,'Package'])); cat(vec2)" | r) && \
-    install2.r --skipinstalled --ncpus -1 $install_pkg && \
+    R -q -e "pak::pkg_install(c($pkg), lib = \"${R_LIBS_USER}\")" && \
     rm -rf /tmp/*
 
 ARG n="naivebayes \ 
     neuralnet \ 
-    ngramrr \ 
     nlme \ 
-    NLP \ 
     nls2 \ 
-    nnet \ 
-    nnls"
+    nnet"
 RUN export pkg="\"$(echo ${n} | sed -e 's/ /\"\, \"/g')"\" && \
-    export install_pkg=$(echo "vec <- setdiff(c($pkg), unname(installed.packages()[,'Package'])); \
-    vec2 <- intersect(c(vec), unname(available.packages()[,'Package'])); cat(vec2)" | r) && \
-    install2.r --skipinstalled --ncpus -1 $install_pkg && \
+    R -q -e "pak::pkg_install(c($pkg), lib = \"${R_LIBS_USER}\")" && \
     rm -rf /tmp/*
 
 ARG o="odbc \ 
@@ -233,16 +182,12 @@ ARG o="odbc \
     optparse \
     ordinal"
 RUN export pkg="\"$(echo ${o} | sed -e 's/ /\"\, \"/g')"\" && \
-    export install_pkg=$(echo "vec <- setdiff(c($pkg), unname(installed.packages()[,'Package'])); \
-    vec2 <- intersect(c(vec), unname(available.packages()[,'Package'])); cat(vec2)" | r) && \
-    install2.r --skipinstalled --ncpus -1 $install_pkg && \
+    R -q -e "pak::pkg_install(c($pkg), lib = \"${R_LIBS_USER}\")" && \
     rm -rf /tmp/*
 
-ARG p="pagedown \
-    pak \
+ARG p="pak \
     parallel \ 
     parameters \
-    ParBayesianOptimization \
     party \ 
     partykit \ 
     PearsonDS \
@@ -259,23 +204,18 @@ ARG p="pagedown \
     psych \
     pubmedR"
 RUN export pkg="\"$(echo ${p} | sed -e 's/ /\"\, \"/g')"\" && \
-    export install_pkg=$(echo "vec <- setdiff(c($pkg), unname(installed.packages()[,'Package'])); \
-    vec2 <- intersect(c(vec), unname(available.packages()[,'Package'])); cat(vec2)" | r) && \
-    install2.r --skipinstalled --ncpus -1 $install_pkg && \
+    R -q -e "pak::pkg_install(c($pkg), lib = \"${R_LIBS_USER}\")" && \
     rm -rf /tmp/*
 
 ARG q="qpdf \ 
-    quantreg \ 
-    quantregForest \
     quantmod \
     quarto"
 RUN export pkg="\"$(echo ${q} | sed -e 's/ /\"\, \"/g')"\" && \
-    export install_pkg=$(echo "vec <- setdiff(c($pkg), unname(installed.packages()[,'Package'])); \
-    vec2 <- intersect(c(vec), unname(available.packages()[,'Package'])); cat(vec2)" | r) && \
-    install2.r --skipinstalled --ncpus -1 $install_pkg && \
+    R -q -e "pak::pkg_install(c($pkg), lib = \"${R_LIBS_USER}\")" && \
     rm -rf /tmp/*
 
 ARG r="R6 \ 
+    rBayesianOptimization \
     randomForest \ 
     ranger \ 
     rcmdcheck \ 
@@ -284,15 +224,13 @@ ARG r="R6 \
     readr \ 
     remotes \ 
     renv \
+    reprex \
     reticulate \ 
     rhub \ 
-    R2jags \
-    rjags \
     rJava \ 
     RJDBC \ 
     rlang \ 
     rmarkdown \ 
-    rms \ 
     ROCR \ 
     roxygen2 \ 
     rpart \ 
@@ -303,9 +241,7 @@ ARG r="R6 \
     rticles \
     rvest"
 RUN export pkg="\"$(echo ${r} | sed -e 's/ /\"\, \"/g')"\" && \
-    export install_pkg=$(echo "vec <- setdiff(c($pkg), unname(installed.packages()[,'Package'])); \
-    vec2 <- intersect(c(vec), unname(available.packages()[,'Package'])); cat(vec2)" | r) && \
-    install2.r --skipinstalled --ncpus -1 $install_pkg && \
+    R -q -e "pak::pkg_install(c($pkg), lib = \"${R_LIBS_USER}\")" && \
     rm -rf /tmp/*
 
 ARG s="see\
@@ -333,19 +269,13 @@ ARG s="see\
     sunburstR \ 
     survex \
     survival \ 
-    survminer \ 
-    synthpop \ 
-    syuzhet"
+    survminer"
 RUN export pkg="\"$(echo ${s} | sed -e 's/ /\"\, \"/g')"\" && \
-    export install_pkg=$(echo "vec <- setdiff(c($pkg), unname(installed.packages()[,'Package'])); \
-    vec2 <- intersect(c(vec), unname(available.packages()[,'Package'])); cat(vec2)" | r) && \
-    install2.r --skipinstalled --ncpus -1 $install_pkg && \
+    R -q -e "pak::pkg_install(c($pkg), lib = \"${R_LIBS_USER}\")" && \
     rm -rf /tmp/*
 
 ARG t="tau \ 
     testthat \ 
-    text2vec \ 
-    textstem \ 
     tibble \ 
     tidyr \ 
     tidymodels \ 
@@ -355,14 +285,9 @@ ARG t="tau \
     tiff \
     tm \ 
     tinytex \ 
-    topicmodels \ 
-    treeshap \
-    tseries \ 
-    twitteR"
+    tseries"
 RUN export pkg="\"$(echo ${t} | sed -e 's/ /\"\, \"/g')"\" && \
-    export install_pkg=$(echo "vec <- setdiff(c($pkg), unname(installed.packages()[,'Package'])); \
-    vec2 <- intersect(c(vec), unname(available.packages()[,'Package'])); cat(vec2)" | r) && \
-    install2.r --skipinstalled --ncpus -1 $install_pkg && \
+    R -q -e "pak::pkg_install(c($pkg), lib = \"${R_LIBS_USER}\")" && \
     rm -rf /tmp/*
 
 ARG u="udpipe \ 
@@ -370,25 +295,19 @@ ARG u="udpipe \
     usethis \ 
     utf8"
 RUN export pkg="\"$(echo ${u} | sed -e 's/ /\"\, \"/g')"\" && \
-    export install_pkg=$(echo "vec <- setdiff(c($pkg), unname(installed.packages()[,'Package'])); \
-    vec2 <- intersect(c(vec), unname(available.packages()[,'Package'])); cat(vec2)" | r) && \
-    install2.r --skipinstalled --ncpus -1 $install_pkg && \
+    R -q -e "pak::pkg_install(c($pkg), lib = \"${R_LIBS_USER}\")" && \
     rm -rf /tmp/*
 
 ARG v="vroom"
 RUN export pkg="\"$(echo ${v} | sed -e 's/ /\"\, \"/g')"\" && \
-    export install_pkg=$(echo "vec <- setdiff(c($pkg), unname(installed.packages()[,'Package'])); \
-    vec2 <- intersect(c(vec), unname(available.packages()[,'Package'])); cat(vec2)" | r) && \
-    install2.r --skipinstalled --ncpus -1 $install_pkg && \
+    R -q -e "pak::pkg_install(c($pkg), lib = \"${R_LIBS_USER}\")" && \
     rm -rf /tmp/*
 
 ARG w="wesanderson \ 
     wordcloud \ 
     wordcloud2"
 RUN export pkg="\"$(echo ${w} | sed -e 's/ /\"\, \"/g')"\" && \
-    export install_pkg=$(echo "vec <- setdiff(c($pkg), unname(installed.packages()[,'Package'])); \
-    vec2 <- intersect(c(vec), unname(available.packages()[,'Package'])); cat(vec2)" | r) && \
-    install2.r --skipinstalled --ncpus -1 $install_pkg && \
+    R -q -e "pak::pkg_install(c($pkg), lib = \"${R_LIBS_USER}\")" && \
     rm -rf /tmp/*
 
 ARG x="xfun \ 
@@ -396,28 +315,22 @@ ARG x="xfun \
     XML \ 
     xml2"
 RUN export pkg="\"$(echo ${x} | sed -e 's/ /\"\, \"/g')"\" && \
-    export install_pkg=$(echo "vec <- setdiff(c($pkg), unname(installed.packages()[,'Package'])); \
-    vec2 <- intersect(c(vec), unname(available.packages()[,'Package'])); cat(vec2)" | r) && \
-    install2.r --skipinstalled --ncpus -1 $install_pkg && \
+    R -q -e "pak::pkg_install(c($pkg), lib = \"${R_LIBS_USER}\")" && \
     rm -rf /tmp/*
 
 ARG y="yaml"
 RUN export pkg="\"$(echo ${y} | sed -e 's/ /\"\, \"/g')"\" && \
-    export install_pkg=$(echo "vec <- setdiff(c($pkg), unname(installed.packages()[,'Package'])); \
-    vec2 <- intersect(c(vec), unname(available.packages()[,'Package'])); cat(vec2)" | r) && \
-    install2.r --skipinstalled --ncpus -1 $install_pkg && \
+    R -q -e "pak::pkg_install(c($pkg), lib = \"${R_LIBS_USER}\")" && \
     rm -rf /tmp/*
 
 ARG z="zip \ 
     zoo"
 RUN export pkg="\"$(echo ${z} | sed -e 's/ /\"\, \"/g')"\" && \
-    export install_pkg=$(echo "vec <- setdiff(c($pkg), unname(installed.packages()[,'Package'])); \
-    vec2 <- intersect(c(vec), unname(available.packages()[,'Package'])); cat(vec2)" | r) && \
-    install2.r --skipinstalled --ncpus -1 $install_pkg && \
+    R -q -e "pak::pkg_install(c($pkg), lib = \"${R_LIBS_USER}\")" && \
     rm -rf /tmp/*
 
 # install required LaTeX-Packages
-RUN echo "tinytex::install_tinytex()" | r
+RUN R -q -e "tinytex::install_tinytex()"
 
 ENV PATH="/home/${RSESSION_USER}/bin:/home/${RSESSION_USER}/.TinyTeX/bin/x86_64-linux:${PATH}"
 
@@ -483,9 +396,9 @@ ARG tiny="\"amsfonts\", \
     \"url\", \ 
     \"xcolor\""
 
-RUN echo "tinytex::tlmgr_conf()" | r && \
-    echo "tinytex::tlmgr_install(pkgs = c(${tiny}))" | r && \
-    echo "tinytex::tlmgr_update()" | r
+RUN R -q -e "tinytex::tlmgr_conf()" && \
+    R -q -e "tinytex::tlmgr_install(pkgs = c(${tiny}))" && \
+    R -q -e "tinytex::tlmgr_update()"
 
 
 USER root
@@ -494,25 +407,6 @@ RUN chown -R ${RSESSION_USER}:${RSESSION_USER} /home/${RSESSION_USER}/.TinyTeX &
     chmod -R g+wx /home/${RSESSION_USER}/bin
 USER ${RSESSION_USER}
 
-# safety-check at the end: 
-# 1) look if everything is installed correctely (if not, you might add system-dependencies in the base_image)
-# 2) update all packages to the newest version
-# 3) start rstudio-server
-ARG allpackages="\"$a\" \"$b\" \"$c\" \"$d\" \"$e\" \"$f\" \"$g\" \"$h\" \ 
-    \"$i\" \"$j\" \"$k\" \"$l\" \"$m\" \"$n\" \"$o\" \"$p\" \"$q\" \"$r\" \ 
-    \"$s\" \"$t\" \"$u\" \"$v\" \"$w\" \"$x\" \"$y\" \"$z\""
-
-RUN export packages_format="$(echo $(echo ${allpackages} | sed -e \"s/ /\"\, \"/g\") | sed -e \"s/\"\"/\"/g\")" && \
-    export install_pkg=$(echo "vec <- setdiff(c($packages_format), unname(installed.packages()[,'Package'])); \
-    vec2 <- intersect(c(vec), unname(available.packages()[,'Package'])); cat(vec2)" | r) && \
-    install2.r --skipinstalled --ncpus -1 $install_pkg && \
-    rm -rf /tmp/*
-
-# update all installed packages
-RUN echo "vec <- unname(installed.packages()[,'Package']); \
-    remotes::update_packages(packages = vec, upgrade = 'always')" | r && \
-    rm -rf /tmp/*
-
 # install development packages
 ARG github_array="\
     skranz/ReplaceInFiles \
@@ -520,8 +414,7 @@ ARG github_array="\
     ropensci/tic"
 
 RUN export pkg="\"$(echo ${github_array} | sed -e 's/ /\"\, \"/g')"\" && \
-    export install_pkg=$(echo "vec <- c($pkg); cat(vec)" | r) && \
-    installGithub.r $install_pkg && \
+    R -q -e "pak::pkg_install(c($pkg), lib = \"${R_LIBS_USER}\")" && \
     rm -rf /tmp/*
 
 # stay with user here (let everything in .virtualenv/r-reticulate be installed by the user)
@@ -540,26 +433,25 @@ RUN source activate base && uv pip install --system \
 
 # configure the other r packages
 # install phantomjs
-RUN echo "webshot::install_phantomjs()" | r
+RUN R -q -e "pak::pkg_install(c(\"webshot\"), lib = \"${R_LIBS_USER}\"); webshot::install_phantomjs()"
 
 # install shinytest dependencies (= phantomjs)
-RUN echo "shinytest::installDependencies()" | r
+RUN R -q -e "shinytest::installDependencies()"
 
 # to get r jupyter kernel running
-RUN echo "IRkernel::installspec()" | r
+RUN R -q -e "IRkernel::installspec()"
 
 # install my packages
 
 # declare arrays to install dev-packages
-ARG github_array="\
-    # kapsner/KhelpeR@development \
-    # kapsner/mlr3learners.lightgbm@development \
-    miracum/dqa-miracumdqa"
+# ARG github_array="\
+#     # kapsner/KhelpeR@development \
+#     # kapsner/mlr3learners.lightgbm@development \
+#     # miracum/dqa-miracumdqa"
 
-RUN export pkg="\"$(echo ${github_array} | sed -e 's/ /\"\, \"/g')"\" && \
-    export install_pkg=$(echo "vec <- c($pkg); cat(vec)" | r) && \
-    installGithub.r $install_pkg && \
-    rm -rf /tmp/*
+# RUN export pkg="\"$(echo ${github_array} | sed -e 's/ /\"\, \"/g')"\" && \
+#     R -q -e "pak::pkg_install(c($pkg), lib = \"${R_LIBS_USER}\")" && \
+#     rm -rf /tmp/*
 
 # CRAN packages with my participation
 ARG pack="autonewsmd \
@@ -576,9 +468,7 @@ ARG pack="autonewsmd \
     DQAgui"
 
 RUN export pkg="\"$(echo ${pack} | sed -e 's/ /\"\, \"/g')"\" && \
-    export install_pkg=$(echo "vec <- setdiff(c($pkg), unname(installed.packages()[,'Package'])); \
-    vec2 <- intersect(c(vec), unname(available.packages()[,'Package'])); cat(vec2)" | r) && \
-    install2.r $install_pkg && \
+    R -q -e "pak::pkg_install(c($pkg), lib = \"${R_LIBS_USER}\")" && \
     rm -rf /tmp/*
 
 # switch back
@@ -597,10 +487,8 @@ RUN echo "options(shiny.port = 3838)" >> /home/${RSESSION_USER}/.Rprofile && \
     #echo "source(file.path(Sys.getenv(if (.Platform\$OS.type == \"windows\") \"USERPROFILE\" else \"HOME\"), \".vscode-R\", \"init.R\"))" >> /home/${RSESSION_USER}/.Rprofile && \
     chown -R ${RSESSION_USER}:${RSESSION_USER} /home/${RSESSION_USER}/.Rprofile
 
-# add radian profile, init folder for rhub profile &
+# add init folder for rhub profile &
 # fix permissions in home folder and /etc/ to allow running the config_env-script
-ADD config/.radian_profile /home/${RSESSION_USER}/.radian_profile
-RUN chown -R ${RSESSION_USER}:${RSESSION_USER} /home/${RSESSION_USER}/.radian_profile
 RUN mkdir -p /home/${RSESSION_USER}/.local/share/rhub && \
     chown -R ${RSESSION_USER}:${RSESSION_USER} /home/${RSESSION_USER}/.local && \
     touch /home/${RSESSION_USER}/.bash_profile && \

@@ -42,7 +42,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libgit2-dev \
     libglpk-dev \
     libharfbuzz-dev \
-    libnode-dev \
     psmisc \
     qpdf \
     r-base \
@@ -56,68 +55,59 @@ RUN apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
 # make R site-library default package installation folder writeable
-ENV R_LIBS_SITE=/usr/local/lib/R/site-library
+ENV R_LIBS_SITE=/home/${RSESSION_USER}/R/x86_64-pc-linux-gnu-library/
 ENV R_LIBS_USER=${R_LIBS_SITE}
 RUN mkdir -p ${R_LIBS_SITE}
 RUN chown -R ${RSESSION_USER}:${RSESSION_USER} ${R_LIBS_SITE}
 
-# set cran repo
-RUN echo "options(\"repos\" = \"https://cloud.r-project.org/\")" >> /etc/R/Rprofile.site
+# Add RETICULATE_PYTHON variable to Renviron
+RUN echo "RETICULATE_PYTHON=/home/${RSESSION_USER}/miniconda/bin/python" >> /etc/R/Renviron && \
+    # Since R 4.0.0, we also need to add R_LIBS_SITE to /etc/R/Renviron
+    echo "R_LIBS_SITE=${R_LIBS_SITE}" >> /etc/R/Renviron && \
+    # environment variable for data.table
+    # https://github.com/Rdatatable/data.table/pull/3435/files
+    echo "R_DATATABLE_NUM_PROCS_PERCENT=100" >> /etc/R/Renviron && \
+    # set cran repo
+    echo "options(\"repos\" = \"https://cloud.r-project.org/\")" >> /etc/R/Rprofile.site
 
 # Update where R expects to find various Java files
 
 # update envar
 ENV JAVA_HOME=/usr/lib/jvm/default-java
-RUN echo JAVA_HOME="${JAVA_HOME}" > /etc/environment
-RUN R CMD javareconf
-
-# add littler binaries to PATH
-ENV PATH=/usr/local/lib/R/site-library/littler/bin:/usr/local/lib/R/site-library/littler/examples:${PATH}
-
-USER ${RSESSION_USER}
-RUN R -q -e "install.packages(c('littler', 'docopt'))"
-RUN install2.r --skipinstalled --ncpus -1 \
-    data.table \
-    devtools \
-    pak \
-    reticulate \
-    stringi
+RUN echo JAVA_HOME="${JAVA_HOME}" > /etc/environment && \
+    R CMD javareconf
 
 ########################
-# install some more conda tools
-RUN conda install -y \
--c conda-forge \
-libstdcxx-ng
-# libstdcxx-ng required for radian (https://github.com/randy3k/radian)
-RUN source activate base && uv pip install --system radian
+# clear caches before switching user
+RUN rm -rf /var/lib/apt/lists/* && \
+    rm -rf /tmp/* && \
+    rm -rf /root/.cache/pip/* && \
+    rm -rf /home/${USER}/.cache/pip/* && \
+    rm -rf /root/.cache/uv/* && \
+    rm -rf /home/${USER}/.cache/uv/* && \
+    conda clean -ya && \
+    apt-get clean && apt-get autoclean && apt-get autoremove -y
+
+########################
+
+USER ${RSESSION_USER}
+RUN R -q -e "install.packages(c('pak'))"
+ARG basepkg="data.table \ 
+    devtools \ 
+    reticulate \
+    stringi"
+RUN export pkg="\"$(echo ${basepkg} | sed -e 's/ /\"\, \"/g')"\" && \
+    R -q -e "pak::pkg_install(c($pkg), lib = \"${R_LIBS_USER}\")" && \
+    rm -rf /tmp/*
+
+########################
 
 # install miniconda via reticulate and configure python
-RUN echo "reticulate::py_config()" | r
+RUN R -q -e "reticulate::py_config()"
 RUN conda clean -ya
 
 # switch back
 USER root
-
-# this happens already in the base image
-# ENV PATH=/home/${RSESSION_USER}/miniconda/bin:${PATH}
-
-# Add RETICULATE_PYTHON variable to Renviron
-RUN echo "RETICULATE_PYTHON=/home/${RSESSION_USER}/miniconda/bin/python" >> /etc/R/Renviron
-# Since R 4.0.0, we also need to add R_LIBS_SITE to /etc/R/Renviron
-RUN echo "R_LIBS_SITE=${R_LIBS_SITE}" >> /etc/R/Renviron
-
-# environment variable for data.table
-# https://github.com/Rdatatable/data.table/pull/3435/files
-RUN echo "R_DATATABLE_NUM_PROCS_PERCENT=100" >> /etc/R/Renviron
-
-########################
-# add r-devel
-# https://people.math.aau.dk/~sorenh/misc/misc/install-rdevel.html
-# RUN apt-get build-dep -y r-base
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    subversion \
-    ccache \
-    xorg-dev
 
 ########################
 # clear caches
