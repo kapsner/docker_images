@@ -37,10 +37,12 @@ RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v${NVM_VERSION}/instal
 # add gemini-cli
 RUN npm install -g @google/gemini-cli@preview
 
-# add temp-folder for projects
-RUN cd /home/${USER}/ && mkdir gemini_temp
-ADD addon_layer/config/settings.json /home/${USER}/gemini_temp/settings.json.bu
-
+# add temp-folder for projects and add user-settings
+ENV SETTINGS_BASE_URL=https://raw.githubusercontent.com/kapsner/scripts-n-configs/refs/heads/main
+RUN cd /home/${USER}/ && mkdir gemini_temp && cd gemini_temp && \
+    curl -o settings.json.bu \
+    ${SETTINGS_BASE_URL}/configs/settings/gemini-settings.json && \
+    chown -R ${USER}:${USER} settings.json.bu
 USER root
 
 ########################
@@ -49,6 +51,8 @@ RUN rm -rf /var/lib/apt/lists/* && \
     rm -rf /tmp/* && \
     rm -rf /root/.cache/pip/* && \
     rm -rf /home/${USER}/.cache/pip/* && \
+    rm -rf /root/.cache/uv/* && \
+    rm -rf /home/${USER}/.cache/uv/* && \
     conda clean -ya && \
     apt-get clean && apt-get autoclean && apt-get autoremove -y
 

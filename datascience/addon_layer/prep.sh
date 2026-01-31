@@ -1,16 +1,16 @@
 #!/bin/bash
 
-NVM_VER_URL="https://api.github.com/repos/nvm-sh/nvm/tags"
+NVM_VER_URL="https://api.github.com/repos/nvm-sh/nvm/releases/latest"
 NVM_VERSION=$( \
   curl -s ${NVM_VER_URL} | \
-  jq -r '.[0].name'| \
+  jq -r '.tag_name'| \
   awk '{ gsub("[[:alpha:]]", "") ; print $0 }' \
 )
 
-NODE_VER_URL="https://api.github.com/repos/nodejs/node/tags"
+NODE_VER_URL="https://api.github.com/repos/nodejs/node/releases/latest"
 NODE_VERSION=$( \
   curl -s ${NODE_VER_URL} | \
-  jq -r '.[0].name'| \
+  jq -r '.tag_name'| \
   awk '{ gsub("[[:alpha:]]", "") ; print $0 }' \
 )
 

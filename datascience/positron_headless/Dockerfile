@@ -46,46 +46,47 @@ RUN chown -R ${USER} ${SSHD_CONFIG_DIR} && \
     chmod 600 ${SSHD_CONFIG_DIR}/* && \
     chmod 644 ${SSHD_CONFIG_DIR}/sshd_config
 
+
 ########################
-# Add alias script and script for automated installation of positron extensions
-ADD positron_headless/config/alias.sh /home/${USER}/
+# Add script for automated installation of positron extensions
 ADD positron_headless/config/ide-extension-sync.sh /home/${USER}/
 RUN cd /home/${USER}/ && \
-    chmod +x alias.sh && \
     chmod +x ide-extension-sync.sh && \
-    chown ${USER}:${USER} alias.sh && \
     chown ${USER}:${USER} ide-extension-sync.sh && \
-    echo "source ~/alias.sh" >> .termrc && \
     echo "source ~/ide-extension-sync.sh" >> .termrc && \
     echo "git config --global credential.helper cache" >> .termrc && \
     chmod +x .termrc && \
     chown ${USER}:${USER} .termrc
 
-########################
-# write .bash_aliases
-RUN cd /home/${USER}/ && \
-    echo "alias ll='ls -alF'" >> .bash_aliases && \
-    echo "alias up='sudo apt update && sudo apt upgrade'" >> .bash_aliases && \
-    chmod +x .bash_aliases && \
-    chown ${USER}:${USER} .bash_aliases
 
 ########################
 # Add user settings
+ENV SETTINGS_BASE_URL=https://raw.githubusercontent.com/kapsner/scripts-n-configs/refs/heads/main
 RUN mkdir -p /home/${USER}/.positron-server/data/Machine/ && \
-    chown -R ${USER}:${USER} /home/${USER}/.positron-server
-ADD positron_headless/config/settings.json /home/${USER}/.positron-server/data/Machine/
-RUN chown -R ${USER}:${USER} /home/${USER}/.positron-server/data/Machine/settings.json
+    chown -R ${USER}:${USER} /home/${USER}/.positron-server && \
+    cd /home/${USER}/.positron-server/data/Machine && \
+    curl -o settings.json \
+    ${SETTINGS_BASE_URL}/configs/settings/positron-settings.json && \
+    chown -R ${USER}:${USER} settings.json
+
+
+########################
+USER ${USER}
+# add entries to ~/.bash_aliases
+RUN cd /home/${USER}/ && \
+    curl -o- ${SETTINGS_BASE_URL}/scripts/core/set_aliases.sh | bash && \
+    chmod +x .bash_aliases && \
+    chown ${USER}:${USER} .bash_aliases
 
 # install zsh-mod
-USER ${USER}
 RUN sh -c "$(curl -fsSL https://install.ohmyz.sh/)"
 USER root
 RUN cd /home/${USER}/ && \
-    wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/refs/heads/master/templates/zshrc.zsh-template && \
-    mv zshrc.zsh-template .zshrc && \
+    curl -o .zshrc https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/refs/heads/master/templates/zshrc.zsh-template && \
     sed -i -E 's,^ZSH_THEME="robbyrussell",ZSH_THEME="agnoster",' .zshrc && \
     chmod 655 .zshrc && \
     chown ${USER}:${USER} .zshrc
+
 
 ########################
 # clear caches
@@ -93,8 +94,11 @@ RUN rm -rf /var/lib/apt/lists/* && \
     rm -rf /tmp/* && \
     rm -rf /root/.cache/pip/* && \
     rm -rf /home/${USER}/.cache/pip/* && \
+    rm -rf /root/.cache/uv/* && \
+    rm -rf /home/${USER}/.cache/uv/* && \
     conda clean -ya && \
     apt-get clean && apt-get autoclean && apt-get autoremove -y
+
 
 ########################
 # fix .bashrc stuff for bash and zsh
@@ -105,6 +109,7 @@ RUN cd /home/${USER}/ && \
     chmod 655 .bashrc && \
     chown ${USER}:${USER} .bashrc
 
+    
 ########################
 # add PATH to a bash_profile script (workaround so that path is available in positron's terminal)
 # to make this working, this must be sourced during container-start
