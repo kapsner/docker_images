@@ -39,6 +39,7 @@ RUN npm install -g @google/gemini-cli@preview
 
 # add temp-folder for projects
 RUN cd /home/${USER}/ && mkdir gemini_temp
+ADD addon_layer/config/settings.json /home/${USER}/gemini_temp/settings.json.bu
 
 USER root
 
