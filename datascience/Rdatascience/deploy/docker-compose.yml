@@ -1,0 +1,16 @@
+services:
+  rdatascience:
+    image: rdsc_headless_plus:latest
+    # restart: unless-stopped
+    ports:
+    - "127.0.0.1:2376:2375" #ssh
+    - "127.0.0.1:23119:23119" #zotero
+    #- "127.0.0.1:8787:8787" #rstudio
+    #- "127.0.0.1:3838:3838" #shiny
+    #network_mode: "host"
+    # https://github.com/rocker-org/rocker-versioned/blob/master/rstudio/README.md
+    volumes:
+    - /path/to/volume/mounts:/home/user/mounts
+    tty: true
+
+# docker run --rm --gpus all -p 8787:8787 -v ~/Documents/development/R:/home/user/development rdsc_gpu

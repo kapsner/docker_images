@@ -8,42 +8,42 @@ function rdsc_base {
     printf "\nBuild rdsc_base image\n"
     docker build --build-arg BASEIMAGE=base_image:latest -f image_rdsc_base/Dockerfile -t rdsc_base .
 
-    printf "\nBuild rdsc_headless image\n"
-    docker build -f image_rdsc_headless/Dockerfile -t rdsc_headless .
+    printf "\nBuild rdsc_hl_base image\n"
+    docker build -f image_rdsc_headless/Dockerfile -t rdsc_hl_base .
 
 }
 
 function rdsc_quarto_hl {
-    printf "\nBuild rdsc_quarto_hl_prep image\n"
+    printf "\nBuild rdsc_hl_quarto image\n"
     cd image_rdsc_quarto_headless
     source prep.sh
     # export envvars
     export $(grep -v '^#' .env | xargs)
     cd ..
     docker build \
-      --build-arg BASEIMAGE=rdsc_headless:latest \
+      --build-arg BASEIMAGE=rdsc_hl_base:latest \
       --build-arg QUARTO_VERSION=$QUARTO_VERSION \
       --build-arg QUARTO_VSIX_VERSION=$QUARTO_VSIX_VERSION \
       -f image_rdsc_quarto_headless/Dockerfile \
-      -t rdsc_quarto_hl_prep .
+      -t rdsc_hl_quarto .
     cd ..
-    printf "\nBuild rdsc_quarto_hl image\n"
+    printf "\nBuild rdsc_headless image\n"
     docker build \
-      --build-arg BASEIMAGE=rdsc_quarto_hl_prep:latest \
+      --build-arg BASEIMAGE=rdsc_hl_quarto:latest \
       -f positron_headless/Dockerfile \
-      -t rdsc_quarto_hl .
-    printf "\nBuild rdsc_quarto_hl_plus image\n"
+      -t rdsc_headless .
+    printf "\nBuild rdsc_headless_plus image\n"
     cd addon_layer
     source prep.sh
     # export envvars
     export $(grep -v '^#' .env | xargs)
     cd ..
     docker build \
-      --build-arg BASEIMAGE=rdsc_quarto_hl:latest \
+      --build-arg BASEIMAGE=rdsc_headless:latest \
       --build-arg NVM_VERSION=$NVM_VERSION \
       --build-arg NODE_VERSION=$NODE_VERSION \
       -f addon_layer/Dockerfile \
-      -t rdsc_quarto_hl_plus .
+      -t rdsc_headless_plus .
 }
 
 function rdsc_rstudio {

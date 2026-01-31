@@ -35,23 +35,12 @@ USER ${USER}
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v${NVM_VERSION}/install.sh | bash
 
 # add gemini-cli
-RUN cd ${OPT_USER_DIR} && \
-    git clone https://github.com/google-gemini/gemini-cli.git
-
-RUN cd ${OPT_USER_DIR}/gemini-cli && \
-    source ${NVM_DIR}/nvm.sh && \
-    npm install
+RUN npm install -g @google/gemini-cli@preview
 
 # add temp-folder for projects
 RUN cd /home/${USER}/ && mkdir gemini_temp
 
 USER root
-RUN cd ${OPT_USER_DIR}/gemini-cli && \
-    cp bundle/gemini.js /usr/local/bin/gemini.js && \
-    chmod +x /usr/local/bin/gemini.js && \
-    chown ${USER}:${USER} /usr/local/bin/gemini.js && \
-    echo "alias gemini='/usr/local/bin/gemini.js'" >> /home/${USER}/.bash_aliases && \
-    rm -rf ${OPT_USER_DIR}/gemini-cli
 
 ########################
 # clear caches

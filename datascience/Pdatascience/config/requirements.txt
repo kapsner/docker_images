@@ -1,8 +1,0 @@
-# install more packages
-eli5
-matplotlib
-openpyxl
-pandas
-scrapy
-SimpleITK
-xlrd

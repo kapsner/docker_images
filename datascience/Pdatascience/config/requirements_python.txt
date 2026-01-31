@@ -1,13 +1,17 @@
 # install datascience packages
 monai
+pydicom
+python-gdcm
 pytorch-lightning
 pytorch-lightning-bolts
 scikit-build
 scikit-image 
 scikit-learn
 scipy
+SimpleITK
 torch
 torchvision
 tensorboard
 torchmetrics
+xlrd
 xnat

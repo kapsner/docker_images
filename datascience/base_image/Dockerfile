@@ -68,20 +68,10 @@ RUN conda install -y python==${PYVERSION} && \
 ENV MAKEFLAGS="-j$(nproc)"
 
 # install some (python) prerequisites
-RUN source activate base && yes | pip install uv
+ADD ./config/requirements.txt /home/${PYTHON_USER}/
 RUN source activate base && \
-    uv pip install --system \
-    auto-changelog \
-    numpy \
-    pyyaml \
-    requests \
-    ruamel_yaml \
-    setuptools \
-    six \
-    testresources \
-    tqdm \
-    virtualenv \
-    wheel
+    yes | pip install uv && \
+    uv pip install --system -r /home/${PYTHON_USER}/requirements.txt
 
 ########################
 USER root

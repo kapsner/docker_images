@@ -21,20 +21,10 @@ USER ${PYTHON_USER}
 # swig for GDCM
 
 ########################
-# install scikit-build from source (for SimpleITK)
-RUN source activate base && \
-    uv pip install --system \
-    scikit-build \
-    python-gdcm
-
 # install datascience packages
-ADD ./config/requirements*.txt /home/${PYTHON_USER}/
+ADD ./config/requirements_python.txt /home/${PYTHON_USER}/
 RUN source activate base && \
-    uv pip install --system \
-    -r /home/${PYTHON_USER}/requirements_base.txt
-RUN source activate base && \
-    uv pip install --system \
-    -r /home/${PYTHON_USER}/requirements.txt
+    uv pip install --system -r /home/${PYTHON_USER}/requirements_python.txt
 
 ########################
 # clear caches
@@ -44,10 +34,14 @@ USER root
 # update path
 ENV PATH=/home/${PYTHON_USER}/.local/bin:${PATH}
 
+########################
+
 RUN rm -rf /var/lib/apt/lists/* && \
     rm -rf /tmp/* && \
     rm -rf /root/.cache/pip/* && \
     rm -rf /home/${USER}/.cache/pip/* && \
+    rm -rf /root/.cache/uv/* && \
+    rm -rf /home/${USER}/.cache/uv/* && \
     conda clean -ya && \
     apt-get clean && apt-get autoclean && apt-get autoremove -y
 

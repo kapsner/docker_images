@@ -421,8 +421,9 @@ RUN export pkg="\"$(echo ${github_array} | sed -e 's/ /\"\, \"/g')"\" && \
 # we can use pip here, since we added the virtualenv to the beginning of our PATH variable
 # install additional python packages
 # install datascience packages
-ADD ./config/requirements.txt /home/${RSESSION_USER}/
-RUN source activate base && uv pip install --system -r /home/${RSESSION_USER}/requirements.txt
+ADD ./config/requirements_r.txt /home/${RSESSION_USER}/
+RUN source activate base && \
+    uv pip install --system -r /home/${RSESSION_USER}/requirements_r.txt
 
 # install playwright (revealjs2pdf)
 RUN playwright install chromium

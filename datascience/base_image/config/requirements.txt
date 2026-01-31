@@ -1,0 +1,22 @@
+commitizen
+ipython
+jinja2
+jupyter # required for quarto
+markitdown
+matplotlib
+nbclient
+numpy
+openpyxl
+pandas
+pre-commit
+pytest
+pyyaml
+requests
+ruamel_yaml
+ruff
+setuptools
+six
+testresources
+tqdm
+virtualenv
+wheel

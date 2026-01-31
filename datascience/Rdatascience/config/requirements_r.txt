@@ -1,0 +1,5 @@
+# install more packages
+cython
+fhirclient
+fhir-resources
+playwright

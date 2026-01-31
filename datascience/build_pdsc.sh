@@ -8,14 +8,13 @@ function pdsc_cpu {
     printf "\nBuild pdsc_base image\n"
     docker build --build-arg BASEIMAGE=base_image:latest -f image_pdsc_base/Dockerfile -t pdsc_base .
 
-    printf "\nBuild pdsc_headless_prep image\n"
-    docker build -f image_pdsc_headless/Dockerfile -t pdsc_headless_prep .
     cd ..
     printf "\nBuild pdsc_headless image\n"
     docker build \
-      --build-arg BASEIMAGE=pdsc_headless_prep:latest \
+      --build-arg BASEIMAGE=pdsc_base:latest \
       -f positron_headless/Dockerfile \
       -t pdsc_headless .
+      
     printf "\nBuild pdsc_headless_plus image\n"
     cd addon_layer
     source prep.sh
@@ -40,25 +39,33 @@ function pdsc_gpu {
     printf "\nBuild pdsc_gpu_nobuild image\n"
     docker build -f image_pdsc_gpu/Dockerfile.nobuild -t pdsc_gpu_nobuild .
 
-    printf "\nBuild pdsc_gpu_base image\n"
-    docker build --build-arg BASEIMAGE=pdsc_gpu_nobuild:latest -f image_pdsc_base/Dockerfile -t pdsc_gpu_base .
-
-    printf "\nBuild pdsc_gpu_prep image\n"
-    docker build -f image_pdsc_gpu/Dockerfile -t pdsc_gpu_prep .
-
-    cd ..
-    printf "\nBuild pdsc_headless_gpu image\n"
-    docker build \
-      --build-arg BASEIMAGE=pdsc_gpu_prep:latest \
-      -f positron_headless/Dockerfile \
-      -t pdsc_headless_gpu .
-    cd addon_layer
+    printf "\nBuild pdsc_gpu_nobuild_plus image\n"
+    cd image_pdsc_gpu
     source prep.sh
     # export envvars
     export $(grep -v '^#' .env | xargs)
     cd ..
     docker build \
-      --build-arg BASEIMAGE=pdsc_headless_gpu:latest \
+      --build-arg BASEIMAGE=pdsc_gpu_nobuild:latest \
+      --build-arg NVTOP_VERSION=$NVTOP_VERSION \
+      -f image_pdsc_gpu/Dockerfile \
+      -t pdsc_gpu_nobuild_plus .
+
+    printf "\nBuild pdsc_gpu_base image\n"
+    docker build \
+      --build-arg BASEIMAGE=pdsc_gpu_nobuild_plus:latest \
+      -f image_pdsc_base/Dockerfile \
+      -t pdsc_gpu_base .
+
+
+    printf "\nBuild pdsc_headless_gpu_plus image\n"
+    cd ../addon_layer
+    source prep.sh
+    # export envvars
+    export $(grep -v '^#' .env | xargs)
+    cd ..
+    docker build \
+      --build-arg BASEIMAGE=pdsc_gpu_base:latest \
       --build-arg NVM_VERSION=$NVM_VERSION \
       --build-arg NODE_VERSION=$NODE_VERSION \
       -f addon_layer/Dockerfile \
@@ -71,11 +78,11 @@ function pdsc_gpu_build {
 
     # build basic build image ontop of nvidia/cuda-devel container
     printf "\nBuild base_gpu_build image\n"
-    cd base_image_gpu
-    ./build_base_gpu_build.sh
+    cd base_image
+    ./build_base_image_gpu_build.sh
 
     printf "\nBuild pdsc_gpu_build image\n"
-    docker build -f Dockerfile.py -t pdsc_gpu_build .
+    docker build -f Dockerfile.gpubuild -t pdsc_gpu_build .
 
     # build final image ontop of nvidia/cuda-runtime container
     # (could happen in parallel to first 2 steps in the future)
@@ -86,8 +93,20 @@ function pdsc_gpu_build {
     printf "\nBuild pdsc_gpu_multistage image\n"
     docker build -f image_pdsc_gpu/Dockerfile.multi -t pdsc_gpu_multistage .
 
+    printf "\nBuild pdsc_gpu_multistage_plus image\n"
+    cd image_pdsc_gpu
+    source prep.sh
+    # export envvars
+    export $(grep -v '^#' .env | xargs)
+    cd ..
+    docker build \
+      --build-arg BASEIMAGE=pdsc_gpu_multistage:latest \
+      --build-arg NVTOP_VERSION=$NVTOP_VERSION \
+      -f image_pdsc_gpu/Dockerfile \
+      -t pdsc_gpu_multistage_plus .
+
     printf "\nBuild pdsc_gpu_base image\n"
-    docker build --build-arg BASEIMAGE=pdsc_gpu_multistage:latest -f image_pdsc_base/Dockerfile -t pdsc_gpu_base .
+    docker build --build-arg BASEIMAGE=pdsc_gpu_multistage_plus:latest -f image_pdsc_base/Dockerfile -t pdsc_gpu_base .
 
     printf "\nBuild pdsc_gpu image\n"
     docker build -f image_pdsc_gpu/Dockerfile -t $last_layer_from .

@@ -55,7 +55,7 @@ RUN apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
 # make R site-library default package installation folder writeable
-ENV R_LIBS_SITE=/home/${RSESSION_USER}/R/x86_64-pc-linux-gnu-library/
+ENV R_LIBS_SITE=/home/${RSESSION_USER}/R/x86_64-pc-linux-gnu-library/4.5
 ENV R_LIBS_USER=${R_LIBS_SITE}
 RUN mkdir -p ${R_LIBS_SITE}
 RUN chown -R ${RSESSION_USER}:${RSESSION_USER} ${R_LIBS_SITE}

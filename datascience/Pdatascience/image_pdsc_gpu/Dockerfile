@@ -1,37 +1,35 @@
-# multistage image here
+ARG BASEIMAGE
 
-FROM pdsc_gpu_base:latest
+# nobuild: pdsc_gpu_nobuild:latest
+# build: pdsc_gpu_build:latest
+
+FROM ${BASEIMAGE}
 
 SHELL ["/bin/bash", "-c"]
 
-########################
-USER ${PYTHON_USER}
+ENV PYTHON_USER=${USER}
+ADD image_pdsc_gpu/.env /home/${RSESSION_USER}/.nvtopenv
+ARG NVTOP_VERSION
 
-# install other datascience libraries
-RUN source activate base && \
-    uv pip install --system \
-    -r /home/${PYTHON_USER}/requirements_datascience.txt
+ENV NVTOP_VERSION=$NVTOP_VERSION
 
 ########################
-# install other GPU learning libraries
-# (currently don't need them)
-# RUN source activate basee && uv pip install --system -f \
-#     https://h2o-release.s3.amazonaws.com/h2o/latest_stable_Py.html h2o
-
-# RUN source activate basee && uv pip install --system \
-#     tensorflow-gpu
+# compile nvtop :) 
+# seems as if apt-version only works with nvidia-drivers-460 and cuda 11.0
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libncurses5-dev libncursesw5-dev libdrm-dev libsystemd-dev
+RUN apt-get clean && \ 
+apt-get autoclean && \
+rm -rf /var/lib/apt/lists/*
+RUN cd /tmp && git clone -b ${NVTOP_VERSION} https://github.com/Syllo/nvtop.git
+RUN mkdir -p /tmp/nvtop/build && cd /tmp/nvtop/build && \
+    /usr/bin/cmake .. -DNVIDIA_SUPPORT=ON -DAMDGPU_SUPPORT=OFF -DINTEL_SUPPORT=OFF && \
+    make && \
+    make install
 
 ########################
 # clear caches
 RUN conda clean -ya
-USER root
-
-########################
-# personalize image
-ADD ./config/pycodestyle /home/${PYTHON_USER}/.config/pycodestyle
-RUN chown -R ${PYTHON_USER}:${PYTHON_USER} /home/${PYTHON_USER}/.config/
-
-########################
 
 RUN rm -rf /var/lib/apt/lists/* && \
     rm -rf /tmp/* && \
