@@ -2,7 +2,7 @@ commitizen
 ipython
 jinja2
 jupyter # required for quarto
-markitdown
+markitdown[all]
 matplotlib
 nbclient
 numpy
