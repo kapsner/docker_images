@@ -45,7 +45,7 @@
   },
   "Textindent": {
     "prefix": "ind",
-    "body" :[
+    "body": [
       "::: {.textindent style=\"font-size: 80%;\"}",
       "$0",
       ":::"
@@ -54,9 +54,20 @@
   },
   "Font-Size": {
     "prefix": "fon",
-    "body" :[
+    "body": [
       "{style=\"font-size: 65%;\"}$0"
     ],
     "description": "Font-Size"
+  },
+  "Quotes": {
+    "prefix": "quo",
+    "body": [
+      "::: {style=\"text-align:center;margin-top:10%;\"}",
+      "<q>",
+      "$0",
+      "</q>",
+      ":::"
+    ],
+    "description": "HTML quotes"
   }
 }
