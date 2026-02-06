@@ -4,6 +4,7 @@ pydicom
 python-gdcm
 pytorch-lightning
 pytorch-lightning-bolts
+quartodoc
 scikit-build
 scikit-image 
 scikit-learn
