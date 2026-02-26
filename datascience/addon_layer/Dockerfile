@@ -17,25 +17,31 @@ ENV PATH=${PATH}
 ########################
 # add nvm/node/npm for gemini
 
-# https://github.com/nvm-sh/nvm?tab=readme-ov-file#installing-in-docker
-ENV NVM_DIR=/home/${USER}/.nvm \
-    OPT_USER_DIR=/opt/${USER}
-# update path variable
-ENV PATH=${NVM_DIR}/versions/node/v${NODE_VERSION}/bin:${PATH}
-RUN mkdir -p ${NVM_DIR} && \
-    chown -R ${USER}:${USER} ${NVM_DIR} && \
-    mkdir -p ${OPT_USER_DIR} && \
-    chown -R ${USER}:${USER} ${OPT_USER_DIR}
-RUN cd /home/${USER}/ && \
-    echo "export NVM_DIR=${NVM_DIR}" >> .termrc && \
-    echo 'source $NVM_DIR/nvm.sh' >> .termrc
+# # https://github.com/nvm-sh/nvm?tab=readme-ov-file#installing-in-docker
+# ENV NVM_DIR=/home/${USER}/.nvm \
+#     OPT_USER_DIR=/opt/${USER}
+# # update path variable
+# ENV PATH=${NVM_DIR}/versions/node/v${NODE_VERSION}/bin:${PATH}
+# RUN mkdir -p ${NVM_DIR} && \
+#     chown -R ${USER}:${USER} ${NVM_DIR} && \
+#     mkdir -p ${OPT_USER_DIR} && \
+#     chown -R ${USER}:${USER} ${OPT_USER_DIR}
+# RUN cd /home/${USER}/ && \
+#     echo "export NVM_DIR=${NVM_DIR}" >> .termrc && \
+#     echo 'source $NVM_DIR/nvm.sh' >> .termrc
+
+# USER ${USER}
+# # Download and install nvm
+# RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v${NVM_VERSION}/install.sh | bash
 
 USER ${USER}
-# Download and install nvm
-RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v${NVM_VERSION}/install.sh | bash
+
+RUN source activate base && \
+    conda install -c conda-forge nodejs==25.6.1
 
 # add gemini-cli
-RUN npm install -g @google/gemini-cli@preview
+RUN source activate base && \
+    npm install -g @google/gemini-cli@latest
 
 # add temp-folder for projects and add user-settings
 ENV SETTINGS_BASE_URL=https://raw.githubusercontent.com/kapsner/scripts-n-configs/refs/heads/main
