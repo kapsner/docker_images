@@ -33,15 +33,8 @@ function rdsc_quarto_hl {
       -f positron_headless/Dockerfile \
       -t rdsc_headless .
     printf "\nBuild rdsc_headless_plus image\n"
-    cd addon_layer
-    source prep.sh
-    # export envvars
-    export $(grep -v '^#' .env | xargs)
-    cd ..
     docker build \
       --build-arg BASEIMAGE=rdsc_headless:latest \
-      --build-arg NVM_VERSION=$NVM_VERSION \
-      --build-arg NODE_VERSION=$NODE_VERSION \
       -f addon_layer/Dockerfile \
       -t rdsc_headless_plus .
 }

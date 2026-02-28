@@ -16,15 +16,8 @@ function pdsc_cpu {
       -t pdsc_headless .
       
     printf "\nBuild pdsc_headless_plus image\n"
-    cd addon_layer
-    source prep.sh
-    # export envvars
-    export $(grep -v '^#' .env | xargs)
-    cd ..
     docker build \
       --build-arg BASEIMAGE=pdsc_headless:latest \
-      --build-arg NVM_VERSION=$NVM_VERSION \
-      --build-arg NODE_VERSION=$NODE_VERSION \
       -f addon_layer/Dockerfile \
       -t pdsc_headless_plus .
 }
@@ -59,15 +52,8 @@ function pdsc_gpu {
 
 
     printf "\nBuild pdsc_headless_gpu_plus image\n"
-    cd ../addon_layer
-    source prep.sh
-    # export envvars
-    export $(grep -v '^#' .env | xargs)
-    cd ..
     docker build \
       --build-arg BASEIMAGE=pdsc_gpu_base:latest \
-      --build-arg NVM_VERSION=$NVM_VERSION \
-      --build-arg NODE_VERSION=$NODE_VERSION \
       -f addon_layer/Dockerfile \
       -t pdsc_headless_gpu_plus .
 }
