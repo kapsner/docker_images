@@ -27,6 +27,9 @@ RUN cd /home/${USER}/ && mkdir gemini_temp && cd gemini_temp && \
 
 # add deepagents cli
 # https://docs.langchain.com/oss/python/deepagents/cli/overview
+# Envvars to set:
+# - export OLLAMA_API_KEY=your_api_key
+# - export GOOGLE_API_KEY=your_api_key
 RUN source activate base && \
     uv pip install --system 'deepagents-cli[google-genai,ollama]'
 
