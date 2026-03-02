@@ -28,7 +28,7 @@ RUN cd /home/${USER}/ && mkdir gemini_temp && cd gemini_temp && \
 # add deepagents cli
 # https://docs.langchain.com/oss/python/deepagents/cli/overview
 RUN source activate base && \
-    uv pip install --system deepagents-cli
+    uv pip install --system 'deepagents-cli[google-genai,ollama]'
 
 ########################
 
