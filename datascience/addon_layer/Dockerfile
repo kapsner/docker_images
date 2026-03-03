@@ -33,6 +33,9 @@ RUN cd /home/${USER}/ && mkdir gemini_temp && cd gemini_temp && \
     ${SETTINGS_BASE_URL}/configs/settings/gemini-settings.json && \
     chown -R ${USER}:${USER} settings.json.bu
 
+RUN conda create -y -n nanocoder_env -c conda-forge nodejs && \
+    source activate nanocoder_env && \
+    npm install -g @nanocollective/nanocoder@latest
 
 # add deepagents cli
 # https://docs.langchain.com/oss/python/deepagents/cli/overview
