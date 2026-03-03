@@ -2,7 +2,16 @@ ARG BASEIMAGE
 
 FROM ${BASEIMAGE}
 
+
 USER root
+
+# install openssh, sudo and cifs-utils here
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    # ripgrep required for deepagents-cli
+    ripgrep
+RUN apt-get clean && \ 
+    apt-get autoclean && \
+    rm -rf /var/lib/apt/lists/*
 
 # Define Path variable here
 ENV PATH=${PATH}
