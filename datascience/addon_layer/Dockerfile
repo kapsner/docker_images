@@ -33,9 +33,15 @@ RUN cd /home/${USER}/ && mkdir gemini_temp && cd gemini_temp && \
     ${SETTINGS_BASE_URL}/configs/settings/gemini-settings.json && \
     chown -R ${USER}:${USER} settings.json.bu
 
+# nanocoder: need to run tool with 'NODE_TLS_REJECT_UNAUTHORIZED=0 nanocoder'
+# when connecting to locally deployed ollama with self-signed certificate
 RUN conda create -y -n nanocoder_env -c conda-forge nodejs && \
     source activate nanocoder_env && \
     npm install -g @nanocollective/nanocoder@latest
+RUN cd /home/${USER}/ && mkdir -p .config/nanocoder && cd .config/nanocoder && \
+    curl -o agents.config.json \
+    ${SETTINGS_BASE_URL}/configs/settings/nanocoder-agents.config.json && \
+    chown -R ${USER}:${USER} agents.config.json
 
 # add deepagents cli
 # https://docs.langchain.com/oss/python/deepagents/cli/overview
@@ -43,7 +49,17 @@ RUN conda create -y -n nanocoder_env -c conda-forge nodejs && \
 # - export OLLAMA_API_KEY=your_api_key
 # - export GOOGLE_API_KEY=your_api_key
 RUN source activate base && \
-    uv pip install --system 'deepagents-cli[google-genai,ollama]'
+    uv pip install --system 'deepagents-cli[google-genai,ollama]' mitmproxy certifi
+
+# need to append self-signed certificate to $(python -c "import certifi; certifi.where())"), i.e.
+# echo "$(cat ./self-signed-cert.pem)" >> $(python -c "import certifi; print(certifi.where())")
+RUN conda create -y -n nanocoder_env -c conda-forge nodejs && \
+    source activate nanocoder_env && \
+    npm install -g @nanocollective/nanocoder@latest
+RUN cd /home/${USER}/ && mkdir -p .deepagents && cd .deepagents && \
+    curl -o config.toml \
+    ${SETTINGS_BASE_URL}/configs/settings/deepagents-config.toml && \
+    chown -R ${USER}:${USER} config.toml
 
 ########################
 

@@ -126,3 +126,6 @@ fi
 
 # Use 'return' instead of 'exit' so that running this script doesn't terminate the shell.
 return 0
+
+# TODO nanocode
+# positron --install-extension $(npm root -g)/@nanocollective/nanocoder/assets/nanocoder-vscode.vsix
