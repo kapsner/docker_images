@@ -23,7 +23,7 @@ USER ${USER}
 RUN conda update -n base -c defaults conda
 RUN conda create -y -n gemini_env -c conda-forge nodejs && \
     source activate gemini_env && \
-    npm install -g npm@11.11.0 && \
+    npm install -g npm@latest && \
     npm install -g @google/gemini-cli@latest
 
 # add temp-folder for projects and add user-settings
@@ -37,6 +37,7 @@ RUN cd /home/${USER}/ && mkdir gemini_temp && cd gemini_temp && \
 # when connecting to locally deployed ollama with self-signed certificate
 RUN conda create -y -n nanocoder_env -c conda-forge nodejs && \
     source activate nanocoder_env && \
+    npm install -g npm@latest && \
     npm install -g @nanocollective/nanocoder@latest
 RUN cd /home/${USER}/ && mkdir -p .config/nanocoder && cd .config/nanocoder && \
     curl -o agents.config.json \
@@ -44,9 +45,9 @@ RUN cd /home/${USER}/ && mkdir -p .config/nanocoder && cd .config/nanocoder && \
     chown -R ${USER}:${USER} agents.config.json
 
 # add deepagents cli
-# https://docs.langchain.com/oss/python/deepagents/cli/overview
+# Ollama: https://docs.langchain.com/oss/python/deepagents/cli/overview
 # Envvars to set:
-# - export OLLAMA_API_KEY=your_api_key
+# - export OPENAI_API_KEY=your_api_key (and OPENAI_BASE_URL when using ollama)
 # - export GOOGLE_API_KEY=your_api_key
 RUN source activate base && \
     uv pip install --system 'deepagents-cli[google-genai,ollama]' mitmproxy certifi
@@ -61,9 +62,26 @@ RUN cd /home/${USER}/ && mkdir -p .deepagents && cd .deepagents && \
     ${SETTINGS_BASE_URL}/configs/settings/deepagents-config.toml && \
     chown -R ${USER}:${USER} config.toml
 
+# install claude-code: https://github.com/anthropics/claude-code
+# Ollama: https://docs.ollama.com/integrations/claude-code
+# Envvars to set:
+# - export ANTHROPIC_AUTH_TOKEN=ollama
+# - export ANTHROPIC_API_KEY=""
+# - export ANTHROPIC_BASE_URL=http://localhost:11434
+RUN curl -fsSL https://claude.ai/install.sh | bash
+
 ########################
 
 USER root
+
+ADD addon_layer/config/ide-integration.sh /home/${USER}/
+RUN cd /home/${USER}/ && \
+    chmod +x ide-integration.sh && \
+    chown ${USER}:${USER} ide-integration.sh && \
+    echo "source ~/ide-integration.sh" >> .termrc
+
+########################
+
 # clear caches
 RUN rm -rf /var/lib/apt/lists/* && \
     rm -rf /tmp/* && \

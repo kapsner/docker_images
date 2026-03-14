@@ -41,10 +41,6 @@ DESIRED_EXTENSIONS=(
     "meta.pyrefly"
 )
 
-if command -v gemini &> /dev/null; then
-    DESIRED_EXTENSIONS+=("google.gemini-cli-vscode-ide-companion")
-fi
-
 # --- 2. Check for the 'IDE' command ---
 # If IDE isn't installed or not in PATH, skip the check.
 if ! command -v $INSTALL_EXEC &> /dev/null; then
@@ -126,6 +122,3 @@ fi
 
 # Use 'return' instead of 'exit' so that running this script doesn't terminate the shell.
 return 0
-
-# TODO nanocode
-# positron --install-extension $(npm root -g)/@nanocollective/nanocoder/assets/nanocoder-vscode.vsix
