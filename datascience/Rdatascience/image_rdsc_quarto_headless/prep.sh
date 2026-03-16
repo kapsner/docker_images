@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # get latest quarto-cli release version
-QUARTO_CLI_VER_URL="https://api.github.com/repos/quarto-dev/quarto-cli/releases/latest"
+QUARTO_CLI_VER_URL="https://api.github.com/repos/quarto-dev/quarto-cli/releases"
 QUARTO_VERSION=$( \
   curl -s ${QUARTO_CLI_VER_URL} | \
-  jq -r '.tag_name'| \
+  jq -r '.[0].tag_name'| \
   awk '{ gsub("[[:alpha:]]", "") ; print $0 }' \
 )
 
