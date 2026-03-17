@@ -65,10 +65,25 @@ RUN cd /home/${USER}/ && mkdir -p .deepagents && cd .deepagents && \
 # install claude-code: https://github.com/anthropics/claude-code
 # Ollama: https://docs.ollama.com/integrations/claude-code
 # Envvars to set:
-# - export ANTHROPIC_AUTH_TOKEN=ollama
+# - export ANTHROPIC_AUTH_TOKEN=your-ollama/openwebui-api-key
 # - export ANTHROPIC_API_KEY=""
 # - export ANTHROPIC_BASE_URL=http://localhost:11434
-RUN curl -fsSL https://claude.ai/install.sh | bash
+# when using self-deployed server with self-signed certificate:
+# NODE_TLS_REJECT_UNAUTHORIZED=0 claude --model gpt-oss:120b
+RUN conda create -y -n claude_env -c defaults conda && \
+    source activate claude_env && \
+    curl -fsSL https://claude.ai/install.sh | bash
+
+ENV CLAUDE_ENV_PATH=$(conda info --json | jq -r '.envs[]' | grep claude_env)
+RUN cp -rf --update /home/${USER}/.local/share/claude* $CLAUDE_ENV_PATH/share && \
+    rm -rf ~/.local/share/claude*
+ENV CLAUDE_VER=$(cd $CLAUDE_ENV_PATH/share/claude/versions && ls -Art | tail -n 1)
+RUN ln -s "$CLAUDE_ENV_PATH/share/claude/versions/$CLAUDE_VER" "$CLAUDE_ENV_PATH/bin/claude" && \
+    rm -rf ~/.local/bin/claude && \
+    ln -s "$CLAUDE_ENV_PATH/bin/claude" ~/.local/bin/claude && \
+    mkdir -p $CLAUDE_ENV_PATH/state && \
+    cp -rf --update ~/.local/state/claude* $CLAUDE_ENV_PATH/state && \
+    rm -rf ~/.local/state/claude*
 
 ########################
 
