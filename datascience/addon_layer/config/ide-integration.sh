@@ -40,5 +40,15 @@ if command -v gemini &> /dev/null; then
     # run `exec $SHELL` after install to enable proper connection
 fi
 
+# # add claude
+# if command -v claude &> /dev/null; then
+#     EXTENSION="Anthropic.claude-code"
+#     if ! echo "${INSTALLED_EXTENSIONS}" | grep -q "^${EXTENSION}$"; then
+#         echo "[$IDE_NAME-SYNC] Missing: ${EXTENSION}. Installing..."
+#         $INSTALL_EXEC --install-extension "$EXTENSION" 2>/dev/null
+#     fi
+#     # run `exec $SHELL` after install to enable proper connection
+# fi
+
 # Use 'return' instead of 'exit' so that running this script doesn't terminate the shell.
 return 0

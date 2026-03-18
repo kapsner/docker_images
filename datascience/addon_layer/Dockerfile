@@ -52,15 +52,16 @@ RUN cd /home/${USER}/ && mkdir -p .config/nanocoder && cd .config/nanocoder && \
 RUN source activate base && \
     uv pip install --system 'deepagents-cli[google-genai,ollama]' mitmproxy certifi
 
+# add nanocoder
 # need to append self-signed certificate to $(python -c "import certifi; certifi.where())"), i.e.
 # echo "$(cat ./self-signed-cert.pem)" >> $(python -c "import certifi; print(certifi.where())")
-RUN conda create -y -n nanocoder_env -c conda-forge nodejs && \
-    source activate nanocoder_env && \
-    npm install -g @nanocollective/nanocoder@latest
-RUN cd /home/${USER}/ && mkdir -p .deepagents && cd .deepagents && \
-    curl -o config.toml \
-    ${SETTINGS_BASE_URL}/configs/settings/deepagents-config.toml && \
-    chown -R ${USER}:${USER} config.toml
+# RUN conda create -y -n nanocoder_env -c conda-forge nodejs && \
+#     source activate nanocoder_env && \
+#     npm install -g @nanocollective/nanocoder@latest
+# RUN cd /home/${USER}/ && mkdir -p .deepagents && cd .deepagents && \
+#     curl -o config.toml \
+#     ${SETTINGS_BASE_URL}/configs/settings/deepagents-config.toml && \
+#     chown -R ${USER}:${USER} config.toml
 
 # install claude-code: https://github.com/anthropics/claude-code
 # Ollama: https://docs.ollama.com/integrations/claude-code
@@ -73,12 +74,12 @@ RUN cd /home/${USER}/ && mkdir -p .deepagents && cd .deepagents && \
 RUN conda create -y -n claude_env -c defaults conda && \
     source activate claude_env && \
     curl -fsSL https://claude.ai/install.sh | bash
-
-ENV CLAUDE_ENV_PATH=$(conda info --json | jq -r '.envs[]' | grep claude_env)
-RUN cp -rf --update /home/${USER}/.local/share/claude* $CLAUDE_ENV_PATH/share && \
-    rm -rf ~/.local/share/claude*
-ENV CLAUDE_VER=$(cd $CLAUDE_ENV_PATH/share/claude/versions && ls -Art | tail -n 1)
-RUN ln -s "$CLAUDE_ENV_PATH/share/claude/versions/$CLAUDE_VER" "$CLAUDE_ENV_PATH/bin/claude" && \
+ 
+RUN CLAUDE_ENV_PATH="$(conda info --json | jq -r '.envs[]' | grep claude_env)" && \
+    cp -rf --update /home/${USER}/.local/share/claude* $CLAUDE_ENV_PATH/share && \
+    rm -rf ~/.local/share/claude* && \
+    CLAUDE_VER="$(cd $CLAUDE_ENV_PATH/share/claude/versions && ls -Art | tail -n 1)" && \
+    ln -s "$CLAUDE_ENV_PATH/share/claude/versions/$CLAUDE_VER" "$CLAUDE_ENV_PATH/bin/claude" && \
     rm -rf ~/.local/bin/claude && \
     ln -s "$CLAUDE_ENV_PATH/bin/claude" ~/.local/bin/claude && \
     mkdir -p $CLAUDE_ENV_PATH/state && \
