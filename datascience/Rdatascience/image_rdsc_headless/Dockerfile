@@ -298,7 +298,8 @@ RUN export pkg="\"$(echo ${u} | sed -e 's/ /\"\, \"/g')"\" && \
     R -q -e "pak::pkg_install(c($pkg), lib = \"${R_LIBS_USER}\")" && \
     rm -rf /tmp/*
 
-ARG v="vroom"
+ARG v="vroom \
+    vistime"
 RUN export pkg="\"$(echo ${v} | sed -e 's/ /\"\, \"/g')"\" && \
     R -q -e "pak::pkg_install(c($pkg), lib = \"${R_LIBS_USER}\")" && \
     rm -rf /tmp/*
