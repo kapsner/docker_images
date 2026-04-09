@@ -68,10 +68,10 @@ RUN conda install -y python==${PYVERSION} && \
 ENV MAKEFLAGS="-j$(nproc)"
 
 # install some (python) prerequisites
-ADD ./config/requirements.txt /home/${PYTHON_USER}/
+ADD ./config/requirements.txt /home/${USER}/
 RUN source activate base && \
     yes | pip install uv && \
-    uv pip install --system -r /home/${PYTHON_USER}/requirements.txt
+    uv pip install --system -r /home/${USER}/requirements.txt
 
 ########################
 USER root
