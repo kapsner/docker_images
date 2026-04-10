@@ -78,9 +78,10 @@ RUN cat <<EOF > /home/${USER}/.condarc
       - defaults
 
     channel_priority: flexible
-    
+
     envs_dirs:
       - ~/miniconda/envs
+    
 EOF
 
 

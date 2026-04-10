@@ -116,7 +116,9 @@ RUN cd /home/${USER}/ && \
 RUN echo "export PATH=${PATH}" >> /home/${USER}/.bash_profile && \
     chmod +x /home/${USER}/.bash_profile && \
     chown -R ${USER}:${USER} /home/${USER}/.bash_profile
-RUN echo "export UV_PROJECT_ENVIRONMENT=/home/${USER}/miniconda" >> /home/${USER}/.termrc
+# https://docs.astral.sh/uv/reference/environment/ (install all uv-stuff in system env)
+RUN echo "export UV_PROJECT_ENVIRONMENT=/home/${USER}/miniconda" >> /home/${USER}/.termrc && \
+    echo "export UV_SYSTEM_PYTHON=true" >> /home/${USER}/.termrc
 
 ########################
 
