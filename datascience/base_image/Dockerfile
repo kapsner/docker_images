@@ -73,6 +73,17 @@ RUN source activate base && \
     yes | pip install uv && \
     uv pip install --system -r /home/${USER}/requirements.txt
 
+RUN cat <<EOF > /home/${USER}/.condarc
+    channels:
+      - defaults
+
+    channel_priority: flexible
+    
+    envs_dirs:
+      - ~/miniconda/envs
+EOF
+
+
 ########################
 USER root
 # install more essential packages
