@@ -35,22 +35,22 @@ RUN cd /home/${USER}/ && mkdir gemini_temp && cd gemini_temp && \
 
 # nanocoder: need to run tool with 'NODE_TLS_REJECT_UNAUTHORIZED=0 nanocoder'
 # when connecting to locally deployed ollama with self-signed certificate
-RUN conda create -y -n nanocoder_env -c conda-forge nodejs && \
-    source activate nanocoder_env && \
-    npm install -g npm@latest && \
-    npm install -g @nanocollective/nanocoder@latest
-RUN cd /home/${USER}/ && mkdir -p .config/nanocoder && cd .config/nanocoder && \
-    curl -o agents.config.json \
-    ${SETTINGS_BASE_URL}/configs/settings/nanocoder-agents.config.json && \
-    chown -R ${USER}:${USER} agents.config.json
+# RUN conda create -y -n nanocoder_env -c conda-forge nodejs && \
+#     source activate nanocoder_env && \
+#     npm install -g npm@latest && \
+#     npm install -g @nanocollective/nanocoder@latest
+# RUN cd /home/${USER}/ && mkdir -p .config/nanocoder && cd .config/nanocoder && \
+#     curl -o agents.config.json \
+#     ${SETTINGS_BASE_URL}/configs/settings/nanocoder-agents.config.json && \
+#     chown -R ${USER}:${USER} agents.config.json
 
 # add deepagents cli
 # Ollama: https://docs.langchain.com/oss/python/deepagents/cli/overview
 # Envvars to set:
 # - export OPENAI_API_KEY=your_api_key (and OPENAI_BASE_URL when using ollama)
 # - export GOOGLE_API_KEY=your_api_key
-RUN source activate base && \
-    uv pip install --system 'deepagents-cli[google-genai,ollama]' mitmproxy certifi
+# RUN source activate base && \
+#    uv pip install --system 'deepagents-cli[google-genai,ollama]' mitmproxy certifi
 
 # add nanocoder
 # need to append self-signed certificate to $(python -c "import certifi; certifi.where())"), i.e.
@@ -71,20 +71,20 @@ RUN source activate base && \
 # - export ANTHROPIC_BASE_URL=http://localhost:11434
 # when using self-deployed server with self-signed certificate:
 # NODE_TLS_REJECT_UNAUTHORIZED=0 claude --model gpt-oss:120b
-RUN conda create -y -n claude_env -c defaults conda && \
-    source activate claude_env && \
-    curl -fsSL https://claude.ai/install.sh | bash
+# RUN conda create -y -n claude_env -c defaults conda && \
+#     source activate claude_env && \
+#     curl -fsSL https://claude.ai/install.sh | bash
  
-RUN CLAUDE_ENV_PATH="$(conda info --json | jq -r '.envs[]' | grep claude_env)" && \
-    cp -rf --update /home/${USER}/.local/share/claude* $CLAUDE_ENV_PATH/share && \
-    rm -rf ~/.local/share/claude* && \
-    CLAUDE_VER="$(cd $CLAUDE_ENV_PATH/share/claude/versions && ls -Art | tail -n 1)" && \
-    ln -s "$CLAUDE_ENV_PATH/share/claude/versions/$CLAUDE_VER" "$CLAUDE_ENV_PATH/bin/claude" && \
-    rm -rf ~/.local/bin/claude && \
-    ln -s "$CLAUDE_ENV_PATH/bin/claude" ~/.local/bin/claude && \
-    mkdir -p $CLAUDE_ENV_PATH/state && \
-    cp -rf --update ~/.local/state/claude* $CLAUDE_ENV_PATH/state && \
-    rm -rf ~/.local/state/claude*
+# RUN CLAUDE_ENV_PATH="$(conda info --json | jq -r '.envs[]' | grep claude_env)" && \
+#     cp -rf --update /home/${USER}/.local/share/claude* $CLAUDE_ENV_PATH/share && \
+#     rm -rf ~/.local/share/claude* && \
+#     CLAUDE_VER="$(cd $CLAUDE_ENV_PATH/share/claude/versions && ls -Art | tail -n 1)" && \
+#     ln -s "$CLAUDE_ENV_PATH/share/claude/versions/$CLAUDE_VER" "$CLAUDE_ENV_PATH/bin/claude" && \
+#     rm -rf ~/.local/bin/claude && \
+#     ln -s "$CLAUDE_ENV_PATH/bin/claude" ~/.local/bin/claude && \
+#     mkdir -p $CLAUDE_ENV_PATH/state && \
+#     cp -rf --update ~/.local/state/claude* $CLAUDE_ENV_PATH/state && \
+#     rm -rf ~/.local/state/claude*
 
 ########################
 
