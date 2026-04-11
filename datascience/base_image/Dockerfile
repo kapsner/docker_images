@@ -73,13 +73,14 @@ RUN source activate base && \
     yes | pip install uv && \
     uv pip install --system -r /home/${USER}/requirements.txt
 
-RUN echo 'channels:\n\
-  - defaults\n\
-\n\
-channel_priority: flexible\n\
-\n\
-envs_dirs:\n\
-  - ~/miniconda/envs\n' > /home/${USER}/.condarc
+RUN echo "channels:" > /home/${USER}/.condarc && \
+    echo "  - defaults" >> /home/${USER}/.condarc && \
+    echo "" >> /home/${USER}/.condarc && \
+    echo "channel_priority: flexible" >> /home/${USER}/.condarc && \
+    echo "" >> /home/${USER}/.condarc && \
+    echo "envs_dirs:" >> /home/${USER}/.condarc && \
+    echo "  - ~/miniconda/envs" >> /home/${USER}/.condarc && \
+    echo "" >> /home/${USER}/.condarc
 
 ########################
 USER root
