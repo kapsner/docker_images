@@ -8,7 +8,7 @@ FROM ${BASEIMAGE}
 SHELL ["/bin/bash", "-c"]
 
 ENV PYTHON_USER=${USER}
-ADD image_pdsc_gpu/.env /home/${RSESSION_USER}/.nvtopenv
+ADD image_pdsc_gpu/.env /home/${PYTHON_USER}/.nvtopenv
 ARG NVTOP_VERSION
 
 ENV NVTOP_VERSION=$NVTOP_VERSION
@@ -34,9 +34,9 @@ RUN conda clean -ya
 RUN rm -rf /var/lib/apt/lists/* && \
     rm -rf /tmp/* && \
     rm -rf /root/.cache/pip/* && \
-    rm -rf /home/${USER}/.cache/pip/* && \
+    rm -rf /home/${PYTHON_USER}/.cache/pip/* && \
     rm -rf /root/.cache/uv/* && \
-    rm -rf /home/${USER}/.cache/uv/* && \
+    rm -rf /home/${PYTHON_USER}/.cache/uv/* && \
     conda clean -ya && \
     apt-get clean && apt-get autoclean && apt-get autoremove -y
 

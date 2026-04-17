@@ -50,10 +50,16 @@ function pdsc_gpu {
       -f image_pdsc_base/Dockerfile \
       -t pdsc_gpu_base .
 
+    cd ..
+    printf "\nBuild pdsc_headless_gpu image\n"
+    docker build \
+      --build-arg BASEIMAGE=pdsc_gpu_base:latest \
+      -f positron_headless/Dockerfile \
+      -t pdsc_headless_gpu .
 
     printf "\nBuild pdsc_headless_gpu_plus image\n"
     docker build \
-      --build-arg BASEIMAGE=pdsc_gpu_base:latest \
+      --build-arg BASEIMAGE=pdsc_headless_gpu:latest \
       -f addon_layer/Dockerfile \
       -t pdsc_headless_gpu_plus .
 }
