@@ -9,10 +9,14 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     cifs-utils \
     sudo \
     openssh-server \
-    zsh
+    zsh \
+    language-pack-en
 RUN apt-get clean && \ 
     apt-get autoclean && \
     rm -rf /var/lib/apt/lists/*
+# language-pack-en and running 'update-locale' necessary for zsh to work
+# (otherwise missing symbols/characters)
+RUN update-locale
 
 # set ubuntu password here (password required for ssh login)
 RUN echo ${USER}:password | chpasswd 
