@@ -128,9 +128,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     wget \
     xsel \
     zip
-RUN apt-get clean && \ 
-    apt-get autoclean && \
-    rm -rf /var/lib/apt/lists/*
 
 RUN locale-gen en_US.utf8 \
     && /usr/sbin/update-locale LANG=en_US.UTF-8
