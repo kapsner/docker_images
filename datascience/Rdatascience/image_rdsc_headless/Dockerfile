@@ -341,6 +341,7 @@ ARG tiny="\"amsfonts\", \
     \"atveryend\", \ 
     \"babel\", \ 
     \"babel-german\", \ 
+    \"biblatex\", \ 
     \"bookmark\", \ 
     \"caption\", \ 
     \"colortbl\", \ 
@@ -353,6 +354,7 @@ ARG tiny="\"amsfonts\", \
     \"eurosym\", \ 
     \"fancyhdr\", \ 
     \"float\", \ 
+    \"footmisc\", \
     \"geometry\", \ 
     \"graphbox\", \ 
     \"graphics\", \ 

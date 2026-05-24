@@ -23,7 +23,7 @@ function pdsc_cpu {
 }
 
 function pdsc_gpu {
-    export BUILD_RUNTIME_IMG=nvidia/cuda:12.8.1-cudnn-runtime-ubuntu24.04
+    export BUILD_RUNTIME_IMG=nvidia/cuda:12.9.2-cudnn-runtime-ubuntu24.04
 
     cd base_image
     ./build_base_image_gpu.sh
