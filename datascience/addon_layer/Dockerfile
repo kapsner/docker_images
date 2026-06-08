@@ -25,6 +25,14 @@ RUN cd /home/${USER}/ && mkdir gemini_temp
 # add antigravity-cli (https://antigravity.google/download#antigravity-cli)
 RUN curl -fsSL https://antigravity.google/cli/install.sh | bash
 
+# add user-settings
+ENV SETTINGS_BASE_URL=https://raw.githubusercontent.com/kapsner/scripts-n-configs/refs/heads/main
+RUN mkdir -p /home/${USER}/.gemini/antigravity-cli/ && \
+    cd /home/${USER}/.gemini/antigravity-cli/ && \
+    curl -o settings.json \
+    ${SETTINGS_BASE_URL}/configs/settings/agy-settings.json && \
+    chown -R ${USER}:${USER} settings.json
+
 # add gemini-cli
 # https://github.com/google-gemini/gemini-cli?tab=readme-ov-file#install-with-anaconda-for-restricted-environments
 # RUN conda update -n base -c defaults conda
