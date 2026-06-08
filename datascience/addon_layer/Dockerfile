@@ -18,20 +18,25 @@ ENV PATH=${PATH}
 
 USER ${USER}
 
+
+# add temp-folder for projects
+RUN cd /home/${USER}/ && mkdir gemini_temp
+
+# add antigravity-cli (https://antigravity.google/download#antigravity-cli)
+RUN curl -fsSL https://antigravity.google/cli/install.sh | bash
+
 # add gemini-cli
 # https://github.com/google-gemini/gemini-cli?tab=readme-ov-file#install-with-anaconda-for-restricted-environments
-RUN conda update -n base -c defaults conda
-RUN conda create -y -n gemini_env -c conda-forge nodejs && \
-    source activate gemini_env && \
-    npm install -g npm@latest && \
-    npm install -g @google/gemini-cli@latest
+# RUN conda update -n base -c defaults conda
+# RUN conda create -y -n gemini_env -c conda-forge nodejs && \
+#     source activate gemini_env && \
+#     npm install -g npm@latest && \
+#     npm install -g @google/gemini-cli@latest
 
-# add temp-folder for projects and add user-settings
-ENV SETTINGS_BASE_URL=https://raw.githubusercontent.com/kapsner/scripts-n-configs/refs/heads/main
-RUN cd /home/${USER}/ && mkdir gemini_temp && cd gemini_temp && \
-    curl -o settings.json.bu \
-    ${SETTINGS_BASE_URL}/configs/settings/gemini-settings.json && \
-    chown -R ${USER}:${USER} settings.json.bu
+# add user-settings
+# ENV SETTINGS_BASE_URL=https://raw.githubusercontent.com/kapsner/scripts-n-configs/refs/heads/main
+# RUN ${SETTINGS_BASE_URL}/configs/settings/gemini-settings.json && \
+#     chown -R ${USER}:${USER} settings.json.bu
 
 # nanocoder: need to run tool with 'NODE_TLS_REJECT_UNAUTHORIZED=0 nanocoder'
 # when connecting to locally deployed ollama with self-signed certificate

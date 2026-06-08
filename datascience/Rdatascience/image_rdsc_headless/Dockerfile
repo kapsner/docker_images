@@ -74,7 +74,6 @@ RUN export pkg="\"$(echo ${e} | sed -e 's/ /\"\, \"/g')"\" && \
     rm -rf /tmp/*
 
 ARG f="factoextra \ 
-    fastshap \ 
     flexclust \ 
     flexmix \ 
     flextable \ 

@@ -42,6 +42,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libgit2-dev \
     libglpk-dev \
     libharfbuzz-dev \
+    libuv1-dev \
     psmisc \
     qpdf \
     r-base \
