@@ -33,6 +33,11 @@ RUN mkdir -p /home/${USER}/.gemini/antigravity-cli/ && \
     ${SETTINGS_BASE_URL}/configs/settings/agy-settings.json && \
     chown -R ${USER}:${USER} settings.json
 
+
+# tokensave
+# - install cargo: https://doc.rust-lang.org/cargo/getting-started/installation.html
+# - install tokensave: cargo install tokensave
+
 # add gemini-cli
 # https://github.com/google-gemini/gemini-cli?tab=readme-ov-file#install-with-anaconda-for-restricted-environments
 # RUN conda update -n base -c defaults conda
