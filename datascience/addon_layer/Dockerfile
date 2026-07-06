@@ -100,6 +100,10 @@ RUN mkdir -p /home/${USER}/.gemini/antigravity-cli/ && \
 #     rm -rf ~/.local/state/claude*
 
 ########################
+# create node-js env
+RUN conda create -y -n nodeenv -c conda-forge nodejs
+
+########################
 
 USER root
 
