@@ -39,6 +39,7 @@ DESIRED_EXTENSIONS=(
     "quarto.quarto"
     "charliermarsh.ruff"
     "meta.pyrefly"
+    "ChristofKaufmann.dataframe-viewer"
 )
 
 # --- 2. Check for the 'IDE' command ---
