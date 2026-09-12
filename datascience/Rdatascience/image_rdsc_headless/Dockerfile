@@ -10,7 +10,7 @@ ARG a="abind \
     arm \ 
     arules"
 RUN export pkg="\"$(echo ${a} | sed -e 's/ /\"\, \"/g')"\" && \
-    R -q -e "pak::pkg_install(c($pkg), lib = \"${R_LIBS_USER}\")" && \
+    R -q -e "pak::pkg_install(c($pkg), lib = \"${R_LIBS_USER}\", dependencies = NA)" && \
     rm -rf /tmp/*
 
 ARG b="badger \
@@ -22,7 +22,7 @@ ARG b="badger \
     boot \
     bootstrap"
 RUN export pkg="\"$(echo ${b} | sed -e 's/ /\"\, \"/g')"\" && \
-    R -q -e "pak::pkg_install(c($pkg), lib = \"${R_LIBS_USER}\")" && \
+    R -q -e "pak::pkg_install(c($pkg), lib = \"${R_LIBS_USER}\", dependencies = NA)" && \
     rm -rf /tmp/*
 
 ARG c="C50 \ 
@@ -44,7 +44,7 @@ ARG c="C50 \
     curl \ 
     cutpointr"
 RUN export pkg="\"$(echo ${c} | sed -e 's/ /\"\, \"/g')"\" && \
-    R -q -e "pak::pkg_install(c($pkg), lib = \"${R_LIBS_USER}\")" && \
+    R -q -e "pak::pkg_install(c($pkg), lib = \"${R_LIBS_USER}\", dependencies = NA)" && \
     rm -rf /tmp/*
 
 ARG d="data.table \ 
@@ -59,7 +59,7 @@ ARG d="data.table \
     DT \ 
     dunn.test"
 RUN export pkg="\"$(echo ${d} | sed -e 's/ /\"\, \"/g')"\" && \
-    R -q -e "pak::pkg_install(c($pkg), lib = \"${R_LIBS_USER}\")" && \
+    R -q -e "pak::pkg_install(c($pkg), lib = \"${R_LIBS_USER}\", dependencies = NA)" && \
     rm -rf /tmp/*
 
 ARG e="e1071 \ 
@@ -70,7 +70,7 @@ ARG e="e1071 \
     effsize \ 
     epitools"
 RUN export pkg="\"$(echo ${e} | sed -e 's/ /\"\, \"/g')"\" && \
-    R -q -e "pak::pkg_install(c($pkg), lib = \"${R_LIBS_USER}\")" && \
+    R -q -e "pak::pkg_install(c($pkg), lib = \"${R_LIBS_USER}\", dependencies = NA)" && \
     rm -rf /tmp/*
 
 ARG f="factoextra \ 
@@ -84,7 +84,7 @@ ARG f="factoextra \
     future \ 
     future.apply"
 RUN export pkg="\"$(echo ${f} | sed -e 's/ /\"\, \"/g')"\" && \
-    R -q -e "pak::pkg_install(c($pkg), lib = \"${R_LIBS_USER}\")" && \
+    R -q -e "pak::pkg_install(c($pkg), lib = \"${R_LIBS_USER}\", dependencies = NA)" && \
     rm -rf /tmp/*
 
 ARG g="ggcorrplot \
@@ -99,7 +99,7 @@ ARG g="ggcorrplot \
     glmnet \
     gplots"
 RUN export pkg="\"$(echo ${g} | sed -e 's/ /\"\, \"/g')"\" && \
-    R -q -e "pak::pkg_install(c($pkg), lib = \"${R_LIBS_USER}\")" && \
+    R -q -e "pak::pkg_install(c($pkg), lib = \"${R_LIBS_USER}\", dependencies = NA)" && \
     rm -rf /tmp/*
 
 ARG h="haven \ 
@@ -109,7 +109,7 @@ ARG h="haven \
     httr \ 
     hunspell"
 RUN export pkg="\"$(echo ${h} | sed -e 's/ /\"\, \"/g')"\" && \
-    R -q -e "pak::pkg_install(c($pkg), lib = \"${R_LIBS_USER}\")" && \
+    R -q -e "pak::pkg_install(c($pkg), lib = \"${R_LIBS_USER}\", dependencies = NA)" && \
     rm -rf /tmp/*
 
 ARG i="igraph \ 
@@ -119,13 +119,13 @@ ARG i="igraph \
     IRkernel \
     irr"
 RUN export pkg="\"$(echo ${i} | sed -e 's/ /\"\, \"/g')"\" && \
-    R -q -e "pak::pkg_install(c($pkg), lib = \"${R_LIBS_USER}\")" && \
+    R -q -e "pak::pkg_install(c($pkg), lib = \"${R_LIBS_USER}\", dependencies = NA)" && \
     rm -rf /tmp/*
 
 ARG j="jpeg \ 
     jsonlite"
 RUN export pkg="\"$(echo ${j} | sed -e 's/ /\"\, \"/g')"\" && \
-    R -q -e "pak::pkg_install(c($pkg), lib = \"${R_LIBS_USER}\")" && \
+    R -q -e "pak::pkg_install(c($pkg), lib = \"${R_LIBS_USER}\", dependencies = NA)" && \
     rm -rf /tmp/*
 
 ARG k="kableExtra \ 
@@ -134,7 +134,7 @@ ARG k="kableExtra \
     kknn \ 
     knitr"
 RUN export pkg="\"$(echo ${k} | sed -e 's/ /\"\, \"/g')"\" && \
-    R -q -e "pak::pkg_install(c($pkg), lib = \"${R_LIBS_USER}\")" && \
+    R -q -e "pak::pkg_install(c($pkg), lib = \"${R_LIBS_USER}\", dependencies = NA)" && \
     rm -rf /tmp/*
 
 ARG l="languageserver \
@@ -146,7 +146,7 @@ ARG l="languageserver \
     lmtest \ 
     lubridate"
 RUN export pkg="\"$(echo ${l} | sed -e 's/ /\"\, \"/g')"\" && \
-    R -q -e "pak::pkg_install(c($pkg), lib = \"${R_LIBS_USER}\")" && \
+    R -q -e "pak::pkg_install(c($pkg), lib = \"${R_LIBS_USER}\", dependencies = NA)" && \
     rm -rf /tmp/*
 
 ARG m="markdown \ 
@@ -161,7 +161,7 @@ ARG m="markdown \
     mltools \ 
     modelbased"
 RUN export pkg="\"$(echo ${m} | sed -e 's/ /\"\, \"/g')"\" && \
-    R -q -e "pak::pkg_install(c($pkg), lib = \"${R_LIBS_USER}\")" && \
+    R -q -e "pak::pkg_install(c($pkg), lib = \"${R_LIBS_USER}\", dependencies = NA)" && \
     rm -rf /tmp/*
 
 ARG n="naivebayes \ 
@@ -170,7 +170,7 @@ ARG n="naivebayes \
     nls2 \ 
     nnet"
 RUN export pkg="\"$(echo ${n} | sed -e 's/ /\"\, \"/g')"\" && \
-    R -q -e "pak::pkg_install(c($pkg), lib = \"${R_LIBS_USER}\")" && \
+    R -q -e "pak::pkg_install(c($pkg), lib = \"${R_LIBS_USER}\", dependencies = NA)" && \
     rm -rf /tmp/*
 
 ARG o="odbc \ 
@@ -181,7 +181,7 @@ ARG o="odbc \
     optparse \
     ordinal"
 RUN export pkg="\"$(echo ${o} | sed -e 's/ /\"\, \"/g')"\" && \
-    R -q -e "pak::pkg_install(c($pkg), lib = \"${R_LIBS_USER}\")" && \
+    R -q -e "pak::pkg_install(c($pkg), lib = \"${R_LIBS_USER}\", dependencies = NA)" && \
     rm -rf /tmp/*
 
 ARG p="pak \
@@ -203,14 +203,14 @@ ARG p="pak \
     psych \
     pubmedR"
 RUN export pkg="\"$(echo ${p} | sed -e 's/ /\"\, \"/g')"\" && \
-    R -q -e "pak::pkg_install(c($pkg), lib = \"${R_LIBS_USER}\")" && \
+    R -q -e "pak::pkg_install(c($pkg), lib = \"${R_LIBS_USER}\", dependencies = NA)" && \
     rm -rf /tmp/*
 
 ARG q="qpdf \ 
     quantmod \
     quarto"
 RUN export pkg="\"$(echo ${q} | sed -e 's/ /\"\, \"/g')"\" && \
-    R -q -e "pak::pkg_install(c($pkg), lib = \"${R_LIBS_USER}\")" && \
+    R -q -e "pak::pkg_install(c($pkg), lib = \"${R_LIBS_USER}\", dependencies = NA)" && \
     rm -rf /tmp/*
 
 ARG r="R6 \ 
@@ -240,7 +240,7 @@ ARG r="R6 \
     rticles \
     rvest"
 RUN export pkg="\"$(echo ${r} | sed -e 's/ /\"\, \"/g')"\" && \
-    R -q -e "pak::pkg_install(c($pkg), lib = \"${R_LIBS_USER}\")" && \
+    R -q -e "pak::pkg_install(c($pkg), lib = \"${R_LIBS_USER}\", dependencies = NA)" && \
     rm -rf /tmp/*
 
 ARG s="see\
@@ -270,7 +270,7 @@ ARG s="see\
     survival \ 
     survminer"
 RUN export pkg="\"$(echo ${s} | sed -e 's/ /\"\, \"/g')"\" && \
-    R -q -e "pak::pkg_install(c($pkg), lib = \"${R_LIBS_USER}\")" && \
+    R -q -e "pak::pkg_install(c($pkg), lib = \"${R_LIBS_USER}\", dependencies = NA)" && \
     rm -rf /tmp/*
 
 ARG t="tau \ 
@@ -286,7 +286,7 @@ ARG t="tau \
     tinytex \ 
     tseries"
 RUN export pkg="\"$(echo ${t} | sed -e 's/ /\"\, \"/g')"\" && \
-    R -q -e "pak::pkg_install(c($pkg), lib = \"${R_LIBS_USER}\")" && \
+    R -q -e "pak::pkg_install(c($pkg), lib = \"${R_LIBS_USER}\", dependencies = NA)" && \
     rm -rf /tmp/*
 
 ARG u="udpipe \ 
@@ -294,20 +294,20 @@ ARG u="udpipe \
     usethis \ 
     utf8"
 RUN export pkg="\"$(echo ${u} | sed -e 's/ /\"\, \"/g')"\" && \
-    R -q -e "pak::pkg_install(c($pkg), lib = \"${R_LIBS_USER}\")" && \
+    R -q -e "pak::pkg_install(c($pkg), lib = \"${R_LIBS_USER}\", dependencies = NA)" && \
     rm -rf /tmp/*
 
 ARG v="vroom \
     vistime"
 RUN export pkg="\"$(echo ${v} | sed -e 's/ /\"\, \"/g')"\" && \
-    R -q -e "pak::pkg_install(c($pkg), lib = \"${R_LIBS_USER}\")" && \
+    R -q -e "pak::pkg_install(c($pkg), lib = \"${R_LIBS_USER}\", dependencies = NA)" && \
     rm -rf /tmp/*
 
 ARG w="wesanderson \ 
     wordcloud \ 
     wordcloud2"
 RUN export pkg="\"$(echo ${w} | sed -e 's/ /\"\, \"/g')"\" && \
-    R -q -e "pak::pkg_install(c($pkg), lib = \"${R_LIBS_USER}\")" && \
+    R -q -e "pak::pkg_install(c($pkg), lib = \"${R_LIBS_USER}\", dependencies = NA)" && \
     rm -rf /tmp/*
 
 ARG x="xfun \ 
@@ -315,18 +315,18 @@ ARG x="xfun \
     XML \ 
     xml2"
 RUN export pkg="\"$(echo ${x} | sed -e 's/ /\"\, \"/g')"\" && \
-    R -q -e "pak::pkg_install(c($pkg), lib = \"${R_LIBS_USER}\")" && \
+    R -q -e "pak::pkg_install(c($pkg), lib = \"${R_LIBS_USER}\", dependencies = NA)" && \
     rm -rf /tmp/*
 
 ARG y="yaml"
 RUN export pkg="\"$(echo ${y} | sed -e 's/ /\"\, \"/g')"\" && \
-    R -q -e "pak::pkg_install(c($pkg), lib = \"${R_LIBS_USER}\")" && \
+    R -q -e "pak::pkg_install(c($pkg), lib = \"${R_LIBS_USER}\", dependencies = NA)" && \
     rm -rf /tmp/*
 
 ARG z="zip \ 
     zoo"
 RUN export pkg="\"$(echo ${z} | sed -e 's/ /\"\, \"/g')"\" && \
-    R -q -e "pak::pkg_install(c($pkg), lib = \"${R_LIBS_USER}\")" && \
+    R -q -e "pak::pkg_install(c($pkg), lib = \"${R_LIBS_USER}\", dependencies = NA)" && \
     rm -rf /tmp/*
 
 # install required LaTeX-Packages
@@ -416,7 +416,7 @@ ARG github_array="\
     ropensci/tic"
 
 RUN export pkg="\"$(echo ${github_array} | sed -e 's/ /\"\, \"/g')"\" && \
-    R -q -e "pak::pkg_install(c($pkg), lib = \"${R_LIBS_USER}\")" && \
+    R -q -e "pak::pkg_install(c($pkg), lib = \"${R_LIBS_USER}\", dependencies = NA)" && \
     rm -rf /tmp/*
 
 # stay with user here (let everything in .virtualenv/r-reticulate be installed by the user)
@@ -436,7 +436,7 @@ RUN source activate base && uv pip install --system \
 
 # configure the other r packages
 # install phantomjs
-RUN R -q -e "pak::pkg_install(c(\"webshot\"), lib = \"${R_LIBS_USER}\"); webshot::install_phantomjs()"
+RUN R -q -e "pak::pkg_install(c(\"webshot\"), lib = \"${R_LIBS_USER}\", dependencies = NA); webshot::install_phantomjs()"
 
 # install shinytest dependencies (= phantomjs)
 RUN R -q -e "shinytest::installDependencies()"
@@ -453,7 +453,7 @@ RUN R -q -e "IRkernel::installspec()"
 #     # miracum/dqa-miracumdqa"
 
 # RUN export pkg="\"$(echo ${github_array} | sed -e 's/ /\"\, \"/g')"\" && \
-#     R -q -e "pak::pkg_install(c($pkg), lib = \"${R_LIBS_USER}\")" && \
+#     R -q -e "pak::pkg_install(c($pkg), lib = \"${R_LIBS_USER}\", dependencies = NA)" && \
 #     rm -rf /tmp/*
 
 # CRAN packages with my participation
@@ -471,7 +471,7 @@ ARG pack="autonewsmd \
     DQAgui"
 
 RUN export pkg="\"$(echo ${pack} | sed -e 's/ /\"\, \"/g')"\" && \
-    R -q -e "pak::pkg_install(c($pkg), lib = \"${R_LIBS_USER}\")" && \
+    R -q -e "pak::pkg_install(c($pkg), lib = \"${R_LIBS_USER}\", dependencies = NA)" && \
     rm -rf /tmp/*
 
 # switch back

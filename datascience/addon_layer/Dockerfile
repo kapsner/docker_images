@@ -14,7 +14,7 @@ RUN apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
 # Define Path variable here
-ENV PATH=${PATH}
+ENV PATH=/home/${USER}/.local/bin:${PATH}
 
 USER ${USER}
 
@@ -131,7 +131,6 @@ RUN rm -rf /var/lib/apt/lists/* && \
     apt-get clean && apt-get autoclean && apt-get autoremove -y
 
 ########################
-ENV PATH=/home/${USER}/.local/bin:${PATH}
 # add PATH to a bash_profile script (workaround so that path is available in positron's terminal)
 # to make this working, this must be sourced during container-start
 RUN echo "export PATH=${PATH}" > /home/${USER}/.bash_profile && \

@@ -17,7 +17,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     gpg-agent \
     libcurl4-openssl-dev \
     libssl-dev \
-    libobjc-9-dev \
     libzmq3-dev \
     default-jdk \
     default-jdk-headless \
@@ -28,12 +27,15 @@ RUN apt-get clean && \
     apt-get autoclean && \
     rm -rf /var/lib/apt/lists/*
 
-# Add R apt-get repository for latest R
-RUN wget -qO- https://cloud.r-project.org/bin/linux/ubuntu/marutter_pubkey.asc | \
-    tee -a /etc/apt/trusted.gpg.d/cran_ubuntu_key.asc
-# add the R 4.0 repo from CRAN -- adjust 'focal' to 'groovy' or 'bionic' as needed
-RUN add-apt-repository -s "deb https://cloud.r-project.org/bin/linux/ubuntu $(lsb_release -cs)-cran40/"
+## Add R apt-get repository for latest R
+#RUN wget -qO- https://cloud.r-project.org/bin/linux/ubuntu/marutter_pubkey.asc | \
+#    tee -a /etc/apt/trusted.gpg.d/cran_ubuntu_key.asc
+## add the R 4.0 repo from CRAN -- adjust 'focal' to 'groovy' or 'bionic' as needed
+#RUN add-apt-repository -s "deb https://cloud.r-project.org/bin/linux/ubuntu $(lsb_release -cs)-cran40/"
 
+# https://github.com/r-lib/rig#installing-rig-on-ubuntu-and-debian-deb-package-
+RUN curl -L https://rig.r-pkg.org/deb/rig.gpg -o /etc/apt/trusted.gpg.d/rig.gpg && \
+    echo "deb http://rig.r-pkg.org/deb rig main" > /etc/apt/sources.list.d/rig.list
 RUN apt-get update && apt-get install -y --no-install-recommends \
     jags \
     lmodern \
@@ -45,9 +47,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libuv1-dev \
     psmisc \
     qpdf \
-    r-base \
-    r-base-dev \
-    r-recommended \
+    r-rig \
     tidy \
     tcl8.6-dev \
     tk8.6-dev
@@ -55,14 +55,32 @@ RUN apt-get clean && \
     apt-get autoclean && \
     rm -rf /var/lib/apt/lists/*
 
+RUN rig add release
+
+# # Add R apt-get repository for latest R
+# RUN wget -qO- https://cloud.r-project.org/bin/linux/ubuntu/marutter_pubkey.asc | \
+#     tee -a /etc/apt/trusted.gpg.d/cran_ubuntu_key.asc
+# # add the R 4.0 repo from CRAN -- adjust 'focal' to 'groovy' or 'bionic' as needed
+# RUN add-apt-repository -s "deb https://cloud.r-project.org/bin/linux/ubuntu $(lsb_release -cs)-cran40/"
+
+# RUN apt-get update && apt-get install -y --no-install-recommends \
+#     r-base \
+#     r-recommended \
+#     libuv1-dev
+# RUN apt-get clean && \ 
+#     apt-get autoclean && \
+#     rm -rf /var/lib/apt/lists/*
+
 # make R site-library default package installation folder writeable
-ENV R_LIBS_SITE=/home/${RSESSION_USER}/R/x86_64-pc-linux-gnu-library/4.5
+ENV R_LIBS_SITE=/home/${RSESSION_USER}/R/x86_64-pc-linux-gnu-library/4.6
 ENV R_LIBS_USER=${R_LIBS_SITE}
 RUN mkdir -p ${R_LIBS_SITE}
 RUN chown -R ${RSESSION_USER}:${RSESSION_USER} ${R_LIBS_SITE}
 
 # Add RETICULATE_PYTHON variable to Renviron
-RUN echo "RETICULATE_PYTHON=/home/${RSESSION_USER}/miniconda/bin/python" >> /etc/R/Renviron && \
+RUN mkdir -p /etc/R && \
+    touch /etc/R/Renviron && touch /etc/R/Rprofile.site && \
+    echo "RETICULATE_PYTHON=/home/${RSESSION_USER}/miniconda/bin/python" >> /etc/R/Renviron && \
     # Since R 4.0.0, we also need to add R_LIBS_SITE to /etc/R/Renviron
     echo "R_LIBS_SITE=${R_LIBS_SITE}" >> /etc/R/Renviron && \
     # environment variable for data.table
@@ -92,7 +110,7 @@ RUN rm -rf /var/lib/apt/lists/* && \
 ########################
 
 USER ${RSESSION_USER}
-RUN R -q -e "install.packages(c('pak'))"
+RUN R -q -e "install.packages(c('xml2', 'pak'), lib = \"${R_LIBS_USER}\", type = \"source\")"
 ARG basepkg="data.table \ 
     devtools \ 
     reticulate \

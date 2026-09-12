@@ -15,7 +15,7 @@ ARG DISPLAY
 ENV DISPLAY=${DISPLAY}
 
 # Delete custom user in ubuntu from 24.04 on https://askubuntu.com/a/1515958
-ENV REGEX='ubuntu(\:)?24\.04'
+ENV REGEX='ubuntu(\:)?2(4|6)\.04'
 RUN if [[ "$BASEIMAGE" =~ $REGEX ]]; then \
     echo "Deleting user ubuntu" && \
     touch /var/mail/ubuntu && chown ubuntu /var/mail/ubuntu && userdel -r ubuntu; \
@@ -106,7 +106,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libffi-dev \
     libglu1-mesa-dev \
     libgsl-dev \
-    liblzma-dev \ 
+    liblzma-dev \
     libmagick++-dev \
     libmpfr-dev \
     libopenblas-dev \
