@@ -497,7 +497,7 @@ RUN mkdir -p /home/${RSESSION_USER}/.local/share/rhub && \
     touch /home/${RSESSION_USER}/.bash_profile && \
     chown -R ${RSESSION_USER}:${RSESSION_USER} /home/${RSESSION_USER}/.bash_profile && \
     chown -R ${RSESSION_USER}:${RSESSION_USER} /etc/environment && \
-    chown -R ${RSESSION_USER}:${RSESSION_USER} /etc/R/Renviron
+    chown -R ${RSESSION_USER}:${RSESSION_USER} /home/${RSESSION_USER}/.Renviron
 
 ########################
 # clear caches

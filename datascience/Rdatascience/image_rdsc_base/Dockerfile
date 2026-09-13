@@ -77,20 +77,7 @@ ENV R_LIBS_USER=${R_LIBS_SITE}
 RUN mkdir -p ${R_LIBS_SITE}
 RUN chown -R ${RSESSION_USER}:${RSESSION_USER} ${R_LIBS_SITE}
 
-# Add RETICULATE_PYTHON variable to Renviron
-RUN mkdir -p /etc/R && \
-    touch /etc/R/Renviron && touch /etc/R/Rprofile.site && \
-    echo "RETICULATE_PYTHON=/home/${RSESSION_USER}/miniconda/bin/python" >> /etc/R/Renviron && \
-    # Since R 4.0.0, we also need to add R_LIBS_SITE to /etc/R/Renviron
-    echo "R_LIBS_SITE=${R_LIBS_SITE}" >> /etc/R/Renviron && \
-    # environment variable for data.table
-    # https://github.com/Rdatatable/data.table/pull/3435/files
-    echo "R_DATATABLE_NUM_PROCS_PERCENT=100" >> /etc/R/Renviron && \
-    # set cran repo
-    echo "options(\"repos\" = \"https://cloud.r-project.org/\")" >> /etc/R/Rprofile.site
-
 # Update where R expects to find various Java files
-
 # update envar
 ENV JAVA_HOME=/usr/lib/jvm/default-java
 RUN echo JAVA_HOME="${JAVA_HOME}" > /etc/environment && \
@@ -110,6 +97,18 @@ RUN rm -rf /var/lib/apt/lists/* && \
 ########################
 
 USER ${RSESSION_USER}
+
+
+# Add RETICULATE_PYTHON variable to Renviron
+RUN echo "RETICULATE_PYTHON=/home/${RSESSION_USER}/miniconda/bin/python" >> /home/${RSESSION_USER}/.Renviron && \
+    # Since R 4.0.0, we also need to add R_LIBS_SITE to /home/${RSESSION_USER}/.Renviron
+    echo "R_LIBS_SITE=${R_LIBS_SITE}" >> /home/${RSESSION_USER}/.Renviron && \
+    # environment variable for data.table
+    # https://github.com/Rdatatable/data.table/pull/3435/files
+    echo "R_DATATABLE_NUM_PROCS_PERCENT=100" >> /home/${RSESSION_USER}/.Renviron && \
+    # set cran repo
+    echo "options(\"repos\" = \"https://cloud.r-project.org/\")" >> /home/${RSESSION_USER}/.Rprofile
+
 RUN R -q -e "install.packages(c('xml2', 'pak'), lib = \"${R_LIBS_USER}\", type = \"source\")"
 ARG basepkg="data.table \ 
     devtools \ 

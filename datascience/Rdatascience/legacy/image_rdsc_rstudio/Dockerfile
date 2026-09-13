@@ -78,7 +78,7 @@ RUN chown -R ${RSESSION_USER}:${RSESSION_USER} /home/${RSESSION_USER}/.config/ &
 RUN echo "export PATH=${PATH}" >> /home/${RSESSION_USER}/.bash_profile && chmod +x /home/${RSESSION_USER}/.bash_profile
 
 # set QUARTO_PATH for all users
-RUN echo "QUARTO_PATH=${QUARTO_PATH}" >> /etc/R/Renviron && \
+RUN echo "QUARTO_PATH=${QUARTO_PATH}" >> /home/${RSESSION_USER}/.Renviron && \
     echo "QUARTO_PATH=${QUARTO_PATH}" >> /etc/environment
 
 # for cran checks
