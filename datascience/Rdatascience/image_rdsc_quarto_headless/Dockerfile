@@ -59,7 +59,7 @@ RUN cd /home/${RSESSION_USER} && \
     chmod +x .R/check.Renviron && \
     chown -R ${RSESSION_USER}:${RSESSION_USER} .R && \
     # set QUARTO_PATH for all users
-    printf "QUARTO_PATH=${QUARTO_PATH}\nDICPATH=${DICPATH}\nRSTUDIO_PANDOC=${PANDOC_BASE}\n" >> /etc/R/Renviron && \
+    printf "QUARTO_PATH=${QUARTO_PATH}\nDICPATH=${DICPATH}\nRSTUDIO_PANDOC=${PANDOC_BASE}\n" >> .Renviron && \
     printf "QUARTO_PATH=${QUARTO_PATH}\nDICPATH=${DICPATH}\nRSTUDIO_PANDOC=${PANDOC_BASE}\n" >> /etc/environment
 
 
