@@ -36,6 +36,7 @@ RUN mkdir -p /home/${USER}/.gemini/antigravity-cli/ && \
 
 # tokensave
 # - install cargo: https://doc.rust-lang.org/cargo/getting-started/installation.html
+#   curl https://sh.rustup.rs -sSf | sh
 # - install tokensave: cargo install tokensave
 
 # add gemini-cli
