@@ -14,6 +14,7 @@ ENV RSESSION_USER=${USER}
 RUN apt-get update && apt-get install -y --no-install-recommends \
     dirmngr \
     ghostscript \
+    gfortran \
     gpg-agent \
     libcurl4-openssl-dev \
     libssl-dev \
@@ -21,6 +22,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     default-jdk \
     default-jdk-headless \
     unixodbc-dev \
+    pandoc \
     poppler-utils \
     libpoppler-cpp-dev
 RUN apt-get clean && \ 
@@ -96,6 +98,8 @@ RUN rm -rf /var/lib/apt/lists/* && \
 
 ########################
 
+RUN touch /home/${RSESSION_USER}/.Renviron && \
+    chown ${RSESSION_USER}:${RSESSION_USER} /home/${RSESSION_USER}/.Renviron
 USER ${RSESSION_USER}
 
 

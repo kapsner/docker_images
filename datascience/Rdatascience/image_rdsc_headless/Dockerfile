@@ -251,9 +251,6 @@ ARG s="see\
     shinydashboard \ 
     shinyFiles \ 
     shinyjs \ 
-    shinytest \
-    shinythemes \ 
-    shinyWidgets \ 
     sjlabelled \ 
     sjmisc \ 
     sjPlot \ 
@@ -266,9 +263,9 @@ ARG s="see\
     stargazer \ 
     styler \ 
     sunburstR \ 
-    survex \
     survival \ 
     survminer"
+    # survex --> fails because of DALEX/rms
 RUN export pkg="\"$(echo ${s} | sed -e 's/ /\"\, \"/g')"\" && \
     R -q -e "pak::pkg_install(c($pkg), lib = \"${R_LIBS_USER}\", dependencies = NA)" && \
     rm -rf /tmp/*
@@ -402,7 +399,6 @@ RUN R -q -e "tinytex::tlmgr_conf()" && \
     R -q -e "tinytex::tlmgr_install(pkgs = c(${tiny}))" && \
     R -q -e "tinytex::tlmgr_update()"
 
-
 USER root
 RUN chown -R ${RSESSION_USER}:${RSESSION_USER} /home/${RSESSION_USER}/.TinyTeX && \
     chmod -R g+w /home/${RSESSION_USER}/.TinyTeX && \
@@ -431,8 +427,8 @@ RUN source activate base && \
 RUN playwright install chromium
 
 # pip install our own stuff
-RUN source activate base && uv pip install --system \
-    git+https://github.com/miracum/dqa-mdr-connector
+# RUN source activate base && uv pip install --system \
+#     git+https://github.com/miracum/dqa-mdr-connector
 
 # configure the other r packages
 # install phantomjs
@@ -445,7 +441,6 @@ RUN R -q -e "shinytest::installDependencies()"
 RUN R -q -e "IRkernel::installspec()"
 
 # install my packages
-
 # declare arrays to install dev-packages
 # ARG github_array="\
 #     # kapsner/KhelpeR@development \
@@ -464,11 +459,11 @@ ARG pack="autonewsmd \
     BiasCorrector \
     mlexperiments \
     mllrnrs \
-    mlsurvlrnrs \
-    DIZtools \
-    DIZutils \
-    DQAstats \
-    DQAgui"
+    mlsurvlrnrs"
+    # DIZtools \
+    # DIZutils \
+    # DQAstats \
+    # DQAgui
 
 RUN export pkg="\"$(echo ${pack} | sed -e 's/ /\"\, \"/g')"\" && \
     R -q -e "pak::pkg_install(c($pkg), lib = \"${R_LIBS_USER}\", dependencies = NA)" && \
