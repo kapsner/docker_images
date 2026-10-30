@@ -69,5 +69,14 @@
       ":::"
     ],
     "description": "HTML quotes"
+  },
+  "Notes": {
+    "prefix": "no",
+    "body": [
+      "::: {.notes}",
+      "$0",
+      ":::"
+    ],
+    "description": "Speaker notes"
   }
 }
