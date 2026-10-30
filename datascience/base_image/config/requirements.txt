@@ -4,6 +4,7 @@ jinja2
 jupyter # required for quarto
 markitdown[pdf,pptx,docx,xlsx]
 matplotlib
+mermaid-py
 nbclient
 numpy
 openpyxl
