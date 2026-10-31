@@ -435,7 +435,7 @@ RUN playwright install chromium
 RUN R -q -e "pak::pkg_install(c(\"webshot\"), lib = \"${R_LIBS_USER}\", dependencies = NA); webshot::install_phantomjs()"
 
 # install shinytest dependencies (= phantomjs)
-RUN R -q -e "shinytest::installDependencies()"
+#RUN R -q -e "shinytest::installDependencies()"
 
 # to get r jupyter kernel running
 RUN R -q -e "IRkernel::installspec()"
