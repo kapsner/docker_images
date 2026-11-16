@@ -33,6 +33,9 @@ RUN mkdir -p /home/${USER}/.gemini/antigravity-cli/ && \
     ${SETTINGS_BASE_URL}/configs/settings/agy-settings.json && \
     chown -R ${USER}:${USER} settings.json
 
+########################
+# create node-js env
+RUN conda create -y -n nodeenv -c conda-forge nodejs
 
 # tokensave
 # - install cargo: https://doc.rust-lang.org/cargo/getting-started/installation.html
@@ -85,14 +88,13 @@ RUN mkdir -p /home/${USER}/.gemini/antigravity-cli/ && \
 # install claude-code: https://github.com/anthropics/claude-code
 # Ollama: https://docs.ollama.com/integrations/claude-code
 # Envvars to set:
-# - export ANTHROPIC_AUTH_TOKEN=your-ollama/openwebui-api-key
-# - export ANTHROPIC_API_KEY=""
-# - export ANTHROPIC_BASE_URL=http://localhost:11434
+# export ANTHROPIC_AUTH_TOKEN=ollama
+# export ANTHROPIC_API_KEY=""
+# export ANTHROPIC_BASE_URL=http://ollama:11434
 # when using self-deployed server with self-signed certificate:
-# NODE_TLS_REJECT_UNAUTHORIZED=0 claude --model gpt-oss:120b
-# RUN conda create -y -n claude_env -c defaults conda && \
-#     source activate claude_env && \
-#     curl -fsSL https://claude.ai/install.sh | bash
+# NODE_TLS_REJECT_UNAUTHORIZED=0 claude --model qwen3:8b-q4_K_M
+RUN source activate nodeenv && \
+    curl -fsSL https://claude.ai/install.sh | bash
  
 # RUN CLAUDE_ENV_PATH="$(conda info --json | jq -r '.envs[]' | grep claude_env)" && \
 #     cp -rf --update /home/${USER}/.local/share/claude* $CLAUDE_ENV_PATH/share && \
@@ -105,11 +107,19 @@ RUN mkdir -p /home/${USER}/.gemini/antigravity-cli/ && \
 #     cp -rf --update ~/.local/state/claude* $CLAUDE_ENV_PATH/state && \
 #     rm -rf ~/.local/state/claude*
 
-########################
-# create node-js env
-RUN conda create -y -n nodeenv -c conda-forge nodejs
-
-########################
+# install pi
+# add config
+# RUN mkdir -p ${USER}:${USER} /home/${USER}/.pi/agent && \
+#     cd /home/${USER}/.pi/agent && \
+#     curl -o models.json \
+#     ${SETTINGS_BASE_URL}/configs/settings/pi-models.json && \
+#     curl -o settings.json \
+#     ${SETTINGS_BASE_URL}/configs/settings/pi-settings.json
+# RUN chown -R ${USER}:${USER} /home/${USER}/.pi/ && \
+#     source activate nodeenv && \
+#     curl -fsSL https://pi.dev/install.sh | sh && \
+#     pi install npm:pi-json-tools
+# ########################
 
 USER root
 

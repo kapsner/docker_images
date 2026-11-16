@@ -1,0 +1,32 @@
+services:
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    environment:
+      - OLLAMA_FLASH_ATTENTION=1
+      - OLLAMA_KV_CACHE_TYPE=q4_0
+      - OLLAMA_CONTEXT_LENGTH=8192
+      - OLLAMA_MAX_LOADED_MODELS=1
+      - OLLAMA_NUM_PARALLEL=1
+      - OLLAMA_KEEP_ALIVE=5m
+      - OLLAMA_GPU_OVERHEAD=268435456
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+
+volumes:
+  ollama_data:
+
+
+# docker exec -it ollama ollama pull qwen2.5-coder:7b
+# docker exec -it ollama ollama pull qwen2.5-coder:7b-instruct-q3_K_M
+# docker exec -it ollama ollama pull qwen3:8b-q4_K_M  # qwen3.4:9b-q4_K_M
